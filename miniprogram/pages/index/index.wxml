@@ -1,0 +1,18 @@
+<view class="index">
+  <image class="index-image" src="../../asset/index.png"></image>
+  <view class="title">低碳智慧园区</view>
+</view>
+
+<form class="login" bindsubmit='login'>
+  <view class="account">
+    <image class="login-image" src="../../asset/account.png" />
+    <input type='text' name='account' placeholder="请输入用户名" value="{{account}}"/>
+    <image src="../../asset/wrong.png" style="height: 48rpx;width: 48rpx;margin: 24rpx 6rpx;" bind:tap="claerAccount"/>
+  </view>
+  <view class="password">
+    <image class="login-image" src="../../asset/password.png" />
+    <input type='text' name='password' placeholder="请输入密码"/>
+  </view>
+  <button class="login-button" formType="submit" type='primary'>登入</button>
+</form>
+

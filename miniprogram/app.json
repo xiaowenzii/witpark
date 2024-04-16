@@ -1,0 +1,20 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/tab/home/home",
+    "pages/tab/alarmMessage/alarmMessage",
+    "pages/tab/person/person",
+    "pages/energy/energyConsumptionOverview"
+  ],
+  "usingComponents": {},
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序位置展示"
+    }
+  },
+  "window": {
+    "backgroundTextStyle": "light"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}
