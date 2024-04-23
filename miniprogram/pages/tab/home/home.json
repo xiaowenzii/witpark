@@ -1,24 +1,6 @@
 {
-  "navigationBarBackgroundColor": "#FFFFFF",
-  "navigationBarTextStyle":"black",
-  "navigationBarTitleText": "首页",
-  "usingComponents": {},
-  "tabBar": {
-    "list": [{
-      "pagePath": "../../tab/home/home",
-      "text": "首页",
-      "iconPath": "../../../asset/home.png",
-      "selectedIconPath": "../../../asset/home_selected.png"
-    },{
-      "pagePath": "../../tab/alarmMessage/alarmMessage",
-      "text": "告警",
-      "iconPath": "../../../asset/alarm.png",
-      "selectedIconPath": "../../../asset/alarm_selected.png"
-    },{
-      "pagePath": "../../tab/person/person",
-      "text": "我的",
-      "iconPath": "../../../asset/person.png",
-      "selectedIconPath": "../../../asset/person_selected.png"
-    }]
-  }
+  "navigationBarBackgroundColor": "#BBE2F2",
+  "navigationBarTextStyle":"white",
+  "navigationBarTitleText": "",
+  "usingComponents": {}
 }

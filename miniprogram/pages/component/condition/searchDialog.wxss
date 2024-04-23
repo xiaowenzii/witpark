@@ -1,0 +1,49 @@
+.condtion-view {
+  width: 100%;
+  padding: 12rpx 24rpx;
+  font-size: 24rpx;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.condtion-view-desc {
+  width: 20%;
+  height: 42rpx;
+  display: flex;
+  align-items: center;
+  margin: 12rpx 0;
+}
+
+.condtion-view-item-area{
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  
+}
+
+.inner-item{
+  width: 25%;
+  display: flex;
+}
+
+.condtion-view-item{
+  height: 42rpx;
+  width: 110rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12rpx;
+  margin: 12rpx 0;
+  border: 1rpx solid darkgray;
+}
+
+.confirm-button{
+  height: 48rpx;
+  width: 300rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 48rpx;
+  float: right;
+}

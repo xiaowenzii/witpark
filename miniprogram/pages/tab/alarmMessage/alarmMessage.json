@@ -1,6 +1,6 @@
 {
-  "backgroundColor": "#FFFFFF",
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationBarTextStyle":"black",
   "navigationBarTitleText": "告警",
-  "navigationBarTextStyle": "black",
   "usingComponents": {}
 }

@@ -1,0 +1,134 @@
+page{
+  height: 100%;
+  width: 100%;
+  background-color: #F2F3F3;
+}
+
+/* 统计入口 */
+.data-overview{
+  height: 360rpx;
+  margin-left: 24rpx;
+  margin-right: 24rpx;
+  border-radius: 12rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.overview-run{
+  height: 90%;
+  width: 48%;
+  background-color: #FFFFFF;
+  border-radius: 12rpx;
+}
+
+.data-energy{
+  height: 90%;
+  width: 48%;
+  margin-left: 4%;
+  border-radius: 12rpx;
+}
+
+.overview-energy{
+  height: 48%;
+  width: 100%;
+  background-color: #FFFFFF;
+  border-radius: 12rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.overview-monitor{
+  height: 48%;
+  width: 100%;
+  margin-top: 4%;
+  background-color: #FFFFFF;
+  border-radius: 12rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.function-image{
+  height: 90rpx;
+  width: 90rpx;
+  right: 0;
+  margin-right: 64rpx;
+  position: absolute;
+}
+
+.view-item-text-1{
+  font-size: 26rpx;
+  padding-left: 24rpx;
+  font-weight: bolder;
+}
+.view-item-text-2{
+  font-size: 24rpx;
+  bottom: 0;
+  padding-left:24rpx;
+  padding-top: 6rpx;
+}
+
+/* 设备管理 */
+.device-view{
+  height: 132rpx;
+  margin-left: 24rpx;
+  margin-right: 24rpx;
+  background-color: #FFFFFF;
+  border-radius: 12rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+}
+
+.device-view-image{
+  height: 64rpx;
+  width: 64rpx;
+  position: absolute;
+  right: 0;
+  margin-right: 24rpx;
+}
+
+/* 其它功能 */
+.functions{
+  margin-left: 24rpx;
+  margin-right: 24rpx;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.function-item{
+  height: 150rpx;
+  width: 48%;
+  margin-top: 24rpx;
+  background-color: #FFFFFF;
+  border-radius: 12rpx;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.function-item-text{
+  margin-left: 24rpx;
+  font-size: 24rpx;
+  margin-top: 24rpx;
+  font-weight: bolder;
+}
+
+.item-image-enter{
+  height: 48rpx;
+  width: 48rpx;
+  margin-left: 24rpx;
+  margin-top: 24rpx;
+}
+
+.item-image-icon{
+  height: 96rpx;
+  width: 96rpx;
+  margin-left: 24rpx;
+  margin-top: -24rpx;
+  right: 0;
+  position: absolute;
+}

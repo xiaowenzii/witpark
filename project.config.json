@@ -40,7 +40,9 @@
     "packNpmRelationList": [],
     "minifyWXSS": true,
     "showES6CompileOption": false,
-    "useSummerCompiler": false
+    "useSummerCompiler": false,
+    "ignoreDevUnusedFiles": false,
+    "ignoreUploadUnusedFiles": false
   },
   "compileType": "miniprogram",
   "libVersion": "2.19.1",

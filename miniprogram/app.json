@@ -4,8 +4,48 @@
     "pages/tab/home/home",
     "pages/tab/alarmMessage/alarmMessage",
     "pages/tab/person/person",
-    "pages/energy/energyConsumptionOverview"
+    "pages/functions/devices/device",
+    "pages/functions/quota/quota",
+    "pages/functions/energyConsumptionAnalysis/energyAnalysis",
+    "pages/tab/functions/function",
+    "pages/functions/demandResponse/response",
+    "pages/functions/knowladge/knowladge",
+    "pages/functions/monitorLog/monitorLog",
+    "pages/functions/runningDataOverview/overview",
+    "pages/functions/energyOverview/energyOverview",
+    "pages/functions/runningMonitor/runningMonitor"
   ],
+  "tabBar": {
+    "color": "#BFBFBF",
+    "selectedColor": "#77D0C5",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/tab/home/home",
+        "text": "首页",
+        "iconPath": "asset/home.png",
+        "selectedIconPath": "asset/home_selected.png"
+      },
+      {
+        "pagePath": "pages/tab/functions/function",
+        "text": "功能",
+        "iconPath": "asset/function.png",
+        "selectedIconPath": "asset/function_selected.png"
+      },
+      {
+        "pagePath": "pages/tab/alarmMessage/alarmMessage",
+        "text": "告警",
+        "iconPath": "asset/alarm.png",
+        "selectedIconPath": "asset/alarm_selected.png"
+      },
+      {
+        "pagePath": "pages/tab/person/person",
+        "text": "我的",
+        "iconPath": "asset/person.png",
+        "selectedIconPath": "asset/person_selected.png"
+      }
+    ]
+  },
   "usingComponents": {},
   "permission": {
     "scope.userLocation": {

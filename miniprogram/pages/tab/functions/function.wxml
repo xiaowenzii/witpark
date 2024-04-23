@@ -1,0 +1,54 @@
+<view style="width: 100%;height: 582rpx;background: -webkit-linear-gradient(top, #1DCEBC,#F2F3F3);">
+  <!-- 统计入口 -->
+  <view class="data-overview">
+    <view class="overview-run" bind:tap="goRunningDataOverview">
+      <view class="view-item-text-1" style="margin-top: 18rpx;">运行数据总览</view>
+      <view class="view-item-text-2" style="margin-top: 6rpx;">园区发电用电</view>
+      <image src="../../../asset/power.png" style="width: 100%;height: 220rpx;"/>
+    </view>
+    <view class="data-energy">
+      <view class="overview-energy" bind:tap="goEnergyOverview">
+        <view style="width: 70%;">
+          <view class="view-item-text-1">能耗总览</view>
+          <view class="view-item-text-2" style="margin-top: 6rpx;">园区能源统计</view>
+        </view>
+        <view style="width: 30%;align-items: center;display: flex;">
+          <image class="function-image" src="../../../asset/energy_overview.png"/>
+        </view>
+      </view>
+
+      <view class="overview-monitor" bind:tap="goRunningMonitor">
+        <view style="width: 70%;">
+          <view class="view-item-text-1">运行检测</view>
+          <view class="view-item-text-2" style="margin-top: 6rpx;">设备运行数据</view>
+        </view>
+        <view style="width: 30%;align-items: center;display: flex;">
+          <image class="function-image" src="../../../asset/operation_monitor.png"/>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 设备管理 -->
+  <view style="padding: 18rpx 24rpx;font-size: 28rpx;font-weight: bolder;">设备管理</view>
+  <view class="device-view" bind:tap="goDevicesMonitor">
+    <image src="../../../asset/device.png" style="width: 96rpx;height: 96rpx;margin-left: 12rpx;"></image>
+    <view style="margin-left: 12rpx;">
+      <view style="font-size: 26rpx;font-weight: bolder;">设备控制</view>
+      <view style="font-size: 24rpx;margin-top: 6rpx;">查看并控制管理园区发电和用电设备</view>
+    </view>
+    <image class="device-view-image" src="../../../asset/enter.png"></image>
+  </view>
+</view>
+
+<!-- 其它功能 -->
+<view style="padding: 18rpx 24rpx 0 24rpx;font-size: 28rpx;font-weight: bolder;">其它功能</view>
+<view class="functions">
+  <view class="function-item" wx:for="{{functionModules}}" wx:key="index" data-item="{{item}}" bind:tap="goFunction" style="margin-left: {{index%2!=0?'4%':'0'}}">
+    <view class="function-item-text">{{item.text}}</view>
+    <view style="display: flex;flex-direction: row;position: relative;">
+      <image class="item-image-enter" src="../../../asset/enter.png"/>
+      <image class="item-image-icon" src="{{item.icon}}"/>
+    </view>
+  </view>
+</view>

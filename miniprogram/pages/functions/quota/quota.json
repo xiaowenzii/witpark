@@ -1,0 +1,8 @@
+{
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationBarTextStyle":"black",
+  "navigationBarTitleText": "定额管理",
+  "usingComponents": {
+    "search-contion-dialog": "../../component/condition/searchDialog"
+  }
+}

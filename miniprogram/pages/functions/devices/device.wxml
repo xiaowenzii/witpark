@@ -1,0 +1,17 @@
+<view style="height: 480rpx;width: 100%;background:  -webkit-linear-gradient(top, #E8F7F4,#F6F6F6);">
+  <view class="chart-view">
+    <!-- 时间选择 -->
+    <view class="time-view">
+      <view style="border: 1rpx solid #66CFC1;border-radius: 9rpx;font-size: 24rpx;padding: 6rpx 9rpx 6rpx 18rpx;margin-left: 24rpx;display: flex;align-items: center;">
+        4月 
+        <image src="../../../asset/select_down.png" style="width: 32rpx;height: 24rpx;margin-top: 3rpx;margin-left: 18rpx;"/>
+      </view>
+      <view style="border: 1rpx solid #66CFC1;border-radius: 9rpx;font-size: 24rpx;padding: 6rpx 9rpx 6rpx 18rpx;margin-left: 24rpx;display: flex;align-items: center;position: absolute;right: 0;margin-right: 24rpx;">
+        今天 
+        <image src="../../../asset/select_down.png" style="width: 32rpx;height: 24rpx;margin-top: 3rpx;margin-left: 18rpx;"/>
+      </view>
+    </view>
+
+    
+  </view>
+</view>

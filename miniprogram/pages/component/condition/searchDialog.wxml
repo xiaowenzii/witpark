@@ -1,0 +1,19 @@
+<view style="width: 100%;">
+  <text style="font-size: 24rpx;margin-left: 18rpx;font-weight: bold;">全部类</text>
+  <!-- 查询列表 -->
+  <view class="condtion-view" wx:for="{{searchDataList.dataList}}" wx:key="index" data-index="index">
+    <view class="condtion-view-desc">{{item.desc}}</view>
+    <view class="condtion-view-item-area">
+      <view class="inner-item" wx:for="{{item.list}}" wx:key="itemIndex" wx:for-index="itemIndex" wx:for-item="innerItem">
+        <view class="condtion-view-item" style="background-color: {{searchDataList.selected[index].selectedId==innerItem.id? '#81B337':'none'}};font-size: {{innerItem.name.length>4?'22rpx':'24rpx'}};" data-item="{{item}}" data-inneritem="{{innerItem}}" bind:tap="selectCondtion">
+          {{innerItem.name}}
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- 确认按钮 -->
+  <view class="confirm-button">
+    <view class="condtion-view-item" style="background-color: #EFEFEF;font-size: 24rpx;" bind:tap="cancel">取消</view>
+    <view class="condtion-view-item" style="background-color:#54BCBD;font-size: 24rpx;margin-left: 36rpx;" bind:tap="confirm">确认</view>
+  </view>
+</view>

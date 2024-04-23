@@ -1,0 +1,53 @@
+<view class="quota">
+  <!-- 条件展示 -->
+  <view class="search-condtion" >
+    <view class="search-condtion-text">
+      计划类型:<text class="condtion-text">月计划</text>
+      用能设备:<text class="condtion-text">空调</text>
+      用能类型:<text class="condtion-text">用电</text>
+      状态:<text class="condtion-text">全部</text>
+    </view>
+    <image src="../../../asset/more.png" style="height: 30rpx;width: 30rpx;margin-left: 24rpx;" bind:tap="search"/>
+  </view>
+
+  <view class="view-item" wx:for="{{dataList}}" wx:key="index" data-index="index" style="margin-top:{{index==0?'24rpx':'0rpx'}}">
+    <!-- item 明细 -->
+    <view style="display: flex;padding: 6rpx 12rpx;"> 
+      <view style="width: 50%;">用能设备：{{item.deviceName}}</view>
+      <view>用能类型：用电</view>
+    </view>
+    <view style="padding: 6rpx 12rpx;">计划类型：月计划</view>
+    <view style="display: flex;padding: 6rpx 12rpx;"> 
+      <view style="width: 50%;">用能额度：1000 kwh</view>
+      <view>用能情况：900 kwh</view>
+    </view>
+    <view style="display: flex;padding: 6rpx 12rpx;"> 
+      <view style="width: 50%;">制定人：张三</view>
+      <view>用能时间：2024-04</view>
+    </view>
+    <view style="padding: 6rpx 12rpx;">完成率：90%</view>
+    <view style="display: flex;padding: 6rpx 12rpx;"> 
+      <!-- 状态 -->
+      <view style="width: 20%;display: flex;">
+        <view class="quota-circle-point" style="background-color: aquamarine;"></view>
+        <view style="margin-left: 6rpx;">已发布</view>
+      </view>
+      <!-- 操作按钮 -->
+      <view style="width: 15%;display: flex;align-items: center;">
+        <view class="quota-button" style="background-color: cadetblue;">发布</view>
+      </view>
+      <view style="width: 15%;display: flex;align-items: center;">
+        <view class="quota-button" style="background-color: cadetblue;">编辑</view>
+      </view>
+    </view>
+    <!-- 分割线 -->
+    <view style="width: 100%;height: 1rpx;background-color: #00000030;margin-top: 9rpx;" wx:if="{{index!=dataList.length-1}}"></view>
+  </view>
+
+  <!-- 条件筛选框 -->
+  <view class="condtion-dialog" wx:if="{{showSearchDialog}}">
+    <view style="height: 54%;width: 100%;background-color: #FFFFFF;">
+      <search-contion-dialog searchData="{{searchDataList}}" bindmyevent="closeDialog"></search-contion-dialog>
+    </view>
+  </view>
+</view>
