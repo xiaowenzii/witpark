@@ -1,2 +1,54 @@
-<!--pages/tab/alarmMessage/alarmMessage.wxml-->
-<text>pages/tab/alarmMessage/alarmMessage.wxml</text>
+<!-- 条件展示 -->
+<view style="height: 240rpx;width: 100%;background-color: #FFFFFF;">
+  <view class="view-select">
+    <view class="view-text" style="font-size: {{selecetStateIndex==0?'32rpx':'24rpx'}};font-weight: {{selecetStateIndex==0?'bolder':'none'}};" data-index="0" bind:tap="selectState">未发布</view>
+    <view class="view-text" style="font-size: {{selecetStateIndex==1?'32rpx':'24rpx'}};font-weight: {{selecetStateIndex==1?'bolder':'none'}};" data-index="1" bind:tap="selectState">已发布</view>
+    <view class="view-text" style="font-size: {{selecetStateIndex==2?'32rpx':'24rpx'}};font-weight: {{selecetStateIndex==2?'bolder':'none'}};" data-index="2" bind:tap="selectState">已作废</view>
+  </view>
+  <view style="display: flex;flex-direction: row;">
+    <view class="search-view">
+      <image class="search-view-image" src="../../../asset/search.png" />
+      <input class="search-view-text" type='text' name='password' placeholder="请输入要搜索的关键词" placeholder-style="color: #9E9E9E;"/>
+    </view>
+  </view>
+  <view style="display: flex;flex-direction: row;">
+    <view class="head-desc">
+      <text class="head-desc-text1">设备状态</text>
+      <image class="head-image" src="../../../asset/select_down.png"></image>
+    </view>
+    <view class="head-desc" style="width: 34%;">
+      <text class="head-desc-text1">告警类型</text>
+      <image class="head-image" src="../../../asset/select_down.png"></image>
+    </view>
+    <view class="head-desc">
+      <text class="head-desc-text1">创建时间</text>
+      <image class="head-image" src="../../../asset/select_down.png"></image>
+    </view>
+  </view>
+</view>
+
+<view class="view-item" wx:for="{{dataList}}" wx:key="index" data-index="index">
+  <!-- item 明细 -->
+  <view style="display: flex;padding: 6rpx 12rpx;position: relative;align-items: center;"> 
+    <view style="font-size: 28rpx;font-weight: bolder;">{{item.title}}</view>
+    <view style="font-size: 18rpx;background-color: #DAEAE7;color: #40C3B2;padding: 3rpx 9rpx;border-radius: 6rpx;display: flex;position: absolute;right: 0;margin-right: 12rpx;">{{item.level}}</view>
+  </view>
+  <view style="display: flex;padding: 18rpx 12rpx;"> 
+    <view style="width: 50%;">设备状态：{{item.state}}</view>
+    <view>告警类型：{{item.type}}</view>
+  </view>
+  <view style="display: flex;padding: 6rpx 12rpx;"> 
+    <view style="width: 50%;">创建时间：{{item1.date}}</view>
+    <view>提醒人员：{{item.owner}}</view>
+  </view>
+  <view style="display: flex;padding: 12rpx 12rpx;"> 
+    设备出现告警，请及时处理
+  </view>
+</view>
+
+<!-- 条件筛选框 -->
+<view class="condtion-dialog" wx:if="{{showSearchDialog}}">
+  <view style="height: 54%;width: 100%;background-color: #FFFFFF;">
+    <search-contion-dialog searchData="{{searchDataList}}" bindmyevent="closeDialog"></search-contion-dialog>
+  </view>
+</view>

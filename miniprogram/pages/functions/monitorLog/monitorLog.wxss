@@ -1,1 +1,51 @@
-/* pages/functions/monitorLog/monitorLog.wxss */
+page{
+  height: 100%;
+  width: 100%;
+  background-color: #FAFAFA;
+}
+
+.search-view{
+  background-color: #FAFAFA;
+  height: 64rpx;
+  width: 85%;
+  margin-left: 24rpx;
+  border-radius: 6rpx;
+  margin-top: 12rpx;
+  display: flex;
+  flex-direction: row;
+}
+.search-view-image{
+  height: 36rpx;
+  width: 36rpx;
+  margin: 15rpx 12rpx;
+}
+
+.search-view-text{
+  height: 48rpx;
+  margin: 9rpx 12rpx;
+  font-size: 26rpx;
+  box-sizing:border-box;
+}
+.more-image{
+  height: 48rpx;
+  width: 48rpx;
+  align-items: center;
+  margin-top: 16rpx;
+  margin-right: 24rpx;
+}
+
+/* 列表 */
+.item{
+  height: 162rpx;
+  margin: 24rpx 0rpx;
+  background-color: #FFFFFF;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+.item-image{
+  width: 64rpx;
+  height: 64rpx;
+  margin-left: 12rpx;
+  margin-top: 24rpx;
+}

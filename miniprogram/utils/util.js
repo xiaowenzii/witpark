@@ -40,7 +40,6 @@ export const wxRequest = (parmas) => {
 
 // 获取设备图标
 export const deviceIcon = (parmas) => {
-  console.log(parmas);
   var type = parmas.type;
   var icon = '';
   switch (type) {

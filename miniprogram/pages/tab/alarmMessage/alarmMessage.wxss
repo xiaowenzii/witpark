@@ -1,1 +1,75 @@
-/* pages/tab/alarmMessage/alarmMessage.wxss */
+page {
+  height: 100%;
+  width: 100%;
+  background-color: #F2F3F3;
+}
+.view-select {
+  display: flex;
+  flex-direction: row;
+  padding: 12rpx 12rpx 0rpx 12rpx;
+  display: flex;
+  align-items: center;
+}
+
+.view-text{
+  font-size: 24rpx;
+  margin: 6rpx 12rpx;
+}
+.search-view{
+  background-color: #FAFAFA;
+  height: 64rpx;
+  width: 94%;
+  margin: 24rpx 3%;
+  border-radius: 6rpx;
+  display: flex;
+  flex-direction: row;
+}
+.search-view-image{
+  height: 36rpx;
+  width: 36rpx;
+  margin: 15rpx 12rpx;
+}
+
+.search-view-text{
+  height: 48rpx;
+  margin: 9rpx 12rpx;
+  font-size: 26rpx;
+  box-sizing:border-box;
+}
+
+.head-desc{
+  width: 33%;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+}
+.head-image{
+  height: 18rpx;
+  width: 24rpx;
+  margin-top: 6rpx;
+  margin-left: 12rpx;
+}
+.head-desc-text1{
+  font-size: 24rpx;
+  margin-left: 9rpx;
+}
+/* 列表样式 */
+.view-item{
+  padding: 12rpx;
+  height: 218rpx;
+  font-size: 24rpx;
+  background-color: #FFFFFF;
+  margin-top: 24rpx;
+}
+
+/* Dialog 样式 */
+.condtion-dialog{
+  height: 100%;
+  width: 100%;
+  background-color: #00000020;
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 0;
+}

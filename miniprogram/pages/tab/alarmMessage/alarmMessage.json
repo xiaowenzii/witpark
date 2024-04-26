@@ -1,6 +1,8 @@
 {
-  "navigationBarBackgroundColor": "#FFFFFF",
-  "navigationBarTextStyle":"black",
+  "navigationBarBackgroundColor": "#18B6A2",
+  "navigationBarTextStyle":"white",
   "navigationBarTitleText": "告警",
-  "usingComponents": {}
+  "usingComponents": {
+    "search-contion-dialog": "../../component/condition/searchDialog"
+  }
 }

@@ -49,7 +49,7 @@ page{
 }
 /* 列表 */
 .item{
-  height: 280rpx;
+  height: 288rpx;
   background-color: #FFFFFF;
   margin-top: 24rpx;
 }

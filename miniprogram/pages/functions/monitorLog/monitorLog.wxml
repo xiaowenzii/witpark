@@ -1,2 +1,24 @@
-<!--pages/functions/monitorLog/monitorLog.wxml-->
-<text>pages/functions/monitorLog/monitorLog.wxml</text>
+<view style="height: 132rpx;width: 100%;background-color: #FFFFFF;">
+  <view style="display: flex;flex-direction: row;padding-top: 24rpx;">
+    <view class="search-view">
+      <image class="search-view-image" src="../../../asset/search.png" />
+      <input class="search-view-text" type='text' name='password' placeholder="请输入要搜索的关键词" placeholder-style="color: #9E9E9E;"/>
+    </view>
+    <view style="width: 15%;height: 64rpx;text-align: end;">
+      <image class="more-image" src="../../../asset/more.png"/>
+    </view>
+  </view>
+</view>
+
+<!-- 列表 -->
+<view class="item" wx:for="{{fileList}}" wx:key="index">
+    <image class="item-image" src="../../../asset/monitorlog/sun_light.png" wx:if="{{item.type=='0'}}"></image>
+    <image class="item-image" src="../../../asset/monitorlog/light.png" wx:if="{{item.type=='1'}}"></image>
+    <image class="item-image" src="../../../asset/monitorlog/carlight.png" wx:if="{{item.type=='2'}}"></image>
+    <image class="item-image" src="../../../asset/monitorlog/power.png" wx:if="{{item.type=='3'}}"></image>
+    <view style="margin-left: 36rpx;margin-top: 18rpx;">
+      <view style="font-size: 26rpx;font-weight: bolder;">{{item.title}}</view>
+      <view style="font-size: 24rpx;margin-top: 18rpx;">设备状态发生变化</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;color: #B0B0B0;">2024-04-25 12:34:56</view>
+    </view>
+</view>

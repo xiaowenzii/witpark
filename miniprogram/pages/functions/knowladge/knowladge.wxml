@@ -1,2 +1,39 @@
-<!--pages/functions/knowladge/knowladge.wxml-->
-<text>pages/functions/knowladge/knowladge.wxml</text>
+<view style="height: 168rpx;width: 100%;">
+  <view style="display: flex;flex-direction: row;">
+    <view class="search-view">
+      <image class="search-view-image" src="../../../asset/search.png" />
+      <input class="search-view-text" type='text' name='password' placeholder="请输入要搜索的关键词" placeholder-style="color: #9E9E9E;"/>
+    </view>
+  </view>
+  <view style="display: flex;flex-direction: row;">
+    <view class="head-desc">
+      <text class="head-desc-text1">文件格式</text>
+      <image class="head-image" src="../../../asset/select_down.png"></image>
+    </view>
+    <view class="head-desc" style="width: 34%;">
+      <text class="head-desc-text1">文件大小</text>
+      <image class="head-image" src="../../../asset/select_down.png"></image>
+    </view>
+    <view class="head-desc">
+      <text class="head-desc-text1">上传时间</text>
+      <image class="head-image" src="../../../asset/select_down.png"></image>
+    </view>
+  </view>
+</view>
+
+<!-- 列表 -->
+<view class="item" wx:for="{{fileList}}" wx:key="index">
+    <image class="item-image" src="../../../asset/knowladge/file.png" wx:if="{{item.type=='file'}}"></image>
+    <image class="item-image" src="../../../asset/knowladge/excel.png" wx:if="{{item.type=='excel'}}"></image>
+    <image class="item-image" src="../../../asset/knowladge/ppt.png" wx:if="{{item.type=='ppt'}}"></image>
+    <image class="item-image" src="../../../asset/knowladge/pdf.png" wx:if="{{item.type=='pdf'}}"></image>
+    <view style="margin-left: 24rpx;">
+      <view style="font-size: 26rpx;">{{item.title}}</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;color: #B0B0B0;">
+        2024-04-25 12:34:56
+        <text style="margin-left: 24rpx;" wx:if="{{item.type!='file'}}">{{item.size}} KB</text>
+        <text style="margin-left: 24rpx;" wx:if="{{item.type!='file'}}">{{item.uploader}}</text>
+      </view>
+    </view>
+    <image src="../../../asset/knowladge/point.png" style="height: 32rpx;width:32rpx;display: flex;position: absolute;right: 0;margin-right: 12rpx;" wx:if="{{item.type!='file'}}"/>
+</view>

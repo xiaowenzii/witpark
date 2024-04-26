@@ -1,3 +1,8 @@
 {
-  "usingComponents": {}
+  "navigationBarBackgroundColor": "#18B6A2",
+  "navigationBarTextStyle":"white",
+  "navigationBarTitleText": "运维知识库",
+  "usingComponents": {
+    "search-contion-dialog": "../../component/condition/searchDialog"
+  }
 }

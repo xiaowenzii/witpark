@@ -1,1 +1,33 @@
-/* pages/tab/person/person.wxss */
+page{
+  height: 100%;
+  width: 100%;
+  background-color: #FAFAFA;
+}
+.head-view{
+  height: 180rpx;
+  background:-webkit-linear-gradient(top, #1DCEBC, #FAFAFA);
+  display: flex;
+  position: relative;
+  justify-content: center;
+}
+
+.head-view image{
+  height: 180rpx;
+  width: 180rpx;
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  margin-bottom: -60rpx;
+}
+.logout{
+  width: 80%;
+  margin: auto 10%;
+  height: 72rpx;
+  border: 1rpx solid #D3D3D3;
+  display: flex;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  bottom: 0;
+  margin-bottom: 180rpx;
+}

@@ -1,9 +1,10 @@
 // pages/functions/quota/quota.js
 Page({
   data: {
+    selecetStateIndex: 0,
     dataList: [
-      {id: "1", deviceName: "空调"},
-      {id: "2", deviceName: "照明设备"}
+      {id: "0", deviceName: "空调",type:"月计划",powerType:"用电", finish:"90%", limit:"1000", use:"900",makeOwner:"张三", useDate:"2024-04"},
+      {id: "0", deviceName: "照明设备", type:"月计划",powerType:"用电", finish:"90%", limit:"1000", use:"900",makeOwner:"张三", useDate:"2024-04"}
     ],
     // 查询条件数据
     searchDataList: {
@@ -95,10 +96,22 @@ Page({
     },
     showSearchDialog: false
   },
+  selectState(res){
+    var index = res.currentTarget.dataset.index;
+    this.setData({
+      selecetStateIndex: index
+    })
+  },
   search(){
     this.setData({
       showSearchDialog: true
     })
+  },
+  abandan(res){
+    console.log(res.currentTarget.dataset.item);
+  },
+  edit(res){
+    console.log(res.currentTarget.dataset.item);
   },
   closeDialog: function(e) {
     if(e.detail.operate == "1") {

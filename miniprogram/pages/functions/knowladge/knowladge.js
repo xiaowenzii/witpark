@@ -1,11 +1,33 @@
 // pages/functions/knowladge/knowladge.js
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    fileList: [
+      {
+        type: 'file',
+        title: '运维知识库都是知识',
+        size: '124',
+        time: '2024-04-25 12:34:56',
+        uploader: '管理员'
+      }, {
+        type: 'excel',
+        title: 'excel 文件',
+        size: '124',
+        time: '2024-04-25 12:34:56',
+        uploader: '管理员'
+      }, {
+        type: 'pdf',
+        title: 'pdf 文件',
+        size: '124',
+        time: '2024-04-25 12:34:56',
+        uploader: '管理员'
+      }, {
+        type: 'ppt',
+        title: 'ppt 文件',
+        size: '124',
+        time: '2024-04-25 12:34:56',
+        uploader: '管理员'
+      }
+    ]
   },
 
   /**

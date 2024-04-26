@@ -1,1 +1,60 @@
-/* pages/functions/knowladge/knowladge.wxss */
+page{
+  height: 100%;
+  width: 100%;
+  background-color: #FFFFFF;
+}
+
+.search-view{
+  background-color: #FAFAFA;
+  height: 64rpx;
+  width: 94%;
+  margin: 24rpx 3%;
+  border-radius: 6rpx;
+  display: flex;
+  flex-direction: row;
+}
+.search-view-image{
+  height: 36rpx;
+  width: 36rpx;
+  margin: 15rpx 12rpx;
+}
+
+.search-view-text{
+  height: 48rpx;
+  margin: 9rpx 12rpx;
+  font-size: 26rpx;
+  box-sizing:border-box;
+}
+
+.head-desc{
+  width: 33%;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+}
+.head-image{
+  height: 18rpx;
+  width: 24rpx;
+  margin-top: 6rpx;
+  margin-left: 12rpx;
+}
+.head-desc-text1{
+  font-size: 24rpx;
+  margin-left: 9rpx;
+}
+
+/* 列表 */
+.item{
+  height: 120rpx;
+  margin: 9rpx 24rpx;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  align-items: center;
+}
+.item-image{
+  width: 64rpx;
+  height: 64rpx;
+  margin-left: 12rpx;
+}
