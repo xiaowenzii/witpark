@@ -3,6 +3,38 @@ page{
   width: 100%;
   background-color: #F6F6F6;
 }
+.device-view{
+  height: 480rpx;
+  width: 100%;
+  background:  -webkit-linear-gradient(top, #E8F7F4,#F6F6F6);
+}
+.time-view-month{
+  border: 1rpx solid #66CFC1;
+  border-radius: 9rpx;
+  font-size: 24rpx;
+  padding: 6rpx 9rpx 6rpx 18rpx;
+  margin-left: 24rpx;
+  display: flex;
+  align-items: center;
+}
+.time-view-day{
+  border: 1rpx solid #66CFC1;
+  border-radius: 9rpx;
+  font-size: 24rpx;
+  padding: 6rpx 9rpx 6rpx 18rpx;
+  margin-left: 24rpx;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 0;
+  margin-right: 24rpx;
+}
+.time-arrow-image{
+  width: 32rpx;
+  height: 24rpx;
+  margin-top: 3rpx;
+  margin-left: 18rpx;
+}
 /* 圆饼图 */
 .chart-view{
   height: 460rpx;
@@ -19,4 +51,118 @@ page{
   display: flex;
   position: relative;
   align-items: center;
+}
+.chart-desc{
+  width: 33%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+.chart-desc-text1{
+  font-size: 24rpx;
+}
+.chart-desc-text2{
+  font-size: 28rpx;
+  margin-top: 18rpx;
+  font-weight: bolder;
+}
+/* 设备列表 */
+.scroll-view{
+  height: 48rpx;
+  margin: 12rpx 24rpx;
+  display: flex;
+  white-space:nowrap;
+}
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+
+.scroll-view-item{
+  font-size: 27rpx;
+  text-align: center;
+  padding: 9rpx 18rpx;
+  display: inline-block;
+  box-sizing: border-box;
+  border-radius: 12rpx;
+}
+
+.view-title{
+  width: 100%;
+  margin-top: 18rpx;
+  display: flex;
+  position: relative;
+  flex-direction: row;
+}
+.view-text-1{
+  font-size: 26rpx;
+  padding-left: 26rpx;
+  padding-top: 12rpx;
+  font-weight: bolder;
+}
+.view-text-2{
+  font-size: 24rpx;
+  display: flex;
+  position: absolute;
+  right: 0;
+  padding-top: 12rpx;
+  padding-right: 24rpx;
+}
+
+.device-content{
+  margin-left: 24rpx;
+  margin-right: 24rpx;
+  margin-top: 24rpx;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  text-align: center;
+}
+.content{
+  height: 100px;
+  width: 48%;
+  margin: 12rpx 0;
+  background-color: #FFFFFF;
+  border-radius: 12rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.device-item{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  align-items: center;
+}
+.device-item-image{
+  width: 84rpx;
+  height: 84rpx;
+  margin-left: 12rpx;
+}
+.device-item-switch{
+  zoom: 0.6;
+  display: flex;
+  position: absolute;
+  right: 0;
+  margin-right: 36rpx;
+}
+.device-item-text1{
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  left: 0rpx;
+  display: flex;
+  align-items: flex-start;
+  margin-left: 24rpx;
+}
+.device-item-text2{
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  color: #BEBEBE;
+  display: flex;
+  align-items: flex-start;
+  margin-left: 24rpx;
 }

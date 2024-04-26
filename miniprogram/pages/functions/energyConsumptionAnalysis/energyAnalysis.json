@@ -1,3 +1,7 @@
 {
-  "usingComponents": {}
+  "navigationBarTextStyle": "black",
+  "navigationBarTitleText": "能耗分析",
+  "navigationBarBackgroundColor": "#EAF7F5",
+  "usingComponents": {
+  }
 }

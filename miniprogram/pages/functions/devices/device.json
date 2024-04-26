@@ -3,6 +3,5 @@
   "navigationBarTitleText": "设备控制",
   "navigationBarBackgroundColor": "#E8F7F4",
   "usingComponents": {
-    "canvas2d-annular":"../../component/canvansAnnular/annular"
   }
 }

@@ -1,2 +1,53 @@
-<!--pages/functions/runningMonitor/runningMonitor.wxml-->
-<text>pages/functions/runningMonitor/runningMonitor.wxml</text>
+<view style="padding: 18rpx 24rpx;font-size: 24rpx;font-weight: bolder;">请选择</view>
+<view class="functions">
+  <view class="function-item" data-item="0" bind:tap="goFunction">
+    <image class="item-image1" src="../../../asset/enter.png"/>
+    <image class="item-image2" src="../../../asset/jzhj.png"/>
+    <view class="item-text">建筑环境</view>
+  </view>
+  <view class="function-item" style="margin-left: 4%;" data-item="1" bind:tap="goFunction">
+    <image class="item-image1" src="../../../asset/enter.png"/>
+    <image class="item-image2" src="../../../asset/ktkzdy.png"/>
+    <view class="item-text">空调控制单元</view>
+  </view>
+  <view class="function-item" data-item="2" bind:tap="goFunction">
+    <image class="item-image1" src="../../../asset/enter.png"/>
+    <image class="item-image2" src="../../../asset/flfd_yxjc.png"/>
+    <view class="item-text">风力发电</view>
+  </view>
+  <view class="function-item" style="margin-left: 4%;" data-item="3" bind:tap="goFunction">
+    <image class="item-image1" src="../../../asset/enter.png"/>
+    <image class="item-image2" src="../../../asset/gffd_yxjc.png"/>
+    <view class="item-text">光伏发电</view>
+  </view>
+  <view class="function-item" data-item="4" bind:tap="goFunction">
+    <image class="item-image1" src="../../../asset/enter.png"/>
+    <image class="item-image2" src="../../../asset/cnjc_yxjc.png"/>
+    <view class="item-text">储能监测</view>
+  </view>
+  <view class="function-item" style="margin-left: 4%;" data-item="5" bind:tap="goFunction">
+    <image class="item-image1" src="../../../asset/enter.png"/>
+    <image class="item-image2" src="../../../asset/cdzjc.png"/>
+    <view class="item-text">充电桩监测</view>
+  </view>
+  <view class="function-item" data-item="6" bind:tap="goFunction">
+    <image class="item-image1" src="../../../asset/enter.png"/>
+    <image class="item-image2" src="../../../asset/kqyrbjc.png"/>
+    <view class="item-text">空气源热泵</view>
+  </view>
+  <view class="function-item" style="margin-left: 4%;" data-item="7" bind:tap="goFunction">
+    <image class="item-image1" src="../../../asset/enter.png"/>
+    <image class="item-image2" src="../../../asset/fgcldjc.png"/>
+    <view class="item-text">风光储路灯</view>
+  </view>
+  <view class="function-item" data-item="8" bind:tap="goFunction">
+    <image class="item-image1" src="../../../asset/enter.png"/>
+    <image class="item-image2" src="../../../asset/gfhjc.png"/>
+    <view class="item-text">光伏花监测</view>
+  </view>
+  <view class="function-item" style="margin-left: 4%;" data-item="9" bind:tap="goFunction">
+    <image class="item-image1" src="../../../asset/enter.png"/>
+    <image class="item-image2" src="../../../asset/dxzmjc.png"/>
+    <view class="item-text">地下照明监测</view>
+  </view>
+</view>

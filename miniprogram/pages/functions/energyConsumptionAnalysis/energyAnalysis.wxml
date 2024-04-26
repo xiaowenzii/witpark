@@ -1,2 +1,99 @@
-<!--pages/functions/energyConsumptionAnalysis/energyAnalysis.wxml-->
-<text>pages/functions/energyConsumptionAnalysis/energyAnalysis.wxml</text>
+<view style="height: 240rpx;margin: 24rpx;background: -webkit-linear-gradient(left, #18B6A2, #26B1C5);border-radius: 12rpx;">
+  <view style="height:120rpx;display: flex;position: relative;flex-direction: row;align-items: center;">
+    <image src="../../../asset/Building.png" style="height: 36rpx;width: 36rpx;margin-left: 36rpx;"></image>
+    <text style="font-size: 28rpx;color: white;margin-left: 12rpx;">园区总用电 (kwh)</text>
+    <text style="font-size: 36rpx;color: white;font-weight: bolder;display: flex;position: absolute;right: 0;margin-right: 36rpx;">124405.4</text>
+  </view>
+  <view style="width: 100%;height: 120rpx;display: flex;flex-direction: row;">
+    <view class="card-view">
+      <text class="card-view-text1">4567.7</text>
+      <text class="card-view-text2">今日购电</text>
+    </view>
+    <view style="width: 1rpx;height: 60rpx;background-color: #FFFFFF99;margin-top: 18rpx;"></view>
+    <view class="card-view">
+      <text class="card-view-text1">456</text>
+      <text class="card-view-text2">今日售电</text>
+    </view>
+    <view style="width: 1rpx;height: 60rpx;background-color: #FFFFFF99;margin-top: 18rpx;"></view>
+    <view class="card-view">
+      <text class="card-view-text1">2200</text>
+      <text class="card-view-text2">电网功率</text>
+    </view>
+  </view>
+</view>
+
+<view class="view-title">
+  <text class="view-text-1">配电柜</text>
+  <view class="select-view">
+    配电站#1 
+    <image class="arrow-image" src="../../../asset/select_down.png"/>
+  </view>
+</view>
+<view style="margin: 12rpx 24rpx;height: 120rpx;display: flex;flex-direction: row;">
+  <view class="today-view">
+    <image src="../../../asset/jrcd.png" style="width: 48rpx;height: 48rpx;margin-left: 12rpx;"></image>
+    <view style="margin-left: 18rpx;">
+      <view style="font-size: 24rpx;">今日充电</view>
+      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;color: #18B6A2;">233</view>
+    </view>
+  </view>
+  <view class="today-view" style="margin-left: 5%;">
+    <image src="../../../asset/jrfd.png" style="width: 48rpx;height: 48rpx;margin-left: 12rpx;"></image>
+    <view style="margin-left: 18rpx;">
+      <view style="font-size: 24rpx;">今日放电</view>
+      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;color: #18B6A2;">233</view>
+    </view>
+  </view>
+  <view class="today-view" style="margin-left: 5%;">
+    <image src="../../../asset/ssgl.png" style="width: 48rpx;height: 48rpx;margin-left: 12rpx;"></image>
+    <view style="margin-left: 18rpx;">
+      <view style="font-size: 24rpx;">实时功率</view>
+      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;color: #18B6A2;">233</view>
+    </view>
+  </view>
+</view>
+
+<!-- 设备 -->
+<view style="height: 64rpx;margin: 24rpx 24rpx 0rpx 24rpx;display: flex;flex-direction: row;align-items: center;">
+  <view style="font-size: {{selected==0?'28rpx':'26rpx'}};font-weight: {{selected==0?'bolder':'none'}};" data-index="0" bind:tap="selectType">用电设备</view>
+  <view style="margin-left: 36rpx;font-size: {{selected==1?'28rpx':'26rpx'}};font-weight: {{selected==1?'bolder':'none'}};" data-index="1" bind:tap="selectType">发电设备</view>
+</view>
+
+<view class="device-list">
+  <view class="device-item" wx:for="{{deviceList}}" wx:key="index" style="margin-left: {{index%2!=0?'4%':'0'}}">
+    <view style="display: flex;align-items: center;">
+      <image src="{{item.icon}}" style="height: 48rpx;width: 48rpx;margin-left: 24rpx;"></image>
+      <text style="font-size: 24rpx;margin-left: 12rpx;">{{item.desc}}</text>
+    </view>
+    <view class="item-text-view">
+      <text class="item-text1">发电量</text>
+      <text class="item-text2">{{item.yd}}</text>
+    </view>
+    <view class="item-text-view">
+      <text class="item-text1">发电功率</text>
+      <text class="item-text2">{{item.ydgl}}</text>
+    </view>
+  </view>
+</view>
+
+<!-- 用能占比 -->
+<view style="padding: 24rpx 24rpx 0 24rpx;font-size: 28rpx;font-weight: bolder;">用能占比</view>
+
+<view class="chart-view">
+  <!-- 环形统计图 -->
+  <view style="height: 240rpx;"></view>
+  <view style="height: 80rpx;display: flex;flex-direction: row;">
+    <view class="chart-desc">
+      <view class="chart-desc-point" style="background-color: #1CB7A3;"></view>
+      <text class="chart-desc-text1">办公<text class="chart-desc-text2" style="color: #1CB7A3;">57.5%</text></text>
+    </view>
+    <view class="chart-desc" style="width: 34%;">
+      <view class="chart-desc-point" style="background-color: #7A64FF;"></view>
+      <text class="chart-desc-text1">照明<text class="chart-desc-text2" style="color: #7A64FF;">32.1%</text></text>
+    </view>
+    <view class="chart-desc">
+      <view class="chart-desc-point" style="background-color: #FFA63D;"></view>
+      <text class="chart-desc-text1">备用<text class="chart-desc-text2" style="color: #FFA63D;">10.4%</text></text>
+    </view>
+  </view>
+</view>

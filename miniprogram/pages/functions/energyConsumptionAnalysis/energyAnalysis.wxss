@@ -1,1 +1,131 @@
-/* pages/functions/energyConsumptionAnalysis/energyAnalysis.wxss */
+page{
+  width: 100%;
+  height: 100%;
+  background: -webkit-linear-gradient(top, #EAF7F5,#F6F6F6);
+}
+.card-view{
+  width: 33%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.card-view-text1{
+  font-size: 32rpx;
+  color: white;
+  font-weight: bolder;
+}
+.card-view-text2{
+  font-size: 24rpx;
+  color: white;
+  margin-top: 12rpx;
+}
+
+/* 配电柜 */
+.view-title{
+  width: 100%;
+  height: 64rpx;
+  margin-top: 18rpx;
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  align-items: center;
+}
+.view-text-1{
+  font-size: 26rpx;
+  padding-left: 26rpx;
+  font-weight: bolder;
+}
+.select-view{
+  border: 1rpx solid #19B6A3;
+  border-radius: 9rpx;
+  font-size: 24rpx;
+  padding: 6rpx 9rpx 6rpx 18rpx;
+  margin-left: 24rpx;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 0;
+  margin-right: 24rpx;
+}
+.arrow-image{
+  width: 32rpx;
+  height: 24rpx;
+  margin-top: 3rpx;
+  margin-left: 18rpx;
+}
+.today-view{
+  width: 30%;
+  background-color: #FFFFFF;
+  border-radius: 12rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+/* 用电发电设备 */
+.device-list{
+  margin-left: 24rpx;
+  margin-right: 24rpx;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.device-item{
+  height: 160rpx;
+  width: 48%;
+  background-color: #FFFFFF;
+  border-radius: 12rpx;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 24rpx;
+}
+.item-text-view{
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-top: 12rpx;
+}
+.item-text1{
+  font-size: 24rpx;
+  margin-left: 30rpx;
+}
+.item-text2{
+  font-size: 24rpx;
+  display: flex;
+  position: absolute;
+  right: 0;
+  margin-right: 24rpx;
+}
+/* 用能占比 */
+/* 圆饼图 */
+.chart-view{
+  height: 320rpx;
+  margin:24rpx;
+  background-color: #FFFFFF;
+  border-radius: 12rpx;
+}
+.chart-desc{
+  width: 33%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+}
+.chart-desc-point{
+  height: 12rpx;
+  width: 12rpx;
+  border-radius: 50%;
+  margin-top: 9rpx;
+}
+.chart-desc-text1{
+  font-size: 24rpx;
+  margin-left: 9rpx;
+}
+.chart-desc-text2{
+  font-size: 28rpx;
+  margin-top: 18rpx;
+  font-weight: bolder;
+  margin-left: 18rpx;
+}

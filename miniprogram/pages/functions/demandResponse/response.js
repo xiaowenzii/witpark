@@ -1,13 +1,54 @@
-// pages/functions/demandResponse/response.js
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    selecetStateIndex: 0,
+    dataList: [
+      {
+        id:'0',
+        desc: '电网邀约信息',
+        text1: '120',
+        text2: '2024-04-25 09:39:12',
+        text3: '0小时',
+        text4: '2024-04-25 09:39:12',
+        text5: '0.9'
+      }, {
+        id:'1',
+        desc: '电网邀约信息',
+        text1: '120',
+        text2: '2024-04-25 09:39:12',
+        text3: '1小时',
+        text4: '2024-04-25 09:39:12',
+        text5: '0.9'
+      }, {
+        id:'2',
+        desc: '电网邀约信息',
+        text1: '120',
+        text2: '2024-04-25 09:39:12',
+        text3: '2小时',
+        text4: '2024-04-25 09:39:12',
+        text5: '0.9'
+      }, {
+        id:'3',
+        desc: '电网邀约信息',
+        text1: '120',
+        text2: '2024-04-25 09:39:12',
+        text3: '3小时',
+        text4: '2024-04-25 09:39:12',
+        text5: '0.9'
+      }
+    ]
   },
-
+  selectState(res){
+    var index = res.currentTarget.dataset.index;
+    this.setData({
+      selecetStateIndex: index
+    })
+  },
+  refuse(res){
+    console.log(res.currentTarget.dataset.item);
+  },
+  reponse(res){
+    console.log(res.currentTarget.dataset.item);
+  },
   /**
    * 生命周期函数--监听页面加载
    */

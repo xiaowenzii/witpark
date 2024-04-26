@@ -37,3 +37,37 @@ export const wxRequest = (parmas) => {
     });
   })
 }
+
+// 获取设备图标
+export const deviceIcon = (parmas) => {
+  console.log(parmas);
+  var type = parmas.type;
+  var icon = '';
+  switch (type) {
+    case '0': //空调
+      icon = 'kt.png'
+      break;
+    case '1': //空气源热泵
+      icon = 'kqyrb.png'
+      break;
+    case '2': //充电桩
+      icon = 'cdz.png'
+      break;
+    case '3': //发电单元
+      icon = 'fddy.png'
+      break;
+    case '4':
+      icon = 'kt.png'
+      break;
+    case '5':
+      icon = 'kt.png'
+      break;
+    case '6':
+      icon = 'kt.png'
+      break;
+    case '7':
+      icon = 'kt.png'
+      break;
+  }
+  return icon;
+}

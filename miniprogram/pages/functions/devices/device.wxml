@@ -1,17 +1,58 @@
-<view style="height: 480rpx;width: 100%;background:  -webkit-linear-gradient(top, #E8F7F4,#F6F6F6);">
+<view class="device-view">
   <view class="chart-view">
     <!-- 时间选择 -->
     <view class="time-view">
-      <view style="border: 1rpx solid #66CFC1;border-radius: 9rpx;font-size: 24rpx;padding: 6rpx 9rpx 6rpx 18rpx;margin-left: 24rpx;display: flex;align-items: center;">
+      <view class="time-view-month">
         4月 
-        <image src="../../../asset/select_down.png" style="width: 32rpx;height: 24rpx;margin-top: 3rpx;margin-left: 18rpx;"/>
+        <image class="time-arrow-image" src="../../../asset/select_down.png"/>
       </view>
-      <view style="border: 1rpx solid #66CFC1;border-radius: 9rpx;font-size: 24rpx;padding: 6rpx 9rpx 6rpx 18rpx;margin-left: 24rpx;display: flex;align-items: center;position: absolute;right: 0;margin-right: 24rpx;">
+      <view class="time-view-day">
         今天 
-        <image src="../../../asset/select_down.png" style="width: 32rpx;height: 24rpx;margin-top: 3rpx;margin-left: 18rpx;"/>
+        <image class="time-arrow-image" src="../../../asset/select_down.png"/>
       </view>
     </view>
+    <!-- 环形统计图 -->
+    <view style="height: 240rpx;"></view>
+    <view style="height: 142rpx;display: flex;flex-direction: row;">
+      <view class="chart-desc">
+        <text class="chart-desc-text1">正常设备</text>
+        <text class="chart-desc-text2" style="color: #1CB7A3;">60</text>
+      </view>
+      <view class="chart-desc" style="width: 34%;">
+        <text class="chart-desc-text1">未运行设备</text>
+        <text class="chart-desc-text2" style="color: #DCDCDC;">60</text>
+      </view>
+      <view class="chart-desc">
+        <text class="chart-desc-text1">异常设备</text>
+        <text class="chart-desc-text2" style="color: #FFA63D;">60</text>
+      </view>
+    </view>
+  </view>
+</view>
 
-    
+<!-- 设备列表 -->
+<scroll-view class="scroll-view" enable-flex="true" scroll-x="true" scroll-y="false" style="width: {{scrollWidth}};">
+  <view class="scroll-view-item" style="background-color: {{selected==0?'#18B6A2':'none'}};color: {{selected==0?'#FFFFFF':'none'}};" data-index="0" bind:tap="selecteDevice">空调</view>
+  <view  class="scroll-view-item" style="background-color: {{selected==1?'#18B6A2':'none'}};color: {{selected==1?'#FFFFFF':'none'}};" data-index="1" bind:tap="selecteDevice">风光储路灯</view>
+  <view  class="scroll-view-item" style="background-color: {{selected==2?'#18B6A2':'none'}};color: {{selected==2?'#FFFFFF':'none'}};" data-index="2" bind:tap="selecteDevice">光伏花</view>
+  <view  class="scroll-view-item" style="background-color: {{selected==3?'#18B6A2':'none'}};color: {{selected==3?'#FFFFFF':'none'}};" data-index="3" bind:tap="selecteDevice">风力发电</view>
+  <view  class="scroll-view-item" style="background-color: {{selected==4?'#18B6A2':'none'}};color: {{selected==4?'#FFFFFF':'none'}};" data-index="4" bind:tap="selecteDevice">充电桩</view>
+  <view  class="scroll-view-item" style="background-color: {{selected==5?'#18B6A2':'none'}};color: {{selected==5?'#FFFFFF':'none'}};" data-index="5" bind:tap="selecteDevice">空气源热泵</view>
+  <view  class="scroll-view-item" style="background-color: {{selected==6?'#18B6A2':'none'}};color: {{selected==6?'#FFFFFF':'none'}};" data-index="6" bind:tap="selecteDevice">分布式光伏</view>
+  <view  class="scroll-view-item" style="background-color: {{selected==7?'#18B6A2':'none'}};color: {{selected==7?'#FFFFFF':'none'}};" data-index="7" bind:tap="selecteDevice">储能设备</view>
+</scroll-view>
+
+<view class="view-title">
+  <text class="view-text-1">设备列表<text style="font-size: 20rpx;margin-left: 6rpx;">(21)</text></text>
+  <text class="view-text-2">更多</text>
+</view>
+<view class="device-content">
+  <view class="content" wx:for="{{deviceList}}" wx:key="index" data-item="{{item}}" style="margin-left: {{index%2!=0?'4%':'0'}}">
+    <view class="device-item">
+      <image class="device-item-image" src="../../../asset/kt.png"/>
+      <switch class="device-item-switch" checked="{{item.state == 1}}"  data-item="{{item}}" bindchange="switchState"/>
+    </view>
+    <view class="device-item-text1">编号：{{item.desc}}</view>
+    <view class="device-item-text2">{{item.address}}</view>
   </view>
 </view>

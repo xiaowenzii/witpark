@@ -1,2 +1,56 @@
-<!--pages/functions/demandResponse/response.wxml-->
-<text>pages/functions/demandResponse/response.wxml</text>
+<view style="height: 180rpx;width: 100%;background-color: #FFFFFF;">
+  <view class="view-select">
+    <view class="view-text" style="font-size: {{selecetStateIndex==0?'32rpx':'24rpx'}};font-weight: {{selecetStateIndex==0?'bolder':'none'}};" data-index="0" bind:tap="selectState">未响应</view>
+    <view class="view-text" style="font-size: {{selecetStateIndex==1?'32rpx':'24rpx'}};font-weight: {{selecetStateIndex==1?'bolder':'none'}};" data-index="1" bind:tap="selectState">已响应</view>
+    <view class="view-text" style="font-size: {{selecetStateIndex==2?'32rpx':'24rpx'}};font-weight: {{selecetStateIndex==2?'bolder':'none'}};" data-index="2" bind:tap="selectState">已拒绝</view>
+    <view class="view-text" style="font-size: {{selecetStateIndex==3?'32rpx':'24rpx'}};font-weight: {{selecetStateIndex==3?'bolder':'none'}};" data-index="3" bind:tap="selectState">已结算</view>
+  </view>
+
+  <view style="display: flex;flex-direction: row;">
+    <view class="search-view">
+      <image class="search-view-image" src="../../../asset/search.png" />
+      <input class="search-view-text" type='text' name='password' placeholder="请输入要搜索的关键词" placeholder-style="color: #9E9E9E;"/>
+    </view>
+    <view style="width: 15%;height: 64rpx;text-align: end;">
+      <image class="more-image" src="../../../asset/more.png"/>
+    </view>
+  </view>
+</view>
+
+<!-- 列表 -->
+<view class="item" wx:for="{{dataList}}" wx:key="index">
+  <view class="item-title">{{item.desc}}</view>
+  <view style="display: flex;flex-direction: row;">
+    <view style="width: 40%;display: flex;align-items: center;">
+      <image src="../../../asset/text.png" style="height: 24rpx;width: 24rpx;margin-left: 24rpx;"/>
+      <text style="font-size: 24rpx;margin-left: 12rpx;">中断用电容量：{{item.text1}}</text>
+    </view>
+    <view style="width: 60%;display: flex;align-items: center;">
+      <image src="../../../asset/time.png" style="height: 24rpx;width: 24rpx;margin-left: 24rpx;"/>
+      <text style="font-size: 24rpx;margin-left: 12rpx;">通知时间：{{item.text2}}</text>
+    </view>
+  </view>
+  <view style="display: flex;flex-direction: row;margin-top: 12rpx;">
+    <view style="width: 40%;display: flex;align-items: center;">
+      <image src="../../../asset/text.png" style="height: 24rpx;width: 24rpx;margin-left: 24rpx;"/>
+      <text style="font-size: 24rpx;margin-left: 12rpx;">中断持续时间：{{item.text3}}</text>
+    </view>
+    <view style="width: 60%;display: flex;align-items: center;">
+      <image src="../../../asset/time.png" style="height: 24rpx;width: 24rpx;margin-left: 24rpx;"/>
+      <text style="font-size: 24rpx;margin-left: 12rpx;">用能时间：{{item.text4}}</text>
+    </view>
+  </view>
+
+  <view style="margin: 24rpx 24rpx;height: 1rpx;background-color: #F5F5F5;"></view>
+
+  <view style="display: flex;flex-direction: row;margin-top: 24rpx;position: relative;align-items: center;">
+    <view style="font-size: 26rpx;padding-left: 24rpx;font-weight: bolder;">
+      补偿标准：
+      <text style="color: #18B6A2;font-size: 28rpx;">{{item.text5}} 元/度</text>
+    </view>
+    <view style="display: flex;position: absolute;right: 0;margin-right: 24rpx;">
+      <view class="item-but" data-item="{{item}}" bind:tap="refuse">拒绝</view>
+      <view class="item-but" data-item="{{item}}" bind:tap="reponse">响应</view>
+    </view>
+  </view>
+</view>

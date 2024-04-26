@@ -1,3 +1,7 @@
 {
-  "usingComponents": {}
+  "navigationBarTextStyle": "black",
+  "navigationBarTitleText": "运行监测",
+  "navigationBarBackgroundColor": "#E9F7F5",
+  "usingComponents": {
+  }
 }

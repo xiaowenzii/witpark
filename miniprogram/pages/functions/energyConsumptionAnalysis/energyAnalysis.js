@@ -1,18 +1,53 @@
-// pages/functions/energyConsumptionAnalysis/energyAnalysis.js
+import {deviceIcon} from "../../../utils/util"; 
+
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    selected: 0,
+    deviceList: [
+      {
+        type: '0',
+        icon: '',
+        desc: '空调',
+        yd: '234',
+        ydgl: '2200'
+      }, {
+        type: '1',
+        icon: '',
+        desc: '空气源热泵',
+        yd: '234',
+        ydgl: '2200'
+      }, {
+        type: '2',
+        icon: '',
+        desc: '充电桩',
+        yd: '234',
+        ydgl: '2200'
+      }, {
+        type: '3',
+        icon: '',
+        desc: '发电单元',
+        yd: '234',
+        ydgl: '2200'
+      }
+    ]
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
+  selectType(res){
+    var index = res.currentTarget.dataset.index;
+    this.setData({
+      selected: index
+    })
+  },
+  getDeviceIcon(){
+    var deviceList = this.data.deviceList;
+    for (let index = 0; index < deviceList.length; index++) {
+      deviceList[index].icon = '../../../asset/' + deviceIcon({type: deviceList[index].type});
+    }
+    this.setData({
+      deviceList: deviceList
+    })
+  },
   onLoad(options) {
-
+    this.getDeviceIcon();
   },
 
   /**

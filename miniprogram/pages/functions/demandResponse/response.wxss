@@ -1,1 +1,66 @@
-/* pages/functions/demandResponse/response.wxss */
+page{
+  height: 100%;
+  width: 100%;
+  background-color: #F2F3F3;
+}
+
+.view-select {
+  display: flex;
+  flex-direction: row;
+  padding: 12rpx;
+  display: flex;
+  align-items: center;
+}
+
+.view-text{
+  font-size: 24rpx;
+  margin: 6rpx 12rpx;
+}
+
+.search-view{
+  background-color: #FAFAFA;
+  height: 64rpx;
+  width: 85%;
+  margin-left: 24rpx;
+  border-radius: 6rpx;
+  margin-top: 12rpx;
+  display: flex;
+  flex-direction: row;
+}
+.search-view-image{
+  height: 36rpx;
+  width: 36rpx;
+  margin: 15rpx 12rpx;
+}
+
+.search-view-text{
+  height: 48rpx;
+  margin: 9rpx 12rpx;
+  font-size: 26rpx;
+  box-sizing:border-box;
+}
+
+.more-image{
+  height: 48rpx;
+  width: 48rpx;
+  align-items: center;
+  margin-top: 16rpx;
+  margin-right: 24rpx;
+}
+/* 列表 */
+.item{
+  height: 280rpx;
+  background-color: #FFFFFF;
+  margin-top: 24rpx;
+}
+.item-title{
+  font-size: 26rpx;
+  padding: 24rpx;
+  font-weight: bolder;
+}
+
+.item-but{
+  margin: auto 12rpx;
+  border: 1rpx solid #F5F5F5;
+  padding: 6rpx 24rpx;
+}

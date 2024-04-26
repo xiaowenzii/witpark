@@ -1,6 +1,6 @@
 {
-  "navigationBarBackgroundColor": "#FFFFFF",
-  "navigationBarTextStyle":"black",
+  "navigationBarBackgroundColor": "#18B6A2",
+  "navigationBarTextStyle":"white",
   "navigationBarTitleText": "定额管理",
   "usingComponents": {
     "search-contion-dialog": "../../component/condition/searchDialog"

@@ -1,1 +1,46 @@
-/* pages/functions/runningMonitor/runningMonitor.wxss */
+page{
+  height: 100%;
+  width: 100%;
+  background: -webkit-linear-gradient(top, #E9F7F5,#F7F7F7);
+}
+
+.functions{
+  margin-left: 24rpx;
+  margin-right: 24rpx;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.function-item{
+  height: 180rpx;
+  width: 48%;
+  margin-top: 12rpx;
+  margin-bottom: 12rpx;
+  background-color: #FFFFFF;
+  border-radius: 12rpx;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.item-image1{
+  height: 64rpx;
+  width: 64rpx;
+  display: flex;
+  position: absolute;
+  right: 0;
+  margin-right: 24rpx;
+  margin-top: 12rpx;
+}
+
+.item-image2{
+  height: 128rpx;
+  width: 128rpx;
+  margin-left: 12rpx;
+}
+.item-text{
+  font-size: 26rpx;
+  font-weight: bolder;
+  margin-left: 24rpx;
+  letter-spacing: 3rpx;
+}
