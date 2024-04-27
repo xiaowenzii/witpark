@@ -2,10 +2,6 @@
   "miniprogramRoot": "miniprogram/",
   "cloudfunctionRoot": "cloudfunctions/",
   "description": "项目配置文件",
-  "packOptions": {
-    "ignore": [],
-    "include": []
-  },
   "setting": {
     "urlCheck": true,
     "es6": true,
@@ -26,8 +22,6 @@
     "compileHotReLoad": false,
     "lazyloadPlaceholderEnable": false,
     "useMultiFrameRuntime": true,
-    "useApiHook": true,
-    "useApiHostProcess": true,
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
@@ -45,13 +39,16 @@
     "ignoreUploadUnusedFiles": false
   },
   "compileType": "miniprogram",
-  "libVersion": "2.19.1",
-  "appid": "wx9957e8c7f6a1af84",
-  "projectname": "LBS%E5%AE%9A%E4%BD%8D%E6%8F%92%E4%BB%B6",
   "condition": {},
   "srcMiniprogramRoot": "miniprogram/",
   "editorSetting": {
     "tabIndent": "insertSpaces",
     "tabSize": 2
-  }
+  },
+  "libVersion": "2.19.1",
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
+  "appid": "wx9957e8c7f6a1af84"
 }

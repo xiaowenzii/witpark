@@ -1,3 +1,8 @@
 {
-  "usingComponents": {}
+  "navigationBarTextStyle": "black",
+  "navigationBarTitleText": "能耗总览",
+  "navigationBarBackgroundColor": "#E8F7F4",
+  "usingComponents": {
+    "ec-canvas": "../../component/ec-canvas/ec-canvas"
+  }
 }
