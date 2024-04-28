@@ -1,1 +1,0 @@
-<canvas canvas-id="canvas" style="width:{{canvasW}}px;height:{{canvasH}}px;margin:auto;"></canvas>

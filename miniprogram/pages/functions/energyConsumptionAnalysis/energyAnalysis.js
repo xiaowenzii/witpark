@@ -29,7 +29,9 @@ Page({
       yd: '234',
       ydgl: '2200'
     }],
-    energyAnysisChart: {lazyLoad: true}
+    energyAnysisChart: {
+      lazyLoad: true
+    }
   },
   selectType(res){
     var index = res.currentTarget.dataset.index;
@@ -48,47 +50,30 @@ Page({
   },
   onLoad(options) {
     this.getDeviceIcon();
-    
+  },
+  onReady() {
     var energyChart = this.selectComponent('#energy-anysis-chart');
     this.drawChart(energyChart)
   },
-  onReady() {
-
-  },
-  // 绘制柱状图
   drawChart(chartComponnet) {
+    let colorList = ['#1CB7A3','#7A64FF','#FFA63D']
+    let dataList = [
+      { value: 1048, name: '办公 1048kwh'},
+      { value: 735, name: '照明 735kwh' },
+      { value: 580, name: '备用 580kwh' }
+    ]
     var option = {
-      //设置颜色
-      color: ['#344EFF', '#93F1D3','#FA7B4B','#9FE080'],
-      legend:{
-        data: ['办公','照明','备用'],
-        top: "75%"
-      },
-      series:[{
-        data: [{name: "办公", value: "151749.86"}, {name: "照明",value: "375527.67"}, {name: "备用", value: "471755.13"}],
-        label: {
-          normal: {
-            //设置文字样式
-            formatter: "{a|} \n {b} \n{hr|}\n {d}% \n {c}元",
-            show: true,
-            position: 'right',
-            rich: {
-              a: {
-                padding: [0, -80, -15, -80]
-              },
-              hr: {
-                height: 5,
-                width: 5,
-                backgroundColor: 't',
-                lineHeight: 5,
-                marginBottom: 10,
-                padding: [0, -5],
-                borderRadius: 5,
-              }
-            },
+      series: [{
+        type: 'pie',
+        radius: ['50%','80%'],
+        color: colorList,
+        data: dataList.map((item, index) => {
+          item.label = {
+            color: colorList[index],
+            color: 'inherit'
           }
-        },
-        avoidLabelOverlap: true
+          return item
+        }),
       }]
     };
     const getPixelRatio = () => {
