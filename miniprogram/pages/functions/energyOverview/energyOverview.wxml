@@ -34,7 +34,7 @@
 </view>
 <!-- 柱状统计图 -->
 <view style="height: 360rpx;">
-  <ec-canvas id="energy-chart-bar" canvas-id="mychart-bar" ec="{{ec}}"></ec-canvas>
+  <ec-canvas id="energy-chart-bar" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
 </view>
 
 <view class="view-title">

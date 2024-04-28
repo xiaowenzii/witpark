@@ -4,7 +4,10 @@ Page({
   data: {
     dateTpye: 0,
     monthList: ["当月", "上月", "5月", "6月", "7月", "8月"],
-    monthSelected: 0
+    monthSelected: 0,
+    ec: {
+      lazyLoad: true
+    }
   },
   selectDateType(res){
     var index = res.currentTarget.dataset.index;
@@ -20,13 +23,12 @@ Page({
   },
   
   onLoad(options) {
-
-  },
-  onReady() {
     var energyChart = this.selectComponent('#energy-chart-bar');
     var xData = ["04-01", "04-02", "04-03", "04-04", "04-05", "04-06", "04-07", "04-08"];
     var yData = [85, 100, 34, 24, 46, 98, 80, 62];
     this.drawChart(energyChart, xData, yData)
+  },
+  onReady() {
   },
   // 绘制柱状图
   drawChart(chartComponnet, xData, yData) {

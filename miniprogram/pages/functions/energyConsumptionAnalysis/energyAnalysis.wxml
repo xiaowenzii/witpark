@@ -81,7 +81,9 @@
 
 <view class="chart-view">
   <!-- 环形统计图 -->
-  <view style="height: 240rpx;"></view>
+  <view style="height: 240rpx;">
+    <ec-canvas id="energy-anysis-chart" ec="{{energyAnysisChart}}"></ec-canvas>
+  </view>
   <view style="height: 80rpx;display: flex;flex-direction: row;">
     <view class="chart-desc">
       <view class="chart-desc-point" style="background-color: #1CB7A3;"></view>

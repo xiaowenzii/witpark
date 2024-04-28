@@ -34,21 +34,17 @@ Component({
       type: String,
       value: 'ec-canvas'
     },
-
     ec: {
       type: Object
     },
-
     forceUseOldCanvas: {
       type: Boolean,
       value: false
     }
   },
-
   data: {
     isUseNewCanvas: false
   },
-
   ready: function () {
     // Disable prograssive because drawImage doesn't support DOM as parameter
     // See https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.drawImage.html
@@ -66,8 +62,6 @@ Component({
     });
 
     if (!this.data.ec) {
-      console.warn('组件需绑定 ec 变量，例：<ec-canvas id="mychart-dom-bar" '
-        + 'canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>');
       return;
     }
 
@@ -82,11 +76,12 @@ Component({
 
       const canUseNewCanvas = compareVersion(version, '2.9.0') >= 0;
       const forceUseOldCanvas = this.data.forceUseOldCanvas;
+      console.log('version:'+version+'; forceUseOldCanvas:'+forceUseOldCanvas+'; canUseNewCanvas: '+canUseNewCanvas)
       const isUseNewCanvas = canUseNewCanvas && !forceUseOldCanvas;
       this.setData({ isUseNewCanvas });
 
       if (forceUseOldCanvas && canUseNewCanvas) {
-        console.warn('开发者强制使用旧canvas,建议关闭');
+        //console.warn('开发者强制使用旧canvas,建议关闭');
       }
 
       if (isUseNewCanvas) {
@@ -101,7 +96,7 @@ Component({
             + '#%E5%BE%AE%E4%BF%A1%E7%89%88%E6%9C%AC%E8%A6%81%E6%B1%82');
           return;
         } else {
-          console.warn('建议将微信基础库调整大于等于2.9.0版本。升级后绘图将有更好性能');
+          //console.warn('建议将微信基础库调整大于等于2.9.0版本。升级后绘图将有更好性能');
           this.initByOldWay(callback);
         }
       }
