@@ -53,15 +53,16 @@ Page({
   },
   onReady() {
     var energyChart = this.selectComponent('#energy-anysis-chart');
-    this.drawChart(energyChart)
-  },
-  drawChart(chartComponnet) {
-    let colorList = ['#1CB7A3','#7A64FF','#FFA63D']
     let dataList = [
       { value: 1048, name: '办公 1048kwh'},
       { value: 735, name: '照明 735kwh' },
       { value: 580, name: '备用 580kwh' }
     ]
+    this.drawChart(energyChart, dataList)
+  },
+  //绘制环形图
+  drawChart(chartComponnet, dataList) {
+    let colorList = ['#1CB7A3','#7A64FF','#FFA63D']
     var option = {
       series: [{
         type: 'pie',
@@ -73,7 +74,7 @@ Page({
             color: 'inherit'
           }
           return item
-        }),
+        })
       }]
     };
     const getPixelRatio = () => {

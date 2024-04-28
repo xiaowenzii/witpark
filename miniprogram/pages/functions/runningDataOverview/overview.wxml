@@ -127,10 +127,13 @@
     <text class="view-text-2">最近12小时</text>
   </view>
   <view class="view-chart-select">
-    <view class="view-chart-text" style="color: #2FAD9D;font-weight: bolder;">市电</view>
-    <view class="view-chart-text">光伏</view>
-    <view class="view-chart-text">储能</view>
-    <view class="view-chart-text">充电桩</view>
-    <view class="view-chart-text">风力</view>
+    <view class="view-chart-text" style="color: {{deviceType==0?'#2FAD9D':'#000000'}};font-weight: {{deviceType==0?'bolder':'none'}};" data-index="0" bind:tap="selectDevice">市电</view>
+    <view class="view-chart-text" style="color: {{deviceType==1?'#2FAD9D':'#000000'}};font-weight: {{deviceType==1?'bolder':'none'}};" data-index="1" bind:tap="selectDevice">光伏</view>
+    <view class="view-chart-text" style="color: {{deviceType==2?'#2FAD9D':'#000000'}};font-weight: {{deviceType==2?'bolder':'none'}};" data-index="2" bind:tap="selectDevice">储能</view>
+    <view class="view-chart-text" style="color: {{deviceType==3?'#2FAD9D':'#000000'}};font-weight: {{deviceType==3?'bolder':'none'}};" data-index="3" bind:tap="selectDevice">充电桩</view>
+    <view class="view-chart-text" style="color: {{deviceType==4?'#2FAD9D':'#000000'}};font-weight: {{deviceType==4?'bolder':'none'}};" data-index="4" bind:tap="selectDevice">风力</view>
+  </view>
+  <view class="chart">
+    <ec-canvas id="real-time-power-chart" ec="{{realTimePowerChart}}" type='2d' ></ec-canvas>
   </view>
 </view>
