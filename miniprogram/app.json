@@ -2,18 +2,25 @@
   "pages": [
     "pages/index/index",
     "pages/tab/home/home",
-    "pages/tab/alarmMessage/alarmMessage",
-    "pages/tab/person/person",
-    "pages/functions/devices/device",
-    "pages/functions/quota/quota",
-    "pages/functions/energyConsumptionAnalysis/energyAnalysis",
     "pages/tab/functions/function",
-    "pages/functions/demandResponse/response",
-    "pages/functions/knowladge/knowladge",
-    "pages/functions/monitorLog/monitorLog",
-    "pages/functions/runningDataOverview/overview",
-    "pages/functions/energyOverview/energyOverview",
-    "pages/functions/runningMonitor/runningMonitor"
+    "pages/tab/alarmMessage/alarmMessage",
+    "pages/tab/person/person"
+  ],
+  "subPackages": [
+    {
+      "root": "pages/functions/",
+      "pages": [
+        "devices/device",
+        "quota/quota",
+        "energyConsumptionAnalysis/energyAnalysis",
+        "demandResponse/response",
+        "knowladge/knowladge",
+        "monitorLog/monitorLog",
+        "runningDataOverview/overview",
+        "energyOverview/energyOverview",
+        "runningMonitor/runningMonitor"
+      ]
+    }
   ],
   "tabBar": {
     "color": "#BFBFBF",

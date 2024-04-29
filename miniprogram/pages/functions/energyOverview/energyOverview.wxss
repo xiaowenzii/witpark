@@ -40,7 +40,14 @@ page{
   border-radius: 12rpx;
   font-weight: bolder;
 }
-
+.power-desc{
+  height: 240rpx;
+  margin: 0rpx 24rpx 24rpx 24rpx;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  display: flex;
+  flex-direction: row;
+}
 
 .view-title{
   width: 100%;
@@ -62,4 +69,38 @@ page{
   right: 0;
   padding-top: 12rpx;
   padding-right: 24rpx;
+}
+/* 进度条 */
+.progress-item{
+  height: 120rpx;
+  display: flex;
+  flex-direction: row;
+}
+.pro-image{
+  width: 15%;
+  display: flex;
+  align-items: center;
+}
+.pro-pro{
+  width: 85%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.pro-text-view{
+  display: flex;
+  position: relative;
+}
+.pro-text1{
+  font-weight: bolder;
+  font-size: 26rpx;
+}
+.pro-text2{
+  font-size: 24rpx;
+  display: flex;
+  position: absolute;
+  right: 0;
+}
+.progress-box{
+  margin-top: 24rpx;
 }

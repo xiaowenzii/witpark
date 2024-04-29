@@ -7,7 +7,13 @@ Page({
     monthSelected: 0,
     ec: {
       lazyLoad: true
-    }
+    },
+    proList: [
+      {type:"照明用电",icon:"../../../asset/energy_overview/zm.png",color:"#18B6A2",percent:"81"},
+      {type:"办公用电",icon:"../../../asset/energy_overview/bg.png",color:"#6CB0FF",percent:"50"},
+      {type:"电梯用电",icon:"../../../asset/energy_overview/dt.png",color:"#95D676",percent:"40"},
+      {type:"其它用电",icon:"../../../asset/energy_overview/qt.png",color:"#74CDFF",percent:"90"}
+    ]
   },
   selectDateType(res){
     var index = res.currentTarget.dataset.index;
@@ -86,7 +92,7 @@ Page({
         data: yData
       }],
       grid:{
-        x: 36,  //距离左边
+        x: 48,  //距离左边
         x2: 24, //距离右边
         y:24,   //距离上边
         y2:24,  //距离下边

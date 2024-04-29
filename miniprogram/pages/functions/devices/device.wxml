@@ -18,15 +18,15 @@
     <view style="height: 142rpx;display: flex;flex-direction: row;">
       <view class="chart-desc">
         <text class="chart-desc-text1">正常设备</text>
-        <text class="chart-desc-text2" style="color: #1CB7A3;">60</text>
+        <text class="chart-desc-text2" style="color: #1CB7A3;">21</text>
       </view>
       <view class="chart-desc" style="width: 34%;">
         <text class="chart-desc-text1">未运行设备</text>
-        <text class="chart-desc-text2" style="color: #DCDCDC;">60</text>
+        <text class="chart-desc-text2" style="color: #DCDCDC;">4</text>
       </view>
       <view class="chart-desc">
         <text class="chart-desc-text1">异常设备</text>
-        <text class="chart-desc-text2" style="color: #FFA63D;">60</text>
+        <text class="chart-desc-text2" style="color: #FFA63D;">1</text>
       </view>
     </view>
   </view>

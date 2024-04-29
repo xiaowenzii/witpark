@@ -68,7 +68,7 @@ Page({
     var option = {
       series: [{
         type:'pie',
-        radius: ['70%', '90%'],
+        radius: ['80%', '90%'],
         center: ['50%', '50%'],
         avoidLabelOverlap: false,
         label: {
