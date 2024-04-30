@@ -1,19 +1,33 @@
-<view style="width: 100%;">
-  <text style="font-size: 24rpx;margin-left: 18rpx;font-weight: bold;">全部类</text>
-  <!-- 查询列表 -->
-  <view class="condtion-view" wx:for="{{searchDataList.dataList}}" wx:key="index" data-index="index">
-    <view class="condtion-view-desc">{{item.desc}}</view>
-    <view class="condtion-view-item-area">
-      <view class="inner-item" wx:for="{{item.list}}" wx:key="itemIndex" wx:for-index="itemIndex" wx:for-item="innerItem">
-        <view class="condtion-view-item" style="background-color: {{searchDataList.selected[index].selectedId==innerItem.id? '#81B337':'none'}};font-size: {{innerItem.name.length>4?'22rpx':'24rpx'}};" data-item="{{item}}" data-inneritem="{{innerItem}}" bind:tap="selectCondtion">
-          {{innerItem.name}}
+<view style="width: 100%;height: 95%;display: flex;flex-direction: column;position: relative;">
+  <!-- 多选 -->
+  <view  wx:if="{{type=='multiple'}}" style="height:90%;">
+    <text style="font-size: 26rpx;margin: 24rpx;font-weight: bold;">全部类</text>
+    <view class="condtion-view" wx:for="{{searchDataList.dataList}}" wx:key="index" data-index="index">
+      <view class="condtion-view-desc">{{item.desc}}</view>
+      <view class="condtion-view-item-area">
+        <view class="inner-item" wx:for="{{item.list}}" wx:key="itemIndex" wx:for-index="itemIndex" wx:for-item="innerItem">
+          <view class="condtion-view-item" style="background-color: {{searchDataList.selected[index].selectedId==innerItem.id? '#81B337':'none'}};font-size: {{innerItem.name.length>4?'22rpx':'24rpx'}};" data-item="{{item}}" data-inneritem="{{innerItem}}" bind:tap="multipleSelect">
+            {{innerItem.name}}
+          </view>
         </view>
       </view>
     </view>
   </view>
+  
+  <!-- 单选 -->
+  <view wx:if="{{type=='single'}}" style="height:90%;">
+    <scroll-view class="scroll-view" scroll-y="true" scroll-x="false" style="height: 100%;">
+      <view class="scroll-item" wx:for="{{searchData.list}}" wx:key="index" data-index="{{index}}" bind:tap="singleSelect">
+        <text style="font-size: 26rpx;color: {{itemChecked==index?'#18B6A2':'#000000'}};font-weight: {{itemChecked==index?'bolder':'none'}};">{{item.name}}</text>
+        <image src="../../../asset/gou.png" class="item-checked" wx:if="{{itemChecked==index}}"/>
+        <view class="item-bottom-line"></view>
+      </view>
+    </scroll-view>
+  </view>
+
   <!-- 确认按钮 -->
   <view class="confirm-button">
-    <view class="condtion-view-item" style="background-color: #EFEFEF;font-size: 24rpx;" bind:tap="cancel">取消</view>
-    <view class="condtion-view-item" style="background-color:#54BCBD;font-size: 24rpx;margin-left: 36rpx;" bind:tap="confirm">确认</view>
+    <view class="condtion-view-item" style="background-color: #EFEFEF;font-size: 24rpx;" data-operate="cancel" bind:tap="close">取消</view>
+    <view class="condtion-view-item" style="background-color:#54BCBD;font-size: 24rpx;margin-left: 120rpx;" data-operate="confirm" bind:tap="close">确认</view>
   </view>
 </view>

@@ -70,3 +70,19 @@ export const deviceIcon = (parmas) => {
   }
   return icon;
 }
+
+// 获取屏幕高度
+export const getScreenHeightRpx = () => {
+  let rpxHeight = 750;
+  wx.getSystemInfo({
+    success: (result) => {
+      let hiehgt=result.windowHeight
+      let width=result.windowWidth;
+      // px转rpx的转换比例
+      rpxHeight=750/width*hiehgt;//750为设计稿的宽度
+    },
+    fail: (res) => {},
+    complete: (res) => {},
+  })
+  return rpxHeight;
+}

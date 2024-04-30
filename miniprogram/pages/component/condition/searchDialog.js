@@ -1,37 +1,44 @@
 Component({
   properties: {
-    searchData: Object
+    searchData: Object,
+    type: String
   },
   data: {
-    searchDataList: {}
+    searchDataList: {},
+    selectType: "multiple",
+    itemChecked: 0
   },
   methods: {
-    // 选择条件
-    selectCondtion(e){
-      var item = e.currentTarget.dataset.item;
-      var innerItem = e.currentTarget.dataset.inneritem;
-      var searchDataList = this.data.searchDataList;
-      for(var i=0; i<searchDataList.selected.length; i++){
-        if(searchDataList.selected[i].type == item.type){
-          searchDataList.selected[i].selectedId = innerItem.id;
+    // 多选点击选择
+    multipleSelect(res){
+      var item = res.currentTarget.dataset.item;
+      var innerItem = res.currentTarget.dataset.inneritem;
+      var searchData = this.data.searchDataList;
+      for(var i=0; i<searchData.selected.length; i++){
+        if(searchData.selected[i].type == item.type){
+          searchData.selected[i].selectedId = innerItem.id;
           this.setData({
-            searchDataList: searchDataList
+            searchDataList: searchData
           })
         }
       }
     },
-    // 点击确认或者取消
-    confirm(){
-      var msg = {
-        operate: "1", 
-        data: this.data.searchDataList
-      }
-      var myEventOption = {}
-      this.triggerEvent('myevent', msg, myEventOption);
+    // 单选点击选择
+    singleSelect(res){
+      var index = res.currentTarget.dataset.index;
+      var dataList = this.data.searchDataList;
+      dataList.selected = index;
+      this.setData({
+        itemChecked: index,
+        searchDataList: dataList
+      })
     },
-    cancel(){
+    // 点击确认或者取消
+    close(res){
+      var operate = res.currentTarget.dataset.operate;
       var msg = {
-        operate: "0", 
+        operate: operate, 
+        type: this.data.selectType,
         data: this.data.searchDataList
       }
       var myEventOption = {}
@@ -40,9 +47,11 @@ Component({
   },
 
   attached: function() {
-    // 初始化查询列表
+    // 初始化查询类型及数据
     this.setData({
-      searchDataList: this.properties.searchData
+      searchDataList: this.properties.searchData,
+      selectType: this.properties.type,
+      itemChecked:this.properties.searchData.selected
     })
   }
 })

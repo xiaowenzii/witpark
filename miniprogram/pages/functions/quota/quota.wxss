@@ -71,7 +71,6 @@ page {
 
 /* Dialog 样式 */
 .condtion-dialog{
-  height: 100%;
   width: 100%;
   background-color: #00000020;
   position: absolute;

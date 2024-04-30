@@ -12,16 +12,16 @@
     </view>
   </view>
   <view style="display: flex;flex-direction: row;">
-    <view class="head-desc">
-      <text class="head-desc-text1">计划类型</text>
+    <view class="head-desc" data-index="0" bind:tap="search">
+      <text class="head-desc-text1">{{planList.list[planList.selected].name}}</text>
       <image class="head-image" src="../../../asset/select_down.png"></image>
     </view>
-    <view class="head-desc" style="width: 34%;">
-      <text class="head-desc-text1">用能设备</text>
+    <view class="head-desc" style="width: 34%;" data-index="1" bind:tap="search">
+      <text class="head-desc-text1">{{energyDeviceList.list[energyDeviceList.selected].name}}</text>
       <image class="head-image" src="../../../asset/select_down.png"></image>
     </view>
-    <view class="head-desc">
-      <text class="head-desc-text1">用能类型</text>
+    <view class="head-desc" data-index="2" bind:tap="search">
+      <text class="head-desc-text1">{{energyTypeList.list[energyTypeList.selected].name}}</text>
       <image class="head-image" src="../../../asset/select_down.png"></image>
     </view>
   </view>
@@ -57,8 +57,8 @@
 </view>
 
 <!-- 条件筛选框 -->
-<view class="condtion-dialog" wx:if="{{showSearchDialog}}">
-  <view style="height: 54%;width: 100%;background-color: #FFFFFF;">
-    <search-contion-dialog searchData="{{searchDataList}}" bindmyevent="closeDialog"></search-contion-dialog>
+<view class="condtion-dialog" style="height: {{condtionDialogHeight}}rpx;margin-top: 240rpx;" wx:if="{{showSearchDialog}}">
+  <view style="height: 50%;width: 100%;padding-top: 24rpx;background-color: #FFFFFF;">
+    <search-contion-dialog searchData="{{searchDataList}}" type="single" bindmyevent="closeDialog"></search-contion-dialog>
   </view>
 </view>

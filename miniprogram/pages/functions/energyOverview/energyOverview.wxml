@@ -16,7 +16,8 @@
   </view>
 </view>
 
-<view class="power-desc" style="background-image: url('../../../asset/energy_overview/background.png')">
+<view class="power-desc">
+  <image class="bg-image" src="../../../asset/energy_overview/bk.png" mode="scaleToFill"></image>
   <view style="width: 50%;">
     <view style="color: #FFFFFF;font-size: 48rpx;margin-top: 60rpx;margin-left: 24rpx;">560.0</view>
     <view style="color: #FFFFFF;font-size: 28rpx;margin-top: 12rpx;margin-left: 24rpx">10 月总用电量 (kwh)</view>

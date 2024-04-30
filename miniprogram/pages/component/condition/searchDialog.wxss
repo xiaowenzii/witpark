@@ -1,6 +1,7 @@
+/* 多选 */
 .condtion-view {
   width: 100%;
-  padding: 12rpx 24rpx;
+  padding: 24rpx;
   font-size: 24rpx;
   display: flex;
   flex-direction: row;
@@ -39,11 +40,42 @@
 }
 
 .confirm-button{
-  height: 48rpx;
-  width: 300rpx;
+  height: 10%;
   display: flex;
   flex-direction: row;
-  align-items: center;
-  margin-top: 48rpx;
   float: right;
+  position:absolute;
+  bottom: 0;
+  right: 0;
+  margin-right: 36rpx;
+}
+
+/* 单选 */
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+.scroll-item{
+  height: 72rpx;
+  margin-left: 36rpx;
+  margin-right: 48rpx;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.item-checked{
+  height: 32rpx;
+  width: 32rpx;
+  display: flex;
+  position: absolute;
+  right: 0;
+}
+.item-bottom-line{
+  height: 1rpx;
+  width: 100%;
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  background-color: #FAFAFA;
 }
