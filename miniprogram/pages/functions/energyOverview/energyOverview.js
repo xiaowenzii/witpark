@@ -1,10 +1,22 @@
 import * as echarts from '../../component/ec-canvas/echarts'
+import {getScreenHeightRpx} from "../../../utils/util"
 
 Page({
   data: {
     dateTpye: 0,
     monthList: ["当月", "上月", "5月", "6月", "7月", "8月"],
     monthSelected: 0,
+    condtionDialogHeight: 0,
+    searchDataList:{},
+    // 用能类型
+    energyTypeList: {
+      "type": 2,
+      "selected": "0",
+      "list": [{"id": "0","name": "全部用能类型"}, {"id": "1","name": "用电"}, {"id": "2","name": "发电"}]
+    },
+    showSearchDialog: false,
+    moreMonth:[1, 2, 9, 10, 11, 12],
+    showMoreMonth: false,
     ec: {
       lazyLoad: true
     },
@@ -27,12 +39,46 @@ Page({
       monthSelected: index
     })
   },
-  
+  search(res){
+    //选择框里面的数据
+    var searchDataList = this.data.energyTypeList;
+    this.setData({
+      searchDataList: searchDataList,
+      showSearchDialog: true
+    })
+  },
+  closeDialog: function(e) {
+    // 单选
+    this.setData({
+      energyTypeList: e.detail.data,
+      showSearchDialog: false
+    })
+  },
+  showMonth(){
+    var showMoreMonth = !this.data.showMoreMonth;
+    this.setData({
+      showMoreMonth: showMoreMonth
+    })
+  },
+  selectMonthItem(res){
+    var index = res.currentTarget.dataset.index;
+    this.setData({
+      showMoreMonth: false
+    })
+    console.log(this.data.moreMonth[index]);
+  },
   onLoad(options) {
+    //绘制图标
     var energyChart = this.selectComponent('#energy-chart-bar');
     var xData = ["04-01", "04-02", "04-03", "04-04", "04-05", "04-06", "04-07", "04-08"];
     var yData = [85, 100, 34, 24, 46, 98, 80, 62];
     this.drawChart(energyChart, xData, yData)
+
+    // 初始化条件选择框高度
+    let rpxHeight = getScreenHeightRpx()-90;
+    this.setData({
+      condtionDialogHeight: rpxHeight 
+    })
   },
   onReady() {
   },

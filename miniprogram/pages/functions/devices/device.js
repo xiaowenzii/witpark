@@ -2,6 +2,8 @@ import * as echarts from '../../component/ec-canvas/echarts'
 
 Page({
   data: {
+    moreMonth:[1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12],
+    showMoreMonth: false,
     scrollWidth: '100%',
     selected: 0,
     deviceList:[{
@@ -33,6 +35,19 @@ Page({
     deviceChart: {
       lazyLoad: true
     }
+  },
+  showMonth(){
+    var showMoreMonth = !this.data.showMoreMonth;
+    this.setData({
+      showMoreMonth: showMoreMonth
+    })
+  },
+  selectMonthItem(res){
+    var index = res.currentTarget.dataset.index;
+    this.setData({
+      showMoreMonth: false
+    })
+    console.log(this.data.moreMonth[index]);
   },
   selecteDevice(res){
     var index = res.currentTarget.dataset.index

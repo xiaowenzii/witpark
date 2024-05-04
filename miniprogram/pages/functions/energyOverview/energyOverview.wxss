@@ -24,6 +24,7 @@ page{
 .head-desc-text1{
   font-size: 24rpx;
   margin-left: 9rpx;
+  padding: 3rpx 6rpx 4rpx 6rpx;
 }
 .date-select-view{
   height: 64rpx;
@@ -117,4 +118,40 @@ page{
 }
 .progress-box{
   margin-top: 24rpx;
+}
+
+/* Dialog 样式 */
+.condtion-dialog{
+  width: 100%;
+  margin-top: 90rpx;
+  background-color: #00000020;
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 0;
+}
+.month-more{
+  height: 96rpx;
+  margin: 9px 24rpx;
+  display: flex;
+  position: absolute;
+  z-index: 10;
+  background-color: #00000030;
+  right: 0;
+  align-items: center;
+  padding-left: 24rpx;
+  padding-right: 24rpx;
+  border-radius: 12rpx;
+}
+
+.month-item{
+  height: 64rpx;
+  width: 64rpx;
+  background-color: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24rpx;
+  margin: auto 12rpx;
 }

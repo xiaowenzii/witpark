@@ -65,8 +65,8 @@ page {
 
 /* Dialog 样式 */
 .condtion-dialog{
-  height: 100%;
   width: 100%;
+  margin-top: 240rpx;
   background-color: #00000020;
   position: absolute;
   z-index: 10;

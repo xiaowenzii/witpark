@@ -2,7 +2,7 @@
   <view class="chart-view">
     <!-- 时间选择 -->
     <view class="time-view">
-      <view class="time-view-month">
+      <view class="time-view-month" bind:tap="showMonth">
         4月 
         <image class="time-arrow-image" src="../../../asset/select_down.png"/>
       </view>
@@ -10,6 +10,10 @@
         今天 
         <image class="time-arrow-image" src="../../../asset/select_down.png"/>
       </view>
+    </view>
+    <!-- 隐藏，选择月份 -->
+    <view class="month-more" wx:if="{{showMoreMonth}}">
+      <text class="month-item" wx:for="{{moreMonth}}" wx:key="index" data-index="{{index}}" bind:tap="selectMonthItem">{{item}}月</text>
     </view>
     <!-- 环形统计图 -->
     <view style="height: 240rpx;">

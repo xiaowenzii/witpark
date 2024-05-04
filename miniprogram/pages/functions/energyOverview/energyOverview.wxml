@@ -2,8 +2,8 @@
   <view class="date-select-view">
     <view class="date-view" style="color: {{dateTpye==0?'#FFFFFF':'none'}};background-color: {{dateTpye==0?'#18B6A2':'none'}};" data-index="0" bind:tap="selectDateType">月数据</view>
     <view class="date-view" style="margin-left: 48rpx;color: {{dateTpye==1?'#FFFFFF':'none'}};background-color: {{dateTpye==1?'#18B6A2':'none'}};" data-index="1" bind:tap="selectDateType">年数据</view>
-    <view class="head-desc">
-      <text class="head-desc-text1">用电</text>
+    <view class="head-desc" bind:tap="search">
+      <text class="head-desc-text1">{{energyTypeList.list[energyTypeList.selected].name}}</text>
       <image class="head-image" src="../../../asset/select_down.png"></image>
     </view>
   </view>
@@ -12,7 +12,10 @@
   <view style="height: 66rpx;display: flex;flex-direction: row;align-items: center;">
     <view wx:for="{{monthList}}" wx:key="index" style="width: 8%;margin: 24rpx;text-align: center;font-size: {{index==monthSelected?'28rpx':'26rpx'}};font-weight: {{selected==0?'bolder':'none'}};font-weight: {{index==monthSelected?'bolder':'none'}};" data-index="{{index}}" bind:tap="selectMonth">{{item}}</view>
     
-    <image src="../../../asset/arrow_round_down.png" style="height: 36rpx;width: 36rpx;display: flex;position: absolute;right: 0;margin-right: 24rpx;"></image>
+    <image src="../../../asset/arrow_round_down.png" style="height: 36rpx;width: 36rpx;display: flex;position: absolute;right: 0;margin-right: 24rpx;" bind:tap="showMonth"></image>
+  </view>
+  <view class="month-more" wx:if="{{showMoreMonth}}">
+    <text class="month-item" wx:for="{{moreMonth}}" wx:key="index" data-index="{{index}}" bind:tap="selectMonthItem">{{item}}月</text>
   </view>
 </view>
 
@@ -56,5 +59,12 @@
         <progress percent="{{item.percent}}" color="{{item.color}}" active stroke-width="9" border-radius="6" />
       </view>
     </view>
+  </view>
+</view>
+
+<!-- 条件筛选框 -->
+<view class="condtion-dialog" style="height: {{condtionDialogHeight}}rpx;" wx:if="{{showSearchDialog}}">
+  <view style="height: 24%;width: 100%;padding-top: 24rpx;background-color: #FFFFFF;">
+    <search-contion-dialog searchData="{{searchDataList}}" type="single" bindmyevent="closeDialog"></search-contion-dialog>
   </view>
 </view>
