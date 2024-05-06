@@ -13,11 +13,11 @@
   </view>
   <view style="display: flex;flex-direction: row;">
     <view class="head-desc" data-index="0" bind:tap="search">
-      <text class="head-desc-text1">设备状态</text>
+      <text class="head-desc-text1">{{deviceStateList.list[deviceStateList.selected].name}}</text>
       <image class="head-image" src="../../../asset/select_down.png"></image>
     </view>
     <view class="head-desc" style="width: 34%;" data-index="1" bind:tap="search">
-      <text class="head-desc-text1">告警类型</text>
+      <text class="head-desc-text1">{{energyTypeList.list[energyTypeList.selected].name}}</text>
       <image class="head-image" src="../../../asset/select_down.png"></image>
     </view>
     <view class="head-desc" data-index="2" bind:tap="search">

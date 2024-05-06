@@ -7,7 +7,7 @@
     </view>
     <view style="width: 40%;height: 100%;align-items: center;display: flex;">
       <view class="header-image-view">
-        <image class="header-image" src="../../../asset/812_superfast.jpg"></image>
+        <image class="header-image" src="../../../asset/head.png"></image>
       </view>
     </view>
   </view>

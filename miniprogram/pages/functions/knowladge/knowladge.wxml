@@ -6,15 +6,15 @@
     </view>
   </view>
   <view style="display: flex;flex-direction: row;">
-    <view class="head-desc">
-      <text class="head-desc-text1">文件格式</text>
+    <view class="head-desc" data-index="0" bind:tap="search">
+      <text class="head-desc-text1">{{typeList.list[typeList.selected].name}}</text>
       <image class="head-image" src="../../../asset/select_down.png"></image>
     </view>
-    <view class="head-desc" style="width: 34%;">
-      <text class="head-desc-text1">文件大小</text>
+    <view class="head-desc" style="width: 34%;" data-index="1" bind:tap="search">
+      <text class="head-desc-text1">{{sizeList.list[sizeList.selected].name}}</text>
       <image class="head-image" src="../../../asset/select_down.png"></image>
     </view>
-    <view class="head-desc">
+    <view class="head-desc" data-index="2" bind:tap="search">
       <text class="head-desc-text1">上传时间</text>
       <image class="head-image" src="../../../asset/select_down.png"></image>
     </view>
@@ -36,4 +36,16 @@
       </view>
     </view>
     <image src="../../../asset/knowladge/point.png" style="height: 32rpx;width:32rpx;display: flex;position: absolute;right: 0;margin-right: 12rpx;" wx:if="{{item.type!='file'}}"/>
+</view>
+
+
+<!-- 条件筛选框 -->
+<view class="condtion-dialog" style="height: {{condtionDialogHeight}}rpx;margin-top: 180rpx;" wx:if="{{showSearchDialog}}">
+  <view style="height: 50%;width: 100%;padding-top: 24rpx;background-color: #FFFFFF;" wx:if="{{searchIndex!=2}}">
+    <search-contion-dialog searchData="{{searchDataList}}" type="single" bindmyevent="closeDialog"></search-contion-dialog>
+  </view>
+
+  <view style="height: 50%;width: 100%;padding-top: 24rpx;background-color: #FFFFFF;" wx:if="{{searchIndex==2}}">
+    
+  </view>
 </view>

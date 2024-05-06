@@ -95,7 +95,6 @@ Page({
       showSearchDialog: false
     })
   },
-  
   onLoad: function (options) {
     let rpxHeight = getScreenHeightRpx()-240;
     this.setData({
