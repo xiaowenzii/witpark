@@ -1,0 +1,58 @@
+.calendar-box {
+  background-color: #FFFFFF;
+  color: #323233;
+}
+.week-box {
+  display: flex;
+  justify-content: space-between;
+  font-size: 24rpx;
+  padding-bottom: 12rpx;
+  margin-top: 36rpx;
+}
+.week-item {
+  width: 100%;
+  text-align: center;
+}
+.date-box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  font-size: 26rpx;
+}
+.date-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 120rpx;
+  width: 14.285%;
+  border-radius: 10rpx;
+  font-size: 24rpx;
+}
+.active {
+  background-color: pink;
+}
+
+.condtion-view-item{
+  height: 42rpx;
+  width: 110rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12rpx;
+  margin: 12rpx 0;
+  border: 1rpx solid darkgray;
+}
+
+.confirm-button{
+  height: 20%;
+  display: flex;
+  flex-direction: row;
+  float: right;
+  position:absolute;
+  bottom: 0;
+  right: 0;
+  align-items: center;
+  margin-right: 36rpx;
+  margin-bottom: 64rpx;
+}

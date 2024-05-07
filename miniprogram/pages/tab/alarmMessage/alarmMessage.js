@@ -10,6 +10,7 @@ Page({
     // 查询条件数据
     condtionDialogHeight: 0,
     searchDataList:{},
+    searchIndex: 0,
     // 设备状态
     deviceStateList: {
       "type": 0,
@@ -22,7 +23,10 @@ Page({
       "selected": "0",
       "list": [{"id": "0","name": "全部"}, {"id": "1","name": "A告警"}, {"id": "2","name": "B告警"}]
     },
-    showSearchDialog: false
+    showSearchDialog: false,
+    currentYear: '',
+    currentMonth: '',
+    currentDay: ''
   },
   selectState(res){
     var index = res.currentTarget.dataset.index;
@@ -39,14 +43,14 @@ Page({
       var searchDataList = index==0?this.data.deviceStateList:this.data.energyTypeList;
       this.setData({
         searchDataList: searchDataList,
-        showSearchDialog: false,
-        searchIndex: index
-      })
-      //下拉单选框
-      this.setData({
-        showSearchDialog: true
+        showSearchDialog: false
       })
     }
+    //下拉单选框
+    this.setData({
+      showSearchDialog: true,
+      searchIndex: index
+    })
   },
   abandan(res){
     console.log(res.currentTarget.dataset.item);
@@ -58,18 +62,10 @@ Page({
     switch (e.detail.type) {
       case 'multiple':
         // 多选
-        if(e.detail.operate == "confirm") {
-          this.setData({
-            //searchDataList: e.detail.data
-          })
-        }
         break;
       case 'single':
         // 单选
         if(e.detail.operate == "confirm") {
-          this.setData({
-            searchDataList: e.detail.data
-          })
           if(this.data.searchIndex==0){
             this.setData({
               deviceStateList: e.detail.data
@@ -83,16 +79,31 @@ Page({
         }
         break;
     }
-    
     this.setData({
       showSearchDialog: false
     })
   },
-  
+  closeDateDialog: function(e){
+    //关闭选择框
+    this.setData({
+      currentYear: e.detail.Y,
+      currentMonth: e.detail.M,
+      currentDay: e.detail.D,
+      showSearchDialog: false
+    })
+  },
   onLoad: function (options) {
     let rpxHeight = getScreenHeightRpx()-240;
+    // 获取当前日期
+    const date = new Date();
+    const year = date.getFullYear(); // 获取当前年份
+    const month = date.getMonth() + 1; // 获取当前月份，月份要加1，因为从0开始计算
+    const day = date.getDate(); // 获取当前日
     this.setData({
-      condtionDialogHeight: rpxHeight 
+      condtionDialogHeight: rpxHeight,
+      currentYear: year,
+      currentMonth: month,
+      currentDay: day
     })
   },
   onReady: function () {

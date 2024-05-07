@@ -1,0 +1,31 @@
+<view class="calendar-box">
+  <view>
+    <view style="display: flex;flex-direction: row;margin: 6rpx 24rpx 24rpx 24rpx;align-items: center;">
+      <view style="margin-left: 18rpx;font-size: 26rpx;font-weight: bolder;">{{Y}} 年</view>
+      <image src="../../../asset/arrow_left.png" style="height: 48rpx;width: 48rpx;margin-left: 120rpx;" bind:tap="monthReduce"/>
+      <view style="margin-left: 96rpx;">{{M}} 月</view>
+      <image src="../../../asset/arrow_enter.png" style="height: 48rpx;width: 48rpx;margin-left: 96rpx;" bind:tap="monthAdd"/>
+    </view>
+    <view class="week-box">
+      <view class="week-item">日</view>
+      <view class="week-item">一</view>
+      <view class="week-item">二</view>
+      <view class="week-item">三</view>
+      <view class="week-item">四</view>
+      <view class="week-item">五</view>
+      <view class="week-item">六</view>
+    </view>
+  </view>
+  <view class="date-box">
+    <view bindtap="clickItem" data-date="{{day.date}}" class="date-item {{D == day.date ? 'active' : ''}}"
+      wx:for="{{daysArray}}" wx:for-item="day" wx:key="index">
+        {{day.date}}
+    </view>
+  </view>
+
+  <view style="display: flex;position: relative;">
+    <view class="confirm-button">
+      <view class="condtion-view-item" style="background-color:#54BCBD;font-size: 24rpx;margin-left: 120rpx;" bind:tap="close">确认</view>
+    </view>
+  </view>
+</view>

@@ -41,7 +41,10 @@ Page({
       "type": 1,
       "selected": "0",
       "list": [{"id": "0","name": "全部"}, {"id": "1","name": "0-100K"}, {"id": "2","name": "100-400K"}]
-    }
+    },
+    currentYear: '',
+    currentMonth: '',
+    currentDay: ''
   },
   search(res){
     //选择框里面的数据
@@ -55,7 +58,7 @@ Page({
         showSearchDialog: false
       })
     }
-    //下拉单选框
+    //显示下拉单选框
     this.setData({
       showSearchDialog: true,
       searchIndex: index
@@ -86,25 +89,29 @@ Page({
       showSearchDialog: false
     })
   },
-  onClose(){
+  closeDateDialog: function(e){
+    console.log(e)
+    //关闭选择框
     this.setData({
-      showSearchDialog: false
-    })
-  },
-  async onConfirm(event) {
-    let date = new Date(event.detail)
-    let dateString = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
-    let dateInt = date.getTime()
-    console.log('dateString = ' + dateString + ', dateInt = ' + dateInt)
-
-    this.setData({
+      currentYear: e.detail.Y,
+      currentMonth: e.detail.M,
+      currentDay: e.detail.D,
       showSearchDialog: false
     })
   },
   onLoad(options) {
+    //设置dialog高度
     let rpxHeight = getScreenHeightRpx()-180;
+    // 获取当前日期
+    const date = new Date();
+    const year = date.getFullYear(); // 获取当前年份
+    const month = date.getMonth() + 1; // 获取当前月份，月份要加1，因为从0开始计算
+    const day = date.getDate(); // 获取当前日
     this.setData({
-      condtionDialogHeight: rpxHeight
+      condtionDialogHeight: rpxHeight,
+      currentYear: year,
+      currentMonth: month,
+      currentDay: day
     })
   },
   onReady() {

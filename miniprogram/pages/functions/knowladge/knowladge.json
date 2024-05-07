@@ -3,6 +3,7 @@
   "navigationBarTextStyle":"white",
   "navigationBarTitleText": "运维知识库",
   "usingComponents": {
-    "search-contion-dialog": "../../component/condition/searchDialog"
+    "search-contion-dialog": "../../component/condition/searchDialog",
+    "clander":"../../component/clander/clander"
   }
 }
