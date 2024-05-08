@@ -37,20 +37,26 @@ Page({
   search(res){
     //选择框里面的数据
     var index = res.currentTarget.dataset.index;
-    if(index==2){
-
-    } else {
-      var searchDataList = index==0?this.data.deviceStateList:this.data.energyTypeList;
+    if(this.data.searchIndex == index && this.data.showSearchDialog){
       this.setData({
-        searchDataList: searchDataList,
         showSearchDialog: false
       })
+    } else {
+      if(index==2){
+
+      } else {
+        var searchDataList = index==0?this.data.deviceStateList:this.data.energyTypeList;
+        this.setData({
+          searchDataList: searchDataList,
+          showSearchDialog: false
+        })
+      }
+      //下拉单选框
+      this.setData({
+        showSearchDialog: true,
+        searchIndex: index
+      })
     }
-    //下拉单选框
-    this.setData({
-      showSearchDialog: true,
-      searchIndex: index
-    })
   },
   abandan(res){
     console.log(res.currentTarget.dataset.item);

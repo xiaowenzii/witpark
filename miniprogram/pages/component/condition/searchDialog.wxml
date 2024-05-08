@@ -16,8 +16,8 @@
   
   <!-- 单选 -->
   <view wx:if="{{type=='single'}}" style="height:80%;">
-    <scroll-view class="scroll-view" scroll-y="true" scroll-x="false" style="height: 100%;">
-      <view class="scroll-item" wx:for="{{searchData.list}}" wx:key="index" data-index="{{index}}" bind:tap="singleSelect">
+    <scroll-view class="scroll-view" scroll-y="true" scroll-x="false" scroll-into-view="scroll{{itemChecked}}" style="height: 100%;">
+      <view class="scroll-item" id="scroll{{index}}" wx:for="{{searchData.list}}" wx:key="index" data-index="{{index}}" bind:tap="singleSelect">
         <text style="font-size: 26rpx;color: {{itemChecked==index?'#18B6A2':'#000000'}};font-weight: {{itemChecked==index?'bolder':'none'}};">{{item.name}}</text>
         <image src="../../../asset/gou.png" class="item-checked" wx:if="{{itemChecked==index}}"/>
         <view class="item-bottom-line"></view>

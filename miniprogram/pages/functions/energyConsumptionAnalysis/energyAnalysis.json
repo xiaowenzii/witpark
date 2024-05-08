@@ -3,6 +3,7 @@
   "navigationBarTitleText": "能耗分析",
   "navigationBarBackgroundColor": "#EAF7F5",
   "usingComponents": {
-    "ec-canvas": "../../component/ec-canvas/ec-canvas"
+    "ec-canvas": "../../component/ec-canvas/ec-canvas",
+    "search-contion-dialog": "../../component/condition/searchDialog"
   }
 }

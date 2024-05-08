@@ -1,8 +1,17 @@
-import {deviceIcon} from "../../../utils/util"; 
+import {deviceIcon, getScreenHeightRpx} from "../../../utils/util"; 
 import * as echarts from '../../component/ec-canvas/echarts'
 
 Page({
   data: {
+    condtionDialogHeight: 0,
+    searchDataList:{},
+    // 配电站数据
+    powerStationList: {
+      "type": 2,
+      "selected": "0",
+      "list": [{"id": "0","name": "配电站#1"}, {"id": "1","name": "配电站#2"}, {"id": "2","name": "配电站#3"}, {"id": "1","name": "配电站#4"}, {"id": "2","name": "配电站#5"}, {"id": "1","name": "配电站#6"}, {"id": "2","name": "配电站#7"}, {"id": "1","name": "配电站#8"}, {"id": "2","name": "配电站#9"}, {"id": "1","name": "配电站#10"}, {"id": "2","name": "配电站#11"}, {"id": "1","name": "配电站#12"}, {"id": "2","name": "配电站#13"}]
+    },
+    showSearchDialog: false,
     selected: 0,
     deviceList: [{
       type: '0',
@@ -48,8 +57,34 @@ Page({
       deviceList: deviceList
     })
   },
+  search(res){
+    if(this.data.showSearchDialog){
+      this.setData({
+        showSearchDialog: false
+      })
+    }else{
+      //选择框里面的数据
+      var searchDataList = this.data.powerStationList;
+      this.setData({
+        searchDataList: searchDataList,
+        showSearchDialog: true
+      })
+    }
+  },
+  closeDialog: function(e) {
+    // 单选
+    this.setData({
+      powerStationList: e.detail.data,
+      showSearchDialog: false
+    })
+  },
   onLoad(options) {
     this.getDeviceIcon();
+    // 初始化条件选择框高度
+    let rpxHeight = getScreenHeightRpx()-360;
+    this.setData({
+      condtionDialogHeight: rpxHeight 
+    })
   },
   onReady() {
     var energyChart = this.selectComponent('#energy-anysis-chart');

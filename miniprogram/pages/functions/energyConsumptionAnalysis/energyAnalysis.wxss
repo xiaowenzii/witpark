@@ -128,3 +128,13 @@ page{
   font-weight: bolder;
   margin-left: 18rpx;
 }
+
+/* Dialog 样式 */
+.condtion-dialog{
+  width: 100%;
+  background-color: #00000020;
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 0;
+}

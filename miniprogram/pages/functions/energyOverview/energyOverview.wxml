@@ -63,7 +63,7 @@
 </view>
 
 <!-- 条件筛选框 -->
-<view class="condtion-dialog" style="height: {{condtionDialogHeight}}rpx;" wx:if="{{showSearchDialog}}">
+<view class="condtion-dialog" style="height: {{condtionDialogHeight}}rpx;margin-top: 90rpx;" wx:if="{{showSearchDialog}}">
   <view style="height: 24%;width: 100%;padding-top: 24rpx;background-color: #FFFFFF;">
     <search-contion-dialog searchData="{{searchDataList}}" type="single" bindmyevent="closeDialog"></search-contion-dialog>
   </view>

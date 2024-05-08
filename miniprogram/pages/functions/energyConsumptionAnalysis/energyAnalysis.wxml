@@ -24,8 +24,8 @@
 
 <view class="view-title">
   <text class="view-text-1">配电柜</text>
-  <view class="select-view">
-    配电站#1 
+  <view class="select-view" bind:tap="search">
+    {{powerStationList.list[powerStationList.selected].name}}
     <image class="arrow-image" src="../../../asset/select_down.png"/>
   </view>
 </view>
@@ -97,5 +97,12 @@
       <view class="chart-desc-point" style="background-color: #FFA63D;"></view>
       <text class="chart-desc-text1">备用<text class="chart-desc-text2" style="color: #FFA63D;">10.4%</text></text>
     </view>
+  </view>
+</view>
+
+<!-- 条件筛选框 -->
+<view class="condtion-dialog" style="height: {{condtionDialogHeight}}rpx;margin-top: 360rpx;" wx:if="{{showSearchDialog}}">
+  <view style="height: 50%;width: 100%;padding-top: 24rpx;background-color: #FFFFFF;">
+    <search-contion-dialog searchData="{{searchDataList}}" type="single" bindmyevent="closeDialog"></search-contion-dialog>
   </view>
 </view>
