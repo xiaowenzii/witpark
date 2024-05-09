@@ -1,0 +1,30 @@
+<view style="margin: 24rpx;font-size: 26rpx;font-weight: bolder;">设备列表</view>
+<!-- 列表 -->
+<view class="list">
+  <view class="item" wx:for="{{dataList}}" wx:key="index" style="margin-left: {{index%2==0?'0':'4%'}};">
+    <view style="display: flex;flex-direction: row;align-items: center;">
+      <image src="../../../asset/build/build.png" style="height: 48rpx;width: 48rpx;margin-left: 24rpx;"/>
+      <view class="item-title">{{item.title}}</view>
+    </view>
+    <view style="display: flex;flex-direction: row;">
+      <view style="width: 50%;display: flex;align-items: center;">
+        <image class="item-image" src="../../../asset/build/temp_blue.png"/>
+        <text style="font-size: 24rpx;margin-left: 12rpx;">{{item.temp1}}</text>
+      </view>
+      <view style="width: 50%;display: flex;align-items: center;">
+        <image class="item-image" src="../../../asset/build/temp_green.png"/>
+        <text style="font-size: 24rpx;margin-left: 12rpx;">{{item.temp2}}</text>
+      </view>
+    </view>
+    <view style="display: flex;flex-direction: row;margin-top: 12rpx;">
+      <view style="width: 50%;display: flex;align-items: center;">
+        <image class="item-image" src="../../../asset/build/temp_purple.png"/>
+        <text style="font-size: 24rpx;margin-left: 12rpx;">{{item.temp3}}</text>
+      </view>
+      <view style="width: 50%;display: flex;align-items: center;">
+        <image class="item-image" src="../../../asset/build/temp_orange.png"/>
+        <text style="font-size: 24rpx;margin-left: 12rpx;">{{item.temp4}}</text>
+      </view>
+    </view>
+  </view>
+</view>

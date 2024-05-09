@@ -1,0 +1,58 @@
+<view style="font-size: 26rpx;margin: 24rpx">设备号：03496898</view>
+<view style="height: 480rpx;display: flex;flex-direction: column;align-items: center;">
+  <image src="../../../asset/charge/cdz.png" style="width: 390rpx;height: 420rpx;"></image>
+  <text style="font-size: 26rpx; font-weight: bolder;margin-top: 12rpx;">1号充电桩</text>
+</view>
+
+<view class="block-view" style="height: 72rpx;">
+  <view style="font-size: 24rpx;">状态：</view>
+  <view style="font-size: 24rpx;color: #5BCBBD;">未充电</view>
+  <image src="../../../asset/charge/xdl.png" style="height: 36rpx;width: 36rpx;margin-left: 40%;"/>
+  <view style="font-size: 24rpx;margin-left: 12rpx;">电量：</view>
+  <view style="font-size: 36rpx;font-weight: bolder;">90%</view>
+</view>
+
+<view style="margin: 24rpx;display: flex;flex-direction: row;flex-wrap: wrap;">
+  <view class="item-view">
+    <view style="margin-left: 24rpx;">
+      <view style="font-size: 26rpx;font-weight: bolder;">70.43</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;">总电压(V)</view>
+    </view>
+    <image class="view-image" src="../../../asset/charge/dy.png"></image>
+  </view>
+  <view class="item-view" style="margin-left: 4%;">
+    <view style="margin-left: 24rpx;">
+      <view style="font-size: 26rpx;font-weight: bolder;">10.3</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;">总电流(A)</view>
+    </view>
+    <image class="view-image" src="../../../asset/charge/dl.png"></image>
+  </view>
+  <view class="item-view">
+    <view style="margin-left: 24rpx;">
+      <view style="font-size: 26rpx;font-weight: bolder;">3</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;">今日充电次数</view>
+    </view>
+    <image class="view-image" src="../../../asset/charge/cds.png"></image>
+  </view>
+  <view class="item-view" style="margin-left: 4%;">
+    <view style="margin-left: 24rpx;">
+      <view style="font-size: 26rpx;font-weight: bolder;">73</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;">循环次数</view>
+    </view>
+    <image class="view-image" src="../../../asset/charge/xhs.png"></image>
+  </view>
+  <view class="item-view">
+    <view style="margin-left: 24rpx;">
+      <view style="font-size: 26rpx;font-weight: bolder;">70</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;">使用时长(h)</view>
+    </view>
+    <image class="view-image" src="../../../asset/charge/sc.png"></image>
+  </view>
+  <view class="item-view" style="margin-left: 4%;">
+    <view style="margin-left: 24rpx;">
+      <view style="font-size: 26rpx;font-weight: bolder;">43.4</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;">设备温度(℃)</view>
+    </view>
+    <image class="view-image" src="../../../asset/charge/wd.png"></image>
+  </view>
+</view>

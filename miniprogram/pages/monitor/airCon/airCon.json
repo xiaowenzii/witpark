@@ -1,0 +1,9 @@
+{
+  "navigationBarTextStyle": "black",
+  "navigationBarTitleText": "空调控制单元",
+  "navigationBarBackgroundColor": "#E8F7F4",
+  "usingComponents": {
+    "ec-canvas": "../../component/ec-canvas/ec-canvas",
+    "search-contion-dialog": "../../component/condition/searchDialog"
+  }
+}

@@ -20,6 +20,21 @@
         "energyOverview/energyOverview",
         "runningMonitor/runningMonitor"
       ]
+    },
+    {
+      "root": "pages/monitor/",
+      "pages": [
+        "building/building",
+        "airCon/airCon",
+        "wind/windMon",
+        "photovoltaic/photovoltaic",
+        "EnergyStorage/EnergyStorage",
+        "chargingStation/chargingStation",
+        "heatPump/heatPump",
+        "scenery/scenery",
+        "photovoltaicFlower/photovoltaicFlower",
+        "underLight/underLight"
+      ]
     }
   ],
   "tabBar": {
