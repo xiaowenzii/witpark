@@ -1,2 +1,70 @@
-<!--pages/monitor/scenery/scenery.wxml-->
-<text>pages/monitor/scenery/scenery.wxml</text>
+<view style="font-size: 26rpx;margin: 24rpx">设备号：03496898</view>
+<view style="height: 480rpx;display: flex;flex-direction: column;align-items: center;">
+  <image src="../../../asset/build/fgcld.png" style="width: 270rpx;height: 420rpx;"></image>
+  <text style="font-size: 26rpx; font-weight: bolder;margin-top: 12rpx;">1号风光储路灯</text>
+</view>
+
+<view style="height: 96rpx;display: flex;flex-direction: row;">
+  <view class="desc-view">
+      <view style="font-size: 36rpx;font-weight: bolder;">3.4</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;color: #9C9C9C;">光照强度</view>
+  </view>
+  <view class="desc-view">
+      <view style="font-size: 36rpx;font-weight: bolder;">34</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;color: #9C9C9C;">辐照度</view>
+  </view>
+  <view class="desc-view">
+      <view style="font-size: 36rpx;font-weight: bolder;">21</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;color: #9C9C9C;">环境温度(℃)</view>
+  </view>
+</view>
+
+<view style="height: 180rpx;margin: 64rpx 24rpx 12rpx 24rpx;background-color: #FFFFFF;border-radius: 12rpx;padding: 18rpx;">
+  <view style="font-size: 26rpx;font-weight: bolder;">设备信息</view>
+
+  <view style="display: flex;flex-direction: row;margin-top: 36rpx;">
+    <view style="width: 50%;display: flex;align-items: center;">
+      <image class="item-image" src="../../../asset/wind/fjxh.png"/>
+      <text class="item-text">型号<text style="margin-left: 24rpx;color: black;">FFL001</text></text>
+    </view>
+    <view style="width: 50%;display: flex;align-items: center;">
+      <image class="item-image" src="../../../asset/wind/zjrl.png"/>
+      <text class="item-text">容量 <text style="margin-left: 24rpx;color: black;">21</text></text>
+    </view>
+  </view>
+  <view style="display: flex;flex-direction: row;margin-top: 36rpx;">
+    <view style="width: 50%;display: flex;align-items: center;">
+      <image class="item-image" src="../../../asset/wind/zs.png"/>
+      <text class="item-text">状态<text style="margin-left: 72rpx;color: black;">2300</text></text>
+    </view>
+    <view style="width: 50%;display: flex;align-items: center;">
+      <image class="item-image" src="../../../asset/wind/gl.png"/>
+      <text class="item-text">功率 <text style="margin-left: 72rpx;color: black;">2300</text></text>
+    </view>
+  </view>
+</view>
+
+<!-- 电能情况 -->
+<view class="block-view" style="height: 300rpx;">
+  <view style="width: 100%;font-size: 26rpx;font-weight: bolder;">电能情况</view>
+  <view class="power-view">
+    <image class="power-view-image" src="../../../asset/wind/fd.png"></image>
+    <view style="margin-left: 18rpx;">
+      <view style="font-size: 24rpx;">充电量</view>
+      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">2300</view>
+    </view>
+  </view>
+  <view class="power-view" style="margin-left: 5%;">
+    <image class="power-view-image" src="../../../asset/wind/cd.png"></image>
+    <view style="margin-left: 18rpx;">
+      <view style="font-size: 24rpx;">放电量</view>
+      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">2300</view>
+    </view>
+  </view>
+  <view class="progress-box">
+    <progress percent="80" color="#18B6A2" active stroke-width="9" border-radius="6" />
+  </view>
+  <view class="progress-box">
+    <progress percent="80" color="#6CB0FF" active stroke-width="9" border-radius="6" />
+  </view>
+</view>

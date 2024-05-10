@@ -1,2 +1,31 @@
-<!--pages/monitor/heatPump/heatPump.wxml-->
-<text>pages/monitor/heatPump/heatPump.wxml</text>
+<view style="font-size: 26rpx;margin: 24rpx">设备号：03496898</view>
+<view style="height: 420rpx;display: flex;flex-direction: column;align-items: center;justify-content: center;">
+  <image src="../../../asset/wind/kqyrb.png" style="width: 240rpx;height: 400rpx;"></image>
+</view>
+
+<view style="height: 150rpx;display: flex;flex-direction: row;margin: 24rpx;border-radius: 24rpx;">
+  <view class="desc-view">
+      <view class="desc-view-text1">220</view>
+      <view class="desc-view-text2">用电量</view>
+  </view>
+  <view class="desc-view">
+      <view class="desc-view-text1">33</view>
+      <view class="desc-view-text2">用水量</view>
+  </view>
+  <view class="desc-view">
+      <view class="desc-view-text1">45</view>
+      <view class="desc-view-text2">水箱温度(℃)</view>
+  </view>
+</view>
+
+<!-- 柱状图 -->
+<view class="block-view" style="height: 360rpx;">
+  <view style="font-size: 26rpx;font-weight: bolder;">用电统计</view>
+  <ec-canvas id="power-chart" canvas-id="mychart-bar" ec="{{ power }}"></ec-canvas>
+</view>
+
+<!-- 折线图 -->
+<view class="block-view" style="height: 360rpx;">
+  <view style="font-size: 26rpx;font-weight: bolder;">用水统计</view>
+  <ec-canvas id="water-chart" canvas-id="mychart-bar" ec="{{ water }}"></ec-canvas>
+</view>

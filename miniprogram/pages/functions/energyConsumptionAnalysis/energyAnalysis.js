@@ -1,4 +1,4 @@
-import {deviceIcon, getScreenHeightRpx} from "../../../utils/util"; 
+import {deviceIcon, getScreenHeightRpx, getPixelRatio} from "../../../utils/util"; 
 import * as echarts from '../../component/ec-canvas/echarts'
 
 Page({
@@ -112,18 +112,6 @@ Page({
         })
       }]
     };
-    const getPixelRatio = () => {
-      let pixelRatio = 0
-      wx.getSystemInfo({
-        success: function (res) {
-          pixelRatio = res.pixelRatio
-        },
-        fail: function () {
-          pixelRatio = 0
-        }
-      })
-      return pixelRatio
-    }
     var dpr = getPixelRatio()
     if (chartComponnet) {
       chartComponnet.init((canvas, width, height) => {

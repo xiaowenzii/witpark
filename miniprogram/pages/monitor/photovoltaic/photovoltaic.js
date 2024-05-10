@@ -1,66 +1,58 @@
-// pages/monitor/photovoltaic/photovoltaic.js
+import * as echarts from '../../component/ec-canvas/echarts'
+import {getPixelRatio} from "../../../utils/util"
+
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    ec: {
+      lazyLoad: true
+    }
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad(options) {
-
+    //绘制折线图
+    var energyChart = this.selectComponent('#energy-power-chart');
+    var xData = ["04-01", "04-02", "04-03", "04-04", "04-05", "04-06", "04-07", "04-08"];
+    var yData = [85, 100, 34, 24, 46, 98, 80, 62];
+    this.drawChart(energyChart, xData, yData)
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
   onReady() {
 
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
+  //绘制曲线图
+  drawChart(chartComponnet, xData, yData) {
+    var option = {
+      xAxis: {
+        type: 'category',
+        data: xData,
+        axisLabel:{
+          interval:0
+        }
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [{
+        data: yData,
+        type: 'line',
+        smooth: false
+      }],
+      grid:{
+        x: 24,  //距离左边
+        x2: 24, //距离右边
+        y:24,   //距离上边
+        y2:36,  //距离下边
+      }
+    };
+    var dpr = getPixelRatio()
+    if (chartComponnet) {
+      chartComponnet.init((canvas, width, height) => {
+        const chart = echarts.init(canvas, null, {
+          width: width,
+          height: height,
+          devicePixelRatio: dpr
+        }); 
+        chart.setOption(option, true);
+        return chart;
+      });
+    }
   }
 })

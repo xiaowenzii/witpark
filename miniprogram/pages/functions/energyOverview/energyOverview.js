@@ -1,5 +1,5 @@
 import * as echarts from '../../component/ec-canvas/echarts'
-import {getScreenHeightRpx} from "../../../utils/util"
+import {getScreenHeightRpx, getPixelRatio} from "../../../utils/util"
 
 Page({
   data: {
@@ -144,18 +144,6 @@ Page({
         y2:24,  //距离下边
       }
     };
-    const getPixelRatio = () => {
-      let pixelRatio = 0
-      wx.getSystemInfo({
-        success: function (res) {
-          pixelRatio = res.pixelRatio
-        },
-        fail: function () {
-          pixelRatio = 0
-        }
-      })
-      return pixelRatio
-    }
     var dpr = getPixelRatio()
     if (chartComponnet) {
       chartComponnet.init((canvas, width, height) => {
