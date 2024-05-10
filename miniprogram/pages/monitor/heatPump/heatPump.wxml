@@ -1,6 +1,6 @@
 <view style="font-size: 26rpx;margin: 24rpx">设备号：03496898</view>
-<view style="height: 420rpx;display: flex;flex-direction: column;align-items: center;justify-content: center;">
-  <image src="../../../asset/wind/kqyrb.png" style="width: 240rpx;height: 400rpx;"></image>
+<view style="height: 360rpx;display: flex;flex-direction: column;align-items: center;justify-content: center;">
+  <image src="../../../asset/wind/kqyrb.png" style="width: 210rpx;height: 300rpx;"></image>
 </view>
 
 <view style="height: 150rpx;display: flex;flex-direction: row;margin: 24rpx;border-radius: 24rpx;">

@@ -1,2 +1,48 @@
-<!--pages/monitor/EnergyStorage/EnergyStorage.wxml-->
-<text>pages/monitor/EnergyStorage/EnergyStorage.wxml</text>
+<view style="font-size: 26rpx;margin: 24rpx">设备号：03496898</view>
+<view style="height: 420rpx;display: flex;flex-direction: column;align-items: center;justify-content: center;">
+  <image src="../../../asset/build/cnsb.png" style="width: 480rpx;height: 360rpx;"></image>
+  <text style="font-size: 26rpx; font-weight: bolder;margin-top: 36rpx;">1号储能设备</text>
+</view>
+
+<view style="margin: 36rpx 24rpx 24rpx 24rpx;display: flex;flex-direction: row;">
+  <view class="left-view">
+    <image class="power-view-image" src="../../../asset/build/sd.png"></image>
+    <view style="margin-left: 18rpx;">
+      <view style="font-size: 28rpx;">SOC</view>
+      <view style="font-size: 40rpx;margin-top: 18rpx;font-weight: bolder;color: #33BEAD;">93%</view>
+    </view>
+  </view>
+  <view class="right-view">
+    <view class="right-view-top">
+      <view style="margin-left: 12rpx;font-size: 24rpx;color: #A2A2A2;display: flex;align-items: center;">
+        <image src="../../../asset/wind/gl.png" style="height: 36rpx;width: 36rpx;margin-right: 12rpx;"></image>交流有功功率(MV)
+      </view>
+      <view style="font-size: 24rpx;margin-left: 18rpx;margin-top: 9rpx;font-weight: bolder;">0.40 Kw</view>
+    </view>
+    <view class="right-view-bot">
+      <view style="margin-left: 12rpx;font-size: 24rpx;color: #A2A2A2;display: flex;align-items: center;">
+        <image src="../../../asset/wind/gl.png" style="height: 36rpx;width: 36rpx;margin-right: 12rpx;"></image>直流侧功率(MV)
+      </view>
+      <view style="font-size: 24rpx;margin-left: 18rpx;margin-top: 9rpx;font-weight: bolder;">0.40 Kw</view>
+    </view>
+  </view>
+</view>
+
+<view style="margin: 24rpx;display: flex;flex-direction: row;flex-wrap: wrap;">
+  <view class="item-view">
+    <view class="item-view-text1">可充功率(MV)</view>
+    <view class="item-view-text2">150</view>
+  </view>
+  <view class="item-view" style="margin-left: 4%;">
+    <view class="item-view-text1">可放功率(MV)</view>
+    <view class="item-view-text2">150</view>
+  </view>
+  <view class="item-view" style="margin-top: 24rpx;">
+    <view class="item-view-text1">可充容量(MV)</view>
+    <view class="item-view-text2">150</view>
+  </view>
+  <view class="item-view" style="margin-left: 4%;margin-top: 24rpx;">
+    <view class="item-view-text1">可放容量(MV)</view>
+    <view class="item-view-text2">150</view>
+  </view>
+</view>

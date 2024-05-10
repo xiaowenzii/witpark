@@ -1,5 +1,4 @@
 page{
-  height: 100%;
   width: 100%;
   background: -webkit-linear-gradient(top, #E8F7F4,#F7F7F7);
 }
