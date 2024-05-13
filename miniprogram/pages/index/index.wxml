@@ -6,13 +6,18 @@
 <form class="login" bindsubmit='login'>
   <view class="account">
     <image class="login-image" src="../../asset/account.png" />
-    <input type='text' name='account' placeholder="请输入用户名" value="{{account}}"/>
-    <image src="../../asset/wrong.png" style="height: 48rpx;width: 48rpx;margin: 24rpx 6rpx;" bind:tap="claerAccount"/>
+    <input type='text' name='account' placeholder="请输入用户名" value="{{account}}" style="width: 70%;"/>
+    <image src="../../asset/wrong.png" style="height: 48rpx;width: 48rpx;display: flex;position: absolute;right: 0;margin-right: 18rpx;" bind:tap="claerAccount"/>
   </view>
   <view class="password">
     <image class="login-image" src="../../asset/password.png" />
-    <input type='text' name='password' placeholder="请输入密码"/>
+    <input type='text' name='password' placeholder="请输入密码" style="width: 80%;"/>
   </view>
+  <view class="checkcode-view">
+    <view class="checkcode"><input type='text' name='checkCode' placeholder="请输入验证码"/></view>
+    <image class="checkcode-image" src="{{checkCodeImage}}" bind:tap="reloadImage"></image>
+  </view>
+
   <button class="login-button" formType="submit" type='primary'>登入</button>
 </form>
 

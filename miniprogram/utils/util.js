@@ -1,41 +1,61 @@
-// 同时发送异步代码的次数
-let ajaxTimes = 0;
-export const wxRequest = (parmas) => {
-  // 当有地方调用请求方法的时候，就增加全局变量，用于判断有几个请求了
-  ajaxTimes++;
-  // 显示加载中loading效果
+const baseUrl = "https://anywords.cn";
+// const baseUrl = "https://a1510edec-wxc27d4cff09888171.sh.wxcloudrun.com";
+
+// POST请求
+export const wxRequestPost = (url, title, parmas, successCallback, failCallback) => {
+  const requestUrl = baseUrl + url;
   wx.showLoading({
-      title: "加载中",
+      title: title,
       mask: true
   });
-  
-  let myHeader = { ...parmas.header };
-  if (parmas.url.includes("/neddToken/")) {
-      myHeader["Authorization"] = wx.getStorageSync("token");
-  }
-  const baseUrl = "http://59.52.10.182:8880"
-  return new Promise((resolve, reject) => {
-    wx.request({
-      ...parmas,
-      // 注意，此行必须放在   ...parmas 之下，才能覆盖其传入的url:xxx参数
-      url: baseUrl + parmas.url,
-      header: { 'content-type': 'application/json', ...myHeader },
-      success: (result) => {
-        resolve(result)
-      },
-      fail: (err) => {
-        reject(err)
-      },
-      // 不管请求成功还是失败，都会触发
-      complete: () => {
-        ajaxTimes--;
-        // 关闭loading效果了
-        if (ajaxTimes === 0) {
-            wx.hideLoading();
-        }
+  wx.request({
+    url: requestUrl, 
+    header: {'content-type': 'application/json'},
+    method: 'POST',
+    data: parmas,
+    success: function(res) {
+      wx.hideLoading();
+      successCallback(res);
+    },
+    fail: function(error) {
+      wx.hideLoading();
+      wx.showToast({
+        icon: "none",
+        title: (error.data && error.data.message) || "请求失败"
+      });
+      if (failCallback) {
+        failCallback(error);
       }
-    });
-  })
+    }
+  });
+}
+// GET请求
+export const wxRequestGet = (url, title, parmas, successCallback, failCallback) => {
+  const requestUrl = baseUrl + url;
+  wx.showLoading({
+      title: title,
+      mask: true
+  });
+  wx.request({
+    url: requestUrl,
+    header: {'content-type': 'application/json'},
+    method: 'GET',
+    data: parmas,
+    success: function(res) {
+      wx.hideLoading();
+      successCallback(res.data);
+    },
+    fail: function(error) {
+      wx.hideLoading();
+      wx.showToast({
+        icon: "none",
+        title: (error.data && error.data.message) || "请求失败"
+      });
+      if (failCallback) {
+        failCallback(error);
+      }
+    }
+  });
 }
 
 // 获取设备图标

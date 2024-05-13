@@ -1,19 +1,35 @@
-import {wxRequest} from "../../utils/util";
+import {wxRequestPost, wxRequestGet} from "../../utils/util";
 
 const app = getApp()
+const codeKey = 1;
 Page({
+  data:{
+    checkCodeImage:''
+  },
   login (data) {
     var account = data.detail.value.account
     var password = data.detail.value.password;
+    var checkCode = data.detail.value.checkCode;
     if(account.length != 0 && password.length != 0 ){
-      // wxRequest({key:"key", url:"/sps/sys/randomImage"})
-      // .then((res) => {
-      //   console.log(res);
-      // })
-      wx.switchTab({
-        //跳转至 Home 页面
-        url: '../tab/home/home'
-      })
+      var parmas = { 
+        "captcha": checkCode,
+        "checkKey": codeKey,
+        "password": password,
+        "username": account
+      };
+      wxRequestPost("/sps/sys/login", "登入中...", parmas, function(res) {
+        if(res.data.success){
+          var token = res.data.result.token;
+          wx.switchTab({
+            url: '../tab/home/home'
+          })
+        }else{
+          wx.showToast({
+            icon: "none",
+            title: (res.data.message)
+          });
+        }
+      }, function(error) {})
     } else {
       wx.showToast({
         title: '请输入账号密码！',
@@ -27,5 +43,22 @@ Page({
     this.setData({
       account: ''
     });
+  },
+  getKeyCodeImage(){
+    const that = this;
+    wxRequestGet("/sps/sys/randomImage/"+codeKey, "获取验证码...", {}, function(res) {
+      if(res.success){
+        var baseImage = res.result.replace(/[\r\n]/g, '');
+        that.setData({
+          checkCodeImage: baseImage
+        })
+      }
+    }, function(error) {})
+  },
+  reloadImage(){
+    this.getKeyCodeImage();
+  },
+  onReady() {
+    this.getKeyCodeImage();
   }
 })

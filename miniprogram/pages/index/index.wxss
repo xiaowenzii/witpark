@@ -28,9 +28,9 @@ page{
   border: #FFFFFF;
   background-color: #FFFFFF;
   height: 480rpx;
-  width: 80%;
+  width: 90%;
   margin-top: -20%;
-  margin-left: 10%;
+  margin-left: 5%;
 }
 
 .account{
@@ -40,6 +40,9 @@ page{
   border: 1rpx solid #EFEFEF;
   border-radius: 6rpx;
   display: flex;
+  flex-direction: row;
+  position: relative;
+  align-items: center;
 }
 
 .password{
@@ -49,6 +52,30 @@ page{
   border: 1rpx solid #EFEFEF;
   border-radius: 6rpx;
   display: flex;
+}
+
+.checkcode-view{
+  width: 80% !important;
+  height: 96rpx;
+  margin: 36rpx auto 36rpx auto;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  align-items: center;
+}
+.checkcode{
+  width: 50%;
+  height: 96rpx;
+  border: 1rpx solid #EFEFEF;
+  display: flex;
+}
+
+.checkcode-image{
+  height: 96rpx;
+  width: 40%;
+  display: flex;
+  position: absolute;
+  right: 0;
 }
 
 .login-image{
