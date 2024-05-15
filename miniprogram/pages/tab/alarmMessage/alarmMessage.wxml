@@ -21,7 +21,7 @@
       <image class="head-image" src="../../../asset/select_down.png"></image>
     </view>
     <view class="head-desc" data-index="2" bind:tap="search">
-      <text class="head-desc-text1">{{currentYear}}-{{currentMonth}}-{{currentDay}}</text>
+      <text class="head-desc-text1">{{startTime}} 至 {{endTime}}</text>
       <image class="head-image" src="../../../asset/select_down.png"></image>
     </view>
   </view>
@@ -53,6 +53,6 @@
   </view>
 
   <view style="height: 50%;width: 100%;padding-top: 24rpx;background-color: #FFFFFF;" wx:if="{{searchIndex==2}}">
-    <clander year="{{currentYear}}" month="{{currentMonth}}" day="{{currentDay}}" bindmyevent="closeDateDialog"></clander>
+    <clander startT="{{startTime}}" endT="{{endTime}}" bindmyevent="closeDateDialog"></clander>
   </view>
 </view>

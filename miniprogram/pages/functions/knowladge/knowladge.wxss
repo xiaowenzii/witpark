@@ -16,11 +16,12 @@ page{
 .search-view-image{
   height: 36rpx;
   width: 36rpx;
-  margin: 15rpx 12rpx;
+  margin: 15rpx 9rpx 15rpx 24rpx;
 }
 
 .search-view-text{
   height: 48rpx;
+  width: 100%;
   margin: 9rpx 12rpx;
   font-size: 26rpx;
   box-sizing:border-box;

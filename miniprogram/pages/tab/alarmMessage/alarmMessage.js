@@ -1,4 +1,4 @@
-import {getScreenHeightRpx} from "../../../utils/util"
+import {getScreenHeightRpx, formatTime} from "../../../utils/util"
 
 Page({
   data: {
@@ -15,18 +15,17 @@ Page({
     deviceStateList: {
       "type": 0,
       "selected": "0",
-      "list": [{"id": "0","name": "全部"}, {"id": "1","name": "停止"}, {"id": "2","name": "异常"}]
+      "list": [{"id": "0","name": "全部状态"}, {"id": "1","name": "停止"}, {"id": "2","name": "异常"}]
     },
     // 告警类型
     energyTypeList: {
       "type": 1,
       "selected": "0",
-      "list": [{"id": "0","name": "全部"}, {"id": "1","name": "A告警"}, {"id": "2","name": "B告警"}]
+      "list": [{"id": "0","name": "全部告警"}, {"id": "1","name": "A告警"}, {"id": "2","name": "B告警"}]
     },
     showSearchDialog: false,
-    currentYear: '',
-    currentMonth: '',
-    currentDay: ''
+    startTime: '',
+    endTime: ''
   },
   selectState(res){
     var index = res.currentTarget.dataset.index;
@@ -92,9 +91,8 @@ Page({
   closeDateDialog: function(e){
     //关闭选择框
     this.setData({
-      currentYear: e.detail.Y,
-      currentMonth: e.detail.M,
-      currentDay: e.detail.D,
+      startTime: e.detail.startTime,
+      endTime: e.detail.endTime,
       showSearchDialog: false
     })
   },
@@ -107,9 +105,8 @@ Page({
     const day = date.getDate(); // 获取当前日
     this.setData({
       condtionDialogHeight: rpxHeight,
-      currentYear: year,
-      currentMonth: month,
-      currentDay: day
+      startTime: formatTime(year+'-'+month+'-'+day),
+      endTime: formatTime(year+'-'+month+'-'+day)
     })
   },
   onReady: function () {

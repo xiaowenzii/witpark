@@ -10,6 +10,9 @@ Page({
     var account = data.detail.value.account
     var password = data.detail.value.password;
     var checkCode = data.detail.value.checkCode;
+    // wx.switchTab({
+    //   url: '../tab/home/home'
+    // })
     if(account.length != 0 && password.length != 0 ){
       var parmas = { 
         "captcha": checkCode,
@@ -35,7 +38,7 @@ Page({
         title: '请输入账号密码！',
         icon: 'none',
         duration: 1500
-     })
+      })
     }
   },
   //清空输入的账号

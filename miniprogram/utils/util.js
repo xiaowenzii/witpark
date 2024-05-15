@@ -119,3 +119,11 @@ export const getPixelRatio = () => {
   })
   return pixelRatio
 }
+
+// 时间格式2024-5-6 => 2024-05-06
+export const formatTime = (time) => {
+  let dateSpl = time.split("-");
+  let finTime = dateSpl[0] + "-" + (parseInt(dateSpl[1])>9?dateSpl[1]:('0'+dateSpl[1])) + "-" + (parseInt(dateSpl[2])>9?dateSpl[2]:('0'+dateSpl[2]));
+
+  return finTime;
+}

@@ -1,4 +1,4 @@
-import {getScreenHeightRpx} from "../../../utils/util"
+import {getScreenHeightRpx, formatTime} from "../../../utils/util"
 
 Page({
   data: {
@@ -36,33 +36,30 @@ Page({
       "selected": "0",
       "list": [{"id": "0","name": "全部格式"}, {"id": "1","name": "word"}, {"id": "2","name": "pdf"}]
     },
-    // 文件大小
-    sizeList: {
-      "type": 1,
-      "selected": "0",
-      "list": [{"id": "0","name": "全部"}, {"id": "1","name": "0-100K"}, {"id": "2","name": "100-400K"}]
-    },
-    currentYear: '',
-    currentMonth: '',
-    currentDay: ''
+    startTime: '',
+    endTime: ''
   },
   search(res){
     //选择框里面的数据
     var index = res.currentTarget.dataset.index;
-    if(index==2){
-
-    } else {
-      var searchDataList = index==0?this.data.typeList:this.data.sizeList;
+    if(this.data.searchIndex == index && this.data.showSearchDialog){
       this.setData({
-        searchDataList: searchDataList,
         showSearchDialog: false
       })
+    }else{
+      if(index==0){
+        var searchDataList = this.data.typeList;
+        this.setData({
+          searchDataList: searchDataList,
+          showSearchDialog: false,
+        })
+      }
+      //显示下拉单选框
+      this.setData({
+        showSearchDialog: true,
+        searchIndex: index
+      })
     }
-    //显示下拉单选框
-    this.setData({
-      showSearchDialog: true,
-      searchIndex: index
-    })
   },
   closeDialog: function(e) {
     switch (e.detail.type) {
@@ -76,11 +73,6 @@ Page({
               typeList: e.detail.data
             })
           }
-          if(this.data.searchIndex== 1){
-            this.setData({
-              sizeList: e.detail.data
-            })
-          }
         }
         break;
     }
@@ -90,12 +82,10 @@ Page({
     })
   },
   closeDateDialog: function(e){
-    console.log(e)
     //关闭选择框
     this.setData({
-      currentYear: e.detail.Y,
-      currentMonth: e.detail.M,
-      currentDay: e.detail.D,
+      startTime: e.detail.startTime,
+      endTime: e.detail.endTime,
       showSearchDialog: false
     })
   },
@@ -109,9 +99,8 @@ Page({
     const day = date.getDate(); // 获取当前日
     this.setData({
       condtionDialogHeight: rpxHeight,
-      currentYear: year,
-      currentMonth: month,
-      currentDay: day
+      startTime: formatTime(year+'-'+month+'-'+day),
+      endTime: formatTime(year+'-'+month+'-'+day)
     })
   },
   onReady() {

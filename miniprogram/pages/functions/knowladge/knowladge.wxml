@@ -6,16 +6,12 @@
     </view>
   </view>
   <view style="display: flex;flex-direction: row;">
-    <view class="head-desc" data-index="0" bind:tap="search">
+    <view class="head-desc" style="width: 40%;" data-index="0" bind:tap="search">
       <text class="head-desc-text1">{{typeList.list[typeList.selected].name}}</text>
       <image class="head-image" src="../../../asset/select_down.png"></image>
     </view>
-    <view class="head-desc" style="width: 34%;" data-index="1" bind:tap="search">
-      <text class="head-desc-text1">{{sizeList.list[sizeList.selected].name}}</text>
-      <image class="head-image" src="../../../asset/select_down.png"></image>
-    </view>
-    <view class="head-desc" data-index="2" bind:tap="search">
-      <text class="head-desc-text1">{{currentYear}}-{{currentMonth}}-{{currentDay}}</text>
+    <view class="head-desc" style="width: 60%;" data-index="1" bind:tap="search">
+      <text class="head-desc-text1">{{startTime}} 至 {{endTime}}</text>
       <image class="head-image" src="../../../asset/select_down.png"></image>
     </view>
   </view>
@@ -41,11 +37,11 @@
 
 <!-- 条件筛选框 -->
 <view class="condtion-dialog" style="height: {{condtionDialogHeight}}rpx;margin-top: 180rpx;" wx:if="{{showSearchDialog}}">
-  <view style="height: 50%;width: 100%;padding-top: 24rpx;background-color: #FFFFFF;" wx:if="{{searchIndex!=2}}">
+  <view style="height: 50%;width: 100%;padding-top: 24rpx;background-color: #FFFFFF;" wx:if="{{searchIndex!=1}}">
     <search-contion-dialog searchData="{{searchDataList}}" type="single" bindmyevent="closeDialog"></search-contion-dialog>
   </view>
 
-  <view style="height: 50%;width: 100%;padding-top: 24rpx;background-color: #FFFFFF;" wx:if="{{searchIndex==2}}">
-    <clander year="{{currentYear}}" month="{{currentMonth}}" day="{{currentDay}}" bindmyevent="closeDateDialog"></clander>
+  <view style="height: 50%;width: 100%;padding-top: 24rpx;background-color: #FFFFFF;" wx:if="{{searchIndex==1}}">
+    <clander startT="{{startTime}}" endT="{{endTime}}" bindmyevent="closeDateDialog"></clander>
   </view>
 </view>

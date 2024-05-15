@@ -17,7 +17,7 @@
     </view>
   </view>
   <view class="date-box">
-    <view bindtap="clickItem" data-date="{{day.date}}" class="date-item {{D == day.date ? 'active' : ''}}"
+    <view bindtap="clickItem" data-date="{{day.date}}" class="date-item" style="background-color: {{day.selected?'#18B6A260':''}};font-size: 26rpx;"
       wx:for="{{daysArray}}" wx:for-item="day" wx:key="index">
         {{day.date}}
     </view>
