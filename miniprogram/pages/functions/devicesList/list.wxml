@@ -1,0 +1,21 @@
+<scroll-view class="scroll-view" enable-flex="true" scroll-x="true" scroll-y="false" style="width: {{scrollWidth}};">
+  <view class="scroll-view-item" wx:for="{{typeList}}" wx:key="index" style="background-color: {{selected==index?'#18B6A2':'none'}};color: {{selected==index?'#FFFFFF':'none'}};" data-index="{{index}}" bind:tap="selecteDevice">{{item.deviceTypeName}}</view>
+</scroll-view>
+
+<view class="device-content">
+  <view class="content" wx:for="{{deviceList}}" wx:key="index" data-item="{{item}}" style="margin-left: {{index%2!=0?'4%':'0'}}">
+    <view class="device-item">
+      <image class="device-item-image" src="../../../asset/build/kt_k.png" wx:if="{{selected == 0}}"/>
+      <image class="device-item-image" src="../../../asset/build/fgcldk.png" wx:if="{{selected == 1}}"/>
+      <image class="device-item-image" src="../../../asset/build/gfs.png" wx:if="{{selected == 2}}"/>
+      <image class="device-item-image" src="../../../asset/build/flfdk.png" wx:if="{{selected == 3}}"/>
+      <image class="device-item-image" src="../../../asset/build/cdzk.png" wx:if="{{selected == 4}}"/>
+      <image class="device-item-image" src="../../../asset/build/cnk.png" wx:if="{{selected == 5}}"/>
+      <image class="device-item-image" src="../../../asset/build/kt_k.png" wx:if="{{selected == 6}}"/>
+      <image class="device-item-image" src="../../../asset/build/kt_k.png" wx:if="{{selected == 7}}"/>
+      <switch class="device-item-switch" checked="{{item.state == 1}}" data-item="{{item}}" bindchange="switchState"/>
+    </view>
+    <view class="device-item-text1">设备编号：{{item.deviceName}}</view>
+    <view class="device-item-text2">{{item.updateTime}}</view>
+  </view>
+</view>

@@ -64,7 +64,7 @@ export const deviceIcon = (parmas) => {
   var icon = '';
   switch (type) {
     case '0': //空调
-      icon = 'kt.png'
+      icon = 'build/kt_k.png'
       break;
     case '1': //空气源热泵
       icon = 'kqyrb.png'
@@ -76,16 +76,16 @@ export const deviceIcon = (parmas) => {
       icon = 'fddy.png'
       break;
     case '4':
-      icon = 'kt.png'
+      icon = 'build/kt_k.png'
       break;
     case '5':
-      icon = 'kt.png'
+      icon = 'build/kt_k.png'
       break;
     case '6':
-      icon = 'kt.png'
+      icon = 'build/kt_k.png'
       break;
     case '7':
-      icon = 'kt.png'
+      icon = 'build/kt_k.png'
       break;
   }
   return icon;

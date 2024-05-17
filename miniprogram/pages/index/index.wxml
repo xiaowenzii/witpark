@@ -11,7 +11,7 @@
   </view>
   <view class="password">
     <image class="login-image" src="../../asset/password.png" />
-    <input type='text' name='password' placeholder="请输入密码" style="width: 80%;"/>
+    <input type='text' name='password' placeholder="请输入密码" value="{{password}}" style="width: 80%;"/>
   </view>
   <view class="checkcode-view">
     <view class="checkcode"><input type='text' name='checkCode' placeholder="请输入验证码"/></view>

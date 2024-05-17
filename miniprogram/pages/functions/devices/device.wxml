@@ -38,27 +38,27 @@
 
 <!-- 设备列表 -->
 <scroll-view class="scroll-view" enable-flex="true" scroll-x="true" scroll-y="false" style="width: {{scrollWidth}};">
-  <view class="scroll-view-item" style="background-color: {{selected==0?'#18B6A2':'none'}};color: {{selected==0?'#FFFFFF':'none'}};" data-index="0" bind:tap="selecteDevice">空调</view>
-  <view  class="scroll-view-item" style="background-color: {{selected==1?'#18B6A2':'none'}};color: {{selected==1?'#FFFFFF':'none'}};" data-index="1" bind:tap="selecteDevice">风光储路灯</view>
-  <view  class="scroll-view-item" style="background-color: {{selected==2?'#18B6A2':'none'}};color: {{selected==2?'#FFFFFF':'none'}};" data-index="2" bind:tap="selecteDevice">光伏花</view>
-  <view  class="scroll-view-item" style="background-color: {{selected==3?'#18B6A2':'none'}};color: {{selected==3?'#FFFFFF':'none'}};" data-index="3" bind:tap="selecteDevice">风力发电</view>
-  <view  class="scroll-view-item" style="background-color: {{selected==4?'#18B6A2':'none'}};color: {{selected==4?'#FFFFFF':'none'}};" data-index="4" bind:tap="selecteDevice">充电桩</view>
-  <view  class="scroll-view-item" style="background-color: {{selected==5?'#18B6A2':'none'}};color: {{selected==5?'#FFFFFF':'none'}};" data-index="5" bind:tap="selecteDevice">空气源热泵</view>
-  <view  class="scroll-view-item" style="background-color: {{selected==6?'#18B6A2':'none'}};color: {{selected==6?'#FFFFFF':'none'}};" data-index="6" bind:tap="selecteDevice">分布式光伏</view>
-  <view  class="scroll-view-item" style="background-color: {{selected==7?'#18B6A2':'none'}};color: {{selected==7?'#FFFFFF':'none'}};" data-index="7" bind:tap="selecteDevice">储能设备</view>
+  <view id="item{{index}}" class="scroll-view-item" wx:for="{{typeList}}" wx:key="index" style="background-color: {{selected==index?'#18B6A2':'none'}};color: {{selected==index?'#FFFFFF':'none'}};" data-index="{{index}}" bind:tap="selecteDevice">{{item.deviceTypeName}}</view>
 </scroll-view>
 
 <view class="view-title">
   <text class="view-text-1">设备列表<text style="font-size: 20rpx;margin-left: 6rpx;">(21)</text></text>
-  <text class="view-text-2">更多</text>
+  <text class="view-text-2" bind:tap="goMoreList">更多</text>
 </view>
 <view class="device-content">
-  <view class="content" wx:for="{{deviceList}}" wx:key="index" data-item="{{item}}" style="margin-left: {{index%2!=0?'4%':'0'}}">
+  <view class="content" wx:for="{{deviceList}}" wx:key="index" data-item="{{item}}" style="margin-left: {{index%2!=0?'4%':'0'}}" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
     <view class="device-item">
-      <image class="device-item-image" src="../../../asset/kt.png"/>
-      <switch class="device-item-switch" checked="{{item.state == 1}}"  data-item="{{item}}" bindchange="switchState"/>
+      <image class="device-item-image" src="../../../asset/build/kt_k.png" wx:if="{{selected == 0}}"/>
+      <image class="device-item-image" src="../../../asset/build/fgcldk.png" wx:if="{{selected == 1}}"/>
+      <image class="device-item-image" src="../../../asset/build/gfs.png" wx:if="{{selected == 2}}"/>
+      <image class="device-item-image" src="../../../asset/build/flfdk.png" wx:if="{{selected == 3}}"/>
+      <image class="device-item-image" src="../../../asset/build/cdzk.png" wx:if="{{selected == 4}}"/>
+      <image class="device-item-image" src="../../../asset/build/cnk.png" wx:if="{{selected == 5}}"/>
+      <image class="device-item-image" src="../../../asset/build/kt_k.png" wx:if="{{selected == 6}}"/>
+      <image class="device-item-image" src="../../../asset/build/kt_k.png" wx:if="{{selected == 7}}"/>
+      <switch class="device-item-switch" checked="{{item.state == 1}}" data-item="{{item}}" bindchange="switchState"/>
     </view>
-    <view class="device-item-text1">编号：{{item.desc}}</view>
-    <view class="device-item-text2">{{item.address}}</view>
+    <view class="device-item-text1">设备编号：{{item.deviceName}}</view>
+    <view class="device-item-text2">{{item.updateTime}}</view>
   </view>
 </view>

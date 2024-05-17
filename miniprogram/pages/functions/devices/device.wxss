@@ -163,9 +163,9 @@ page{
   align-items: center;
 }
 .device-item-image{
-  width: 84rpx;
-  height: 84rpx;
-  margin-left: 12rpx;
+  width: 60rpx;
+  height: 60rpx;
+  margin-left: 18rpx;
 }
 .device-item-switch{
   zoom: 0.6;

@@ -4,15 +4,14 @@ const app = getApp()
 const codeKey = 1;
 Page({
   data:{
-    checkCodeImage:''
+    checkCodeImage:'',
+    account:'',
+    password:''
   },
   login (data) {
     var account = data.detail.value.account
     var password = data.detail.value.password;
     var checkCode = data.detail.value.checkCode;
-    // wx.switchTab({
-    //   url: '../tab/home/home'
-    // })
     if(account.length != 0 && password.length != 0 ){
       var parmas = { 
         "captcha": checkCode,
@@ -23,6 +22,10 @@ Page({
       wxRequestPost("/sps/sys/login", "登入中...", parmas, function(res) {
         if(res.data.success){
           var token = res.data.result.token;
+          // 全局缓存Token
+          wx.setStorageSync('token', token);
+          wx.setStorageSync('account', account);
+          wx.setStorageSync('password', password);
           wx.switchTab({
             url: '../tab/home/home'
           })
@@ -62,6 +65,10 @@ Page({
     this.getKeyCodeImage();
   },
   onReady() {
+    this.setData({
+      account: wx.getStorageSync('account'),
+      password: wx.getStorageSync('password')
+    })
     this.getKeyCodeImage();
   }
 })

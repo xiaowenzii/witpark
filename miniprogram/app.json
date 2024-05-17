@@ -18,7 +18,8 @@
         "monitorLog/monitorLog",
         "runningDataOverview/overview",
         "energyOverview/energyOverview",
-        "runningMonitor/runningMonitor"
+        "runningMonitor/runningMonitor",
+        "devicesList/list"
       ]
     },
     {
