@@ -1,5 +1,5 @@
 import * as echarts from '../../component/ec-canvas/echarts'
-import {getPixelRatio} from "../../../utils/util"
+import * as util from "../../../utils/util"
 
 Page({
   data: {
@@ -10,16 +10,31 @@ Page({
       lazyLoad: true
     }
   },
-  onLoad(options) {
-    //绘制柱状图
-    var chart = this.selectComponent('#power-chart');
-    var xData = ["04-01", "04-02", "04-03", "04-04", "04-05", "04-06", "04-07", "04-08"];
-    var yData = [85, 100, 34, 24, 46, 98, 80, 62];
-    this.drawPowerChart(chart, xData, yData)
+  // 根据key获取当天热泵趋势数据
+  getHeatPumpTendency(){
+    let that = this;
+    let params = {
+      token: wx.getStorageSync('token'),
+      key: 'sup_temp' //需要统计的key,示例值(liq_lev(液位) or sup_temp(供水温度) or re_temp(回水温度))
+    }
+    util.wxRequestGet("/sps/app/device/heatPump/getHeatPumpTendency", "加载中...", params, function(res) {
+      console.log('根据key获取当天热泵趋势数据');
+      console.log(res);
+      if(res.success){
+        //绘制柱状图
+        var chart = that.selectComponent('#power-chart');
+        var xData = ["04-01", "04-02", "04-03", "04-04", "04-05", "04-06", "04-07", "04-08"];
+        var yData = [85, 100, 34, 24, 46, 98, 80, 62];
+        that.drawPowerChart(chart, xData, yData)
 
-    //绘制折线图
-    chart = this.selectComponent('#water-chart');
-    this.drawChart(chart, xData, yData)
+        //绘制折线图
+        chart = that.selectComponent('#water-chart');
+        that.drawChart(chart, xData, yData);
+      }else{}
+    }, function(error) {})
+  },
+  onLoad(options) {
+    this.getHeatPumpTendency();
   },
   onReady() {
 
@@ -87,7 +102,7 @@ Page({
       }
     };
     
-    var dpr = getPixelRatio()
+    var dpr = util.getPixelRatio();
     if (chartComponnet) {
       chartComponnet.init((canvas, width, height) => {
         const chart = echarts.init(canvas, null, {
@@ -125,7 +140,7 @@ Page({
         y2:36,  //距离下边
       }
     };
-    var dpr = getPixelRatio()
+    var dpr = util.getPixelRatio();
     if (chartComponnet) {
       chartComponnet.init((canvas, width, height) => {
         const chart = echarts.init(canvas, null, {

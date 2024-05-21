@@ -1,4 +1,4 @@
-import {deviceIcon, getScreenHeightRpx, getPixelRatio} from "../../../utils/util"; 
+import * as util from "../../../utils/util"; 
 import * as echarts from '../../component/ec-canvas/echarts'
 
 Page({
@@ -40,7 +40,10 @@ Page({
     }],
     energyAnysisChart: {
       lazyLoad: true
-    }
+    },
+    year:'',
+    month:'',
+    day:''
   },
   selectType(res){
     var index = res.currentTarget.dataset.index;
@@ -48,10 +51,38 @@ Page({
       selected: index
     })
   },
+  // 设置图标
   getDeviceIcon(){
     var deviceList = this.data.deviceList;
     for (let index = 0; index < deviceList.length; index++) {
-      deviceList[index].icon = '../../../asset/' + deviceIcon({type: deviceList[index].type});
+      var icon = '';
+      switch (deviceList[index].type) {
+        case '0': //空调
+          icon = 'build/kt_k.png'
+          break;
+        case '1': //空气源热泵
+          icon = 'kqyrb.png'
+          break;
+        case '2': //充电桩
+          icon = 'cdz.png'
+          break;
+        case '3': //发电单元
+          icon = 'fddy.png'
+          break;
+        case '4':
+          icon = 'build/kt_k.png'
+          break;
+        case '5':
+          icon = 'build/kt_k.png'
+          break;
+        case '6':
+          icon = 'build/kt_k.png'
+          break;
+        case '7':
+          icon = 'build/kt_k.png'
+          break;
+      }
+      deviceList[index].icon = '../../../asset/' + icon;
     }
     this.setData({
       deviceList: deviceList
@@ -81,10 +112,17 @@ Page({
   onLoad(options) {
     this.getDeviceIcon();
     // 初始化条件选择框高度
-    let rpxHeight = getScreenHeightRpx()-360;
+    let rpxHeight = util.getScreenHeightRpx()-360;
+    // 获取当前日期
+    const date = new Date();
     this.setData({
-      condtionDialogHeight: rpxHeight 
+      condtionDialogHeight: rpxHeight,
+      year: date.getFullYear(),
+      month: util.formatMD(date.getMonth() + 1),
+      day: util.formatMD(date.getDate())
     })
+    // 获取数据
+    this.getData()
   },
   onReady() {
     var energyChart = this.selectComponent('#energy-anysis-chart');
@@ -94,6 +132,26 @@ Page({
       { value: 580, name: '备用 580kwh' }
     ]
     this.drawChart(energyChart, dataList)
+  },
+  // 获取数据
+  getData(){
+    // "type": y(年); m(月); d(年)
+    // "time": "2024-05"; "2024-05"; "2024-05-17"
+    let params = {
+      token: wx.getStorageSync('token'),
+      type: 'm',
+      time: this.data.month + '-' + this.data.day
+    }
+    console.log(params)
+    //获取电费统计
+    util.wxRequestPost("/sps/app/PowerAnalysis/getElectricityBill", "加载中...", params, function(res) {
+      console.log(res)
+      if(res.success){
+        if(res.result != null){
+        }
+      }else{
+      }
+    }, function(error) {})
   },
   //绘制环形图
   drawChart(chartComponnet, dataList) {
@@ -112,7 +170,7 @@ Page({
         })
       }]
     };
-    var dpr = getPixelRatio()
+    var dpr = util.getPixelRatio()
     if (chartComponnet) {
       chartComponnet.init((canvas, width, height) => {
         const chart = echarts.init(canvas, null, {

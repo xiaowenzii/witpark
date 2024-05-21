@@ -1,6 +1,6 @@
 <view style="font-size: 26rpx;margin: 24rpx">设备号：03496898</view>
 <view style="height: 480rpx;display: flex;flex-direction: column;align-items: center;">
-  <image src="../../../asset/wind/machine.png" style="width: 270rpx;height: 420rpx;"></image>
+  <image src="../../../asset/wind/machine.png" style="width: 210rpx;height: 420rpx;"></image>
   <text style="font-size: 26rpx; font-weight: bolder;margin-top: 12rpx;">1号风力发电机</text>
 </view>
 

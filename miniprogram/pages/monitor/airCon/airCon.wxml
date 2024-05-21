@@ -8,16 +8,16 @@
 
 <view style="height: 96rpx;display: flex;flex-direction: row;">
   <view class="desc-view">
-      <view style="font-size: 30rpx;font-weight: bolder;">290</view>
-      <view style="font-size: 24rpx;margin-top: 12rpx;">总用电量</view>
+      <view style="font-size: 30rpx;font-weight: bolder;">{{airData.todayTotalUsedElectricity}}</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;">今日总用电量(kwh)</view>
   </view>
   <view class="desc-view">
-      <view style="font-size: 30rpx;font-weight: bolder;">290</view>
-      <view style="font-size: 24rpx;margin-top: 12rpx;">用电时长</view>
+      <view style="font-size: 30rpx;font-weight: bolder;">{{airData.todayTotalTime}}</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;">今日用电时长(分钟)</view>
   </view>
   <view class="desc-view">
-      <view style="font-size: 30rpx;font-weight: bolder;">290</view>
-      <view style="font-size: 24rpx;margin-top: 12rpx;">节电量</view>
+      <view style="font-size: 30rpx;font-weight: bolder;">无数据</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;">今日节电量</view>
   </view>
 </view>
 
@@ -26,15 +26,15 @@
   <view style="font-size: 26rpx;font-weight: bolder;">设备状态</view>
   <view style="display: flex;flex-direction: row;">
     <view style="width: 60%;margin-top: 24rpx;">
-      <view class="pro-view" style="background-color: #18B6A2;border-radius: 24rpx 0 0 24rpx;">12</view>
+      <view class="pro-view" style="background-color: #18B6A2;border-radius: 24rpx 0 0 24rpx;">{{airData.onlineCount}}</view>
       <view style="font-size: 24rpx;margin-top: 12rpx;color: #B2B2B2;">在线</view>
     </view>
     <view style="width: 25%;margin-top: 24rpx;text-align: center;">
-      <view class="pro-view" style="background-color: #D78C33;">5</view>
+      <view class="pro-view" style="background-color: #D78C33;">{{airData.alarmCount}}</view>
       <view style="font-size: 24rpx;margin-top: 12rpx;color: #B2B2B2;">报警</view>
     </view>
     <view style="width: 15%;margin-top: 24rpx;text-align: right;">
-      <view class="pro-view" style="background-color: #C2C2C2;border-radius: 0 24rpx 24rpx 0;">3</view>
+      <view class="pro-view" style="background-color: #C2C2C2;border-radius: 0 24rpx 24rpx 0;">{{airData.deviceCount - airData.onlineCount - airData.alarmCount}}</view>
       <view style="font-size: 24rpx;margin-top: 12rpx;color: #B2B2B2;">离线</view>
     </view>
   </view>

@@ -21,9 +21,9 @@ Page({
       };
       wxRequestPost("/sps/sys/login", "登入中...", parmas, function(res) {
         if(res.data.success){
-          var token = res.data.result.token;
           // 全局缓存Token
-          wx.setStorageSync('token', token);
+          wx.setStorageSync('token', res.data.result.token);
+          wx.setStorageSync('userInfo', res.data.result.userInfo);
           wx.setStorageSync('account', account);
           wx.setStorageSync('password', password);
           wx.switchTab({

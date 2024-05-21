@@ -87,12 +87,7 @@ Page({
       if(res.success){
         that.setData({typeList: res.result})
         that.getDeviceDataList();
-      }else{
-        wx.showToast({
-          icon: "none",
-          title: (res.message)
-        });
-      }
+      }else{}
     }, function(error) {})
   },
   // 获取设备列表
@@ -120,17 +115,11 @@ Page({
                 if(res.result != null){
                   dataList[index].detail = res.result;
                 }
-              }else{
-              }
+              }else{}
             }, function(error) {})
           }
         }
-      }else{
-        wx.showToast({
-          icon: "none",
-          title: (res.message)
-        });
-      }
+      }else{}
     }, function(error) {})
   },
   goMoreList(){

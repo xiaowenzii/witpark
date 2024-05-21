@@ -1,7 +1,7 @@
 <view style="font-size: 26rpx;margin: 24rpx">设备号：03496898</view>
 <view style="height: 480rpx;display: flex;flex-direction: column;align-items: center;">
   <image src="../../../asset/charge/cdz.png" style="width: 390rpx;height: 420rpx;"></image>
-  <text style="font-size: 26rpx; font-weight: bolder;margin-top: 12rpx;">1号充电桩</text>
+  <text style="font-size: 26rpx; font-weight: bolder;margin-top: 12rpx;">{{deviceList[selectDeviceIndex].deviceName}}</text>
 </view>
 
 <view class="block-view" style="height: 72rpx;">

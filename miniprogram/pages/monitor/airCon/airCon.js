@@ -1,19 +1,24 @@
 import * as echarts from '../../component/ec-canvas/echarts'
-import {getScreenHeightRpx, getPixelRatio} from "../../../utils/util"; 
+import * as util from "../../../utils/util"; 
 
 Page({
   data: {
     condtionDialogHeight: 0,
+    deviceTypeId:'',
+    airData: {}, //空调数据
     searchDataList:{},
     floorDataList: {
       "type": 2,
       "selected": "0",
-      "list": [{"id": "0","name": "旧大楼#1楼"}, {"id": "1","name": "旧大楼#2楼"}, {"id": "2","name": "旧大楼#3楼"}, {"id": "1","name": "旧大楼#4楼"}, {"id": "2","name": "旧大楼#5楼"}]
+      "list": [{"id": "1","name": "旧大楼#1楼",code:"C03A02A01"}, {"id": "2","name": "旧大楼#2楼",code:"C03A02A02"}, {"id": "3","name": "旧大楼#3楼",code:"C03A02A03"}, {"id": "4","name": "旧大楼#4楼",code:"C03A02A03"}, {"id": "5","name": "旧大楼#5楼",code:"C03A02A04"}]
     },
     showSearchDialog: false,
     ec: {
       lazyLoad: true
-    }
+    },
+    year:'',
+    month:'',
+    day:''
   },
   search(res){
     if(this.data.showSearchDialog){
@@ -35,24 +40,77 @@ Page({
       floorDataList: e.detail.data,
       showSearchDialog: false
     })
+    this.getTodayStatisticsVO()
+  },
+  // 获取今日设备信息统计
+  getTodayStatisticsVO(){
+    let that = this;
+    let params = {
+      'token': wx.getStorageSync('token'),
+      'deviceTypeId': that.data.deviceTypeId,
+      'deviceLocation': this.data.floorDataList.list[this.data.floorDataList.selected].code
+    }
+    util.wxRequestGet("/sps/app/device/airConditioner/getTodayStatisticsVO", "加载中...", params, function(res) {
+      if(res.success){
+        console.log('获取今日设备信息统计');
+        console.log(res);
+        that.setData({airData: res.result})
+      }
+    }, function(error) {})
+  },
+  // 按时间获取空调月份统计数据
+  getMonthUsedData(keyFlag, statisticType){
+    let that = this;
+    let params = {
+      token: wx.getStorageSync('token'),
+      deviceTypeId: that.data.deviceTypeId,
+      deviceLocation: this.data.floorDataList.list[this.data.floorDataList.selected].code,
+      keyFlag: keyFlag,//查询数据标识 1：获取用电量 2：获取用电时长
+      statisticType: statisticType, //查询日期标识 1：按月统计 2：按日统计
+      startDate: that.data.year + '-'+that.data.month+'-'+that.data.day,
+      endDate: that.data.year + '-'+that.data.month+'-'+that.data.day
+    }
+    util.wxRequestGet("/sps/app/device/airConditioner/getMonthUsedData", "加载中...", params, function(res) {
+      console.log('按时间获取空调月份统计数据');
+      console.log(res);
+      if(res.success){
+        var xData = [];
+        var yData = [];
+        for (let index = 0; index < res.result.length; index++) {
+          xData.push(res.result[index].date);
+          yData.push(res.result[index].value);
+        }
+        if(keyFlag==1){
+          //绘制图标
+          var energyChart = that.selectComponent('#energy-chart-bar');
+          that.drawChart(energyChart, xData, yData)
+        }else{
+          var timeChart = that.selectComponent('#time-chart-bar');
+          that.drawChart(timeChart, xData, yData)
+        }
+      }
+    }, function(error) {})
   },
   onLoad(options) {
-    // 初始化条件选择框高度
-    let rpxHeight = getScreenHeightRpx()-90;
+    // 获取设备ID
     this.setData({
-      condtionDialogHeight: rpxHeight 
+      deviceTypeId: options.deviceTypeId
+    });
+    
+    // 初始化条件选择框高度
+    let rpxHeight = util.getScreenHeightRpx()-90;
+    // 获取当前日期
+    const date = new Date();
+    this.setData({
+      condtionDialogHeight: rpxHeight,
+      year: date.getFullYear(),
+      month: util.formatMD(date.getMonth() + 1),
+      day: util.formatMD(date.getDate())
     })
-
-    //绘制图标
-    var energyChart = this.selectComponent('#energy-chart-bar');
-    var xData = ["04-01", "04-02", "04-03", "04-04", "04-05", "04-06", "04-07", "04-08"];
-    var yData = [85, 100, 34, 24, 46, 98, 80, 62];
-    this.drawChart(energyChart, xData, yData)
-
-    var timeChart = this.selectComponent('#time-chart-bar');
-    var xTData = ["04-01", "04-02", "04-03", "04-04", "04-05", "04-06", "04-07", "04-08"];
-    var yTData = [185, 100, 134, 124, 146, 198, 180, 162];
-    this.drawChart(timeChart, xTData, yTData)
+    // 获取空调设备数据，用电及用电时长
+    this.getTodayStatisticsVO();
+    this.getMonthUsedData(1, 2);
+    this.getMonthUsedData(2, 2);
   },
 
   onReady() {
@@ -120,7 +178,7 @@ Page({
         y2:24,  //距离下边
       }
     };
-    var dpr = getPixelRatio()
+    var dpr = util.getPixelRatio()
     if (chartComponnet) {
       chartComponnet.init((canvas, width, height) => {
         const chart = echarts.init(canvas, null, {

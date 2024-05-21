@@ -31,14 +31,18 @@ export const wxRequestPost = (url, title, parmas, successCallback, failCallback)
 }
 // GET请求
 export const wxRequestGet = (url, title, parmas, successCallback, failCallback) => {
-  const requestUrl = baseUrl + url;
+  var requestUrl = baseUrl + url;
+  var XTenantId = '';
+  if(wx.getStorageSync('userInfo').loginTenantId != null){
+    XTenantId = wx.getStorageSync('userInfo').loginTenantId;
+  }
   wx.showLoading({
       title: title,
       mask: true
   });
   wx.request({
     url: requestUrl,
-    header: {'content-type': 'application/json'},
+    header: {'content-type': 'application/json', 'X-Tenant-Id': XTenantId},
     method: 'GET',
     data: parmas,
     success: function(res) {
@@ -56,39 +60,6 @@ export const wxRequestGet = (url, title, parmas, successCallback, failCallback) 
       }
     }
   });
-}
-
-// 获取设备图标
-export const deviceIcon = (parmas) => {
-  var type = parmas.type;
-  var icon = '';
-  switch (type) {
-    case '0': //空调
-      icon = 'build/kt_k.png'
-      break;
-    case '1': //空气源热泵
-      icon = 'kqyrb.png'
-      break;
-    case '2': //充电桩
-      icon = 'cdz.png'
-      break;
-    case '3': //发电单元
-      icon = 'fddy.png'
-      break;
-    case '4':
-      icon = 'build/kt_k.png'
-      break;
-    case '5':
-      icon = 'build/kt_k.png'
-      break;
-    case '6':
-      icon = 'build/kt_k.png'
-      break;
-    case '7':
-      icon = 'build/kt_k.png'
-      break;
-  }
-  return icon;
 }
 
 // 获取屏幕高度
@@ -126,4 +97,13 @@ export const formatTime = (time) => {
   let finTime = dateSpl[0] + "-" + (parseInt(dateSpl[1])>9?dateSpl[1]:('0'+dateSpl[1])) + "-" + (parseInt(dateSpl[2])>9?dateSpl[2]:('0'+dateSpl[2]));
 
   return finTime;
+}
+
+// 月份和日数补充至两位
+export const formatMD = (dateNum) => {
+  if(parseInt(dateNum)>9){
+    return parseInt(dateNum);
+  }else{
+    return '0' + parseInt(dateNum);
+  }
 }
