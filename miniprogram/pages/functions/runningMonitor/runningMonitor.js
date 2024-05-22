@@ -74,10 +74,7 @@ Page({
   // 获取设备类型
   getDeviceType(){
     let that = this;
-    let params = {
-      token: wx.getStorageSync('token')
-    }
-    util.wxRequestGet("/sps/app/device/listDeviceType", "加载中...", params, function(res) {
+    util.wxRequestGet("/sps/app/device/listDeviceType", "加载中...", {}, function(res) {
       if(res.success){
         that.setData({typeList: res.result})
       }else{}

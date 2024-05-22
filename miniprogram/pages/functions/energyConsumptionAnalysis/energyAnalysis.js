@@ -138,7 +138,6 @@ Page({
     // "type": y(年); m(月); d(年)
     // "time": "2024-05"; "2024-05"; "2024-05-17"
     let params = {
-      token: wx.getStorageSync('token'),
       type: 'm',
       time: this.data.month + '-' + this.data.day
     }

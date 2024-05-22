@@ -11,7 +11,6 @@ Page({
   getDeviceDataList(){
     let that = this;
     let params = {
-      token: wx.getStorageSync('token'),
       deviceTypeId: that.data.deviceTypeId
     }
     util.wxRequestGet("/sps/app/device/listDevice", "加载中...", params, function(res) {
@@ -35,7 +34,6 @@ Page({
   getChargingStatus(){
     let that = this;
     let params = {
-      token: wx.getStorageSync('token'),
       deviceTypeId: that.data.deviceTypeId,
       deviceBasicId: that.data.deviceList[that.data.selectDeviceIndex].deviceBasicId
     }
@@ -51,7 +49,6 @@ Page({
   getTodayDifftimeTotal(){
     let that = this;
     let params = {
-      token: wx.getStorageSync('token'),
       deviceTypeId: that.data.deviceTypeId,
       deviceBasicId: that.data.deviceList[that.data.selectDeviceIndex].deviceBasicId
     }
@@ -67,7 +64,6 @@ Page({
   getTodayOrderCount(){
     let that = this;
     let params = {
-      token: wx.getStorageSync('token'),
       deviceTypeId: that.data.deviceTypeId,
       deviceBasicId: that.data.deviceList[that.data.selectDeviceIndex].deviceBasicId
     }
@@ -83,7 +79,6 @@ Page({
   getTodayProfitsTotal(){
     let that = this;
     let params = {
-      token: wx.getStorageSync('token'),
       deviceTypeId: that.data.deviceTypeId,
       deviceBasicId: that.data.deviceList[that.data.selectDeviceIndex].deviceBasicId
     }
@@ -99,7 +94,6 @@ Page({
   getTodayQuantityTotal(){
     let that = this;
     let params = {
-      token: wx.getStorageSync('token'),
       deviceTypeId: that.data.deviceTypeId,
       deviceBasicId: that.data.deviceList[that.data.selectDeviceIndex].deviceBasicId
     }

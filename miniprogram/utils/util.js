@@ -1,16 +1,23 @@
 const baseUrl = "https://anywords.cn";
-// const baseUrl = "https://a1510edec-wxc27d4cff09888171.sh.wxcloudrun.com";
 
 // POST请求
 export const wxRequestPost = (url, title, parmas, successCallback, failCallback) => {
   const requestUrl = baseUrl + url;
+  var XTenantId = '';
+  var token = '';
+  if(wx.getStorageSync('userInfo').loginTenantId != null){
+    XTenantId = wx.getStorageSync('userInfo').loginTenantId;
+  }
+  if(wx.getStorageSync('token') != null){
+    token = wx.getStorageSync('token');
+  }
   wx.showLoading({
       title: title,
       mask: true
   });
   wx.request({
     url: requestUrl, 
-    header: {'content-type': 'application/json'},
+    header: {'content-type': 'application/json', 'X-Tenant-Id': XTenantId, 'X-Access-Token': token},
     method: 'POST',
     data: parmas,
     success: function(res) {
@@ -20,7 +27,6 @@ export const wxRequestPost = (url, title, parmas, successCallback, failCallback)
     fail: function(error) {
       wx.hideLoading();
       wx.showToast({
-        icon: "none",
         title: (error.data && error.data.message) || "请求失败"
       });
       if (failCallback) {
@@ -33,8 +39,12 @@ export const wxRequestPost = (url, title, parmas, successCallback, failCallback)
 export const wxRequestGet = (url, title, parmas, successCallback, failCallback) => {
   var requestUrl = baseUrl + url;
   var XTenantId = '';
+  var token = '';
   if(wx.getStorageSync('userInfo').loginTenantId != null){
     XTenantId = wx.getStorageSync('userInfo').loginTenantId;
+  }
+  if(wx.getStorageSync('token') != null){
+    token = wx.getStorageSync('token');
   }
   wx.showLoading({
       title: title,
@@ -42,7 +52,7 @@ export const wxRequestGet = (url, title, parmas, successCallback, failCallback) 
   });
   wx.request({
     url: requestUrl,
-    header: {'content-type': 'application/json', 'X-Tenant-Id': XTenantId},
+    header: {'content-type': 'application/json', 'X-Tenant-Id': XTenantId, 'X-Access-Token': token},
     method: 'GET',
     data: parmas,
     success: function(res) {
@@ -52,8 +62,38 @@ export const wxRequestGet = (url, title, parmas, successCallback, failCallback) 
     fail: function(error) {
       wx.hideLoading();
       wx.showToast({
-        icon: "none",
         title: (error.data && error.data.message) || "请求失败"
+      });
+      if (failCallback) {
+        failCallback(error);
+      }
+    }
+  });
+}
+
+//文件下载
+export const downloadFile = (url, title, successCallback, failCallback) => {
+  var requestUrl = baseUrl + url;
+  wx.showLoading({
+      title: title,
+      mask: true
+  });
+  wx.downloadFile({
+    url: requestUrl,
+    success: function(res) {
+      wx.hideLoading();
+      wx.getFileSystemManager().saveFile({
+        tempFilePath: res.tempFilePath,
+        success: function (saveRes) {
+          successCallback(saveRes);
+        },
+        fail: function (err) {}
+      })
+    },
+    fail: function(error) {
+      wx.hideLoading();
+      wx.showToast({
+        title: (error.data && error.data.message) || "下载失败，请重新下载"
       });
       if (failCallback) {
         failCallback(error);

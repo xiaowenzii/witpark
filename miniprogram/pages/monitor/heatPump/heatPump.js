@@ -14,7 +14,6 @@ Page({
   getHeatPumpTendency(){
     let that = this;
     let params = {
-      token: wx.getStorageSync('token'),
       key: 'sup_temp' //需要统计的key,示例值(liq_lev(液位) or sup_temp(供水温度) or re_temp(回水温度))
     }
     util.wxRequestGet("/sps/app/device/heatPump/getHeatPumpTendency", "加载中...", params, function(res) {

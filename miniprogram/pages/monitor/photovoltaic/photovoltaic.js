@@ -48,7 +48,6 @@ Page({
   getDeviceDataList(){
     let that = this;
     let params = {
-      token: wx.getStorageSync('token'),
       deviceTypeId: that.data.deviceTypeId
     }
     util.wxRequestGet("/sps/app/device/listDevice", "加载中...", params, function(res) {
@@ -67,7 +66,7 @@ Page({
   getLatestData(){
     let that = this;
     let deviceParams = {
-      token: wx.getStorageSync('token'),
+      
       deviceTypeId: that.data.deviceTypeId,
       deviceBasicId: that.data.deviceList[that.data.selectDeviceIndex].deviceBasicId
     }
@@ -85,7 +84,6 @@ Page({
   getDailyPower(interStr, url){
     let that = this;
     let params = {
-      token: wx.getStorageSync('token'),
       deviceBasicId: that.data.deviceList[that.data.selectDeviceIndex].deviceBasicId
     }
     util.wxRequestGet("/sps/app/device/solarPower/getDailyGeneratePower", "加载中...", params, function(res) {

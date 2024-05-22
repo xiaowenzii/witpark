@@ -80,10 +80,7 @@ Page({
   // 获取设备类型
   getDeviceType(){
     let that = this;
-    let params = {
-      token: wx.getStorageSync('token')
-    }
-    wxRequestGet("/sps/app/device/listDeviceType", "加载中...", params, function(res) {
+    wxRequestGet("/sps/app/device/listDeviceType", "加载中...", {}, function(res) {
       if(res.success){
         that.setData({typeList: res.result})
         that.getDeviceDataList();
@@ -95,7 +92,6 @@ Page({
     let that = this;
     let item = this.data.typeList[this.data.selected];
     let params = {
-      token: wx.getStorageSync('token'),
       deviceTypeId: item.deviceTypeId
     }
     wxRequestGet("/sps/app/device/listDevice", "加载中...", params, function(res) {
@@ -106,7 +102,7 @@ Page({
           // 获取单个设备的详情
           for (let index = 0; index < dataList.length; index++) {
             let deviceParams = {
-              token: wx.getStorageSync('token'),
+              
               deviceTypeId: item.deviceTypeId,
               deviceBasicId: dataList[index].deviceBasicId
             }

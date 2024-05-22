@@ -19,10 +19,7 @@ Page({
   // 设备总功率
   getAllDevicePowerTotal(){
     let that = this;
-    let params = {
-      token: wx.getStorageSync('token')
-    }
-    util.wxRequestGet("/sps/app/device/undergroundLighting/getAllDevicePowerTotal", "加载中...", params, function(res) {
+    util.wxRequestGet("/sps/app/device/undergroundLighting/getAllDevicePowerTotal", "加载中...", {}, function(res) {
       console.log("设备总功率: ")
       console.log(res)
       if(res.success){
@@ -33,10 +30,7 @@ Page({
   // 总用电量
   getAllUsePowerTotal(){
     let that = this;
-    let params = {
-      token: wx.getStorageSync('token')
-    }
-    util.wxRequestGet("/sps/app/device/undergroundLighting/getAllUsePowerTotal", "加载中...", params, function(res) {
+    util.wxRequestGet("/sps/app/device/undergroundLighting/getAllUsePowerTotal", "加载中...", {}, function(res) {
       console.log("总用电量: ")
       console.log(res)
       if(res.success){
@@ -47,10 +41,7 @@ Page({
   // 当月用电量
   getCurrentMonthlyUsePowerTotal(){
     let that = this;
-    let params = {
-      token: wx.getStorageSync('token')
-    }
-    util.wxRequestGet("/sps/app/device/undergroundLighting/getCurrentMonthlyUsePowerTotal", "加载中...", params, function(res) {
+    util.wxRequestGet("/sps/app/device/undergroundLighting/getCurrentMonthlyUsePowerTotal", "加载中...", {}, function(res) {
       console.log("当月用电量: ")
       console.log(res)
       if(res.success){
@@ -61,10 +52,7 @@ Page({
   // 日用电量曲线
   getDailyUsePowerCurve(){
     let that = this;
-    let params = {
-      token: wx.getStorageSync('token')
-    }
-    util.wxRequestGet("/sps/app/device/undergroundLighting/getDailyUsePowerCurve", "加载中...", params, function(res) {
+    util.wxRequestGet("/sps/app/device/undergroundLighting/getDailyUsePowerCurve", "加载中...", {}, function(res) {
       console.log("日用电量曲线: ")
       console.log(res)
       if(res.success){
@@ -75,10 +63,7 @@ Page({
   // 月用电量曲线
   getMonthlyUsePower(){
     let that = this;
-    let params = {
-      token: wx.getStorageSync('token')
-    }
-    util.wxRequestGet("/sps/app/device/undergroundLighting/getMonthlyUsePower", "加载中...", params, function(res) {
+    util.wxRequestGet("/sps/app/device/undergroundLighting/getMonthlyUsePower", "加载中...", {}, function(res) {
       console.log("月用电量曲线: ")
       console.log(res)
       if(res.success){
@@ -89,10 +74,7 @@ Page({
   // 今日用电量
   getTodayUsePowerTotal(){
     let that = this;
-    let params = {
-      token: wx.getStorageSync('token')
-    }
-    util.wxRequestGet("/sps/app/device/undergroundLighting/getTodayUsePowerTotal", "加载中...", params, function(res) {
+    util.wxRequestGet("/sps/app/device/undergroundLighting/getTodayUsePowerTotal", "加载中...", {}, function(res) {
       console.log("今日用电量: ")
       console.log(res)
       if(res.success){

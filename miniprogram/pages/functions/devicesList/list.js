@@ -18,7 +18,6 @@ Page({
     let that = this;
     let item = this.data.typeList[this.data.selected];
     let params = {
-      token: wx.getStorageSync('token'),
       deviceTypeId: item.deviceTypeId
     }
     wxRequestGet("/sps/app/device/listDevice", "加载中...", params, function(res) {
@@ -29,7 +28,7 @@ Page({
           // 获取单个设备的详情
           for (let index = 0; index < dataList.length; index++) {
             let deviceParams = {
-              token: wx.getStorageSync('token'),
+              
               deviceTypeId: item.deviceTypeId,
               deviceBasicId: dataList[index].deviceBasicId
             }

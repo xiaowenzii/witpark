@@ -104,14 +104,14 @@ Component({
       let days = this.data.daysArray;
       if(this.data.startTime!=''){
         let ymdS = this.data.startTime.split("-");
-        let ymdSInt = parseInt(ymdS[0] + this.formatMD(ymdS[1]) + this.formatMD(ymdS[2]) + '');
+        let ymdSInt = parseInt(ymdS[0] +''+ this.formatMD(ymdS[1]) +''+ this.formatMD(ymdS[2]));
         if(this.data.endTime!='' && this.data.endTime!=this.data.startTime){
           let ymdE = this.data.endTime.split("-");
-          let ymdEInt = parseInt(ymdE[0] + this.formatMD(ymdE[1]) + this.formatMD(ymdE[2]) + '');
+          let ymdEInt = parseInt(ymdE[0] + this.formatMD(ymdE[1]) + this.formatMD(ymdE[2]));
           
           for (let i = 0; i < days.length; i++) {
             if(days[i].date!=''){
-              let clanderItem = parseInt(this.data.Y + this.formatMD(this.data.M) + this.formatMD(days[i].date) + '');
+              let clanderItem = parseInt(this.data.Y +''+ this.formatMD(this.data.M) +''+ this.formatMD(days[i].date));
               if((ymdSInt<clanderItem && ymdEInt>clanderItem) || ymdSInt==clanderItem || ymdEInt==clanderItem){
                 days[i].selected = true;
               }else{
@@ -138,10 +138,10 @@ Component({
       var year = this.data.Y;
       var month = this.data.M;
       if(month==1){
-        year = year - 1;
+        year = parseInt(year) - 1;
         month = 12;
       }else{
-        month = month - 1;
+        month = parseInt(month) - 1;
       }
       this.getCurrentDaysAndWeekStart(year, month, this.data.D);
     },

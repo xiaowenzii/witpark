@@ -11,7 +11,6 @@ Page({
   getDeviceDataList(){
     let that = this;
     let params = {
-      token: wx.getStorageSync('token'),
       deviceTypeId: that.data.deviceTypeId
     }
     util.wxRequestGet("/sps/app/device/listDevice", "加载中...", params, function(res) {
@@ -34,7 +33,6 @@ Page({
   getLatestData(){
     let that = this;
     let params = {
-      token: wx.getStorageSync('token'),
       deviceTypeId: that.data.deviceTypeId,
       deviceBasicId: that.data.deviceList[that.data.selectDeviceIndex].deviceBasicId
     }
@@ -50,7 +48,6 @@ Page({
   getpCurve(){
     let that = this;
     let params = {
-      token: wx.getStorageSync('token'),
       deviceTypeId: that.data.deviceTypeId,
       deviceBasicId: that.data.deviceList[that.data.selectDeviceIndex].deviceBasicId
     }

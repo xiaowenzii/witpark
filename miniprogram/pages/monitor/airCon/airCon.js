@@ -46,7 +46,6 @@ Page({
   getTodayStatisticsVO(){
     let that = this;
     let params = {
-      'token': wx.getStorageSync('token'),
       'deviceTypeId': that.data.deviceTypeId,
       'deviceLocation': this.data.floorDataList.list[this.data.floorDataList.selected].code
     }
@@ -62,7 +61,6 @@ Page({
   getMonthUsedData(keyFlag, statisticType){
     let that = this;
     let params = {
-      token: wx.getStorageSync('token'),
       deviceTypeId: that.data.deviceTypeId,
       deviceLocation: this.data.floorDataList.list[this.data.floorDataList.selected].code,
       keyFlag: keyFlag,//查询数据标识 1：获取用电量 2：获取用电时长
