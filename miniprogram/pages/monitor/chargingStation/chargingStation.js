@@ -5,7 +5,47 @@ Page({
     deviceList: [],
     selectDeviceIndex: 0,
     deviceTypeId: '',
-    detailData:{}
+    detailData:{},
+    startX: 0, // 触摸开始的X坐标
+    endX: 0, // 触摸结束的X坐标
+    threshold: 100 // 设置滑动多少距离后触发事件
+  },
+  
+  touchStart: function(e) {
+    this.data.startX = e.touches[0].clientX;
+  },
+  touchMove: function(e) {
+    this.data.endX = e.touches[0].clientX;
+  },
+  touchEnd: function(e) {
+    const deltaX = this.data.endX - this.data.startX;
+    if (Math.abs(deltaX) > this.data.threshold) {
+      if (deltaX > 0) {
+        // 右滑
+        if(this.data.selectDeviceIndex > 0){
+          let selected = this.data.selectDeviceIndex - 1;
+          this.setData({selectDeviceIndex: selected});
+          
+          this.getChargingStatus();
+          this.getTodayDifftimeTotal();
+          this.getTodayOrderCount();
+          this.getTodayProfitsTotal();
+          this.getTodayQuantityTotal();
+        }
+      } else {
+        // 左滑
+        if(this.data.selectDeviceIndex != (this.data.deviceList.length-1)){
+          let selected = this.data.selectDeviceIndex + 1;
+          this.setData({selectDeviceIndex: selected});
+          
+          this.getChargingStatus();
+          this.getTodayDifftimeTotal();
+          this.getTodayOrderCount();
+          this.getTodayProfitsTotal();
+          this.getTodayQuantityTotal();
+        }
+      }
+    }
   },
   // 获取设备列表
   getDeviceDataList(){

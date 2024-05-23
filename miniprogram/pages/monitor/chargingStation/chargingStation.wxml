@@ -1,7 +1,11 @@
 <view style="font-size: 26rpx;margin: 24rpx">设备号：03496898</view>
 <view style="height: 480rpx;display: flex;flex-direction: column;align-items: center;">
-  <image src="../../../asset/charge/cdz.png" style="width: 390rpx;height: 420rpx;"></image>
+  <image src="../../../asset/charge/cdz.png" style="width: 390rpx;height: 420rpx;" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd"></image>
   <text style="font-size: 26rpx; font-weight: bolder;margin-top: 12rpx;">{{deviceList[selectDeviceIndex].deviceName}}</text>
+
+  <view style="height: 18rpx;display: flex;align-items: center;margin-top: 18rpx;" wx:if="{{deviceList.length > 1}}">
+    <view class="device-point" style="background-color: {{index==selectDeviceIndex?'#18B6A2':'#9C9C9C'}};margin-left: {{index!=0?'18rpx':'0'}};" wx:for="{{deviceList}}" wx:key="index"></view>
+  </view>
 </view>
 
 <view class="block-view" style="height: 72rpx;">

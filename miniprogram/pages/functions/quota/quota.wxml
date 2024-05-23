@@ -1,6 +1,6 @@
 <!-- 条件展示 -->
 <view style="height: 90rpx;width: 100%;background-color: #FFFFFF;">
-  <view style="display: flex;flex-direction: row;padding-top: 24rpx;">
+  <view style="display: flex;flex-direction: row;padding-top: 30rpx;">
     <view class="head-desc" style="width: 30%;" data-index="0" bind:tap="search">
       <text class="head-desc-text1">{{yearList.list[yearList.selected].name}}</text>
       <image class="head-image" src="../../../asset/select_down.png"></image>

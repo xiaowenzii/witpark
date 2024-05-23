@@ -87,22 +87,22 @@ Page({
       }
     }, function(error) {})
   },
-  // 获取设备列表
+  // 获取单个设备列表
   getDeviceDataList(){
     let that = this;
     let item = this.data.typeList[this.data.selected];
     let params = {
       deviceTypeId: item.deviceTypeId
     }
+    console.log(params);
     wxRequestGet("/sps/app/device/listDevice", "加载中...", params, function(res) {
+      console.log(res);
       if(res.success){
         if(res.result != null){
           let dataList = res.result.length>8 ? res.result.slice(0, 8):res.result;
-          that.setData({deviceList: dataList});
           // 获取单个设备的详情
           for (let index = 0; index < dataList.length; index++) {
             let deviceParams = {
-              
               deviceTypeId: item.deviceTypeId,
               deviceBasicId: dataList[index].deviceBasicId
             }
@@ -114,7 +114,12 @@ Page({
               }
             }, function(error) {})
           }
+          that.setData({deviceList: dataList});
+          console.log('设备列表');
+          console.log(dataList);
         }
+      }else{
+        that.setData({deviceList: []});
       }
     }, function(error) {})
   },

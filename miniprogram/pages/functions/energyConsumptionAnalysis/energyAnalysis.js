@@ -9,7 +9,7 @@ Page({
     powerStationList: {
       "type": 2,
       "selected": "0",
-      "list": [{"id": "0","name": "配电站#1"}, {"id": "1","name": "配电站#2"}, {"id": "2","name": "配电站#3"}, {"id": "1","name": "配电站#4"}, {"id": "2","name": "配电站#5"}, {"id": "1","name": "配电站#6"}, {"id": "2","name": "配电站#7"}, {"id": "1","name": "配电站#8"}, {"id": "2","name": "配电站#9"}, {"id": "1","name": "配电站#10"}, {"id": "2","name": "配电站#11"}, {"id": "1","name": "配电站#12"}, {"id": "2","name": "配电站#13"}]
+      "list": [{"id": "0","name": "配电站#1"}, {"id": "1","name": "配电站#2"}]
     },
     showSearchDialog: false,
     selected: 0,
@@ -23,18 +23,6 @@ Page({
       type: '1',
       icon: '',
       desc: '空气源热泵',
-      yd: '234',
-      ydgl: '2200'
-    }, {
-      type: '2',
-      icon: '',
-      desc: '充电桩',
-      yd: '234',
-      ydgl: '2200'
-    }, {
-      type: '3',
-      icon: '',
-      desc: '发电单元',
       yd: '234',
       ydgl: '2200'
     }],
@@ -109,6 +97,33 @@ Page({
       showSearchDialog: false
     })
   },
+  // 获取园区综合能流图
+  getComprehensivePower(){
+    util.wxRequestPost("/sps/app/PowerAnalysis/getComprehensivePower", "加载中...", {}, function(res) {
+      console.log('获取园区综合能流图');
+      console.log(res);
+      if(res.success){
+        if(res.result != null){
+        }
+      }
+    }, function(error) {})
+  },
+  // 根据年月日获取设备能耗占比：默认获取今日
+  getElectricityConsumptionRatio(){
+    let params = {
+      type: 'd', // y(年); m(月); d(年)
+      time: this.data.year + '-' + this.data.month + '-' + this.data.day
+    }
+    console.log(params);
+    util.wxRequestPost("/sps/app/PowerAnalysis/getElectricityConsumptionRatio", "加载中...", params, function(res) {
+      console.log('根据年月日获取设备能耗占比：默认获取今日');
+      console.log(res);
+      if(res.success){
+        if(res.result != null){
+        }
+      }
+    }, function(error) {})
+  },
   onLoad(options) {
     this.getDeviceIcon();
     // 初始化条件选择框高度
@@ -121,8 +136,9 @@ Page({
       month: util.formatMD(date.getMonth() + 1),
       day: util.formatMD(date.getDate())
     })
-    // 获取数据
-    this.getData()
+
+    this.getElectricityConsumptionRatio();
+    this.getComprehensivePower();
   },
   onReady() {
     var energyChart = this.selectComponent('#energy-anysis-chart');
@@ -132,25 +148,6 @@ Page({
       { value: 580, name: '备用 580kwh' }
     ]
     this.drawChart(energyChart, dataList)
-  },
-  // 获取数据
-  getData(){
-    // "type": y(年); m(月); d(年)
-    // "time": "2024-05"; "2024-05"; "2024-05-17"
-    let params = {
-      type: 'm',
-      time: this.data.month + '-' + this.data.day
-    }
-    console.log(params)
-    //获取电费统计
-    util.wxRequestPost("/sps/app/PowerAnalysis/getElectricityBill", "加载中...", params, function(res) {
-      console.log(res)
-      if(res.success){
-        if(res.result != null){
-        }
-      }else{
-      }
-    }, function(error) {})
   },
   //绘制环形图
   drawChart(chartComponnet, dataList) {

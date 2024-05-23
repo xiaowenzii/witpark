@@ -2,8 +2,7 @@
   <view class="view-select">
     <view class="view-text" style="font-size: {{selecetStateIndex==0?'32rpx':'24rpx'}};font-weight: {{selecetStateIndex==0?'bolder':'none'}};" data-index="0" bind:tap="selectState">未响应</view>
     <view class="view-text" style="font-size: {{selecetStateIndex==1?'32rpx':'24rpx'}};font-weight: {{selecetStateIndex==1?'bolder':'none'}};" data-index="1" bind:tap="selectState">已响应</view>
-    <view class="view-text" style="font-size: {{selecetStateIndex==2?'32rpx':'24rpx'}};font-weight: {{selecetStateIndex==2?'bolder':'none'}};" data-index="2" bind:tap="selectState">已拒绝</view>
-    <view class="view-text" style="font-size: {{selecetStateIndex==3?'32rpx':'24rpx'}};font-weight: {{selecetStateIndex==3?'bolder':'none'}};" data-index="3" bind:tap="selectState">已结算</view>
+    <view class="view-text" style="font-size: {{selecetStateIndex==2?'32rpx':'24rpx'}};font-weight: {{selecetStateIndex==2?'bolder':'none'}};" data-index="2" bind:tap="selectState">已结算</view>
   </view>
 
   <view style="display: flex;flex-direction: row;">
@@ -27,7 +26,7 @@
     </view>
     <view style="width: 60%;display: flex;align-items: center;">
       <image src="../../../asset/time.png" style="height: 24rpx;width: 24rpx;margin-left: 24rpx;"/>
-      <text style="font-size: 24rpx;margin-left: 12rpx;">通知时间：{{item.text2}}</text>
+      <text style="font-size: 24rpx;margin-left: 12rpx;">开始时间：{{item.text2}}</text>
     </view>
   </view>
   <view style="display: flex;flex-direction: row;margin-top: 12rpx;">
@@ -37,7 +36,7 @@
     </view>
     <view style="width: 60%;display: flex;align-items: center;">
       <image src="../../../asset/time.png" style="height: 24rpx;width: 24rpx;margin-left: 24rpx;"/>
-      <text style="font-size: 24rpx;margin-left: 12rpx;">用能时间：{{item.text4}}</text>
+      <text style="font-size: 24rpx;margin-left: 12rpx;">结束时间：{{item.text4}}</text>
     </view>
   </view>
 

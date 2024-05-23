@@ -1,12 +1,13 @@
 <view class="head-view">
-  <image src="../../../asset/head.png"></image>
+  <image src="{{userInfo.avatar}}" style="border-radius: 50%;"></image>
 </view>
 <view style="font-size: 32rpx;font-weight: bolder;margin-top: 90rpx;text-align: center;letter-spacing: 3rpx;">智慧园区</view>
-<view style="font-size: 32rpx;margin-top: 24rpx;text-align: center;letter-spacing: 3rpx;">13542732175</view>
+<view style="font-size: 32rpx;margin-top: 24rpx;text-align: center;letter-spacing: 3rpx;">{{userInfo.realname}}</view>
+<view style="font-size: 32rpx;margin-top: 24rpx;text-align: center;letter-spacing: 3rpx;">{{userInfo.phone}}</view>
 
 <view style="height: 96rpx;background-color: #FFFFFF;margin-top: 60rpx;display: flex;position: relative;align-items: center;">
   <text style="font-size: 28rpx;margin-left: 24rpx;">修改密码</text>
   <image src="../../../asset/arrow_enter.png" style="height: 48rpx;width: 48rpx;display: flex;position: absolute;right: 0;margin-right: 24rpx;"></image>
 </view>
 
-<view class="logout">退出登入</view>
+<view class="logout" bind:tap="logout">退出登入</view>
