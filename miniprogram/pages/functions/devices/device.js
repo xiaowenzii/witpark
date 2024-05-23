@@ -84,7 +84,7 @@ Page({
       if(res.success){
         that.setData({typeList: res.result})
         that.getDeviceDataList();
-      }else{}
+      }
     }, function(error) {})
   },
   // 获取设备列表
@@ -111,11 +111,11 @@ Page({
                 if(res.result != null){
                   dataList[index].detail = res.result;
                 }
-              }else{}
+              }
             }, function(error) {})
           }
         }
-      }else{}
+      }
     }, function(error) {})
   },
   goMoreList(){

@@ -1,63 +1,57 @@
 <!-- 条件展示 -->
-<view style="height: 240rpx;width: 100%;background-color: #FFFFFF;">
-  <view class="view-select">
-    <view class="view-text" style="font-size: {{selecetStateIndex==0?'32rpx':'24rpx'}};font-weight: {{selecetStateIndex==0?'bolder':'none'}};" data-index="0" bind:tap="selectState">已发布</view>
-    <view class="view-text" style="font-size: {{selecetStateIndex==1?'32rpx':'24rpx'}};font-weight: {{selecetStateIndex==1?'bolder':'none'}};" data-index="1" bind:tap="selectState">未发布</view>
-    <view class="view-text" style="font-size: {{selecetStateIndex==2?'32rpx':'24rpx'}};font-weight: {{selecetStateIndex==2?'bolder':'none'}};" data-index="2" bind:tap="selectState">已作废</view>
-  </view>
-  <view style="display: flex;flex-direction: row;">
-    <view class="search-view">
-      <image class="search-view-image" src="../../../asset/search.png" />
-      <input class="search-view-text" type='text' name='password' placeholder="请输入要搜索的关键词" placeholder-style="color: #9E9E9E;"/>
-    </view>
-  </view>
-  <view style="display: flex;flex-direction: row;">
-    <view class="head-desc" data-index="0" bind:tap="search">
-      <text class="head-desc-text1">{{planList.list[planList.selected].name}}</text>
+<view style="height: 90rpx;width: 100%;background-color: #FFFFFF;">
+  <view style="display: flex;flex-direction: row;padding-top: 24rpx;">
+    <view class="head-desc" style="width: 30%;" data-index="0" bind:tap="search">
+      <text class="head-desc-text1">{{yearList.list[yearList.selected].name}}</text>
       <image class="head-image" src="../../../asset/select_down.png"></image>
     </view>
-    <view class="head-desc" style="width: 34%;" data-index="1" bind:tap="search">
-      <text class="head-desc-text1">{{energyDeviceList.list[energyDeviceList.selected].name}}</text>
+    <view class="head-desc" style="width: 30%;" data-index="1" bind:tap="search">
+      <text class="head-desc-text1">{{monthList.list[monthList.selected].name}}</text>
       <image class="head-image" src="../../../asset/select_down.png"></image>
     </view>
-    <view class="head-desc" data-index="2" bind:tap="search">
-      <text class="head-desc-text1">{{energyTypeList.list[energyTypeList.selected].name}}</text>
+    <view class="head-desc" style="width: 40%;" data-index="2" bind:tap="search">
+      <text class="head-desc-text1">{{typeList.list[typeList.selected].name}}</text>
       <image class="head-image" src="../../../asset/select_down.png"></image>
     </view>
   </view>
 </view>
 
-<view class="view-item" wx:for="{{dataList}}" wx:key="index" data-index="index">
-  <!-- item 明细 -->
-  <view style="display: flex;padding: 6rpx 12rpx;position: relative;align-items: center;"> 
-    <view style="font-size: 28rpx;font-weight: bolder;">{{item.deviceName}}</view>
-    <view style="font-size: 24rpx;margin-left: 24rpx;color: #A2A2A2;">用能类型：</view>
-    <view>{{item.powerType}}</view>
-    <view style="font-size: 18rpx;background-color: #DAEAE7;color: #40C3B2;padding: 3rpx 9rpx;border-radius: 6rpx;display: flex;position: absolute;right: 0;margin-right: 12rpx;">{{item.type}}</view>
-  </view>
-  <view style="display: flex;padding: 18rpx 12rpx;"> 
-    <view style="width: 50%;">用能额度：{{item.limit}} kwh</view>
-    <view>用能情况：{{item.use}} kwh</view>
-  </view>
-  <view style="display: flex;padding: 6rpx 12rpx;"> 
-    <view style="width: 50%;">制定人：{{item.makeOwner}}</view>
-    <view>用能时间：{{item.useDate}}</view>
-  </view>
-  <view style="height: 1rpx;background-color: #F2F3F3;margin: 12rpx;"></view>
-  <view style="display: flex;flex-direction: row;margin-top: 24rpx;position: relative;align-items: center;">
-    <view style="font-size: 26rpx;padding-left: 12rpx;font-weight: bolder;">
-      完成率：
-      <text style="color: #18B6A2;font-size: 28rpx;">{{item.finish}}</text>
+<!-- 列表 -->
+<view>
+  <scroll-view scroll-top="{{scrollTopPosition}}" scroll-y="true" style="height:{{scrollHeight}}rpx;" bindscrolltolower="bindDownLoad" bindscroll="scroll">
+    <view class="view-item" wx:for="{{dataList}}" wx:key="index" data-index="index">
+      <!-- item 明细 -->
+      <view style="display: flex;padding: 6rpx 12rpx;position: relative;align-items: center;"> 
+        <view style="font-size: 28rpx;font-weight: bolder;">{{item.deviceTypeName}}</view>
+        <view style="font-size: 24rpx;margin-left: 36rpx;color: #A2A2A2;">用能类型：</view>
+        <view>{{item.powerType==0?'用电':'发电'}}</view>
+        <view style="font-size: 18rpx;background-color: #DAEAE7;color: #40C3B2;padding: 3rpx 9rpx;border-radius: 6rpx;display: flex;position: absolute;right: 0;margin-right: 12rpx;">{{item.type}}</view>
+      </view>
+      <view style="display: flex;padding: 18rpx 12rpx;"> 
+        <view style="width: 50%;">用能额度：{{item.quotaPlanLimit}} kwh</view>
+        <view>用能情况：{{item.use}} kwh</view>
+      </view>
+      <view style="display: flex;padding: 6rpx 12rpx;"> 
+        <view style="width: 50%;">制定人：{{item.quotaPlanUser}}</view>
+        <view>用能时间：{{item.planYearMonth}}</view>
+      </view>
+      <view style="height: 1rpx;background-color: #F2F3F3;margin: 12rpx;"></view>
+      <view style="display: flex;flex-direction: row;margin-top: 30rpx;position: relative;align-items: center;">
+        <view style="font-size: 26rpx;padding-left: 12rpx;font-weight: bolder;">
+          完成率：
+          <text style="color: #18B6A2;font-size: 28rpx;">{{item.finish}}</text>
+        </view>
+        <view style="display: flex;position: absolute;right: 0;margin-right: 24rpx;">
+          <view class="item-but" data-item="{{item}}" bind:tap="abandan">删除</view>
+          <view class="item-but" data-item="{{item}}" bind:tap="edit">编辑</view>
+        </view>
+      </view>
     </view>
-    <view style="display: flex;position: absolute;right: 0;margin-right: 24rpx;">
-      <view class="item-but" data-item="{{item}}" bind:tap="abandan">作废</view>
-      <view class="item-but" data-item="{{item}}" bind:tap="edit">编辑</view>
-    </view>
-  </view>
+  </scroll-view>
 </view>
 
 <!-- 条件筛选框 -->
-<view class="condtion-dialog" style="height: {{condtionDialogHeight}}rpx;" wx:if="{{showSearchDialog}}">
+<view class="condtion-dialog" style="height: {{condtionDialogHeight}}rpx;margin-top: 90rpx;" wx:if="{{showSearchDialog}}">
   <view style="height: 50%;width: 100%;padding-top: 24rpx;background-color: #FFFFFF;">
     <search-contion-dialog searchData="{{searchDataList}}" type="single" bindmyevent="closeDialog"></search-contion-dialog>
   </view>
