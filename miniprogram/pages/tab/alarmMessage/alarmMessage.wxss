@@ -57,7 +57,7 @@ page {
 /* 列表样式 */
 .view-item{
   padding: 12rpx;
-  height: 218rpx;
+  height: 207rpx;
   font-size: 24rpx;
   background-color: #FFFFFF;
   margin-top: 24rpx;

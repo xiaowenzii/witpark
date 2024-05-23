@@ -1,37 +1,39 @@
-import {getScreenHeightRpx, formatTime} from "../../../utils/util"
+import * as util from "../../../utils/util"
 
 Page({
   data: {
-    selecetStateIndex: 0,
-    dataList: [
-      {id: "0", title: "空调告警",level:"紧急",finish:"90%", limit:"1000", use:"900",owner:"张三", date:"2024-04", type:"电表", state:"未消除"},
-      {id: "0", title: "照明设备告警", level:"一般",finish:"90%", limit:"1000", use:"900",owner:"张三", date:"2024-04", type:"电表", state:"已消除"}
-    ],
+    alarmProcessedStatus: 0,
+    dataList: [],
     // 查询条件数据
     condtionDialogHeight: 0,
+    scrollHeight: 0,
+    scrollTop : 0,
+    scrollTopPosition: 0,
     searchDataList:{},
     searchIndex: 0,
-    // 设备状态
-    deviceStateList: {
+    // 告警级别
+    alarmLevel: {
       "type": 0,
       "selected": "0",
-      "list": [{"id": "0","name": "全部状态"}, {"id": "1","name": "停止"}, {"id": "2","name": "异常"}]
-    },
-    // 告警类型
-    energyTypeList: {
-      "type": 1,
-      "selected": "0",
-      "list": [{"id": "0","name": "全部告警"}, {"id": "1","name": "A告警"}, {"id": "2","name": "B告警"}]
+      "list": [{"id": "","name": "全部（告警级别）"}, {"id": "0","name": "紧急（告警级别）"}, {"id": "1","name": "重要（告警级别）"}, {"id": "2","name": "一般（告警级别）"}]
     },
     showSearchDialog: false,
     startTime: '',
-    endTime: ''
+    endTime: '',
+    pageNumber: 1,
+    pageNumberSize: 1,
+    deviceName: ''
+  },
+  handleInput(res){
+    this.setData({deviceName: res.detail.value, pageNumber: 1});
+    this.pageAlarmBasic();
   },
   selectState(res){
     var index = res.currentTarget.dataset.index;
     this.setData({
-      selecetStateIndex: index
+      alarmProcessedStatus: index
     })
+    this.pageAlarmBasic();
   },
   search(res){
     //选择框里面的数据
@@ -41,10 +43,8 @@ Page({
         showSearchDialog: false
       })
     } else {
-      if(index==2){
-
-      } else {
-        var searchDataList = index==0?this.data.deviceStateList:this.data.energyTypeList;
+      if(index==0){
+        var searchDataList = this.data.alarmLevel;
         this.setData({
           searchDataList: searchDataList,
           showSearchDialog: false
@@ -57,12 +57,6 @@ Page({
       })
     }
   },
-  abandan(res){
-    console.log(res.currentTarget.dataset.item);
-  },
-  edit(res){
-    console.log(res.currentTarget.dataset.item);
-  },
   closeDialog: function(e) {
     switch (e.detail.type) {
       case 'multiple':
@@ -73,13 +67,10 @@ Page({
         if(e.detail.operate == "confirm") {
           if(this.data.searchIndex==0){
             this.setData({
-              deviceStateList: e.detail.data
+              alarmLevel: e.detail.data,
+              pageNumber: 1
             })
-          }
-          if(this.data.searchIndex== 1){
-            this.setData({
-              energyTypeList: e.detail.data
-            })
+            this.pageAlarmBasic();
           }
         }
         break;
@@ -93,11 +84,61 @@ Page({
     this.setData({
       startTime: e.detail.startTime,
       endTime: e.detail.endTime,
-      showSearchDialog: false
+      showSearchDialog: false,
+      pageNumber:1
     })
+    this.pageAlarmBasic();
+  },
+  // 分页查询文件信息
+  pageAlarmBasic(){
+    let that = this;
+    let params = {
+      alarmProcessedStatus: that.data.alarmProcessedStatus,
+      alarmLevel: that.data.alarmLevel.list[that.data.alarmLevel.selected].id,
+      createTimeStart: that.data.startTime,
+      createTimeEnd: that.data.endTime,
+      pageNumber: that.data.pageNumber,
+      pageSize: 10,
+      deviceName: that.data.deviceName,
+      planYearMonth: "",
+      quotaPlanType: "1",
+      sortField: "",
+      sortOrder: ""
+    }
+    console.log(params);
+    util.wxRequestPost("/sps/app/alarm/pageAlarmBasic", "加载中...", params, function(res) {
+      console.log(res)
+      if(res.data.success){
+        var data = that.data.pageNumber==1?[]:that.data.dataList;
+        for (let i = 0; i < res.data.result.records.length; i++) {
+          data.push(res.data.result.records[i]);
+        }
+        that.setData({dataList: data, pageNumberSize: res.data.result.pages});
+        var top = that.data.scrollTop;
+        that.setData({
+          scrollTopPosition : top
+        });
+      }
+    }, function(error) {})
+  },
+  //页面滑动到底部, 上拉刷新
+  bindDownLoad:function(){
+    if(this.data.pageNumber < this.data.pageNumberSize){
+      var number = this.data.pageNumber + 1;
+      this.setData({pageNumber: number});
+      this.pageAlarmBasic();
+    }
+  },
+  scroll:function(event){
+    //该方法绑定了页面滚动时事件，当前的position.y的值
+    this.setData({
+      scrollTop : event.detail.scrollTop
+    });
   },
   onLoad: function (options) {
-    let rpxHeight = getScreenHeightRpx()-240;
+    let rpxHeight = util.getScreenHeightRpx()-240;
+    // 设置列表高度
+    let rpxScrollHeight = util.getScreenHeightRpx()-240;
     // 获取当前日期
     const date = new Date();
     const year = date.getFullYear(); // 获取当前年份
@@ -105,9 +146,12 @@ Page({
     const day = date.getDate(); // 获取当前日
     this.setData({
       condtionDialogHeight: rpxHeight,
-      startTime: formatTime(year+'-'+month+'-'+day),
-      endTime: formatTime(year+'-'+month+'-'+day)
+      scrollHeight: rpxScrollHeight,
+      startTime: util.formatTime(year+'-'+month+'-'+day),
+      endTime: util.formatTime(year+'-'+month+'-'+day)
     })
+
+    this.pageAlarmBasic();
   },
   onReady: function () {
   },

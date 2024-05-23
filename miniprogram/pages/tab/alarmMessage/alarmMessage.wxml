@@ -1,49 +1,48 @@
 <!-- 条件展示 -->
 <view style="height: 240rpx;width: 100%;background-color: #FFFFFF;">
   <view class="view-select">
-    <view class="view-text" style="font-size: {{selecetStateIndex==0?'32rpx':'24rpx'}};font-weight: {{selecetStateIndex==0?'bolder':'none'}};" data-index="0" bind:tap="selectState">未发布</view>
-    <view class="view-text" style="font-size: {{selecetStateIndex==1?'32rpx':'24rpx'}};font-weight: {{selecetStateIndex==1?'bolder':'none'}};" data-index="1" bind:tap="selectState">已发布</view>
-    <view class="view-text" style="font-size: {{selecetStateIndex==2?'32rpx':'24rpx'}};font-weight: {{selecetStateIndex==2?'bolder':'none'}};" data-index="2" bind:tap="selectState">已作废</view>
+    <view class="view-text" style="font-size: {{alarmProcessedStatus==0?'32rpx':'24rpx'}};font-weight: {{alarmProcessedStatus==0?'bolder':'none'}};" data-index="0" bind:tap="selectState">未处理</view>
+    <view class="view-text" style="font-size: {{alarmProcessedStatus==1?'32rpx':'24rpx'}};font-weight: {{alarmProcessedStatus==1?'bolder':'none'}};" data-index="1" bind:tap="selectState">已处理</view>
   </view>
   <view style="display: flex;flex-direction: row;">
     <view class="search-view">
       <image class="search-view-image" src="../../../asset/search.png" />
-      <input class="search-view-text" type='text' name='password' placeholder="请输入要搜索的关键词" placeholder-style="color: #9E9E9E;"/>
+      <input class="search-view-text" type='text' name='password' placeholder="请输入设备名称" value="{{deviceName}}" bindinput="handleInput" placeholder-style="color: #9E9E9E;"/>
     </view>
   </view>
   <view style="display: flex;flex-direction: row;">
-    <view class="head-desc" data-index="0" bind:tap="search">
-      <text class="head-desc-text1">{{deviceStateList.list[deviceStateList.selected].name}}</text>
+    <view class="head-desc" style="width: 40%;" data-index="0" bind:tap="search">
+      <text class="head-desc-text1">{{alarmLevel.list[alarmLevel.selected].name}}</text>
       <image class="head-image" src="../../../asset/select_down.png"></image>
     </view>
-    <view class="head-desc" style="width: 34%;" data-index="1" bind:tap="search">
-      <text class="head-desc-text1">{{energyTypeList.list[energyTypeList.selected].name}}</text>
-      <image class="head-image" src="../../../asset/select_down.png"></image>
-    </view>
-    <view class="head-desc" data-index="2" bind:tap="search">
+    <view class="head-desc" style="width: 60%;" data-index="2" bind:tap="search">
       <text class="head-desc-text1">{{startTime}} 至 {{endTime}}</text>
       <image class="head-image" src="../../../asset/select_down.png"></image>
     </view>
   </view>
 </view>
 
-<view class="view-item" wx:for="{{dataList}}" wx:key="index" data-index="index">
-  <!-- item 明细 -->
-  <view style="display: flex;padding: 6rpx 12rpx;position: relative;align-items: center;"> 
-    <view style="font-size: 28rpx;font-weight: bolder;">{{item.title}}</view>
-    <view style="font-size: 18rpx;background-color: #DAEAE7;color: #40C3B2;padding: 3rpx 9rpx;border-radius: 6rpx;display: flex;position: absolute;right: 0;margin-right: 12rpx;">{{item.level}}</view>
-  </view>
-  <view style="display: flex;padding: 18rpx 12rpx;"> 
-    <view style="width: 50%;">设备状态：{{item.state}}</view>
-    <view>告警类型：{{item.type}}</view>
-  </view>
-  <view style="display: flex;padding: 6rpx 12rpx;"> 
-    <view style="width: 50%;">创建时间：{{item1.date}}</view>
-    <view>提醒人员：{{item.owner}}</view>
-  </view>
-  <view style="display: flex;padding: 12rpx 12rpx;"> 
-    设备出现告警，请及时处理
-  </view>
+<!-- 列表 -->
+<view>
+  <scroll-view scroll-top="{{scrollTopPosition}}" scroll-y="true" style="height:{{scrollHeight}}rpx;" bindscrolltolower="bindDownLoad" bindscroll="scroll">
+    <view class="view-item" wx:for="{{dataList}}" wx:key="index" data-index="index">
+      <!-- item 明细 -->
+      <view style="display: flex;padding: 6rpx 12rpx;position: relative;align-items: center;"> 
+        <view style="font-size: 28rpx;font-weight: bolder;">{{item.deviceName}}</view>
+        <view style="font-size: 18rpx;background-color: #DAEAE7;color: #40C3B2;padding: 3rpx 9rpx;border-radius: 6rpx;display: flex;position: absolute;right: 0;margin-right: 12rpx;">{{item.alarmLevel==0?'紧急':item.alarmLevel==1?'重要':item.alarmLevel==2?'一般':''}}</view>
+      </view>
+      <view style="display: flex;padding: 18rpx 12rpx;"> 
+        <view style="width: 50%;">设备状态：{{item.alarmProcessedStatus==0?'未处理':'已处理'}}</view>
+      </view>
+      <view style="display: flex;padding: 6rpx 12rpx;"> 
+        <view style="width: 60%;">创建时间：{{item.createTime}}</view>
+        <view>提醒人员：{{}}</view>
+      </view>
+      <view style="display: flex;padding: 12rpx 12rpx;"> 
+        {{item.alarmName}}
+      </view>
+    </view>
+  </scroll-view>
 </view>
 
 <!-- 条件筛选框 -->
