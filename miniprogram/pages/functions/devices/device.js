@@ -1,5 +1,5 @@
 import * as echarts from '../../component/ec-canvas/echarts'
-import {wxRequestGet} from "../../../utils/util";
+import * as util from "../../../utils/util";
 
 Page({
   data: {
@@ -80,9 +80,10 @@ Page({
   // 获取设备类型
   getDeviceType(){
     let that = this;
-    wxRequestGet("/sps/app/device/listDeviceType", "加载中...", {}, function(res) {
+    util.wxRequestGet("/sps/app/device/listDeviceType", "加载中...", {}, function(res) {
       if(res.success){
         that.setData({typeList: res.result})
+        console.log(res);
         that.getDeviceDataList();
       }
     }, function(error) {})
@@ -95,18 +96,18 @@ Page({
       deviceTypeId: item.deviceTypeId
     }
     console.log(params);
-    wxRequestGet("/sps/app/device/listDevice", "加载中...", params, function(res) {
+    util.wxRequestPost("/sps/app/device/listDeviceBasic", "加载中...", params, function(res) {
       console.log(res);
-      if(res.success){
-        if(res.result != null){
-          let dataList = res.result.length>8 ? res.result.slice(0, 8):res.result;
+      if(res.data.success){
+        if(res.data.result != null){
+          let dataList = res.data.result.length>8 ? res.data.result.slice(0, 8):res.data.result;
           // 获取单个设备的详情
           for (let index = 0; index < dataList.length; index++) {
             let deviceParams = {
               deviceTypeId: item.deviceTypeId,
               deviceBasicId: dataList[index].deviceBasicId
             }
-            wxRequestGet("/sps/app/device/refreshDevice", "加载中...", deviceParams, function(res) {
+            util.wxRequestGet("/sps/app/device/refreshDevice", "加载中...", deviceParams, function(res) {
               if(res.success){
                 if(res.result != null){
                   dataList[index].detail = res.result;

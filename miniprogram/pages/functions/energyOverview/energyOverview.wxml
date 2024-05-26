@@ -1,21 +1,21 @@
 <view style="height: 180rpx;background: -webkit-linear-gradient(top, #E8F7F4, #FFFFFF);">
   <view class="date-select-view">
-    <view class="date-view" style="color: {{dateTpye==0?'#FFFFFF':'none'}};background-color: {{dateTpye==0?'#18B6A2':'none'}};" data-index="0" bind:tap="selectDateType">月数据</view>
-    <view class="date-view" style="margin-left: 48rpx;color: {{dateTpye==1?'#FFFFFF':'none'}};background-color: {{dateTpye==1?'#18B6A2':'none'}};" data-index="1" bind:tap="selectDateType">年数据</view>
+    <view class="date-view" style="color: {{dateTpye=='m'?'#FFFFFF':'none'}};background-color: {{dateTpye=='m'?'#18B6A2':'none'}};" data-index="m" bind:tap="selectDateType">月数据</view>
+    <view class="date-view" style="margin-left: 48rpx;color: {{dateTpye=='y'?'#FFFFFF':'none'}};background-color: {{dateTpye=='y'?'#18B6A2':'none'}};" data-index="y" bind:tap="selectDateType">年数据</view>
     <view class="head-desc" bind:tap="search">
-      <text class="head-desc-text1">{{energyTypeList.list[energyTypeList.selected].name}}</text>
+      <text class="head-desc-text1">{{yearList.list[yearList.selected].name}}</text>
       <image class="head-image" src="../../../asset/select_down.png"></image>
     </view>
   </view>
   
   <!-- 月份选择 -->
   <view style="height: 66rpx;display: flex;flex-direction: row;align-items: center;">
-    <view wx:for="{{monthList}}" wx:key="index" style="width: 8%;margin: 24rpx;text-align: center;font-size: {{index==monthSelected?'28rpx':'26rpx'}};font-weight: {{selected==0?'bolder':'none'}};font-weight: {{index==monthSelected?'bolder':'none'}};" data-index="{{index}}" bind:tap="selectMonth">{{item}}</view>
+    <view wx:for="{{monthList}}" wx:key="index" style="width: 8%;margin: 24rpx;text-align: center;font-size: {{item.id==monthSelected?'28rpx':'26rpx'}};font-weight: {{item.id==monthSelected?'bolder':'none'}};" data-index="{{item.id}}" bind:tap="selectMonth">{{item.name}}</view>
     
     <image src="../../../asset/arrow_round_down.png" style="height: 36rpx;width: 36rpx;display: flex;position: absolute;right: 0;margin-right: 24rpx;" bind:tap="showMonth"></image>
   </view>
   <view class="month-more" wx:if="{{showMoreMonth}}">
-    <text class="month-item" wx:for="{{moreMonth}}" wx:key="index" data-index="{{index}}" bind:tap="selectMonthItem">{{item}}月</text>
+    <text class="month-item" wx:for="{{moreMonth}}" wx:key="index" data-index="{{item.id}}" bind:tap="selectMonthItem" style="font-weight: {{item.id==monthSelected?'bolder':'none'}};background-color: {{item.id==monthSelected?'#F5FBFA':'none'}};">{{item.name}}</text>
   </view>
 </view>
 
@@ -36,8 +36,17 @@
   <text class="view-text-1">能耗统计</text>
   <text class="view-text-2">单位：kwh</text>
 </view>
+<view class="view-title">
+  <view style="margin-left: 24rpx;font-size: 24rpx;font-weight: {{energyType==0?'bolder':'none'}};color: {{energyType==0?'#18B6A2':''}};" data-index="0" bind:tap="selectEnergyType">用电</view>
+  <view style="margin-left: 24rpx;font-size: 24rpx;font-weight: {{energyType==1?'bolder':'none'}};color: {{energyType==1?'#18B6A2':''}};" data-index="1" bind:tap="selectEnergyType">发电</view>
+  <view style="margin-left: 24rpx;font-size: 24rpx;font-weight: {{energyType==2?'bolder':'none'}};color: {{energyType==2?'#18B6A2':''}};" data-index="2" bind:tap="selectEnergyType">用气</view>
+  <view style="margin-left: 24rpx;font-size: 24rpx;font-weight: {{energyType==32?'bolder':'none'}};color: {{energyType==3?'#18B6A2':''}};" data-index="3" bind:tap="selectEnergyType">用水</view>
+  <view style="margin-left: 24rpx;font-size: 24rpx;font-weight: {{energyType==4?'bolder':'none'}};color: {{energyType==4?'#18B6A2':''}};" data-index="4" bind:tap="selectEnergyType">储能</view>
+  <view style="margin-left: 24rpx;font-size: 24rpx;font-weight: {{energyType==5?'bolder':'none'}};color: {{energyType==5?'#18B6A2':''}};" data-index="5" bind:tap="selectEnergyType">碳减</view>
+  <view style="margin-left: 24rpx;font-size: 24rpx;font-weight: {{energyType==6?'bolder':'none'}};color: {{energyType==6?'#18B6A2':''}};" data-index="6" bind:tap="selectEnergyType">充电桩收益</view>
+</view>
 <!-- 柱状统计图 -->
-<view style="height: 360rpx;">
+<view style="height: 360rpx;margin-top: 12rpx;">
   <ec-canvas id="energy-chart-bar" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
 </view>
 

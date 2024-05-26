@@ -10,7 +10,7 @@
       <input class="search-view-text" type='text' name='password' placeholder="请输入设备名称" value="{{deviceName}}" bindinput="handleInput" placeholder-style="color: #9E9E9E;"/>
     </view>
   </view>
-  <view style="display: flex;flex-direction: row;">
+  <view style="display: flex;flex-direction: row;margin-top: 12rpx;">
     <view class="head-desc" style="width: 40%;" data-index="0" bind:tap="search">
       <text class="head-desc-text1">{{alarmLevel.list[alarmLevel.selected].name}}</text>
       <image class="head-image" src="../../../asset/select_down.png"></image>

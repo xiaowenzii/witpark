@@ -147,3 +147,47 @@ export const formatMD = (dateNum) => {
     return '0' + parseInt(dateNum);
   }
 }
+
+// 设置月份
+export const monthList = (dateNum) => {
+  var monthList = [];
+  switch (dateNum) {
+    case 1:
+      monthList = [{"id": "1","name": "1 月"}, {"id": "2","name": "2 月"}, {"id": "3","name": "3 月"}, {"id": "4","name": "4 月"}, {"id": "5","name": "5 月"}, {"id": "6","name": "6 月"}, {"id": "7","name": "7 月"}, {"id": "8","name": "8 月"}, {"id": "9","name": "9 月"}, {"id": "10","name": "10 月"}, {"id": "11","name": "11 月"}, {"id": "12","name": "12 月"}];
+      break;
+    case 2:
+      monthList = [{"id": "2","name": "2 月"}, {"id": "1","name": "1 月"}, {"id": "3","name": "3 月"}, {"id": "4","name": "4 月"}, {"id": "5","name": "5 月"}, {"id": "6","name": "6 月"}, {"id": "7","name": "7 月"}, {"id": "8","name": "8 月"}, {"id": "9","name": "9 月"}, {"id": "10","name": "10 月"}, {"id": "11","name": "11 月"}, {"id": "12","name": "12 月"}];
+      break;
+    case 3:
+      monthList = [{"id": "3","name": "3 月"}, {"id": "2","name": "2 月"}, {"id": "1","name": "1 月"}, {"id": "4","name": "4 月"}, {"id": "5","name": "5 月"}, {"id": "6","name": "6 月"}, {"id": "7","name": "7 月"}, {"id": "8","name": "8 月"}, {"id": "9","name": "9 月"}, {"id": "10","name": "10 月"}, {"id": "11","name": "11 月"}, {"id": "12","name": "12 月"}];
+      break;
+    case 4:
+      monthList = [{"id": "4","name": "4 月"}, {"id": "3","name": "3 月"}, {"id": "2","name": "2 月"}, {"id": "1","name": "1 月"}, {"id": "5","name": "5 月"}, {"id": "6","name": "6 月"}, {"id": "7","name": "7 月"}, {"id": "8","name": "8 月"}, {"id": "9","name": "9 月"}, {"id": "10","name": "10 月"}, {"id": "11","name": "11 月"}, {"id": "12","name": "12 月"}];
+      break;
+    case 5:
+      monthList = [{"id": "5","name": "5 月"}, {"id": "4","name": "4 月"}, {"id": "3","name": "3 月"}, {"id": "2","name": "2 月"}, {"id": "1","name": "1 月"}, {"id": "6","name": "6 月"}, {"id": "7","name": "7 月"}, {"id": "8","name": "8 月"}, {"id": "9","name": "9 月"}, {"id": "10","name": "10 月"}, {"id": "11","name": "11 月"}, {"id": "12","name": "12 月"}];
+      break;
+    case 6:
+      monthList = [{"id": "6","name": "6 月"}, {"id": "5","name": "5 月"}, {"id": "4","name": "4 月"}, {"id": "3","name": "3 月"}, {"id": "2","name": "2 月"}, {"id": "1","name": "1 月"}, {"id": "7","name": "7 月"}, {"id": "8","name": "8 月"}, {"id": "9","name": "9 月"}, {"id": "10","name": "10 月"}, {"id": "11","name": "11 月"}, {"id": "12","name": "12 月"}];
+      break;
+    case 7:
+      monthList = [{"id": "7","name": "7 月"}, {"id": "6","name": "6 月"}, {"id": "5","name": "5 月"}, {"id": "4","name": "4 月"}, {"id": "3","name": "3 月"}, {"id": "2","name": "2 月"}, {"id": "1","name": "1 月"}, {"id": "8","name": "8 月"}, {"id": "9","name": "9 月"}, {"id": "10","name": "10 月"}, {"id": "11","name": "11 月"}, {"id": "12","name": "12 月"}];
+      break;
+    case 8:
+      monthList = [{"id": "8","name": "8 月"}, {"id": "7","name": "7 月"}, {"id": "6","name": "6 月"}, {"id": "5","name": "5 月"}, {"id": "4","name": "4 月"}, {"id": "3","name": "3 月"}, {"id": "1","name": "1 月"}, {"id": "2","name": "2 月"}, {"id": "9","name": "9 月"}, {"id": "10","name": "10 月"}, {"id": "11","name": "11 月"}, {"id": "12","name": "12 月"}];
+      break;
+    case 9:
+      monthList = [{"id": "9","name": "9 月"}, {"id": "8","name": "8 月"}, {"id": "7","name": "7 月"}, {"id": "6","name": "6 月"}, {"id": "5","name": "5 月"}, {"id": "4","name": "4 月"}, {"id": "1","name": "1 月"}, {"id": "2","name": "2 月"}, {"id": "3","name": "3 月"}, {"id": "10","name": "10 月"}, {"id": "11","name": "11 月"}, {"id": "12","name": "12 月"}];
+      break;
+    case 10:
+      monthList = [{"id": "10","name": "10 月"}, {"id": "9","name": "9 月"}, {"id": "8","name": "8 月"}, {"id": "7","name": "7 月"}, {"id": "6","name": "6 月"}, {"id": "5","name": "5 月"}, {"id": "1","name": "1 月"}, {"id": "2","name": "2 月"}, {"id": "3","name": "3 月"}, {"id": "4","name": "4 月"}, {"id": "11","name": "11 月"}, {"id": "12","name": "12 月"}];
+      break;
+    case 11:
+      monthList = [{"id": "11","name": "11 月"}, {"id": "10","name": "10 月"}, {"id": "9","name": "9 月"}, {"id": "8","name": "8 月"}, {"id": "7","name": "7 月"}, {"id": "6","name": "6 月"}, {"id": "1","name": "1 月"}, {"id": "2","name": "2 月"}, {"id": "3","name": "3 月"}, {"id": "4","name": "4 月"}, {"id": "5","name": "5 月"}, {"id": "12","name": "12 月"}];
+      break;
+    case 12:
+      monthList = [{"id": "12","name": "12 月"}, {"id": "11","name": "11 月"}, {"id": "10","name": "10 月"}, {"id": "9","name": "9 月"}, {"id": "8","name": "8 月"}, {"id": "7","name": "7 月"}, {"id": "1","name": "1 月"}, {"id": "2","name": "2 月"}, {"id": "3","name": "3 月"}, {"id": "4","name": "4 月"}, {"id": "5","name": "5 月"}, {"id": "6","name": "6 月"}];
+      break;
+  }
+  return monthList;
+}

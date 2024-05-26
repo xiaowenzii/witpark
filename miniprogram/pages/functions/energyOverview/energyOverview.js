@@ -1,21 +1,22 @@
 import * as echarts from '../../component/ec-canvas/echarts'
-import {getScreenHeightRpx, getPixelRatio} from "../../../utils/util"
+import * as util from "../../../utils/util"
 
 Page({
   data: {
-    dateTpye: 0,
-    monthList: ["当月", "上月", "5月", "6月", "7月", "8月"],
-    monthSelected: 0,
+    dateTpye: 'm',
+    monthList: [],
+    moreMonth:[],
+    monthSelected: 1, // 选择的月份
     condtionDialogHeight: 0,
     searchDataList:{},
     // 用能类型
-    energyTypeList: {
+    yearList: {
       "type": 2,
       "selected": "0",
-      "list": [{"id": "0","name": "全部用能类型"}, {"id": "1","name": "用电"}, {"id": "2","name": "发电"}]
+      "list": [{"id": "2023","name": "2023（年）"}, {"id": "2024","name": "2024（年）"}, {"id": "2025","name": "2025（年）"}, {"id": "2026","name": "2026（年）"}]
     },
+    energyType: 0,//能耗类型
     showSearchDialog: false,
-    moreMonth:[1, 2, 9, 10, 11, 12],
     showMoreMonth: false,
     ec: {
       lazyLoad: true
@@ -27,21 +28,25 @@ Page({
       {type:"其它用电",icon:"../../../asset/energy_overview/qt.png",color:"#74CDFF",percent:"90"}
     ]
   },
+  // 选择时间类别，年或者月
   selectDateType(res){
     var index = res.currentTarget.dataset.index;
     this.setData({
       dateTpye: index
     })
+    this.requestData();
   },
+  // 选择月份
   selectMonth(res){
     var index = res.currentTarget.dataset.index;
     this.setData({
       monthSelected: index
     })
+    this.requestData();
   },
   search(res){
     //选择框里面的数据
-    var searchDataList = this.data.energyTypeList;
+    var searchDataList = this.data.yearList;
     this.setData({
       searchDataList: searchDataList,
       showSearchDialog: true
@@ -50,35 +55,148 @@ Page({
   closeDialog: function(e) {
     // 单选
     this.setData({
-      energyTypeList: e.detail.data,
+      yearList: e.detail.data,
       showSearchDialog: false
     })
+    this.requestData();
   },
+  // 显示月份下拉菜单
   showMonth(){
     var showMoreMonth = !this.data.showMoreMonth;
     this.setData({
       showMoreMonth: showMoreMonth
     })
   },
+  // 下拉月份选择
   selectMonthItem(res){
     var index = res.currentTarget.dataset.index;
     this.setData({
-      showMoreMonth: false
+      showMoreMonth: false,
+      monthSelected: index
     })
-    console.log(this.data.moreMonth[index]);
+   this.requestData();
+  },
+  // 能耗统计，类型选择
+  selectEnergyType(res){
+    var index = res.currentTarget.dataset.index;
+    this.setData({
+      energyType: index
+    })
+    this.requestData();
+  },
+  // 获取各种统计数据
+  getData(type, url){
+    let that = this;
+    let params = {
+      type: that.data.dateTpye,
+      time: that.data.dateTpye == 'y'?that.data.yearList.list[that.data.yearList.selected].id:that.data.yearList.list[that.data.yearList.selected].id + '-'+util.formatMD(that.data.monthSelected)
+    }
+    util.wxRequestPost(url, "加载中...", params, function(res) {
+      if(res.data.success){
+        if(type == 'getCarbonReductionStatistics'){
+          console.log('获取减碳统计');
+          console.log(res);
+        }
+        if(type == 'getElectricityStatistics'){
+          console.log('获取用电统计');
+          console.log(res);
+        }
+        if(type == 'getEnergyStorageStatistics'){
+          console.log('获取储能统计');
+          console.log(res);
+        }
+        if(type == 'getGasStatistics'){
+          console.log('获取用气统计');
+          console.log(res);
+        }
+        if(type == 'getGenerationStatistics'){
+          console.log('获取发电统计');
+          console.log(res);
+        }
+        if(type == 'getIncomeStatistics'){
+          console.log('获取充电桩收益统计');
+          console.log(res);
+        }
+        if(type == 'getWaterStatistics'){
+          console.log('获取用水统计');
+          console.log(res);
+        }
+        //绘制图标
+        var energyChart = that.selectComponent('#energy-chart-bar');
+        var xData = [];
+        var yData = [];
+        for (let i = 0; i < res.data.result.length; i++) {
+          xData.push(res.data.result[i].time);
+          yData.push(res.data.result[i].totalValue);
+        }
+        that.drawChart(energyChart, xData, yData)
+      }
+    }, function(error) {})
+  },
+  // 请求集中
+  requestData(){
+    switch (parseInt(this.data.energyType)) {
+      case 0:
+        this.getData('getElectricityStatistics', '/sps/app/powerOverview/getElectricityStatistics'); //获取用电统计
+        break;
+      case 1:
+        this.getData('getGenerationStatistics', '/sps/app/powerOverview/getGenerationStatistics'); //获取发电统计
+        break;
+      case 2:
+        this.getData('getGasStatistics', '/sps/app/powerOverview/getGasStatistics'); //获取用气统计
+        break;
+      case 3:
+        this.getData('getWaterStatistics', '/sps/app/powerOverview/getWaterStatistics'); //获取用水统计
+        break;
+      case 4:
+        this.getData('getEnergyStorageStatistics', '//sps/app/powerOverview/getEnergyStorageStatistics'); //获取储能统计
+        break;
+      case 5:
+        this.getData('getCarbonReductionStatistics', '/sps/app/powerOverview/getCarbonReductionStatistics'); //获取减碳统计
+        break;
+      case 6:
+        this.getData('getIncomeStatistics', '/sps/app/powerOverview/getIncomeStatistics'); //获取充电桩收益统计
+        break;
+    }
+  },
+  // 根据年月日获取设备用电排行
+  getElectricityConsumptionRanking(){
+    let that = this;
+    let params = {
+      type: that.data.dateTpye,
+      time: that.data.dateTpye == 'y'?that.data.yearList.list[that.data.yearList.selected].id:that.data.yearList.list[that.data.yearList.selected].id + '-'+util.formatMD(that.data.monthSelected)
+    }
+    util.wxRequestPost('/sps/app/PowerAnalysis/getElectricityConsumptionRanking', "加载中...", params, function(res) {
+      console.log('根据年月日获取设备用电排行');
+      console.log(res);
+      if(res.data.success){
+        
+      }
+    }, function(error) {})
   },
   onLoad(options) {
-    //绘制图标
-    var energyChart = this.selectComponent('#energy-chart-bar');
-    var xData = ["04-01", "04-02", "04-03", "04-04", "04-05", "04-06", "04-07", "04-08"];
-    var yData = [85, 100, 34, 24, 46, 98, 80, 62];
-    this.drawChart(energyChart, xData, yData)
-
     // 初始化条件选择框高度
-    let rpxHeight = getScreenHeightRpx()-90;
+    let rpxHeight = util.getScreenHeightRpx()-90;
+    // 获取当前日期
+    const date = new Date();
+    const year = date.getFullYear(); // 获取当前年份
+    const month = date.getMonth() + 1; // 获取当前月份，月份要加1，因为从0开始计算
+    var yearArr = this.data.yearList;
+    for (let i = 0; i < yearArr.list.length; i++) {
+      if(year == yearArr.list[i].id){
+        yearArr.selected = i;
+      }
+    }
+    var monthArr = util.monthList(month);
     this.setData({
-      condtionDialogHeight: rpxHeight 
+      condtionDialogHeight: rpxHeight,
+      monthSelected: month,
+      yearList: yearArr,
+      monthList: monthArr.slice(0, 6),
+      moreMonth: monthArr.slice(6, 12),
     })
+    this.requestData();
+    this.getElectricityConsumptionRanking();
   },
   onReady() {
   },
@@ -89,7 +207,7 @@ Page({
         type: 'category',
         data: xData,
         axisLabel:{
-          interval:0
+          interval: xData.length<5?0:xData.length<10?1:xData.length<15?3:xData.length<20?4:xData.length<25?5:6
         }
       },
       yAxis: {
@@ -144,7 +262,7 @@ Page({
         y2:24,  //距离下边
       }
     };
-    var dpr = getPixelRatio()
+    var dpr = util.getPixelRatio()
     if (chartComponnet) {
       chartComponnet.init((canvas, width, height) => {
         const chart = echarts.init(canvas, null, {

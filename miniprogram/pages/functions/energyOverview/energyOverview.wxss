@@ -144,8 +144,8 @@ page{
 }
 
 .month-item{
-  height: 64rpx;
-  width: 64rpx;
+  height: 69rpx;
+  width: 69rpx;
   background-color: #FFFFFF;
   border-radius: 50%;
   display: flex;
