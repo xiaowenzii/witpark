@@ -99,7 +99,7 @@ Page({
   },
   // 获取园区综合能流图
   getComprehensivePower(){
-    util.wxRequestPost("/sps/app/PowerAnalysis/getComprehensivePower", "加载中...", {}, function(res) {
+    util.wxRequestPost("/sps/app/PowerAnalysis/getComprehensivePower", "加载中...", {}, 'application/json', function(res) {
       console.log('获取园区综合能流图');
       console.log(res);
       if(res.success){
@@ -115,7 +115,7 @@ Page({
       time: this.data.year + '-' + this.data.month + '-' + this.data.day
     }
     console.log(params);
-    util.wxRequestPost("/sps/app/PowerAnalysis/getElectricityConsumptionRatio", "加载中...", params, function(res) {
+    util.wxRequestPost("/sps/app/PowerAnalysis/getElectricityConsumptionRatio", "加载中...", params, 'application/json', function(res) {
       console.log('根据年月日获取设备能耗占比：默认获取今日');
       console.log(res);
       if(res.success){

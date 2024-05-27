@@ -20,7 +20,7 @@ Page({
     let params = {
       deviceTypeId: item.deviceTypeId
     }
-    wxRequestGet("/sps/app/device/listDevice", "加载中...", params, function(res) {
+    wxRequestGet("/sps/app/device/listDeviceBasic", "加载中...", params, 'application/json', function(res) {
       if(res.success){
         if(res.result != null){
           let dataList = res.result;
@@ -32,7 +32,7 @@ Page({
               deviceTypeId: item.deviceTypeId,
               deviceBasicId: dataList[index].deviceBasicId
             }
-            wxRequestGet("/sps/app/device/refreshDevice", "加载中...", deviceParams, function(res) {
+            wxRequestGet("/sps/app/device/refreshDevice", "加载中...", deviceParams, 'application/x-www-form-urlencoded', function(res) {
               if(res.success){
                 if(res.result != null){
                   dataList[index].detail = res.result;

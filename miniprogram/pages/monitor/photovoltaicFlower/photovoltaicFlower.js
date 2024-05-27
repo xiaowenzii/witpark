@@ -53,7 +53,7 @@ Page({
     let params = {
       deviceTypeId: that.data.deviceTypeId
     }
-    util.wxRequestGet("/sps/app/device/listDevice", "加载中...", params, function(res) {
+    util.wxRequestGet("/sps/app/device/listDeviceBasic", "加载中...", params, 'application/json', function(res) {
       if(res.success){
         if(res.result != null){
           that.setData({deviceList: res.result});
@@ -76,7 +76,7 @@ Page({
       deviceTypeId: that.data.deviceTypeId,
       deviceBasicId: that.data.deviceList[that.data.selectDeviceIndex].deviceBasicId
     }
-    util.wxRequestGet("/sps/app/device/solarTree/getLatestData", "加载中...", deviceParams, function(res) {
+    util.wxRequestGet("/sps/app/device/solarTree/getLatestData", "加载中...", deviceParams, 'application/x-www-form-urlencoded', function(res) {
       if(res.success){
         if(res.result != null){
           console.log("获取最新实时数据")
@@ -92,7 +92,7 @@ Page({
     let params = {
       deviceBasicId: that.data.deviceList[that.data.selectDeviceIndex].deviceBasicId
     }
-    util.wxRequestGet(url, "加载中...", params, function(res) {
+    util.wxRequestGet(url, "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
       if(res.success){
         if(interStr == 'getDailyChargingPower'){
           console.log("日充电量: ")

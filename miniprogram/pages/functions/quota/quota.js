@@ -105,7 +105,7 @@ Page({
   // 获取设备类型
   getDeviceType(){
     let that = this;
-    util.wxRequestGet("/sps/app/device/listDeviceType", "加载中...", {}, function(res) {
+    util.wxRequestGet("/sps/app/device/listDeviceType", "加载中...", {}, 'application/json', function(res) {
       if(res.success){
         var list = [];
         list.push({id:'', name:'全部（设备）'});
@@ -137,7 +137,7 @@ Page({
       sortOrder: ""
     }
     console.log(params);
-    util.wxRequestPost("/sps/app/quotaPlan/pageQuotaPlant", "加载中...", params, function(res) {
+    util.wxRequestPost("/sps/app/quotaPlan/pageQuotaPlant", "加载中...", params, 'application/json', function(res) {
       console.log('定额计划分页查询');
       console.log(res);
       if(res.data.success){

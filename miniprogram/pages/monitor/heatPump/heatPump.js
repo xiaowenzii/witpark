@@ -16,7 +16,7 @@ Page({
     let params = {
       key: 'sup_temp' //需要统计的key,示例值(liq_lev(液位) or sup_temp(供水温度) or re_temp(回水温度))
     }
-    util.wxRequestGet("/sps/app/device/heatPump/getHeatPumpTendency", "加载中...", params, function(res) {
+    util.wxRequestGet("/sps/app/device/heatPump/getHeatPumpTendency", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
       console.log('根据key获取当天热泵趋势数据');
       console.log(res);
       if(res.success){

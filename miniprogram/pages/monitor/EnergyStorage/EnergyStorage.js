@@ -13,7 +13,7 @@ Page({
     let params = {
       deviceTypeId: that.data.deviceTypeId
     }
-    util.wxRequestGet("/sps/app/device/listDevice", "加载中...", params, function(res) {
+    util.wxRequestGet("/sps/app/device/listDeviceBasic", "加载中...", params, 'application/json', function(res) {
       if(res.success){
         console.log("设备列表:");
         console.log(res);
@@ -36,7 +36,7 @@ Page({
       deviceTypeId: that.data.deviceTypeId,
       deviceBasicId: that.data.deviceList[that.data.selectDeviceIndex].deviceBasicId
     }
-    util.wxRequestGet("/sps/app/device/storeEnergy/getLatestData", "加载中...", params, function(res) {
+    util.wxRequestGet("/sps/app/device/storeEnergy/getLatestData", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
       console.log("获取最新实时数据");
       console.log(res);
       if(res.success){
@@ -51,7 +51,7 @@ Page({
       deviceTypeId: that.data.deviceTypeId,
       deviceBasicId: that.data.deviceList[that.data.selectDeviceIndex].deviceBasicId
     }
-    util.wxRequestGet("/sps/app/device/storeEnergy/getpCurve", "加载中...", params, function(res) {
+    util.wxRequestGet("/sps/app/device/storeEnergy/getpCurve", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
       console.log("有功功率曲线");
       console.log(res);
       if(res.success){

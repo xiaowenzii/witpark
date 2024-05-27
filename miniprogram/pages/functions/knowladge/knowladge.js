@@ -92,7 +92,7 @@ Page({
       sortField: "",
       sortOrder: "",
     }
-    util.wxRequestPost("/sps/app/operation/pageFileInfo", "加载中...", params, function(res) {
+    util.wxRequestPost("/sps/app/operation/pageFileInfo", "加载中...", params, 'application/json', function(res) {
       console.log(res)
       if(res.data.success){
         var data = that.data.pageNumber==1?[]:that.data.fileListData;

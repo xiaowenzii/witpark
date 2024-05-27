@@ -91,7 +91,7 @@ Page({
       type: that.data.dateTpye,
       time: that.data.dateTpye == 'y'?that.data.yearList.list[that.data.yearList.selected].id:that.data.yearList.list[that.data.yearList.selected].id + '-'+util.formatMD(that.data.monthSelected)
     }
-    util.wxRequestPost(url, "加载中...", params, function(res) {
+    util.wxRequestPost(url, "加载中...", params, 'application/json', function(res) {
       if(res.data.success){
         if(type == 'getCarbonReductionStatistics'){
           console.log('获取减碳统计');
@@ -126,7 +126,7 @@ Page({
         var xData = [];
         var yData = [];
         for (let i = 0; i < res.data.result.length; i++) {
-          xData.push(res.data.result[i].time);
+          xData.push(parseInt(res.data.result[i].time.split('-')[2]));
           yData.push(res.data.result[i].totalValue);
         }
         that.drawChart(energyChart, xData, yData)
@@ -166,7 +166,7 @@ Page({
       type: that.data.dateTpye,
       time: that.data.dateTpye == 'y'?that.data.yearList.list[that.data.yearList.selected].id:that.data.yearList.list[that.data.yearList.selected].id + '-'+util.formatMD(that.data.monthSelected)
     }
-    util.wxRequestPost('/sps/app/PowerAnalysis/getElectricityConsumptionRanking', "加载中...", params, function(res) {
+    util.wxRequestPost('/sps/app/PowerAnalysis/getElectricityConsumptionRanking', "加载中...", params, 'application/json', function(res) {
       console.log('根据年月日获取设备用电排行');
       console.log(res);
       if(res.data.success){
@@ -207,7 +207,10 @@ Page({
         type: 'category',
         data: xData,
         axisLabel:{
-          interval: xData.length<5?0:xData.length<10?1:xData.length<15?3:xData.length<20?4:xData.length<25?5:6
+          interval: 0,
+          textStyle: {
+            fontSize: 10
+          }
         }
       },
       yAxis: {

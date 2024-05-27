@@ -49,7 +49,7 @@ Page({
       'deviceTypeId': that.data.deviceTypeId,
       'deviceLocation': this.data.floorDataList.list[this.data.floorDataList.selected].code
     }
-    util.wxRequestGet("/sps/app/device/airConditioner/getTodayStatisticsVO", "加载中...", params, function(res) {
+    util.wxRequestGet("/sps/app/device/airConditioner/getTodayStatisticsVO", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
       if(res.success){
         console.log('获取今日设备信息统计');
         console.log(res);
@@ -68,7 +68,7 @@ Page({
       startDate: that.data.year + '-'+that.data.month+'-'+that.data.day,
       endDate: that.data.year + '-'+that.data.month+'-'+that.data.day
     }
-    util.wxRequestGet("/sps/app/device/airConditioner/getMonthUsedData", "加载中...", params, function(res) {
+    util.wxRequestGet("/sps/app/device/airConditioner/getMonthUsedData", "加载中...", params, 'application/x-www-form-urlencoded',function(res) {
       console.log('按时间获取空调月份统计数据');
       console.log(res);
       if(res.success){

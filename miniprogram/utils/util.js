@@ -1,7 +1,7 @@
 const baseUrl = "https://anywords.cn";
 
 // POST请求
-export const wxRequestPost = (url, title, parmas, successCallback, failCallback) => {
+export const wxRequestPost = (url, title, parmas, contentType, successCallback, failCallback) => {
   const requestUrl = baseUrl + url;
   var XTenantId = '';
   var token = '';
@@ -17,7 +17,7 @@ export const wxRequestPost = (url, title, parmas, successCallback, failCallback)
   });
   wx.request({
     url: requestUrl, 
-    header: {'content-type': 'application/json', 'X-Tenant-Id': XTenantId, 'X-Access-Token': token},
+    header: {'content-type': contentType, 'X-Tenant-Id': XTenantId, 'X-Access-Token': token},
     method: 'POST',
     data: parmas,
     success: function(res) {
@@ -36,7 +36,7 @@ export const wxRequestPost = (url, title, parmas, successCallback, failCallback)
   });
 }
 // GET请求
-export const wxRequestGet = (url, title, parmas, successCallback, failCallback) => {
+export const wxRequestGet = (url, title, parmas, contentType, successCallback, failCallback) => {
   var requestUrl = baseUrl + url;
   var XTenantId = '';
   var token = '';
@@ -52,7 +52,7 @@ export const wxRequestGet = (url, title, parmas, successCallback, failCallback) 
   });
   wx.request({
     url: requestUrl,
-    header: {'content-type': 'application/json', 'X-Tenant-Id': XTenantId, 'X-Access-Token': token},
+    header: {'content-type': contentType, 'X-Tenant-Id': XTenantId, 'X-Access-Token': token},
     method: 'GET',
     data: parmas,
     success: function(res) {

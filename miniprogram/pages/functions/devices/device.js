@@ -80,7 +80,7 @@ Page({
   // 获取设备类型
   getDeviceType(){
     let that = this;
-    util.wxRequestGet("/sps/app/device/listDeviceType", "加载中...", {}, function(res) {
+    util.wxRequestGet("/sps/app/device/listDeviceType", "加载中...", {}, 'application/x-www-form-urlencoded', function(res) {
       if(res.success){
         that.setData({typeList: res.result})
         console.log(res);
@@ -96,7 +96,7 @@ Page({
       deviceTypeId: item.deviceTypeId
     }
     console.log(params);
-    util.wxRequestPost("/sps/app/device/listDeviceBasic", "加载中...", params, function(res) {
+    util.wxRequestPost("/sps/app/device/listDeviceBasic", "加载中...", params, 'application/json', function(res) {
       console.log(res);
       if(res.data.success){
         if(res.data.result != null){
@@ -107,7 +107,7 @@ Page({
               deviceTypeId: item.deviceTypeId,
               deviceBasicId: dataList[index].deviceBasicId
             }
-            util.wxRequestGet("/sps/app/device/refreshDevice", "加载中...", deviceParams, function(res) {
+            util.wxRequestGet("/sps/app/device/refreshDevice", "加载中...", deviceParams, 'application/x-www-form-urlencoded', function(res) {
               if(res.success){
                 if(res.result != null){
                   dataList[index].detail = res.result;

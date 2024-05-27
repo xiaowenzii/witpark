@@ -19,7 +19,7 @@ Page({
         "password": password,
         "username": account
       };
-      wxRequestPost("/sps/sys/login", "登入中...", parmas, function(res) {
+      wxRequestPost("/sps/sys/login", "登入中...", parmas, 'application/json', function(res) {
         if(res.data.success){
           // 全局缓存Token
           wx.setStorageSync('token', res.data.result.token);
@@ -52,7 +52,7 @@ Page({
   },
   getKeyCodeImage(){
     const that = this;
-    wxRequestGet("/sps/sys/randomImage/"+codeKey, "获取验证码...", {}, function(res) {
+    wxRequestGet("/sps/sys/randomImage/"+codeKey, "获取验证码...", {}, 'application/x-www-form-urlencoded', function(res) {
       if(res.success){
         var baseImage = res.result.replace(/[\r\n]/g, '');
         that.setData({
