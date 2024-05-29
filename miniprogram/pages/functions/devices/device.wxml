@@ -47,15 +47,34 @@
 </view>
 <view class="device-content">
   <!-- 空调 -->
-  <view class="content" wx:for="{{deviceList}}" wx:key="index" data-item="{{item}}" style="margin-left: {{index%2!=0?'4%':'0'}}" wx:if="{{typeList[selected].deviceTypeName == '空调'}}">
+  <view class="content" wx:for="{{deviceList}}" wx:key="index" data-item="{{item}}" style="margin-left: {{index%2!=0?'2%':'0'}}" wx:if="{{typeList[selected].deviceTypeName == '空调'}}">
     <view class="device-item">
       <image class="device-item-image" src="../../../asset/build/kt_k.png"/>
       <image class="device-item-switch" src="../../../asset/control.png" style="width: 60rpx;height: 60rpx;margin-right: 180rpx;" data-index="{{index}}" bind:tap="showAirConditionControlDialog"/>
       <switch class="device-item-switch" checked="{{deviceDetailList[index].airConditionerDTO.isRun=='1'?true:false}}" data-index="{{index}}" bindchange="switchState"/>
     </view>
-    <view style="font-size: 24rpx;margin-left: 12rpx;display: flex;left: 0;margin-left: 24rpx;margin-top: 6rpx;color: {{deviceDetailList[index].airConditionerDTO.isOnline=='1'?'#18B6A2':'#C6C6C6'}};">
+    <view style="font-size: 24rpx;margin-left: 12rpx;display: flex;margin-top: 6rpx;">
       <text style="color: #000000;">{{item.deviceName}}</text>
       <text style="margin-left: 9rpx;color: {{deviceDetailList[index].airConditionerDTO.isOnline=='1'?'#18B6A2':'#C6C6C6'}};">{{deviceDetailList[index].airConditionerDTO.isOnline=='1'?'在线':'离线'}}</text>
+    </view>
+    <view class="device-item-text1">设备编号：{{item.deviceSn}}</view>
+    <view class="device-item-text2">{{item.createTime}}</view>
+  </view>
+
+  <!-- 风光储路灯 -->
+  <view class="content" wx:for="{{deviceList}}" wx:key="index" data-item="{{item}}" style="margin-left: {{index%2!=0?'2%':'0'}};height: 270rpx;" wx:if="{{typeList[selected].deviceTypeName == '风光储路灯'}}">
+    <view class="device-item">
+      <image class="device-item-image" src="../../../asset/build/fgcldk.png"/>
+      <view class="device-item-switch" style="width: 64rpx;margin-right: 210rpx;font-size: 30rpx;color: {{deviceDetailList[index].streetLightBasicInfoDTO.onoff=='2'?'#18B6A2':'#C6C6C6'}};" data-index="{{index}}" bind:tap="lightAuto">AUTO</view>
+      <switch class="device-item-switch" checked="{{deviceDetailList[index].streetLightBasicInfoDTO.onoff=='0'?false:true}}" data-index="{{index}}" bindchange="switchState"/>
+    </view>
+    <view class="device-item" style="margin-left: 6rpx;">
+      <view style="width: 20%;">亮度</view>
+      <view style="width: 80%;"><slider data-index="{{index}}" bindchange="sliderChange" value="{{deviceDetailList[index].streetLightBasicInfoDTO.light}}" min="20" max="100" step="1" block-size="36rpx" show-value/></view>
+    </view>
+    <view style="font-size: 24rpx;display: flex;margin-left: 12rpx;margin-top: 6rpx;">
+      <text style="color: #000000;">{{item.deviceName}}</text>
+      <text style="margin-left: 9rpx;color: {{deviceDetailList[index].streetLightBasicInfoDTO.onoff=='0'?'#C6C6C6':'#18B6A2'}};">{{deviceDetailList[index].streetLightBasicInfoDTO.onoff=='0'?'关闭':deviceDetailList[index].streetLightBasicInfoDTO.onoff=='1'?'开':'自动'}}</text>
     </view>
     <view class="device-item-text1">设备编号：{{item.deviceSn}}</view>
     <view class="device-item-text2">{{item.createTime}}</view>

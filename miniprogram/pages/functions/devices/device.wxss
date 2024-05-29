@@ -147,7 +147,7 @@ page{
 }
 .content{
   height: 120px;
-  width: 48%;
+  width: 49%;
   margin: 12rpx 0;
   background-color: #FFFFFF;
   border-radius: 12rpx;
@@ -165,7 +165,7 @@ page{
 .device-item-image{
   width: 60rpx;
   height: 60rpx;
-  margin-left: 18rpx;
+  margin-left: 12rpx;
 }
 .device-item-switch{
   zoom: 0.6;
@@ -180,7 +180,7 @@ page{
   left: 0rpx;
   display: flex;
   align-items: flex-start;
-  margin-left: 24rpx;
+  margin-left: 12rpx;
 }
 .device-item-text2{
   margin-top: 12rpx;
@@ -188,7 +188,7 @@ page{
   color: #BEBEBE;
   display: flex;
   align-items: flex-start;
-  margin-left: 24rpx;
+  margin-left: 12rpx;
 }
 
 /* Dialog 样式 */

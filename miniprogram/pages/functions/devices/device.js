@@ -48,9 +48,18 @@ Page({
   // switch 开关
   switchState(res){
     var deviceDetailList = this.data.deviceDetailList;
-    deviceDetailList[res.currentTarget.dataset.index].airConditionerDTO.isRun= res.detail.value?'1':'0';
-    this.setData({deviceIndex: res.currentTarget.dataset.index, deviceDetailList: deviceDetailList});
-    this.setAirControl();
+    if(this.data.typeList[this.data.selected].deviceTypeName == '空调'){
+      deviceDetailList[res.currentTarget.dataset.index].airConditionerDTO.isRun= res.detail.value?'1':'0';
+      this.setData({deviceIndex: res.currentTarget.dataset.index, deviceDetailList: deviceDetailList});
+
+      //this.setAirControl(); //红外控制
+      this.updateAirConditioner(); //不支持红外，继电器控制开关
+    } else if(this.data.typeList[this.data.selected].deviceTypeName == '风光储路灯'){
+      deviceDetailList[res.currentTarget.dataset.index].streetLightBasicInfoDTO.onoff= res.detail.value?'1':'0';
+      this.setData({deviceIndex: res.currentTarget.dataset.index, deviceDetailList: deviceDetailList});
+
+      this.AppstreetLightController();
+    }
   },
   // 空调控制Dialog
   showAirConditionControlDialog(res){
@@ -58,7 +67,7 @@ Page({
       this.setData({showControlDialog: true, deviceIndex: res.currentTarget.dataset.index});
     }
   },
-  // 空调选择
+  // 空调设置条件选择
   onChange(res){
     if(res.currentTarget.dataset.item=='运转模式'){
       var runMode = this.data.runModeList;
@@ -78,7 +87,23 @@ Page({
       this.setData({windDirectionList: windDirection});
     }
   },
-  // 发送空调指令
+  // 风光储路灯选择自动
+  lightAuto(res){
+    var deviceDetailList = this.data.deviceDetailList;
+    deviceDetailList[res.currentTarget.dataset.index].streetLightBasicInfoDTO.onoff= '2';
+    this.setData({deviceIndex: res.currentTarget.dataset.index, deviceDetailList: deviceDetailList});
+
+    this.AppstreetLightController();
+  },
+  // 风光储路灯亮度设置
+  sliderChange(res){
+    var deviceDetailList = this.data.deviceDetailList;
+    deviceDetailList[res.currentTarget.dataset.index].streetLightBasicInfoDTO.light= res.detail.value;
+    this.setData({deviceIndex: res.currentTarget.dataset.index, deviceDetailList: deviceDetailList});
+
+    this.AppstreetLightController();
+  },
+  // 发送空调指令:红外控制
   setAirControl(){
     this.setData({showControlDialog: false});
     let that = this;
@@ -92,6 +117,35 @@ Page({
     }
     console.log(params);
     util.wxRequestPost("/sps/app/device/airConditioner/infraredControl", "加载中...", params, 'application/json', function(res) {
+      if(res.data.success){
+      }
+    }, function(error) {})
+  },
+  // 继电器开关控制：不支持红外
+  updateAirConditioner(){
+    let that = this;
+    let params = {
+      deviceSn: that.data.deviceList[that.data.deviceIndex].deviceSn, //空调sn码
+      airRelay: that.data.deviceDetailList[that.data.deviceIndex].airConditionerDTO.isRun, //继电器开关 1-开启;0-关闭
+      season: 0, //1-冬季;0-夏季
+      isBuzzer: 1 //蜂鸣器开关 1-开启; 0关闭
+    }
+    console.log(params);
+    util.wxRequestPost("/sps/app/device/airConditioner/updateAirConditioner", "加载中...", params, 'application/json', function(res) {
+      if(res.data.success){
+      }
+    }, function(error) {})
+  },
+  // 风光储路灯设置
+  AppstreetLightController(){
+    let that = this;
+    let params = {
+      devicesn: that.data.deviceList[that.data.deviceIndex].deviceSn, //空调sn码
+      onoff: that.data.deviceDetailList[that.data.deviceIndex].streetLightBasicInfoDTO.onoff, //0关 1开 2自动"
+      light: that.data.deviceDetailList[that.data.deviceIndex].streetLightBasicInfoDTO.light, //亮度：20-100
+    }
+    console.log(params);
+    util.wxRequestPost("/sps/app/device/streetlight/AppstreetLightController", "加载中...", params, 'application/json', function(res) {
       if(res.data.success){
       }
     }, function(error) {})
@@ -128,7 +182,7 @@ Page({
   // 获取单个设备列表
   getDeviceDataList(){
     let that = this;
-    let item = this.data.typeList[this.data.selected];
+    let item = that.data.typeList[that.data.selected];
     let params = {
       deviceTypeId: item.deviceTypeId
     }
@@ -137,36 +191,41 @@ Page({
         if(res.data.result != null){
           that.setData({deviceListLength: res.data.result.length});
           var dataList = res.data.result.length>8 ? res.data.result.slice(0, 8):res.data.result;
-          var dataDetailList = [];
           that.setData({deviceList: dataList});
+          var list = new Array(dataList.length); //固定详情数组长度
+          that.setData({deviceDetailList: list});
+          console.log('设备列表');
+          console.log(that.data.deviceList);
+          // 获取每个设备详情
           if(that.data.typeList[that.data.selected].deviceTypeName == '小型气象站'){
             that.setData({airStationBasicId: res.data.result[0].deviceBasicId});
             that.refreshWeather();
           }else{
-            // 获取单个设备的详情
             for (let index = 0; index < dataList.length; index++) {
-              let deviceParams = {
-                deviceTypeId: item.deviceTypeId,
-                deviceBasicId: dataList[index].deviceBasicId
-              }
-              util.wxRequestGet("/sps/app/device/refreshDevice", "加载中...", deviceParams, 'application/x-www-form-urlencoded', function(res) {
-                if(res.success){
-                  dataDetailList.push(res.result);
-                  if(index == dataList.length-1){
-                    // 设备详情列表
-                    that.setData({deviceDetailList: dataDetailList});
-                    console.log('设备详情列表');
-                    console.log(that.data.deviceDetailList);
-                  }
-                }
-              }, function(error) {})
+              that.refreshDevice(item, index);
             }
+            console.log('设备详情列表');
+            console.log(that.data.deviceDetailList);
           }
-          console.log('设备列表');
-          console.log(that.data.deviceList);
         }
       }else{
         that.setData({deviceList: []});
+      }
+    }, function(error) {})
+  },
+  //获取单个设备详情
+  refreshDevice(item,  index){
+    let that = this;
+    let deviceParams = {
+      deviceTypeId: item.deviceTypeId,
+      deviceBasicId: this.data.deviceList[index].deviceBasicId
+    }
+    util.wxRequestGet("/sps/app/device/refreshDevice", "加载中...", deviceParams, 'application/x-www-form-urlencoded', function(res) {
+      if(res.success){
+        var detailList = that.data.deviceDetailList;
+        detailList[index] = res.result;
+          //设备详情列表
+        that.setData({deviceDetailList: detailList});
       }
     }, function(error) {})
   },
