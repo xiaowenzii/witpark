@@ -80,6 +80,45 @@
     <view class="device-item-text2">{{item.createTime}}</view>
   </view>
 
+  <!-- 光伏树 -->
+  <view class="content" wx:for="{{deviceList}}" wx:key="index" data-item="{{item}}" style="margin-left: {{index%2!=0?'2%':'0'}};height: 246rpx;" wx:if="{{typeList[selected].deviceTypeName == '光伏树(花)'}}">
+    <view class="device-item">
+      <image class="device-item-image" src="../../../asset/build/gfs.png"/>
+      <view style="display: flex;flex-direction: column;font-size: 24rpx;margin-left: 24rpx;">
+        <view>今日发电：<text style="color: #1CB7A3;font-size: 28rpx;">{{deviceDetailList[index].solarTreeDeviceCurrentDataDTO.eToday}}</text></view>
+      </view>
+    </view>
+    <view class="device-item">
+        <view style="font-size: 24rpx;margin: 6rpx 12rpx;">总发电：{{deviceDetailList[index].solarTreeDeviceCurrentDataDTO.eTotal}}</view>
+    </view>
+    <view style="font-size: 24rpx;display: flex;margin-left: 12rpx;margin-top: 6rpx;">
+      <text style="color: #000000;">{{item.deviceName}}</text>
+      <text style="margin-left: 9rpx;color: {{deviceDetailList[index].solarTreeDeviceCurrentDataDTO.state=='离线'?'#C6C6C6':'#18B6A2'}};">{{deviceDetailList[index].solarTreeDeviceCurrentDataDTO.state}}</text>
+    </view>
+    <view class="device-item-text1">设备编号：{{item.deviceSn}}</view>
+    <view class="device-item-text2">更新：{{deviceDetailList[index].solarTreeDeviceCurrentDataDTO.timeStr}}</view>
+  </view>
+
+  <!-- 充电桩 -->
+  <view class="content" wx:for="{{deviceList}}" wx:key="index" data-item="{{item}}" style="width: 100%;height: 270rpx;" wx:if="{{typeList[selected].deviceTypeName == '充电桩'}}">
+    <view class="device-item">
+      <image class="device-item-image" src="../../../asset/build/cdzk.png"/>
+      <view style="display: flex;flex-direction: column;font-size: 24rpx;margin-left: 24rpx;">
+        <view>今日用电：<text style="color: #1CB7A3;font-size: 28rpx;">{{deviceDetailList[index].chargingPileOrderDTO.quantity}}</text> kwh</view>
+      </view>
+    </view>
+    <view style="font-size: 24rpx;display: flex;margin-left: 12rpx;margin-top: 18rpx;">
+      <text style="color: #000000;">{{item.deviceName}}</text>
+      <text style="margin-left: 9rpx;color: {{deviceDetailList[index].chargingPileOrderDTO.chargingPileStatus=='空闲'?'#C6C6C6':'#18B6A2'}};">{{deviceDetailList[index].chargingPileOrderDTO.chargingPileStatus}}</text>
+    </view>
+    <view class="device-item" style="margin-top: 9rpx;">
+        <view style="font-size: 24rpx;margin: 6rpx 12rpx;">今日充电次数：{{deviceDetailList[index].chargingPileOrderDTO.orderTotal}}</view>
+        <view style="font-size: 24rpx;margin: 6rpx 12rpx 6rpx 60rpx;">今日充电时长：{{deviceDetailList[index].chargingPileOrderDTO.difftime}} h</view>
+    </view>
+    <view class="device-item-text1">设备编号：{{item.deviceSn}}</view>
+    <view class="device-item-text1">位置：{{item.deviceLocation}}</view>
+  </view>
+
   <!-- 小型气象站 -->
   <view style="width: 100%;display: flex;flex-direction: row;flex-wrap: wrap;" wx:if="{{typeList[selected].deviceTypeName == '小型气象站'}}">
     <view style="width: 100%;display: flex;left: 0;margin: 12rpx auto;align-items: center;">更新时间：{{weatherInfo.updTime}}
