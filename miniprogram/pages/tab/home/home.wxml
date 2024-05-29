@@ -21,7 +21,7 @@
       </view>
       <view style="height: 74rpx;margin-left: 24rpx;">
         <view style="font-size: 24rpx;">园区温度</view>
-        <view style="font-size: 26rpx;font-weight: bolder;bottom: 0;margin-top: 12rpx;">24.3 ℃</view>
+        <view style="font-size: 26rpx;font-weight: bolder;bottom: 0;margin-top: 12rpx;">{{weatherInfo.temperature}} ℃</view>
       </view>
     </view>
     
@@ -31,7 +31,7 @@
       </view>
       <view style="height: 74rpx;margin-left: 24rpx;">
         <view style="font-size: 24rpx;">光照强度</view>
-        <view style="font-size: 26rpx;font-weight: bolder;bottom: 0;margin-top: 12rpx;">5.3 ℃</view>
+        <view style="font-size: 26rpx;font-weight: bolder;bottom: 0;margin-top: 12rpx;">{{weatherInfo.benyixi}} Lux</view>
       </view>
     </view>
   </view>

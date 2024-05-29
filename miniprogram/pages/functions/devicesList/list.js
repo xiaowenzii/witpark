@@ -1,10 +1,11 @@
-import {wxRequestGet} from "../../../utils/util";
+import * as util from "../../../utils/util";
 
 Page({
   data: {
     scrollWidth: '100%',
     selected: 0,
-    typeList: []
+    typeList: [],
+    deviceList: []
   },
   selecteDevice(res){
     var index = res.currentTarget.dataset.index;
@@ -20,34 +21,31 @@ Page({
     let params = {
       deviceTypeId: item.deviceTypeId
     }
-    wxRequestGet("/sps/app/device/listDeviceBasic", "加载中...", params, 'application/json', function(res) {
-      if(res.success){
-        if(res.result != null){
-          let dataList = res.result;
-          that.setData({deviceList: dataList});
+    console.log(params);
+    util.wxRequestPost("/sps/app/device/listDeviceBasic", "加载中...", params, 'application/json', function(res) {
+      if(res.data.success){
+        if(res.data.result != null){
+          let dataList = res.data.result;
           // 获取单个设备的详情
           for (let index = 0; index < dataList.length; index++) {
             let deviceParams = {
-              
               deviceTypeId: item.deviceTypeId,
               deviceBasicId: dataList[index].deviceBasicId
             }
-            wxRequestGet("/sps/app/device/refreshDevice", "加载中...", deviceParams, 'application/x-www-form-urlencoded', function(res) {
+            util.wxRequestGet("/sps/app/device/refreshDevice", "加载中...", deviceParams, 'application/x-www-form-urlencoded', function(res) {
               if(res.success){
                 if(res.result != null){
                   dataList[index].detail = res.result;
                 }
-              }else{
               }
             }, function(error) {})
           }
-          console.log(that.data.deviceList)
+          that.setData({deviceList: dataList});
+          console.log('设备列表');
+          console.log(dataList);
         }
       }else{
-        wx.showToast({
-          icon: "none",
-          title: (res.message)
-        });
+        that.setData({deviceList: []});
       }
     }, function(error) {})
   },

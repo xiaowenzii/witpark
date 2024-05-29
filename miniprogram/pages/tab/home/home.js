@@ -3,7 +3,8 @@ import * as util from "../../../utils/util";
 Page({
   data: {
     airStationType: '',
-    airStationBasicId: ''
+    airStationBasicId: '',
+    weatherInfo:{}
   },
   // 获取设备类型
   getDeviceType(){
@@ -41,11 +42,11 @@ Page({
       deviceTypeId: that.data.airStationType,
       deviceBasicId: that.data.airStationBasicId
     }
-    console.log(params)
     util.wxRequestPost("/sps/app/device/gas/getLatestData", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
       console.log(res);
-      if(res.success){
-        
+      if(res.data.success){
+        that.setData({weatherInfo: res.data.result});
+        wx.setStorageSync('weatherInfo', res.data.result);
       }
     }, function(error) {})
   },

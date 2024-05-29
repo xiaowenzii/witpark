@@ -42,23 +42,117 @@
 </scroll-view>
 
 <view class="view-title">
-  <text class="view-text-1">设备列表<text style="font-size: 20rpx;margin-left: 6rpx;">(21)</text></text>
+  <text class="view-text-1">设备列表<text style="font-size: 20rpx;margin-left: 6rpx;">{{deviceListLength}}</text></text>
   <text class="view-text-2" bind:tap="goMoreList">更多</text>
 </view>
 <view class="device-content">
-  <view class="content" wx:for="{{deviceList}}" wx:key="index" data-item="{{item}}" style="margin-left: {{index%2!=0?'4%':'0'}}" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
+  <!-- 空调 -->
+  <view class="content" wx:for="{{deviceList}}" wx:key="index" data-item="{{item}}" style="margin-left: {{index%2!=0?'4%':'0'}}" wx:if="{{typeList[selected].deviceTypeName == '空调'}}">
     <view class="device-item">
-      <image class="device-item-image" src="../../../asset/build/kt_k.png" wx:if="{{selected == 0}}"/>
-      <image class="device-item-image" src="../../../asset/build/fgcldk.png" wx:if="{{selected == 1}}"/>
-      <image class="device-item-image" src="../../../asset/build/gfs.png" wx:if="{{selected == 2}}"/>
-      <image class="device-item-image" src="../../../asset/build/flfdk.png" wx:if="{{selected == 3}}"/>
-      <image class="device-item-image" src="../../../asset/build/cdzk.png" wx:if="{{selected == 4}}"/>
-      <image class="device-item-image" src="../../../asset/build/cnk.png" wx:if="{{selected == 5}}"/>
-      <image class="device-item-image" src="../../../asset/build/kt_k.png" wx:if="{{selected == 6}}"/>
-      <image class="device-item-image" src="../../../asset/build/kt_k.png" wx:if="{{selected == 7}}"/>
-      <switch class="device-item-switch" checked="{{item.state == 1}}" data-item="{{item}}" bindchange="switchState"/>
+      <image class="device-item-image" src="../../../asset/build/kt_k.png"/>
+      <image class="device-item-switch" src="../../../asset/control.png" style="width: 60rpx;height: 60rpx;margin-right: 180rpx;" data-index="{{index}}" bind:tap="showAirConditionControlDialog"/>
+      <switch class="device-item-switch" checked="{{deviceDetailList[index].airConditionerDTO.isRun=='1'?true:false}}" data-index="{{index}}" bindchange="switchState"/>
     </view>
-    <view class="device-item-text1">设备编号：{{item.deviceName}}</view>
-    <view class="device-item-text2">{{item.updateTime}}</view>
+    <view style="font-size: 24rpx;margin-left: 12rpx;display: flex;left: 0;margin-left: 24rpx;margin-top: 6rpx;color: {{deviceDetailList[index].airConditionerDTO.isOnline=='1'?'#18B6A2':'#C6C6C6'}};">
+      <text style="color: #000000;">{{item.deviceName}}</text>
+      <text style="margin-left: 9rpx;color: {{deviceDetailList[index].airConditionerDTO.isOnline=='1'?'#18B6A2':'#C6C6C6'}};">{{deviceDetailList[index].airConditionerDTO.isOnline=='1'?'在线':'离线'}}</text>
+    </view>
+    <view class="device-item-text1">设备编号：{{item.deviceSn}}</view>
+    <view class="device-item-text2">{{item.createTime}}</view>
+  </view>
+
+  <!-- 小型气象站 -->
+  <view style="width: 100%;display: flex;flex-direction: row;flex-wrap: wrap;" wx:if="{{typeList[selected].deviceTypeName == '小型气象站'}}">
+    <view style="width: 100%;display: flex;left: 0;margin: 12rpx auto;align-items: center;">更新时间：{{weatherInfo.updTime}}
+      <image src="../../../asset/refresh.png" style="height: 48rpx;width: 48rpx;margin-left: 24rpx;display: flex;" bind:tap="refreshWeather"/>
+    </view>
+    <view class="content" style="width: 30%;height: 150rpx;">
+      <view style="font-size: 26rpx;">温度(℃)</view>
+      <view style="margin-top: 18rpx;font-size: 32rpx;color: #1CB7A3;">{{weatherInfo.temperature}}</view>
+    </view>
+    <view class="content" style="width: 30%;height: 150rpx;margin-left: 5%;">
+      <view style="font-size: 26rpx;">湿度(%RH)</view>
+      <view style="margin-top: 18rpx;font-size: 32rpx;color: #1CB7A3;">{{weatherInfo.humidity}}</view>
+    </view>
+    <view class="content" style="width: 30%;height: 150rpx;margin-left: 5%;">
+      <view style="font-size: 26rpx;">风速(m/s)</view>
+      <view style="margin-top: 18rpx;font-size: 32rpx;color: #1CB7A3;">{{weatherInfo.windSpeed}}</view>
+    </view>
+    <view class="content" style="width: 30%;height: 150rpx;">
+      <view style="font-size: 26rpx;">风向(°)</view>
+      <view style="margin-top: 18rpx;font-size: 32rpx;color: #1CB7A3;">{{weatherInfo.windDirectionLabel}}</view>
+    </view>
+    <view class="content" style="width: 30%;height: 150rpx;margin-left: 5%;">
+      <view style="font-size: 26rpx;">风力(级)</view>
+      <view style="margin-top: 18rpx;font-size: 32rpx;color: #1CB7A3;">{{weatherInfo.windSpeed}}</view>
+    </view>
+    <view class="content" style="width: 30%;height: 150rpx;margin-left: 5%;">
+      <view style="font-size: 26rpx;">光照(Lux)</view>
+      <view style="margin-top: 18rpx;font-size: 32rpx;color: #1CB7A3;">{{weatherInfo.benyixi}}</view>
+    </view>
+    <view class="content" style="width: 30%;height: 150rpx;">
+      <view style="font-size: 26rpx;">噪声(dB)</view>
+      <view style="margin-top: 18rpx;font-size: 32rpx;color: #1CB7A3;">{{weatherInfo.jjybjt}}</view>
+    </view>
+    <view class="content" style="width: 30%;height: 150rpx;margin-left: 5%;">
+      <view style="font-size: 26rpx;">大气压(kpa)</view>
+      <view style="margin-top: 18rpx;font-size: 32rpx;color: #1CB7A3;">{{weatherInfo.pressure}}</view>
+    </view>
+    <view class="content" style="width: 30%;height: 150rpx;margin-left: 5%;">
+      <view style="font-size: 26rpx;">二氧化碳(mg/m³)</view>
+      <view style="margin-top: 18rpx;font-size: 32rpx;color: #1CB7A3;">{{weatherInfo.co2}}</view>
+    </view>
+    <view class="content" style="width: 30%;height: 150rpx;">
+      <view style="font-size: 26rpx;">雨量(mm/min)</view>
+      <view style="margin-top: 18rpx;font-size: 32rpx;color: #1CB7A3;">{{weatherInfo.by4}}</view>
+    </view>
+  </view>
+</view>
+
+<!-- 空调设置对话框 -->
+<view class="condtion-dialog" style="height: 100%;" wx:if="{{showControlDialog}}">
+  <view style="height: 40%;width: 80%;margin-top: 30%;margin-left: 10%;background-color: #FFFFFF;border-radius: 18rpx;display: flex;flex-direction: column;position: absolute;">
+    <view>
+      <view class="condtion-view" style="align-items: center;">
+        <view class="condtion-view-desc">运转模式:</view>
+        <view class="condtion-view-item-area">
+          <picker mode="selector" value="{{index}}" range="{{runModeList.list}}" range-key="{{'name'}}" data-item="运转模式" bindchange="onChange">
+            <view>{{runModeList.list[runModeList.selected].name}}</view>
+          </picker>
+          <image class="arrow-image" src="../../../asset/select_down.png"/>
+        </view>
+      </view>
+      <view class="condtion-view" style="align-items: center;">
+        <view class="condtion-view-desc">温度:</view>
+        <view class="condtion-view-item-area">
+          <picker mode="selector" value="{{index}}" range="{{tempList.list}}" range-key="{{'name'}}" data-item="温度" bindchange="onChange">
+            <view>{{tempList.list[tempList.selected].name}}</view>
+          </picker>
+          <image class="arrow-image" src="../../../asset/select_down.png"/>
+        </view>
+      </view>
+      <view class="condtion-view" style="align-items: center;">
+        <view class="condtion-view-desc">风速:</view>
+        <view class="condtion-view-item-area">
+          <picker mode="selector" value="{{index}}" range="{{windSpeedList.list}}" range-key="{{'name'}}" data-item="风速" bindchange="onChange">
+            <view>{{windSpeedList.list[windSpeedList.selected].name}}</view>
+          </picker>
+          <image class="arrow-image" src="../../../asset/select_down.png"/>
+        </view>
+      </view>
+      <view class="condtion-view" style="align-items: center;">
+        <view class="condtion-view-desc">风向:</view>
+        <view class="condtion-view-item-area">
+          <picker mode="selector" value="{{index}}" range="{{windDirectionList.list}}" range-key="{{'name'}}" data-item="风向" bindchange="onChange">
+            <view>{{windDirectionList.list[windDirectionList.selected].name}}</view>
+          </picker>
+          <image class="arrow-image" src="../../../asset/select_down.png"/>
+        </view>
+      </view>
+    </view>
+    
+    <view style="width: 100%;text-align: center;display: flex;justify-content: center;position: absolute;bottom: 0;margin-bottom: 36rpx;">
+      <view style="width: 120rpx;background-color: #1CB7A3;border-radius: 12rpx;padding: 12rpx 24rpx;" bind:tap="setAirControl">确认</view>
+    </view>
   </view>
 </view>

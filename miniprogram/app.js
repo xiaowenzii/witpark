@@ -4,7 +4,8 @@ App({
     token: '',
     userInfo: {},
     account: '',
-    password:''
+    password:'',
+    weatherInfo: {}
   },
   flag: false,
   async onLaunch (e) {
