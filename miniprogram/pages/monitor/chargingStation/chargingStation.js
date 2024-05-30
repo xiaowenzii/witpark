@@ -1,3 +1,4 @@
+import * as echarts from '../../component/ec-canvas/echarts'
 import * as util from "../../../utils/util"
 
 Page({
@@ -5,46 +6,10 @@ Page({
     deviceList: [],
     selectDeviceIndex: 0,
     deviceTypeId: '',
-    detailData:{},
-    startX: 0, // 触摸开始的X坐标
-    endX: 0, // 触摸结束的X坐标
-    threshold: 100 // 设置滑动多少距离后触发事件
-  },
-  
-  touchStart: function(e) {
-    this.data.startX = e.touches[0].clientX;
-  },
-  touchMove: function(e) {
-    this.data.endX = e.touches[0].clientX;
-  },
-  touchEnd: function(e) {
-    const deltaX = this.data.endX - this.data.startX;
-    if (Math.abs(deltaX) > this.data.threshold) {
-      if (deltaX > 0) {
-        // 右滑
-        if(this.data.selectDeviceIndex > 0){
-          let selected = this.data.selectDeviceIndex - 1;
-          this.setData({selectDeviceIndex: selected});
-          
-          this.getChargingStatus();
-          this.getTodayDifftimeTotal();
-          this.getTodayOrderCount();
-          this.getTodayProfitsTotal();
-          this.getTodayQuantityTotal();
-        }
-      } else {
-        // 左滑
-        if(this.data.selectDeviceIndex != (this.data.deviceList.length-1)){
-          let selected = this.data.selectDeviceIndex + 1;
-          this.setData({selectDeviceIndex: selected});
-          
-          this.getChargingStatus();
-          this.getTodayDifftimeTotal();
-          this.getTodayOrderCount();
-          this.getTodayProfitsTotal();
-          this.getTodayQuantityTotal();
-        }
-      }
+    detailData:{status: '', chargeCount: 0, power: 0, chargeTime: 0, earn: 0, detail:{}},
+    yearAndMonth: '',
+    monthp: {
+      lazyLoad: true
     }
   },
   // 获取设备列表
@@ -53,21 +18,23 @@ Page({
     let params = {
       deviceTypeId: that.data.deviceTypeId
     }
-    util.wxRequestGet("/sps/app/device/listDeviceBasic", "加载中...", params, 'application/json', function(res) {
-      if(res.success){
-        console.log("设备列表:");
-        console.log(res);
-        if(res.result != null){
-          that.setData({deviceList: res.result});
-          if(res.result!=null && res.result.length > 0){
+    util.wxRequestPost("/sps/app/device/listDeviceBasic", "加载中...", params, 'application/json', function(res) {
+      if(res.data.success){
+        if(res.data.result != null){
+          console.log("设备列表:");
+          console.log(res.data.result);
+          that.setData({deviceList: res.data.result});
+          if(res.data.result.length > 0){
             that.getChargingStatus();
             that.getTodayDifftimeTotal();
             that.getTodayOrderCount();
             that.getTodayProfitsTotal();
             that.getTodayQuantityTotal();
+            that.refreshDevice();
+            that.getDailyChargingCurve();
           }
         }
-      }else{}
+      }
     }, function(error) {})
   },
   // 充电桩工作状态
@@ -81,7 +48,9 @@ Page({
       console.log("充电桩工作状态");
       console.log(res)
       if(res.success){
-
+        var detail = that.data.detailData;
+        detail.status = res.result;
+        that.setData({detailData: detail})
       }
     }, function(error) {})
   },
@@ -96,7 +65,9 @@ Page({
       console.log("今日充电时长");
       console.log(res)
       if(res.success){
-
+        var detail = that.data.detailData;
+        detail.chargeTime = res.result;
+        that.setData({detailData: detail})
       }
     }, function(error) {})
   },
@@ -111,7 +82,9 @@ Page({
       console.log("今日充电次数");
       console.log(res)
       if(res.success){
-
+        var detail = that.data.detailData;
+        detail.chargeCount = res.result;
+        that.setData({detailData: detail})
       }
     }, function(error) {})
   },
@@ -126,7 +99,9 @@ Page({
       console.log("今日利润");
       console.log(res)
       if(res.success){
-
+        var detail = that.data.detailData;
+        detail.earn = res.result;
+        that.setData({detailData: detail})
       }
     }, function(error) {})
   },
@@ -141,7 +116,54 @@ Page({
       console.log("今日充电电量");
       console.log(res)
       if(res.success){
-
+        var detail = that.data.detailData;
+        detail.power = res.result;
+        that.setData({detailData: detail})
+      }
+    }, function(error) {})
+  },
+  //获取详情
+  refreshDevice(){
+    let that = this;
+    let deviceParams = {
+      deviceTypeId: that.data.deviceTypeId,
+      deviceBasicId: that.data.deviceList[that.data.selectDeviceIndex].deviceBasicId
+    }
+    util.wxRequestGet("/sps/app/device/refreshDevice", "加载中...", deviceParams, 'application/x-www-form-urlencoded', function(res) {
+      console.log("详情");
+      console.log(res)
+      if(res.success){
+        var detail = that.data.detailData;
+        detail.detail = res.result.chargingPileOrderDTO;
+        that.setData({detailData: detail})
+        console.log(that.data.detailData);
+      }
+    }, function(error) {})
+  },
+  //日充电量曲线
+  getDailyChargingCurve(){
+    let that = this;
+    let deviceParams = {
+      deviceTypeId: that.data.deviceTypeId,
+      deviceBasicId: that.data.deviceList[that.data.selectDeviceIndex].deviceBasicId
+    }
+    util.wxRequestGet("/sps/app/device/chargingPile/getDailyChargingCurve", "加载中...", deviceParams, 'application/x-www-form-urlencoded', function(res) {
+      console.log("日充电量曲线");
+      console.log(res)
+      if(res.success){
+        var xData = new Array(res.result.length);
+        var yData = new Array(res.result.length);
+        for (let i = 0; i < res.result.length; i++) {
+          if(res.result[i].collectTime != null){
+            var date = res.result[i].collectTime.split('-');
+            that.setData({yearAndMonth: date[0]+'-'+date[1]});
+            xData[i] = parseInt(date[2]);
+          }
+          yData[i] = res.result[i].paramValue;
+        }
+        //绘制折线图
+        var chart = that.selectComponent('#monthp-chart');
+        that.drawChart(chart, xData, yData);
       }
     }, function(error) {})
   },
@@ -151,5 +173,46 @@ Page({
   },
   onReady() {
 
+  },
+  //绘制折线图
+  drawChart(chartComponnet, xData, yData) {
+    var option = {
+      xAxis: {
+        type: 'category',
+        data: xData,
+        axisLabel:{
+          interval:1,
+          textStyle: {
+            fontSize: 12
+          }
+        }
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [{
+        data: yData,
+        type: 'line',
+        smooth: false
+      }],
+      grid:{
+        x: 24,  //距离左边
+        x2: 24, //距离右边
+        y:24,   //距离上边
+        y2:36,  //距离下边
+      }
+    };
+    var dpr = util.getPixelRatio();
+    if (chartComponnet) {
+      chartComponnet.init((canvas, width, height) => {
+        const chart = echarts.init(canvas, null, {
+          width: width,
+          height: height,
+          devicePixelRatio: dpr
+        }); 
+        chart.setOption(option, true);
+        return chart;
+      });
+    }
   }
 })

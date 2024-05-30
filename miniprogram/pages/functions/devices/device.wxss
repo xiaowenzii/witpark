@@ -238,3 +238,20 @@ page{
   right: 0;
   margin-right: 12rpx;
 }
+.u-class{
+  width: 45%;
+  font-size: 24rpx;
+  margin: 6rpx 12rpx;
+  display: flex;
+  left: 0;
+}
+
+.i-class{
+  font-size: 24rpx;
+  margin: 6rpx 12rpx
+}
+
+.u-class-text{
+  font-weight: bolder;
+  margin-right: 9rpx;
+}

@@ -1,6 +1,6 @@
-<view style="font-size: 26rpx;margin: 24rpx">设备号：03496898</view>
-<view style="height: 480rpx;display: flex;flex-direction: column;align-items: center;">
-  <image src="../../../asset/build/gfh.png" style="width: 270rpx;height: 420rpx;" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd"></image>
+<view style="font-size: 26rpx;margin: 24rpx">设备号：{{deviceList[selectDeviceIndex].deviceSn}}</view>
+<view style="height: 480rpx;display: flex;flex-direction: column;align-items: center;" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
+  <image src="../../../asset/build/gfh.png" style="width: 270rpx;height: 420rpx;"></image>
   <text style="font-size: 26rpx; font-weight: bolder;margin-top: 12rpx;">{{deviceList[selectDeviceIndex].deviceName}}</text>
   <view style="height: 18rpx;display: flex;align-items: center;margin-top: 18rpx;" wx:if="{{deviceList.length > 1}}">
     <view class="device-point" style="background-color: {{index==selectDeviceIndex?'#18B6A2':'#9C9C9C'}};margin-left: {{index!=0?'18rpx':'0'}};" wx:for="{{deviceList}}" wx:key="index"></view>
@@ -9,15 +9,15 @@
 
 <view style="height: 96rpx;display: flex;flex-direction: row;">
   <view class="desc-view">
-      <view style="font-size: 36rpx;font-weight: bolder;">3.4</view>
-      <view style="font-size: 24rpx;margin-top: 12rpx;color: #9C9C9C;">光照强度</view>
+      <view style="font-size: 36rpx;font-weight: bolder;">{{weatherInfo.benyixi}}</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;color: #9C9C9C;">光照强度(Lux)</view>
   </view>
   <view class="desc-view">
-      <view style="font-size: 36rpx;font-weight: bolder;">34</view>
-      <view style="font-size: 24rpx;margin-top: 12rpx;color: #9C9C9C;">辐照度</view>
+      <view style="font-size: 36rpx;font-weight: bolder;">{{weatherInfo.windSpeed}}</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;color: #9C9C9C;">风速(m/s)</view>
   </view>
   <view class="desc-view">
-      <view style="font-size: 36rpx;font-weight: bolder;">21</view>
+      <view style="font-size: 36rpx;font-weight: bolder;">{{weatherInfo.temperature}}</view>
       <view style="font-size: 24rpx;margin-top: 12rpx;color: #9C9C9C;">环境温度(℃)</view>
   </view>
 </view>
@@ -28,46 +28,57 @@
   <view style="display: flex;flex-direction: row;margin-top: 36rpx;">
     <view style="width: 50%;display: flex;align-items: center;">
       <image class="item-image" src="../../../asset/wind/fjxh.png"/>
-      <text class="item-text">型号<text style="margin-left: 24rpx;color: black;">FFL001</text></text>
+      <text class="item-text">型号<text style="margin-left: 24rpx;color: black;">{{deviceList[selectDeviceIndex].deviceModel}}</text></text>
     </view>
     <view style="width: 50%;display: flex;align-items: center;">
       <image class="item-image" src="../../../asset/wind/zjrl.png"/>
-      <text class="item-text">容量 <text style="margin-left: 24rpx;color: black;">21</text></text>
+      <text class="item-text">容量 (kw)  <text style="margin-left: 24rpx;color: black;">2.4</text></text>
     </view>
   </view>
   <view style="display: flex;flex-direction: row;margin-top: 36rpx;">
     <view style="width: 50%;display: flex;align-items: center;">
       <image class="item-image" src="../../../asset/wind/zs.png"/>
-      <text class="item-text">状态<text style="margin-left: 27rpx;color: black;">2300</text></text>
+      <text class="item-text">状态<text style="margin-left: 27rpx;color: black;">{{detailData.state}}</text></text>
     </view>
     <view style="width: 50%;display: flex;align-items: center;">
       <image class="item-image" src="../../../asset/wind/gl.png"/>
-      <text class="item-text">功率 <text style="margin-left: 27rpx;color: black;">2300</text></text>
+      <text class="item-text">实时功率 (kw) <text style="margin-left: 27rpx;color: black;">{{detailData.pac/1000}}</text></text>
     </view>
   </view>
 </view>
 
 <!-- 电能情况 -->
-<view class="block-view" style="height: 300rpx;">
+<view class="block-view" style="height: 360rpx;">
   <view style="width: 100%;font-size: 26rpx;font-weight: bolder;">电能情况</view>
   <view class="power-view">
     <image class="power-view-image" src="../../../asset/wind/fd.png"></image>
     <view style="margin-left: 18rpx;">
-      <view style="font-size: 24rpx;">充电量</view>
-      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">2300</view>
+      <view style="font-size: 24rpx;">今日充电量 (kwh)</view>
+      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">{{detailData.eToday}}</view>
     </view>
   </view>
   <view class="power-view" style="margin-left: 5%;">
     <image class="power-view-image" src="../../../asset/wind/cd.png"></image>
     <view style="margin-left: 18rpx;">
-      <view style="font-size: 24rpx;">放电量</view>
-      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">2300</view>
+      <view style="font-size: 24rpx;">总充电量 (kwh)</view>
+      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">{{detailData.eTotal}}</view>
+    </view>
+  </view>
+  <view class="power-view">
+    <image class="power-view-image" src="../../../asset/wind/fd.png"></image>
+    <view style="margin-left: 18rpx;">
+      <view style="font-size: 24rpx;">月收益 (元)</view>
+      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">{{monthEarn}}</view>
+    </view>
+  </view>
+  <view class="power-view" style="margin-left: 5%;">
+    <image class="power-view-image" src="../../../asset/wind/cd.png"></image>
+    <view style="margin-left: 18rpx;">
+      <view style="font-size: 24rpx;">年收益 (元)</view>
+      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">{{yearEarn}}</view>
     </view>
   </view>
   <view class="progress-box">
-    <progress percent="80" color="#18B6A2" active stroke-width="9" border-radius="6" />
-  </view>
-  <view class="progress-box">
-    <progress percent="80" color="#6CB0FF" active stroke-width="9" border-radius="6" />
+    <progress percent="{{detailData.eToday/detailData.eTotal*100}}" color="#18B6A2" active stroke-width="9" border-radius="6" />
   </view>
 </view>

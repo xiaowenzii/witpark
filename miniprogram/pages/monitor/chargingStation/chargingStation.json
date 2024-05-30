@@ -3,5 +3,6 @@
   "navigationBarTitleText": "充电桩监测",
   "navigationBarBackgroundColor": "#E8F7F4",
   "usingComponents": {
+    "ec-canvas": "../../component/ec-canvas/ec-canvas"
   }
 }

@@ -19,7 +19,7 @@
 
       <view class="overview-monitor" bind:tap="goRunningMonitor">
         <view style="width: 70%;">
-          <view class="view-item-text-1">运行检测</view>
+          <view class="view-item-text-1">运行监测</view>
           <view class="view-item-text-2" style="margin-top: 6rpx;">设备运行数据</view>
         </view>
         <view style="width: 30%;align-items: center;display: flex;">

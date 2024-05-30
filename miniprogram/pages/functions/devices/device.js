@@ -140,12 +140,13 @@ Page({
   AppstreetLightController(){
     let that = this;
     let params = {
-      devicesn: that.data.deviceList[that.data.deviceIndex].deviceSn, //空调sn码
+      deviceSn: that.data.deviceList[that.data.deviceIndex].deviceSn, //空调sn码
       onoff: that.data.deviceDetailList[that.data.deviceIndex].streetLightBasicInfoDTO.onoff, //0关 1开 2自动"
       light: that.data.deviceDetailList[that.data.deviceIndex].streetLightBasicInfoDTO.light, //亮度：20-100
     }
     console.log(params);
-    util.wxRequestPost("/sps/app/device/streetlight/AppstreetLightController", "加载中...", params, 'application/json', function(res) {
+    util.wxRequestPost("/sps/app/device/streetlight/operation", "加载中...", params, 'application/json', function(res) {
+      console.log(res);
       if(res.data.success){
       }
     }, function(error) {})
@@ -158,6 +159,8 @@ Page({
       deviceBasicId: that.data.airStationBasicId
     }
     util.wxRequestPost("/sps/app/device/gas/getLatestData", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
+      console.log('气象站');
+      console.log(res);
       if(res.data.success){
         that.setData({weatherInfo: res.data.result});
         wx.setStorageSync('weatherInfo', res.data.result);

@@ -2,12 +2,13 @@ import * as util from "../../../utils/util"
 
 Page({
   data: {
+    weatherInfo: {},
     deviceList: [],
     selectDeviceIndex: 0,
     deviceTypeId: '',
     detailData: {},
-    dailyChargingPowerData: {},
-    dailyDisChargingPowerData: {},
+    monthEarn: 0,
+    yearEarn: 0,
     dailyGeneratePowerData: {},
     startX: 0, // 触摸开始的X坐标
     endX: 0, // 触摸结束的X坐标
@@ -28,10 +29,7 @@ Page({
           let selected = this.data.selectDeviceIndex - 1;
           this.setData({selectDeviceIndex: selected});
            // 获取详情和今日发电
-           this.getLatestData();
-           this.getDailyPower('getDailyChargingPower', '/sps/app/device/solarTree/getDailyChargingPower');
-           this.getDailyPower('getDailyDisChargingPower', '/sps/app/device/solarTree/getDailyDisChargingPower');
-           this.getDailyPower('getDailyGeneratePower', '/sps/app/device/solarTree/getDailyGeneratePower');
+           this.getData();
         }
       } else {
         // 左滑
@@ -39,10 +37,7 @@ Page({
           let selected = this.data.selectDeviceIndex + 1;
           this.setData({selectDeviceIndex: selected});
            // 获取详情和今日发电
-           this.getLatestData();
-           this.getDailyPower('getDailyChargingPower', '/sps/app/device/solarTree/getDailyChargingPower');
-           this.getDailyPower('getDailyDisChargingPower', '/sps/app/device/solarTree/getDailyDisChargingPower');
-           this.getDailyPower('getDailyGeneratePower', '/sps/app/device/solarTree/getDailyGeneratePower');
+           this.getData();
         }
       }
     }
@@ -53,17 +48,14 @@ Page({
     let params = {
       deviceTypeId: that.data.deviceTypeId
     }
-    util.wxRequestGet("/sps/app/device/listDeviceBasic", "加载中...", params, 'application/json', function(res) {
-      if(res.success){
-        if(res.result != null){
-          that.setData({deviceList: res.result});
-          if(res.result!=null && res.result.length > 0){
-            // 获取详情和今日发电
-            that.getLatestData();
-            that.getDailyPower('getDailyChargingPower', '/sps/app/device/solarTree/getDailyChargingPower');
-            that.getDailyPower('getDailyDisChargingPower', '/sps/app/device/solarTree/getDailyDisChargingPower');
-            that.getDailyPower('getDailyGeneratePower', '/sps/app/device/solarTree/getDailyGeneratePower');
-          }
+    util.wxRequestPost("/sps/app/device/listDeviceBasic", "加载中...", params, 'application/json', function(res) {
+      if(res.data.success){
+        if(res.data.result != null && res.data.result.length > 0){
+          that.setData({deviceList: res.data.result});
+          console.log('设备列表');
+          console.log(res.data.result);
+          // 获取详情和今日发电
+          that.getData();
         }
       }
     }, function(error) {})
@@ -72,7 +64,6 @@ Page({
   getLatestData(){
     let that = this;
     let deviceParams = {
-      
       deviceTypeId: that.data.deviceTypeId,
       deviceBasicId: that.data.deviceList[that.data.selectDeviceIndex].deviceBasicId
     }
@@ -86,7 +77,7 @@ Page({
       }
     }, function(error) {})
   },
-  // 日放电量, 日充电量, 日发电量
+  // 日发电量, 月发电量, 年发电量
   getDailyPower(interStr, url){
     let that = this;
     let params = {
@@ -94,27 +85,32 @@ Page({
     }
     util.wxRequestGet(url, "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
       if(res.success){
-        if(interStr == 'getDailyChargingPower'){
-          console.log("日充电量: ")
-          console.log(res)
-          that.setData({dailyChargingPowerData: res.result})
-        }else if(interStr == 'getDailyDisChargingPower'){
-          console.log("日放电量: ")
-          console.log(res)
-          that.setData({dailyDisChargingPowerData: res.result})
-        }else if(interStr == 'getDailyGeneratePower'){
+        if(interStr == 'getDailyGeneratePower'){
           console.log("日发电量: ")
           console.log(res)
           that.setData({dailyGeneratePowerData: res.result})
+        } else if(interStr == 'getMonthlyMoney'){
+          console.log("月收益: ")
+          console.log(res)
+          that.setData({monthEarn: res.result})
+        } else if(interStr == 'getYearlyMoney'){
+          console.log("年收益: ")
+          console.log(res)
+          that.setData({yearEarn: res.result})
         }
       }
     }, function(error) {})
   },
+  getData(){
+    this.getLatestData();
+    this.getDailyPower('getDailyGeneratePower', '/sps/app/device/solarTree/getDailyGeneratePower');
+    this.getDailyPower('getMonthlyMoney', '/sps/app/device/solarTree/getMonthlyMoney');
+    this.getDailyPower('getYearlyMoney', '/sps/app/device/solarTree/getYearlyMoney');
+  },
   onLoad(options) {
-    this.setData({deviceTypeId: options.deviceTypeId});
-    this.getDeviceDataList();
+    this.setData({deviceTypeId: options.deviceTypeId, weatherInfo: wx.getStorageSync('weatherInfo')});
   },
   onReady() {
-
+    this.getDeviceDataList();
   }
 })
