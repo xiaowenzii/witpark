@@ -1,36 +1,22 @@
 <view class="device-view">
   <view class="chart-view">
-    <!-- 时间选择 -->
-    <view class="time-view">
-      <view class="time-view-month" bind:tap="showMonth">
-        4月 
-        <image class="time-arrow-image" src="../../../asset/select_down.png"/>
-      </view>
-      <view class="time-view-day">
-        今天 
-        <image class="time-arrow-image" src="../../../asset/select_down.png"/>
-      </view>
-    </view>
-    <!-- 隐藏，选择月份 -->
-    <view class="month-more" wx:if="{{showMoreMonth}}">
-      <text class="month-item" wx:for="{{moreMonth}}" wx:key="index" data-index="{{index}}" bind:tap="selectMonthItem">{{item}}月</text>
-    </view>
+    <view style="font-size: 24rpx;font-weight: bolder;margin-left: 24rpx;padding-top: 24rpx;">空调设备</view>
     <!-- 环形统计图 -->
-    <view style="height: 240rpx;">
+    <view style="height: 240rpx;padding-top: 24rpx;">
       <ec-canvas id="device-chart" ec="{{deviceChart}}" type='2d' ></ec-canvas>
     </view>
     <view style="height: 142rpx;display: flex;flex-direction: row;">
       <view class="chart-desc">
-        <text class="chart-desc-text1">正常设备</text>
-        <text class="chart-desc-text2" style="color: #1CB7A3;">21</text>
+        <text class="chart-desc-text1">在线</text>
+        <text class="chart-desc-text2" style="color: #1CB7A3;">{{airData.onlineCount}}</text>
       </view>
       <view class="chart-desc" style="width: 34%;">
-        <text class="chart-desc-text1">未运行设备</text>
-        <text class="chart-desc-text2" style="color: #DCDCDC;">4</text>
+        <text class="chart-desc-text1">离线</text>
+        <text class="chart-desc-text2" style="color: #DCDCDC;">{{airData.deviceCount - airData.onlineCount - airData.alarmCount}}</text>
       </view>
       <view class="chart-desc">
-        <text class="chart-desc-text1">异常设备</text>
-        <text class="chart-desc-text2" style="color: #FFA63D;">1</text>
+        <text class="chart-desc-text1">异常</text>
+        <text class="chart-desc-text2" style="color: #FFA63D;">{{airData.alarmCount}}</text>
       </view>
     </view>
   </view>
@@ -65,8 +51,8 @@
   <view class="content" wx:for="{{deviceList}}" wx:key="index" data-item="{{item}}" style="margin-left: {{index%2!=0?'2%':'0'}};height: 270rpx;" wx:if="{{typeList[selected].deviceTypeName == '风光储路灯'}}">
     <view class="device-item">
       <image class="device-item-image" src="../../../asset/build/fgcldk.png"/>
-      <view class="device-item-switch" style="width: 64rpx;margin-right: 210rpx;font-size: 30rpx;color: {{deviceDetailList[index].streetLightBasicInfoDTO.onoff=='2'?'#18B6A2':'#C6C6C6'}};" data-index="{{index}}" bind:tap="lightAuto">AUTO</view>
-      <switch class="device-item-switch" checked="{{deviceDetailList[index].streetLightBasicInfoDTO.onoff=='0'?false:true}}" data-index="{{index}}" bindchange="switchState"/>
+      <view class="device-item-switch" style="width: 64rpx;margin-right: 210rpx;font-size: 30rpx;color: {{deviceDetailList[index].streetLightBasicInfoDTO.loadstate=='2'?'#18B6A2':'#C6C6C6'}};" data-index="{{index}}" bind:tap="lightAuto">AUTO</view>
+      <switch class="device-item-switch" checked="{{deviceDetailList[index].streetLightBasicInfoDTO.loadstate==0?false:true}}" data-index="{{index}}" bindchange="switchState"/>
     </view>
     <view class="device-item" style="margin-left: 6rpx;">
       <view style="width: 20%;">亮度</view>
@@ -85,8 +71,8 @@
     <view class="device-item">
       <image class="device-item-image" src="../../../asset/build/gfs.png"/>
       <view style="display: flex;flex-direction: row;font-size: 24rpx;margin-left: 24rpx;">
-        <view>今日发电：<text style="color: #1CB7A3;font-size: 28rpx;">{{deviceDetailList[index].solarTreeDeviceCurrentDataDTO.eToday}}</text></view>
-        <view style="font-size: 24rpx;margin-left: 60rpx;">总发电：<text style="color: #1CB7A3;font-size: 28rpx;">{{deviceDetailList[index].solarTreeDeviceCurrentDataDTO.eTotal}}</text></view>
+        <view>今日发电：<text style="color: #1CB7A3;font-size: 28rpx;">{{deviceDetailList[index].solarTreeDeviceCurrentDataDTO.eToday}}</text><text style="margin-left: 6rpx;">kw</text></view>
+        <view style="font-size: 24rpx;margin-left: 60rpx;">总发电：<text style="color: #1CB7A3;font-size: 28rpx;">{{deviceDetailList[index].solarTreeDeviceCurrentDataDTO.eTotal}}</text><text style="margin-left: 6rpx;">kw</text></view>
       </view>
     </view>
     <view style="font-size: 24rpx;display: flex;margin-left: 12rpx;margin-top: 12rpx;">
@@ -117,6 +103,20 @@
     <view class="device-item-text2">更新时间：{{deviceDetailList[index].solarTreeDeviceCurrentDataDTO.timeStr}}</view>
   </view>
 
+  <!-- 风力发电 -->
+  <view class="content" wx:for="{{deviceList}}" wx:key="index" data-item="{{item}}" style="margin-left: {{index%2!=0?'2%':'0'}}" wx:if="{{typeList[selected].deviceTypeName == '风力发电'}}">
+    <view class="device-item">
+      <image class="device-item-image" src="../../../asset/build/flfdk.png"/>
+      <text style="color: #000000;font-size: 24rpx;margin-left: 24rpx;">在线</text>
+    </view>
+    <view style="font-size: 24rpx;margin-left: 12rpx;display: flex;margin-top: 12rpx;">
+      <text style="color: #000000;">{{item.deviceName}}</text>
+      <text style="margin-left: 9rpx;color: {{deviceDetailList[index].airConditionerDTO.isOnline=='1'?'#18B6A2':'#C6C6C6'}};"></text>
+    </view>
+    <view class="device-item-text1">设备编号：{{item.deviceSn}}</view>
+    <view class="device-item-text2" style="font-size: 20rpx;">安装时间：{{item.createTime}}</view>
+  </view>
+
   <!-- 充电桩 -->
   <view class="content" wx:for="{{deviceList}}" wx:key="index" data-item="{{item}}" style="width: 100%;height: 270rpx;" wx:if="{{typeList[selected].deviceTypeName == '充电桩'}}">
     <view class="device-item">
@@ -135,6 +135,51 @@
     </view>
     <view class="device-item-text1">设备编号：{{item.deviceSn}}</view>
     <view class="device-item-text1">位置：{{item.deviceLocation}}</view>
+  </view>
+
+  <!-- 空气源热泵 -->
+  <view class="content" wx:for="{{deviceList}}" wx:key="index" data-item="{{item}}" style="width: 100%;height: 510rpx;" wx:if="{{typeList[selected].deviceTypeName == '空气源热泵'}}">
+    <view class="device-item">
+      <image class="device-item-image" src="../../../asset/wind/kqyrb.png"/>
+      <view style="display: flex;flex-direction: row;font-size: 24rpx;margin-left: 24rpx;">
+        <text style="color: #000000;">{{item.deviceName}}</text>
+      </view>
+    </view>
+    <view style="font-size: 24rpx;display: flex;margin-left: 12rpx;margin-top: 12rpx;">
+      <text style="margin-left: 9rpx;color: {{deviceDetailList[index].solarTreeDeviceCurrentDataDTO.state=='离线'?'#C6C6C6':'#18B6A2'}};">{{deviceDetailList[index].solarTreeDeviceCurrentDataDTO.state}}</text>
+    </view>
+    <view class="device-item-text1">逆变器SN号：{{item.deviceSn}}</view>
+    <view class="device-item" style="margin-top: 12rpx;">
+      <view class="u-class">水位高度：<text class="u-class-text" style="color: #1CB7A3;">{{deviceDetailList[index].heatPumpDTO.heatPumpLiquidLevelDTO.dis/1000}}</text>m</view>
+      <view class="i-class">储水箱高度：<text class="u-class-text">2.05</text>m</view>
+    </view>
+    <view class="device-item" style="margin-top: 12rpx;">
+      <view class="u-class">水箱温度：<text class="u-class-text" style="color: #1CB7A3;">{{deviceDetailList[index].heatPumpDTO.heatPumpTempDTOList[2].pre_temp}}</text>℃</view>
+    </view>
+    <view class="device-item" style="margin-top: 12rpx;">
+      <view class="u-class" style="width: 100%;">进水温度：
+        <text class="u-class-text" style="color: #1CB7A3;">{{deviceDetailList[index].heatPumpDTO.heatPumpTempDTOList[0].pre_temp}}</text>
+        <text class="u-class-text" style="color: #1CB7A3;margin-left: 36rpx;">{{deviceDetailList[index].heatPumpDTO.heatPumpTempDTOList[0].main_temp}}</text>
+        ℃
+      </view>
+    </view>
+    <view class="device-item" style="margin-top: 12rpx;">
+      <view class="u-class" style="width: 100%;">出水温度：
+        <text class="u-class-text" style="color: #1CB7A3;">{{deviceDetailList[index].heatPumpDTO.heatPumpTempDTOList[1].pre_temp}}</text>
+        <text class="u-class-text" style="color: #1CB7A3;margin-left: 36rpx;">{{deviceDetailList[index].heatPumpDTO.heatPumpTempDTOList[1].main_temp}}</text>
+        ℃
+      </view>
+    </view>
+    <view class="device-item" style="margin-top: 12rpx;">
+      <view class="u-class">瞬时流量：<text class="u-class-text" style="color: #1CB7A3;">{{deviceDetailList[index].heatPumpDTO.heatPumpFlowDTO.ins_rate}}</text>m³</view>
+      <view class="i-class">累计流量：<text class="u-class-text" style="color: #1CB7A3;">{{deviceDetailList[index].heatPumpDTO.heatPumpFlowDTO.flow_int+'.'+deviceDetailList[index].heatPumpDTO.heatPumpFlowDTO.flow_fra}}</text>m³</view>
+    </view>
+    
+    <view class="device-item" style="margin-top: 12rpx;">
+      <view class="u-class">正累计流量：<text class="u-class-text" style="color: #1CB7A3;">{{deviceDetailList[index].heatPumpDTO.heatPumpFlowDTO.plus_f_int+'.'+deviceDetailList[index].heatPumpDTO.heatPumpFlowDTO.plus_f_fra}}</text>m³</view>
+      <view class="i-class">负累计流量：<text class="u-class-text" style="color: #1CB7A3;">{{deviceDetailList[index].heatPumpDTO.heatPumpFlowDTO.min_f_int+'.'+deviceDetailList[index].heatPumpDTO.heatPumpFlowDTO.min_f_fra}}</text>m³</view>
+    </view>
+    <view class="device-item-text2">更新时间：{{deviceDetailList[index].heatPumpDTO.heatPumpLiquidLevelDTO.collectTime}}</view>
   </view>
 
   <!-- 小型气象站 -->
@@ -160,7 +205,7 @@
     </view>
     <view class="content" style="width: 30%;height: 150rpx;margin-left: 5%;">
       <view style="font-size: 26rpx;">风力(级)</view>
-      <view style="margin-top: 18rpx;font-size: 32rpx;color: #1CB7A3;">{{weatherInfo.windSpeed}}</view>
+      <view style="margin-top: 18rpx;font-size: 32rpx;color: #1CB7A3;">{{weatherInfo.windLevel}}</view>
     </view>
     <view class="content" style="width: 30%;height: 150rpx;margin-left: 5%;">
       <view style="font-size: 26rpx;">光照(Lux)</view>
@@ -182,6 +227,19 @@
       <view style="font-size: 26rpx;">雨量(mm/min)</view>
       <view style="margin-top: 18rpx;font-size: 32rpx;color: #1CB7A3;">{{weatherInfo.by4}}</view>
     </view>
+  </view>
+
+  <!-- 地下照明 -->
+  <view class="content" wx:for="{{deviceList}}" wx:key="index" data-item="{{item}}" style="margin-left: {{index%2!=0?'2%':'0'}};" wx:if="{{typeList[selected].deviceTypeName == '地下照明设备'}}">
+    <view class="device-item">
+      <image class="device-item-image" src="../../../asset/energy_overview/zm.png"/>
+    </view>
+    <view style="font-size: 24rpx;margin-left: 12rpx;display: flex;margin-top: 12rpx;">
+      <text style="color: #000000;">{{item.deviceName}}</text>
+      <text style="margin-left: 9rpx;color: {{deviceDetailList[index].airConditionerDTO.isOnline=='1'?'#18B6A2':'#C6C6C6'}};"></text>
+    </view>
+    <view class="device-item-text1">设备编号：{{item.deviceSn}}</view>
+    <view class="device-item-text2" style="font-size: 20rpx;">更新时间：{{item.updateTime}}</view>
   </view>
 </view>
 

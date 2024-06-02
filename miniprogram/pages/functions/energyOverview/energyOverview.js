@@ -21,12 +21,7 @@ Page({
     ec: {
       lazyLoad: true
     },
-    proList: [
-      {type:"照明用电",icon:"../../../asset/energy_overview/zm.png",color:"#18B6A2",percent:"81"},
-      {type:"办公用电",icon:"../../../asset/energy_overview/bg.png",color:"#6CB0FF",percent:"50"},
-      {type:"电梯用电",icon:"../../../asset/energy_overview/dt.png",color:"#95D676",percent:"40"},
-      {type:"其它用电",icon:"../../../asset/energy_overview/qt.png",color:"#74CDFF",percent:"90"}
-    ]
+    proList: []
   },
   // 选择时间类别，年或者月
   selectDateType(res){
@@ -35,6 +30,7 @@ Page({
       dateTpye: index
     })
     this.requestData();
+    this.getElectricityConsumptionRanking();
   },
   // 选择月份
   selectMonth(res){
@@ -43,6 +39,7 @@ Page({
       monthSelected: index
     })
     this.requestData();
+    this.getElectricityConsumptionRanking();
   },
   search(res){
     //选择框里面的数据
@@ -59,6 +56,7 @@ Page({
       showSearchDialog: false
     })
     this.requestData();
+    this.getElectricityConsumptionRanking();
   },
   // 显示月份下拉菜单
   showMonth(){
@@ -75,6 +73,7 @@ Page({
       monthSelected: index
     })
    this.requestData();
+   this.getElectricityConsumptionRanking();
   },
   // 能耗统计，类型选择
   selectEnergyType(res){
@@ -83,6 +82,7 @@ Page({
       energyType: index
     })
     this.requestData();
+    this.getElectricityConsumptionRanking();
   },
   // 获取各种统计数据
   getData(type, url){
@@ -93,6 +93,9 @@ Page({
     }
     util.wxRequestPost(url, "加载中...", params, 'application/json', function(res) {
       if(res.data.success){
+        var energyChart = that.selectComponent('#energy-chart-bar');
+        var xData = [];
+        var yData = [];
         if(type == 'getCarbonReductionStatistics'){
           console.log('获取减碳统计');
           console.log(res);
@@ -121,13 +124,9 @@ Page({
           console.log('获取用水统计');
           console.log(res);
         }
-        //绘制图标
-        var energyChart = that.selectComponent('#energy-chart-bar');
-        var xData = [];
-        var yData = [];
-        for (let i = 0; i < res.data.result.length; i++) {
-          xData.push(parseInt(res.data.result[i].time.split('-')[2]));
-          yData.push(res.data.result[i].totalValue);
+        for (let i = 0; i < res.data.result.powerOverviewVoList.length; i++) {
+          xData.push(parseInt(res.data.result.powerOverviewVoList[i].time.split('-')[2]));
+          yData.push(res.data.result.powerOverviewVoList[i].totalValue);
         }
         that.drawChart(energyChart, xData, yData)
       }
@@ -167,10 +166,10 @@ Page({
       time: that.data.dateTpye == 'y'?that.data.yearList.list[that.data.yearList.selected].id:that.data.yearList.list[that.data.yearList.selected].id + '-'+util.formatMD(that.data.monthSelected)
     }
     util.wxRequestPost('/sps/app/PowerAnalysis/getElectricityConsumptionRanking', "加载中...", params, 'application/json', function(res) {
-      console.log('根据年月日获取设备用电排行');
-      console.log(res);
       if(res.data.success){
-        
+        that.setData({proList: res.data.result})
+        console.log('根据年月日获取设备用电排行');
+        console.log(that.data.proList);
       }
     }, function(error) {})
   },
@@ -207,7 +206,7 @@ Page({
         type: 'category',
         data: xData,
         axisLabel:{
-          interval: 0,
+          interval: 1,
           textStyle: {
             fontSize: 10
           }

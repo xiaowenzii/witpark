@@ -36,8 +36,8 @@ Page({
       deviceDetailList[res.currentTarget.dataset.index].airConditionerDTO.isRun= res.detail.value?'1':'0';
       this.setData({deviceIndex: res.currentTarget.dataset.index, deviceDetailList: deviceDetailList});
 
-      //this.setAirControl(); //红外控制
-      this.updateAirConditioner(); //不支持红外，继电器控制开关
+      this.setAirControl(); //红外控制
+      //this.updateAirConditioner(); //不支持红外，继电器控制开关
     } else if(this.data.typeList[this.data.selected].deviceTypeName == '风光储路灯'){
       deviceDetailList[res.currentTarget.dataset.index].streetLightBasicInfoDTO.onoff= res.detail.value?'1':'0';
       this.setData({deviceIndex: res.currentTarget.dataset.index, deviceDetailList: deviceDetailList});
@@ -91,8 +91,10 @@ Page({
   setAirControl(){
     this.setData({showControlDialog: false});
     let that = this;
+    var snList = [];
+    snList.push(that.data.deviceList[that.data.deviceIndex].deviceSn);
     let params = {
-      deviceSnList: that.data.deviceList[that.data.deviceIndex].deviceSn,
+      deviceSnList: snList,
       isOn: that.data.deviceDetailList[that.data.deviceIndex].airConditionerDTO.isRun,
       runMode: that.data.runModeList.selected,
       temp: that.data.tempList.selected,
@@ -101,6 +103,7 @@ Page({
     }
     console.log(params);
     util.wxRequestPost("/sps/app/device/airConditioner/infraredControl", "加载中...", params, 'application/json', function(res) {
+      console.log(res)
       if(res.data.success){
       }
     }, function(error) {})
@@ -145,10 +148,34 @@ Page({
       console.log('气象站');
       console.log(res);
       if(res.data.success){
-        that.setData({weatherInfo: res.data.result});
+        var weather = res.data.result;
+        weather.windLevel = that.getWindLevel(weather.windSpeed);
+        that.setData({weatherInfo: weather});
         wx.setStorageSync('weatherInfo', res.data.result);
       }
     }, function(error) {})
+  },
+  //计算风力等级
+  getWindLevel(windSpeed){
+    if(windSpeed<1.6){
+      return '0-1级';
+    }else if(windSpeed>1.5 && windSpeed<5.5){
+      return '2-3级';
+    }else if(windSpeed>5.4 && windSpeed<10.8){
+      return '4-5级';
+    }else if(windSpeed>10.7 && windSpeed<17.2){
+      return '6-7级';
+    }else if(windSpeed>17.1 && windSpeed<24.5){
+      return '8-9级';
+    }else if(windSpeed>24.4 && windSpeed<32.7){
+      return '10-11级';
+    }else if(windSpeed>32.6 && windSpeed<41.5){
+      return '12级';
+    }else if(windSpeed>41.4 && windSpeed<61.3){
+      return '13-15级';
+    }else if(windSpeed>61.2){
+      return '16-17级';
+    }
   },
   // 获取设备类型
   getDeviceType(){

@@ -16,8 +16,8 @@
       <view style="font-size: 24rpx;margin-top: 12rpx;">今日用电时长(分钟)</view>
   </view>
   <view class="desc-view">
-      <view style="font-size: 30rpx;font-weight: bolder;">无数据</view>
-      <view style="font-size: 24rpx;margin-top: 12rpx;">今日节电量</view>
+      <view style="font-size: 30rpx;font-weight: bolder;">{{airData.todayTotalTime}}</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;">异常用电</view>
   </view>
 </view>
 
@@ -42,7 +42,7 @@
 
 <!-- 用电统计 -->
 <view style="height: 420rpx;margin: 24rpx 12rpx;background-color: #FFFFFF;border-radius: 12rpx;padding: 18rpx;">
-  <view style="font-size: 26rpx;font-weight: bolder;">用电统计</view>
+  <view style="font-size: 26rpx;font-weight: bolder;">用电统计 ({{year}}-{{month}})</view>
   <view style="height: 360rpx;">
     <ec-canvas id="energy-chart-bar" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
   </view>

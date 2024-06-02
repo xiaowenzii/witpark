@@ -10,7 +10,7 @@ Page({
     floorDataList: {
       "type": 2,
       "selected": "0",
-      "list": [{"id": "1","name": "旧大楼#1楼",code:"C03A02A01"}, {"id": "2","name": "旧大楼#2楼",code:"C03A02A02"}, {"id": "3","name": "旧大楼#3楼",code:"C03A02A03"}, {"id": "4","name": "旧大楼#4楼",code:"C03A02A03"}, {"id": "5","name": "旧大楼#5楼",code:"C03A02A04"}]
+      "list": [{"id": "1","name": "旧大楼#1楼",code:"C03A02A01"}, {"id": "2","name": "旧大楼#2楼",code:"C03A02A02"}, {"id": "4","name": "旧大楼#4楼",code:"C03A02A03"}, {"id": "5","name": "旧大楼#5楼",code:"C03A02A04"}]
     },
     showSearchDialog: false,
     ec: {
@@ -40,7 +40,10 @@ Page({
       floorDataList: e.detail.data,
       showSearchDialog: false
     })
-    this.getTodayStatisticsVO()
+    // 获取空调设备数据，用电及用电时长
+    this.getTodayStatisticsVO();
+    this.getMonthUsedData(1, 'd'); //按日获取用电量
+    this.getMonthUsedData(2, 'd'); //按日获取用电时长
   },
   // 获取今日设备信息统计
   getTodayStatisticsVO(){
@@ -50,9 +53,9 @@ Page({
       'deviceLocation': this.data.floorDataList.list[this.data.floorDataList.selected].code
     }
     util.wxRequestGet("/sps/app/device/airConditioner/getTodayStatisticsVO", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
+      console.log('获取今日设备信息统计');
+      console.log(res);
       if(res.success){
-        console.log('获取今日设备信息统计');
-        console.log(res);
         that.setData({airData: res.result})
       }
     }, function(error) {})
@@ -64,10 +67,11 @@ Page({
       deviceTypeId: that.data.deviceTypeId,
       deviceLocation: this.data.floorDataList.list[this.data.floorDataList.selected].code,
       keyFlag: keyFlag,//查询数据标识 1：获取用电量 2：获取用电时长
-      statisticType: statisticType, //查询日期标识 1：按月统计 2：按日统计
+      statisticType: statisticType, //查询日期标识 'm'：按月统计 'd'：按日统计
       startDate: that.data.year + '-'+that.data.month+'-'+that.data.day,
       endDate: that.data.year + '-'+that.data.month+'-'+that.data.day
     }
+    console.log(params)
     util.wxRequestGet("/sps/app/device/airConditioner/getMonthUsedData", "加载中...", params, 'application/x-www-form-urlencoded',function(res) {
       console.log('按时间获取空调月份统计数据');
       console.log(res);
@@ -75,7 +79,7 @@ Page({
         var xData = [];
         var yData = [];
         for (let index = 0; index < res.result.length; index++) {
-          xData.push(res.result[index].date);
+          xData.push(parseInt(res.result[index].date.split('-')[2]));
           yData.push(res.result[index].value);
         }
         if(keyFlag==1){
@@ -94,7 +98,9 @@ Page({
     this.setData({
       deviceTypeId: options.deviceTypeId
     });
-    
+  },
+
+  onReady() {
     // 初始化条件选择框高度
     let rpxHeight = util.getScreenHeightRpx()-90;
     // 获取当前日期
@@ -107,12 +113,8 @@ Page({
     })
     // 获取空调设备数据，用电及用电时长
     this.getTodayStatisticsVO();
-    this.getMonthUsedData(1, 2);
-    this.getMonthUsedData(2, 2);
-  },
-
-  onReady() {
-
+    this.getMonthUsedData(1, 'd'); //按日获取用电量
+    this.getMonthUsedData(2, 'd'); //按日获取用电时长
   },
   // 绘制柱状图
   drawChart(chartComponnet, xData, yData) {
@@ -121,7 +123,10 @@ Page({
         type: 'category',
         data: xData,
         axisLabel:{
-          interval:0
+          interval:1,
+          textStyle:{
+            fontsize: 10
+          }
         }
       },
       yAxis: {

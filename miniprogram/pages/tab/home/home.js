@@ -4,7 +4,8 @@ Page({
   data: {
     airStationType: '',
     airStationBasicId: '',
-    weatherInfo:{}
+    weatherInfo:{},
+    todayDate: ''
   },
   // 获取设备类型
   getDeviceType(){
@@ -51,6 +52,14 @@ Page({
     }, function(error) {})
   },
   onLoad(options) {
+  },
+  onReady(){
+    
+    // 获取当前日期
+    const date = new Date();
+    this.setData({
+      todayDate: date.getFullYear() + '.' + util.formatMD(date.getMonth() + 1) + '.' + util.formatMD(date.getDate())
+    })
     this.getDeviceType();
   }
 })

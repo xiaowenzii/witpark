@@ -3,8 +3,6 @@ import * as util from "../../../utils/util";
 
 Page({
   data: {
-    moreMonth:[1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12],
-    showMoreMonth: false,
     scrollWidth: '100%',
     selected: 0, // 设备类型选择
     deviceIndex: 0, //选中的第几个设备，deviceList 的位置
@@ -25,18 +23,8 @@ Page({
     windSpeedList:{selected: 0, list:[{id:0,name:'自动'},{id:1,name:'风速 1'},{id:2,name:'风速 2'},{id:3,name:'风速 3'}]},
     airStationType: '',
     airStationBasicId: '',
-    weatherInfo: {}
-  },
-  showMonth(){
-    var showMoreMonth = !this.data.showMoreMonth;
-    this.setData({
-      showMoreMonth: showMoreMonth
-    })
-  },
-  selectMonthItem(res){
-    this.setData({
-      showMoreMonth: false
-    })
+    weatherInfo: {},
+    airData: {}
   },
   // 选择设备类型
   selecteDevice(res){
@@ -52,8 +40,8 @@ Page({
       deviceDetailList[res.currentTarget.dataset.index].airConditionerDTO.isRun= res.detail.value?'1':'0';
       this.setData({deviceIndex: res.currentTarget.dataset.index, deviceDetailList: deviceDetailList});
 
-      //this.setAirControl(); //红外控制
-      this.updateAirConditioner(); //不支持红外，继电器控制开关
+      this.setAirControl(); //红外控制
+      //this.updateAirConditioner(); //不支持红外，继电器控制开关
     } else if(this.data.typeList[this.data.selected].deviceTypeName == '风光储路灯'){
       deviceDetailList[res.currentTarget.dataset.index].streetLightBasicInfoDTO.onoff= res.detail.value?'1':'0';
       this.setData({deviceIndex: res.currentTarget.dataset.index, deviceDetailList: deviceDetailList});
@@ -117,6 +105,7 @@ Page({
     }
     console.log(params);
     util.wxRequestPost("/sps/app/device/airConditioner/infraredControl", "加载中...", params, 'application/json', function(res) {
+      console.log(res)
       if(res.data.success){
       }
     }, function(error) {})
@@ -162,10 +151,34 @@ Page({
       console.log('气象站');
       console.log(res);
       if(res.data.success){
-        that.setData({weatherInfo: res.data.result});
+        var weather = res.data.result;
+        weather.windLevel = that.getWindLevel(weather.windSpeed);
+        that.setData({weatherInfo: weather});
         wx.setStorageSync('weatherInfo', res.data.result);
       }
     }, function(error) {})
+  },
+  //计算风力等级
+  getWindLevel(windSpeed){
+    if(windSpeed<1.6){
+      return '0-1级';
+    }else if(windSpeed>1.5 && windSpeed<5.5){
+      return '2-3级';
+    }else if(windSpeed>5.4 && windSpeed<10.8){
+      return '4-5级';
+    }else if(windSpeed>10.7 && windSpeed<17.2){
+      return '6-7级';
+    }else if(windSpeed>17.1 && windSpeed<24.5){
+      return '8-9级';
+    }else if(windSpeed>24.4 && windSpeed<32.7){
+      return '10-11级';
+    }else if(windSpeed>32.6 && windSpeed<41.5){
+      return '12级';
+    }else if(windSpeed>41.4 && windSpeed<61.3){
+      return '13-15级';
+    }else if(windSpeed>61.2){
+      return '16-17级';
+    }
   },
   // 获取设备类型
   getDeviceType(){
@@ -185,9 +198,8 @@ Page({
   // 获取单个设备列表
   getDeviceDataList(){
     let that = this;
-    let item = that.data.typeList[that.data.selected];
     let params = {
-      deviceTypeId: item.deviceTypeId
+      deviceTypeId: that.data.typeList[that.data.selected].deviceTypeId
     }
     util.wxRequestPost("/sps/app/device/listDeviceBasic", "加载中...", params, 'application/json', function(res) {
       if(res.data.success){
@@ -204,8 +216,11 @@ Page({
             that.setData({airStationBasicId: res.data.result[0].deviceBasicId});
             that.refreshWeather();
           }else{
+            if(that.data.typeList[that.data.selected].deviceTypeName == '空调'){
+              that.getTodayStatisticsVO();
+            }
             for (let index = 0; index < dataList.length; index++) {
-              that.refreshDevice(item, index);
+              that.refreshDevice(that.data.typeList[that.data.selected], index);
             }
             console.log('设备详情列表');
             console.log(that.data.deviceDetailList);
@@ -232,6 +247,28 @@ Page({
       }
     }, function(error) {})
   },
+   // 获取空调设备状态
+   getTodayStatisticsVO(){
+    let that = this;
+    let params = {
+      'deviceTypeId': that.data.deviceTypeId,
+      'deviceLocation': ''
+    }
+    util.wxRequestGet("/sps/app/device/airConditioner/getTodayStatisticsVO", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
+      console.log('获取空调设备状态');
+      console.log(res);
+      if(res.success){
+        that.setData({airData: res.result});
+        var deviceChart = that.selectComponent('#device-chart');
+        let dataList = [
+          {value: parseInt(res.result.onlineCount), name: '在线'},
+          {value: parseInt(res.result.deviceCount) - parseInt(res.result.onlineCount) - parseInt(res.result.alarmCount), name: '离线'},
+          {value: parseInt(res.result.alarmCount), name: '异常'}
+        ]
+        that.drawChart(deviceChart, dataList)
+      }
+    }, function(error) {})
+  },
   goMoreList(){
     const params = {
       selected: this.data.selected,
@@ -255,13 +292,6 @@ Page({
       },fail: console.error,
     });
     this.getDeviceType();
-    var deviceChart = this.selectComponent('#device-chart');
-    let dataList = [
-      {value: 21, name: '正常设备'},
-      {value: 4, name: '未运行设备'},
-      {value: 1, name: '异常设备'}
-    ]
-    this.drawChart(deviceChart, dataList)
   },
   //绘制环形图
   drawChart(chartComponnet, dataList) {
@@ -277,7 +307,7 @@ Page({
             show: true,
             position: 'center',
             color:'#4c4a4a',
-            formatter: '{total|' + 26 +'}'+ '\n\r' + '{active|设备总数}',
+            formatter: '{total|' + this.data.airData.deviceCount +'}'+ '\n\r' + '{active|设备总数}',
             rich: {
               total:{
                 fontSize: 24,
