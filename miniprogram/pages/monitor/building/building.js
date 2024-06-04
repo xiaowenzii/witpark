@@ -165,22 +165,19 @@ Page({
       }
     }, function(error) {})
   },
-  // 根据配电表获取最近的三相数据
+  // 根据配电柜获取温度
   getElectricityMeterTemp(){
     let that = this;
     let params = {
       "cabinetId": that.data.roomList.list[that.data.roomList.selected].id
     }
     util.wxRequestGet("/sps/app/device/PowerRoom/getElectricityMeterTemp", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
-      console.log("温度")
+      console.log("根据配电柜获取温度");
       console.log(res);
       if(res.success){
         that.setData({tempList: res.result});
       }
     }, function(error) {})
-  },
-  getTemp(){
-    return 1;
   },
   onLoad(options) {
     var rpxHeight = util.getScreenHeightRpx()-90;

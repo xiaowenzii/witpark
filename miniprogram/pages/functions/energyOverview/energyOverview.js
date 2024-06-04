@@ -21,7 +21,8 @@ Page({
     ec: {
       lazyLoad: true
     },
-    proList: []
+    proList: [],
+    powerData: {}
   },
   // 选择时间类别，年或者月
   selectDateType(res){
@@ -124,8 +125,13 @@ Page({
           console.log('获取用水统计');
           console.log(res);
         }
+        that.setData({powerData: res.data.result});
         for (let i = 0; i < res.data.result.powerOverviewVoList.length; i++) {
-          xData.push(parseInt(res.data.result.powerOverviewVoList[i].time.split('-')[2]));
+          if(that.data.dateTpye == 'y'){
+            xData.push(parseInt(res.data.result.powerOverviewVoList[i].time.split('-')[1]));
+          }else{
+            xData.push(parseInt(res.data.result.powerOverviewVoList[i].time.split('-')[2]));
+          }
           yData.push(res.data.result.powerOverviewVoList[i].totalValue);
         }
         that.drawChart(energyChart, xData, yData)
@@ -213,7 +219,10 @@ Page({
         }
       },
       yAxis: {
-          type: 'value'
+          type: 'value',
+          axisLabel:{
+            textStyle: {fontSize: 10}
+          }
       },
       series: [{
         name: '用电数据',

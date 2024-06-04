@@ -2,7 +2,7 @@
   <view style="display: flex;flex-direction: row;">
     <view class="search-view">
       <image class="search-view-image" src="../../../asset/search.png" />
-      <input class="search-view-text" type='text' name='password' placeholder="请输入文件名称" value="{{fileinfoName}}" bindinput="handleInput" placeholder-style="color: #9E9E9E;"/>
+      <input class="search-view-text" type='text' placeholder="请输入文件名称" value="{{fileinfoName}}" bindinput="handleInput" placeholder-style="color: #9E9E9E;"/>
     </view>
   </view>
   <view style="display: flex;flex-direction: row;">

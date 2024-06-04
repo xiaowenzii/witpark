@@ -4,23 +4,10 @@ page{
   background-color: #F2F3F3;
 }
 
-.view-select {
-  display: flex;
-  flex-direction: row;
-  padding: 12rpx;
-  display: flex;
-  align-items: center;
-}
-
-.view-text{
-  font-size: 24rpx;
-  margin: 6rpx 12rpx;
-}
-
 .search-view{
   background-color: #FAFAFA;
   height: 64rpx;
-  width: 85%;
+  width: 94%;
   margin-left: 24rpx;
   border-radius: 6rpx;
   margin-top: 12rpx;

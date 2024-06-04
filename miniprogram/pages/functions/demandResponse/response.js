@@ -1,71 +1,70 @@
+import * as util from "../../../utils/util"
+
 Page({
   data: {
-    selecetStateIndex: 0,
-    dataList: [
-      {
-        id:'0',
-        desc: '电网邀约信息',
-        text1: '120',
-        text2: '2024-04-25 09:39:12',
-        text3: '0小时',
-        text4: '2024-04-25 09:39:12',
-        text5: '0.9'
-      }, {
-        id:'1',
-        desc: '电网邀约信息',
-        text1: '120',
-        text2: '2024-04-25 09:39:12',
-        text3: '1小时',
-        text4: '2024-04-25 09:39:12',
-        text5: '0.9'
-      }, {
-        id:'2',
-        desc: '电网邀约信息',
-        text1: '120',
-        text2: '2024-04-25 09:39:12',
-        text3: '2小时',
-        text4: '2024-04-25 09:39:12',
-        text5: '0.9'
-      }, {
-        id:'3',
-        desc: '电网邀约信息',
-        text1: '120',
-        text2: '2024-04-25 09:39:12',
-        text3: '3小时',
-        text4: '2024-04-25 09:39:12',
-        text5: '0.9'
-      }
-    ]
+    scrollHeight: 0,
+    scrollTop : 0,
+    scrollTopPosition: 0,
+    pageNumber: 1,
+    pageNumberSize: 1,
+    responseManageTitle: '',
+    dataList: []
   },
-  selectState(res){
-    var index = res.currentTarget.dataset.index;
+  handleInput(res){
+    this.setData({responseManageTitle: res.detail.value, pageNumber: 1, scrollTop : 0});
+    this.pageResponseManage();
+  },
+  // 分页查询文件信息
+  pageResponseManage(){
+    let that = this;
+    let params = {
+      responseBeginTime: '',
+      responseManageTitle: that.data.responseManageTitle,
+      pageNumber: that.data.pageNumber,
+      pageSize: 10,
+      sortField: "",
+      sortOrder: "",
+    }
+    console.log(params);
+    util.wxRequestPost("/sps/app/demandResponse/pageResponseManage", "加载中...", params, 'application/json', function(res) {
+      console.log(res)
+      if(res.data.success){
+        var data = that.data.pageNumber==1?[]:that.data.dataList;
+        for (let i = 0; i < res.data.result.records.length; i++) {
+          data.push(res.data.result.records[i]);
+        }
+        that.setData({dataList: data, pageNumberSize: res.data.result.pages});
+        var top = that.data.scrollTop;
+        that.setData({
+          scrollTopPosition : top
+        });
+      }
+    }, function(error) {})
+  },
+  //页面滑动到底部, 上拉刷新
+  bindDownLoad:function(){
+    if(this.data.pageNumber < this.data.pageNumberSize){
+      var number = this.data.pageNumber + 1;
+      this.setData({pageNumber: number});
+      this.pageResponseManage();
+    }
+  },
+  scroll:function(event){
+    //该方法绑定了页面滚动时事件，当前的position.y的值
     this.setData({
-      selecetStateIndex: index
+      scrollTop : event.detail.scrollTop
+    });
+  },
+  onLoad(options) {
+    // 设置列表高度
+    let rpxScrollHeight = util.getScreenHeightRpx()-90;
+    this.setData({
+      scrollHeight: rpxScrollHeight
     })
   },
-  refuse(res){
-    console.log(res.currentTarget.dataset.item);
-  },
-  reponse(res){
-    console.log(res.currentTarget.dataset.item);
-  },
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
   onReady() {
-
+    this.pageResponseManage();
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
   onShow() {
 
   },

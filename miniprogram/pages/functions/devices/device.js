@@ -35,13 +35,29 @@ Page({
   },
   // switch 开关
   switchState(res){
+    let that = this;
+    let index = res.currentTarget.dataset.index;
     var deviceDetailList = this.data.deviceDetailList;
+    let isRun = deviceDetailList[index].airConditionerDTO.isRun;
     if(this.data.typeList[this.data.selected].deviceTypeName == '空调'){
-      deviceDetailList[res.currentTarget.dataset.index].airConditionerDTO.isRun= res.detail.value?'1':'0';
-      this.setData({deviceIndex: res.currentTarget.dataset.index, deviceDetailList: deviceDetailList});
-
-      this.setAirControl(); //红外控制
-      //this.updateAirConditioner(); //不支持红外，继电器控制开关
+      wx.showModal({
+        title: '空调开关',
+        content: res.detail.value?'确定打开'+deviceDetailList[index].airConditionerDTO.name+'空调？':'确定关闭'+deviceDetailList[index].airConditionerDTO.name+'空调',
+        success: function(res) {
+          if(res.confirm) {
+            deviceDetailList[index].airConditionerDTO.isRun= res.detail.value?'1':'0';
+            that.setData({deviceIndex: index, deviceDetailList: deviceDetailList});
+            if(deviceList[index].infraredFlag=='1'){
+              that.setAirControl(); //红外控制
+            }else{
+              that.updateAirConditioner(); //不支持红外，继电器控制开关
+            }
+          } else if (res.cancel) {
+            deviceDetailList[index].airConditionerDTO.isRun= isRun;
+            that.setData({deviceDetailList: deviceDetailList});
+          }
+        }
+      })
     } else if(this.data.typeList[this.data.selected].deviceTypeName == '风光储路灯'){
       deviceDetailList[res.currentTarget.dataset.index].streetLightBasicInfoDTO.onoff= res.detail.value?'1':'0';
       this.setData({deviceIndex: res.currentTarget.dataset.index, deviceDetailList: deviceDetailList});
@@ -93,7 +109,6 @@ Page({
   },
   // 发送空调指令:红外控制
   setAirControl(){
-    this.setData({showControlDialog: false});
     let that = this;
     let params = {
       deviceSnList: that.data.deviceList[that.data.deviceIndex].deviceSn,
@@ -124,6 +139,13 @@ Page({
       if(res.data.success){
       }
     }, function(error) {})
+  },
+  //空调调控
+  setAir(res){
+    this.setData({showControlDialog: false});
+    if(res.currentTarget.dataset.index=='1'){
+      this.setAirControl();
+    }
   },
   // 风光储路灯设置
   AppstreetLightController(){

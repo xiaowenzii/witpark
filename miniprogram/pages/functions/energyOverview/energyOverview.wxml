@@ -22,12 +22,12 @@
 <view class="power-desc">
   <image class="bg-image" src="../../../asset/energy_overview/bk.png" mode="scaleToFill"></image>
   <view style="width: 50%;">
-    <view style="color: #FFFFFF;font-size: 48rpx;margin-top: 60rpx;margin-left: 24rpx;">560.0</view>
+    <view style="color: #FFFFFF;font-size: 48rpx;margin-top: 60rpx;margin-left: 24rpx;">{{powerData.totalPower}}</view>
     <view style="color: #FFFFFF;font-size: 28rpx;margin-top: 12rpx;margin-left: 24rpx">{{monthSelected}}月总用电量 (kwh)</view>
   </view>
   <view style="width: 50%;display: flex;position: relative;">
-    <view style="color: #FFFFFF;font-size: 26rpx;margin-top: 120rpx;display: flex;position: absolute;right: 0;margin-right: 24rpx;">上年同期：542.5</view>
-    <view style="color: #FFFFFF;font-size: 26rpx;margin-top: 172rpx;display: flex;position: absolute;right: 0;margin-right: 24rpx;">同步增长：+4.5%</view>
+    <view style="color: #FFFFFF;font-size: 26rpx;margin-top: 120rpx;display: flex;position: absolute;right: 0;margin-right: 24rpx;">上年同期：{{powerData.periodPower}}</view>
+    <view style="color: #FFFFFF;font-size: 26rpx;margin-top: 172rpx;display: flex;position: absolute;right: 0;margin-right: 24rpx;">同步增长：{{powerData.quarter}}</view>
   </view>
 </view>
 

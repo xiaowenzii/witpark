@@ -65,9 +65,9 @@
     <view style="width: 100%;display: flex;align-items: center;">
       <view class="item-text" style="display: flex;flex-direction: row;">电表回路温度(℃):
         <view wx:for="{{tempList}}" wx:key="itemIndex" wx:for-item="innerItem" wx:if="{{innerItem.deviceName==item.deviceName}}">
-          <text style="margin-left: 24rpx;">温度1: </text><text style="color: green;" >{{innerItem.tempList[0]}}</text>
-          <text style="margin-left: 36rpx;">温度2: </text>: <text style="color: green;" >{{innerItem.tempList[1]}}</text>
-          <text style="margin-left: 36rpx;">温度3: </text>: <text style="color: green;" >{{innerItem.tempList[2]}}</text>
+          <text style="margin-left: 12rpx;">温度1: </text><text style="color: green;" >{{innerItem.tempList[0]}}</text>
+          <text style="margin-left: 24rpx;">温度2: </text>: <text style="color: green;" >{{innerItem.tempList[1]}}</text>
+          <text style="margin-left: 24rpx;">温度3: </text>: <text style="color: green;" >{{innerItem.tempList[2]}}</text>
         </view>
       </view>
     </view>

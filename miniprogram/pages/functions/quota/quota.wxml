@@ -29,7 +29,7 @@
       </view>
       <view style="display: flex;padding: 18rpx 12rpx;"> 
         <view style="width: 50%;">用能额度：{{item.quotaPlanLimit}} kwh</view>
-        <view>用能情况：{{item.use}} kwh</view>
+        <view>用能情况：{{item.paramValue}} kwh</view>
       </view>
       <view style="display: flex;padding: 6rpx 12rpx;"> 
         <view style="width: 50%;">制定人：{{item.quotaPlanUser}}</view>
@@ -39,7 +39,7 @@
       <view style="display: flex;flex-direction: row;margin-top: 30rpx;position: relative;align-items: center;">
         <view style="font-size: 26rpx;padding-left: 12rpx;font-weight: bolder;">
           完成率：
-          <text style="color: #18B6A2;font-size: 28rpx;">{{item.finish}}</text>
+          <text style="color: #18B6A2;font-size: 28rpx;">{{item.completionRate}}</text>
         </view>
         <view style="display: flex;position: absolute;right: 0;margin-right: 24rpx;">
           <view class="item-but" data-item="{{item}}" bind:tap="abandan">删除</view>
