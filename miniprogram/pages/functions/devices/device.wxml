@@ -12,7 +12,7 @@
       </view>
       <view class="chart-desc" style="width: 34%;">
         <text class="chart-desc-text1">离线</text>
-        <text class="chart-desc-text2" style="color: #DCDCDC;">{{airData.deviceCount - airData.onlineCount - airData.alarmCount}}</text>
+        <text class="chart-desc-text2" style="color: #DCDCDC;">{{airData.deviceCount>0?(airData.deviceCount - airData.onlineCount - airData.alarmCount):''}}</text>
       </view>
       <view class="chart-desc">
         <text class="chart-desc-text1">异常</text>
@@ -148,7 +148,7 @@
     <view style="font-size: 24rpx;display: flex;margin-left: 12rpx;margin-top: 12rpx;">
       <text style="margin-left: 9rpx;color: {{deviceDetailList[index].solarTreeDeviceCurrentDataDTO.state=='离线'?'#C6C6C6':'#18B6A2'}};">{{deviceDetailList[index].solarTreeDeviceCurrentDataDTO.state}}</text>
     </view>
-    <view class="device-item-text1">逆变器SN号：{{item.deviceSn}}</view>
+    <view class="device-item-text1">逆变器SN号：{{item.deviceSn!=null?item.deviceSn:''}}</view>
     <view class="device-item" style="margin-top: 12rpx;">
       <view class="u-class">水位高度：<text class="u-class-text" style="color: #1CB7A3;">{{deviceDetailList[index].heatPumpDTO.heatPumpLiquidLevelDTO.dis/1000}}</text>m</view>
       <view class="i-class">储水箱高度：<text class="u-class-text">2.05</text>m</view>
@@ -171,15 +171,15 @@
       </view>
     </view>
     <view class="device-item" style="margin-top: 12rpx;">
-      <view class="u-class">瞬时流量：<text class="u-class-text" style="color: #1CB7A3;">{{deviceDetailList[index].heatPumpDTO.heatPumpFlowDTO.ins_rate}}</text>m³</view>
-      <view class="i-class">累计流量：<text class="u-class-text" style="color: #1CB7A3;">{{deviceDetailList[index].heatPumpDTO.heatPumpFlowDTO.flow_int+'.'+deviceDetailList[index].heatPumpDTO.heatPumpFlowDTO.flow_fra}}</text>m³</view>
+      <view class="u-class">瞬时流量：<text class="u-class-text" style="color: #1CB7A3;">{{deviceDetailList.length>0?deviceDetailList[index].heatPumpDTO.heatPumpFlowDTO.ins_rate:''}}</text>m³</view>
+      <view class="i-class">累计流量：<text class="u-class-text" style="color: #1CB7A3;">{{deviceDetailList[index].heatPumpDTO!=null?deviceDetailList[index].heatPumpDTO.heatPumpFlowDTO.flow_int+'.'+deviceDetailList[index].heatPumpDTO.heatPumpFlowDTO.flow_fra:''}}</text>m³</view>
     </view>
     
     <view class="device-item" style="margin-top: 12rpx;">
-      <view class="u-class">正累计流量：<text class="u-class-text" style="color: #1CB7A3;">{{deviceDetailList[index].heatPumpDTO.heatPumpFlowDTO.plus_f_int+'.'+deviceDetailList[index].heatPumpDTO.heatPumpFlowDTO.plus_f_fra}}</text>m³</view>
-      <view class="i-class">负累计流量：<text class="u-class-text" style="color: #1CB7A3;">{{deviceDetailList[index].heatPumpDTO.heatPumpFlowDTO.min_f_int+'.'+deviceDetailList[index].heatPumpDTO.heatPumpFlowDTO.min_f_fra}}</text>m³</view>
+      <view class="u-class">正累计流量：<text class="u-class-text" style="color: #1CB7A3;">{{deviceDetailList[index].heatPumpDTO!=null?(deviceDetailList[index].heatPumpDTO.heatPumpFlowDTO.plus_f_int+'.'+deviceDetailList[index].heatPumpDTO.heatPumpFlowDTO.plus_f_fra):''}}</text>m³</view>
+      <view class="i-class">负累计流量：<text class="u-class-text" style="color: #1CB7A3;">{{deviceDetailList[index].heatPumpDTO!=null?deviceDetailList[index].heatPumpDTO.heatPumpFlowDTO.min_f_int+'.'+deviceDetailList[index].heatPumpDTO.heatPumpFlowDTO.min_f_fra:''}}</text>m³</view>
     </view>
-    <view class="device-item-text2">更新时间：{{deviceDetailList[index].heatPumpDTO.heatPumpLiquidLevelDTO.collectTime}}</view>
+    <view class="device-item-text2">更新时间：{{deviceDetailList[index].heatPumpDTO!=null?deviceDetailList[index].heatPumpDTO.heatPumpLiquidLevelDTO.collectTime:''}}</view>
   </view>
 
   <!-- 小型气象站 -->

@@ -1,30 +1,82 @@
-<view style="margin: 24rpx;font-size: 26rpx;font-weight: bolder;">设备列表</view>
+<!-- 条件展示 -->
+<view style="height: 90rpx;width: 100%;background-color: #FFFFFF;">
+  <view style="display: flex;flex-direction: row;padding-top: 30rpx;">
+    <view class="head-desc" style="width: 100%;" bind:tap="search">
+      <text class="head-desc-text1">{{roomList.list[roomList.selected].name}}</text>
+      <image class="head-image" src="../../../asset/select_down.png"></image>
+    </view>
+  </view>
+</view>
+
 <!-- 列表 -->
-<view class="list">
-  <view class="item" wx:for="{{dataList}}" wx:key="index" style="margin-left: {{index%2==0?'0':'4%'}};">
-    <view style="display: flex;flex-direction: row;align-items: center;">
-      <image src="../../../asset/build/build.png" style="height: 48rpx;width: 48rpx;margin-left: 24rpx;"/>
-      <view class="item-title">{{item.title}}</view>
+<view class="item" wx:for="{{dataList}}" wx:key="index">
+  <view style="display: flex;flex-direction: row;align-items: center;">
+    <image src="../../../asset/build/build.png" style="height: 48rpx;width: 48rpx;"/>
+    <view class="item-title">{{item.deviceName}}</view>
+  </view>
+  <view style="display: flex;flex-direction: row;">
+    <view style="width: 50%;display: flex;align-items: center;">
+      <text class="item-text">最大功率: <text style="color: green;">{{powerMaxMinList[index].maxPower}}</text></text>
     </view>
-    <view style="display: flex;flex-direction: row;">
-      <view style="width: 50%;display: flex;align-items: center;">
-        <image class="item-image" src="../../../asset/build/temp_blue.png"/>
-        <text style="font-size: 24rpx;margin-left: 12rpx;">{{item.temp1}}</text>
-      </view>
-      <view style="width: 50%;display: flex;align-items: center;">
-        <image class="item-image" src="../../../asset/build/temp_green.png"/>
-        <text style="font-size: 24rpx;margin-left: 12rpx;">{{item.temp2}}</text>
+    <view style="width: 50%;display: flex;align-items: center;">
+      <text class="item-text">最低功率: <text style="color: green;">{{powerMaxMinList[index].maxPower}}</text></text>
+    </view>
+  </view>
+  <view style="display: flex;flex-direction: row;margin-top: 12rpx;">
+    <view style="width: 50%;display: flex;align-items: center;">
+      <text class="item-text">今日用电: <text style="color: green;">{{electricList[index].totalValue}} kwh</text></text>
+    </view>
+  </view>
+  <view style="display: flex;flex-direction: row;margin-top: 12rpx;">
+    <view style="width: 33%;display: flex;align-items: center;">
+      <text class="item-text">A相电压: <text style="color: green;">{{triphaseList[index][1].paValue}}</text></text>
+    </view>
+    <view style="width: 34%;display: flex;align-items: center;">
+      <text class="item-text">B相电压: <text style="color: green;">{{triphaseList[index][1].pbValue}}</text></text>
+    </view>
+    <view style="width: 33%;display: flex;align-items: center;">
+      <text class="item-text">C相电压: <text style="color: green;">{{triphaseList[index][1].pcValue}}</text></text>
+    </view>
+  </view>
+  <view style="display: flex;flex-direction: row;margin-top: 12rpx;">
+    <view style="width: 33%;display: flex;align-items: center;">
+      <text class="item-text">A相电流: <text style="color: green;">{{triphaseList[index][0].paValue}}</text></text>
+    </view>
+    <view style="width: 34%;display: flex;align-items: center;">
+      <text class="item-text">B相电流: <text style="color: green;">{{triphaseList[index][0].pbValue}}</text></text>
+    </view>
+    <view style="width: 33%;display: flex;align-items: center;">
+      <text class="item-text">C相电流: <text style="color: green;">{{triphaseList[index][0].pcValue}}</text></text>
+    </view>
+  </view>
+  
+  <view style="display: flex;flex-direction: row;margin-top: 12rpx;">
+    <view style="width: 33%;display: flex;align-items: center;">
+      <text class="item-text">A相功率: <text style="color: green;">{{triphaseList[index][2].paValue}}</text></text>
+    </view>
+    <view style="width: 34%;display: flex;align-items: center;">
+      <text class="item-text">B相功率: <text style="color: green;">{{triphaseList[index][2].pbValue}}</text></text>
+    </view>
+    <view style="width: 33%;display: flex;align-items: center;">
+      <text class="item-text">C相功率: <text style="color: green;">{{triphaseList[index][2].pcValue}}</text></text>
+    </view>
+  </view>
+  <view style="display: flex;flex-direction: row;margin-top: 12rpx;">
+    <view style="width: 100%;display: flex;align-items: center;">
+      <view class="item-text" style="display: flex;flex-direction: row;">电表回路温度(℃):
+        <view wx:for="{{tempList}}" wx:key="itemIndex" wx:for-item="innerItem" wx:if="{{innerItem.deviceName==item.deviceName}}">
+          <text style="margin-left: 24rpx;">温度1: </text><text style="color: green;" >{{innerItem.tempList[0]}}</text>
+          <text style="margin-left: 36rpx;">温度2: </text>: <text style="color: green;" >{{innerItem.tempList[1]}}</text>
+          <text style="margin-left: 36rpx;">温度3: </text>: <text style="color: green;" >{{innerItem.tempList[2]}}</text>
+        </view>
       </view>
     </view>
-    <view style="display: flex;flex-direction: row;margin-top: 12rpx;">
-      <view style="width: 50%;display: flex;align-items: center;">
-        <image class="item-image" src="../../../asset/build/temp_purple.png"/>
-        <text style="font-size: 24rpx;margin-left: 12rpx;">{{item.temp3}}</text>
-      </view>
-      <view style="width: 50%;display: flex;align-items: center;">
-        <image class="item-image" src="../../../asset/build/temp_orange.png"/>
-        <text style="font-size: 24rpx;margin-left: 12rpx;">{{item.temp4}}</text>
-      </view>
-    </view>
+  </view>
+</view>
+
+<!-- 条件筛选框 -->
+<view class="condtion-dialog" style="height: {{condtionDialogHeight}}rpx;margin-top: 90rpx;" wx:if="{{showSearchDialog}}">
+  <view style="height: 50%;width: 100%;padding-top: 24rpx;background-color: #FFFFFF;">
+    <search-contion-dialog searchData="{{searchDataList}}" type="single" bindmyevent="closeDialog"></search-contion-dialog>
   </view>
 </view>

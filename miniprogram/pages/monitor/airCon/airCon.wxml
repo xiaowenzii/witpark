@@ -7,49 +7,49 @@
 <image src="../../../asset/build/floor.png" style="width: 100%;height: 360rpx;"></image>
 
 <view style="height: 96rpx;display: flex;flex-direction: row;">
-  <view class="desc-view">
-      <view style="font-size: 30rpx;font-weight: bolder;">{{airData.todayTotalUsedElectricity}}</view>
+  <view class="desc-view" style="width: 50%;">
+      <view style="font-size: 30rpx;font-weight: bolder;">{{airData.todayTotalUsedElectricity==null?0:airData.todayTotalUsedElectricity}}</view>
       <view style="font-size: 24rpx;margin-top: 12rpx;">今日总用电量(kwh)</view>
   </view>
-  <view class="desc-view">
-      <view style="font-size: 30rpx;font-weight: bolder;">{{airData.todayTotalTime}}</view>
+  <view class="desc-view" style="width: 50%;">
+      <view style="font-size: 30rpx;font-weight: bolder;">{{airData.todayTotalTime==null?0:airData.todayTotalTime}}</view>
       <view style="font-size: 24rpx;margin-top: 12rpx;">今日用电时长(分钟)</view>
-  </view>
-  <view class="desc-view">
-      <view style="font-size: 30rpx;font-weight: bolder;">{{airData.todayTotalTime}}</view>
-      <view style="font-size: 24rpx;margin-top: 12rpx;">异常用电</view>
   </view>
 </view>
 
 <!-- 设备状态 -->
 <view style="height: 148rpx;margin: 24rpx;background-color: #FFFFFF;border-radius: 12rpx;padding: 18rpx;">
   <view style="font-size: 26rpx;font-weight: bolder;">设备状态</view>
-  <view style="display: flex;flex-direction: row;">
-    <view style="width: 60%;margin-top: 24rpx;">
-      <view class="pro-view" style="background-color: #18B6A2;border-radius: 24rpx 0 0 24rpx;">{{airData.onlineCount}}</view>
+  <view style="display: flex;flex-direction: row;" wx:if="{{airData.onlineCount!=null && airData.onlineCount>0}}">
+    <view style="width:{{(airData.onlineCount-airData.runningCount)*100/airData.deviceCount+'%'}};margin-top: 24rpx;">
+      <view class="pro-view" style="background-color: #18B6A299;border-radius: 24rpx 0 0 24rpx;">{{airData.onlineCount-airData.runningCount}}</view>
       <view style="font-size: 24rpx;margin-top: 12rpx;color: #B2B2B2;">在线</view>
     </view>
-    <view style="width: 25%;margin-top: 24rpx;text-align: center;">
-      <view class="pro-view" style="background-color: #D78C33;">{{airData.alarmCount}}</view>
-      <view style="font-size: 24rpx;margin-top: 12rpx;color: #B2B2B2;">报警</view>
+    <view style="width: {{airData.runningCount*100/airData.deviceCount+'%'}};margin-top: 24rpx;text-align: center;">
+      <view class="pro-view" style="background-color: #18B6A2;border-radius: {{(airData.deviceCount - airData.onlineCount - airData.alarmCount)==0 && airData.alarmCount==0?'0 24rpx 24rpx 0':'0'}};">{{airData.runningCount}}</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;color: #B2B2B2;">运行</view>
     </view>
-    <view style="width: 15%;margin-top: 24rpx;text-align: right;">
+    <view style="width: {{airData.alarmCount*100/airData.deviceCount+'%'}};margin-top: 24rpx;text-align: center;">
+      <view class="pro-view" style="background-color: #D78C33;border-radius: {{(airData.deviceCount - airData.onlineCount - airData.alarmCount)==0?'0 24rpx 24rpx 0':'0'}};">{{airData.alarmCount}}</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;color: #B2B2B2;" wx:if="{{airData.alarmCount!=0}}">报警</view>
+    </view>
+    <view style="width: {{(airData.deviceCount - airData.onlineCount - airData.alarmCount)*100/airData.deviceCount+'%'}};margin-top: 24rpx;text-align: right;">
       <view class="pro-view" style="background-color: #C2C2C2;border-radius: 0 24rpx 24rpx 0;">{{airData.deviceCount - airData.onlineCount - airData.alarmCount}}</view>
-      <view style="font-size: 24rpx;margin-top: 12rpx;color: #B2B2B2;">离线</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;color: #B2B2B2;" wx:if="{{(airData.deviceCount - airData.onlineCount - airData.alarmCount)!=0}}">离线</view>
     </view>
   </view>
 </view>
 
 <!-- 用电统计 -->
-<view style="height: 420rpx;margin: 24rpx 12rpx;background-color: #FFFFFF;border-radius: 12rpx;padding: 18rpx;">
+<view style="height: 420rpx;margin: 24rpx;background-color: #FFFFFF;border-radius: 12rpx;padding: 18rpx;">
   <view style="font-size: 26rpx;font-weight: bolder;">用电统计 ({{year}}-{{month}})</view>
   <view style="height: 360rpx;">
     <ec-canvas id="energy-chart-bar" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
   </view>
 </view>
 
-<view style="height: 420rpx;margin: 24rpx 12rpx;background-color: #FFFFFF;border-radius: 12rpx;padding: 18rpx;">
-  <view style="font-size: 26rpx;font-weight: bolder;">用电时长</view>
+<view style="height: 420rpx;margin: 24rpx;background-color: #FFFFFF;border-radius: 12rpx;padding: 18rpx;">
+  <view style="font-size: 26rpx;font-weight: bolder;">用电时长: 分钟 ({{year}}-{{month}})</view>
   <view style="height: 360rpx;">
     <ec-canvas id="time-chart-bar" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
   </view>

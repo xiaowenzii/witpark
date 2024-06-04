@@ -42,3 +42,10 @@ page{
   margin-left: 12rpx;
   color: #A8A8A8;
 }
+.device-point{
+  height: 18rpx;
+  width: 18rpx;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: row;
+}

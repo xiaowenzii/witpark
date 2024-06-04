@@ -123,7 +123,4 @@
       <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">{{detailData.dischargecapacitysum}}</view>
     </view>
   </view>
-  <view class="progress-box">
-    <progress percent="{{detailData.eToday/detailData.eTotal*100}}" color="#18B6A2" active stroke-width="9" border-radius="6" />
-  </view>
 </view>

@@ -1,31 +1,35 @@
-<view style="font-size: 26rpx;margin: 24rpx">设备号：03496898</view>
+<view style="font-size: 26rpx;margin: 24rpx">设备号：{{deviceList[selectDeviceIndex].deviceBasicId}}</view>
 <view style="height: 360rpx;display: flex;flex-direction: column;align-items: center;justify-content: center;">
   <image src="../../../asset/wind/kqyrb.png" style="width: 210rpx;height: 300rpx;"></image>
+  <text style="font-size: 26rpx; font-weight: bolder;margin-top: 12rpx;">{{deviceList[selectDeviceIndex].deviceName}}</text>
+  <view style="height: 18rpx;display: flex;align-items: center;margin-top: 18rpx;" wx:if="{{deviceList.length > 1}}">
+    <view class="device-point" style="background-color: {{index==selectDeviceIndex?'#18B6A2':'#9C9C9C'}};margin-left: {{index!=0?'18rpx':'0'}};" wx:for="{{deviceList}}" wx:key="index"></view>
+  </view>
 </view>
 
 <view style="height: 150rpx;display: flex;flex-direction: row;margin: 24rpx;border-radius: 24rpx;">
   <view class="desc-view">
-      <view class="desc-view-text1">220</view>
-      <view class="desc-view-text2">用电量</view>
+      <view class="desc-view-text1">{{detailData.heatPumpFlowDTO.ins_rate}}</view>
+      <view class="desc-view-text2">瞬时流量</view>
   </view>
   <view class="desc-view">
-      <view class="desc-view-text1">33</view>
-      <view class="desc-view-text2">用水量</view>
+      <view class="desc-view-text1">{{detailData.heatPumpFlowDTO!=null?detailData.heatPumpFlowDTO.flow_int+'.'+detailData.heatPumpFlowDTO.flow_fra:''}}</view>
+      <view class="desc-view-text2">累计流量</view>
   </view>
   <view class="desc-view">
-      <view class="desc-view-text1">45</view>
+      <view class="desc-view-text1">{{detailData.heatPumpTempDTOList[2].pre_temp}}</view>
       <view class="desc-view-text2">水箱温度(℃)</view>
   </view>
 </view>
 
 <!-- 柱状图 -->
 <view class="block-view" style="height: 360rpx;">
-  <view style="font-size: 26rpx;font-weight: bolder;">用电统计</view>
+  <view style="font-size: 26rpx;font-weight: bolder;">液位统计</view>
   <ec-canvas id="power-chart" canvas-id="mychart-bar" ec="{{ power }}"></ec-canvas>
 </view>
 
 <!-- 折线图 -->
 <view class="block-view" style="height: 360rpx;">
-  <view style="font-size: 26rpx;font-weight: bolder;">用水统计</view>
+  <view style="font-size: 26rpx;font-weight: bolder;">水箱温度统计</view>
   <ec-canvas id="water-chart" canvas-id="mychart-bar" ec="{{ water }}"></ec-canvas>
 </view>

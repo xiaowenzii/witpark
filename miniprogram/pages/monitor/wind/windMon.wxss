@@ -47,3 +47,11 @@ page{
   height: 48rpx;
   margin-left: 12rpx;
 }
+
+.device-point{
+  height: 18rpx;
+  width: 18rpx;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: row;
+}

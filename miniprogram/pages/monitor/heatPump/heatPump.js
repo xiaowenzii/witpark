@@ -3,6 +3,11 @@ import * as util from "../../../utils/util"
 
 Page({
   data: {
+    deviceTypeId: '',
+    deviceList: [],
+    detailData: {},
+    selectDeviceIndex: 0,
+    date: '',
     power: {
       lazyLoad: true
     },
@@ -10,11 +15,47 @@ Page({
       lazyLoad: true
     }
   },
+  // 获取设备列表
+  getDeviceDataList(){
+    let that = this;
+    let params = {
+      deviceTypeId: that.data.deviceTypeId
+    }
+    util.wxRequestPost("/sps/app/device/listDeviceBasic", "加载中...", params, 'application/json', function(res) {
+      if(res.data.success){
+        if(res.data.result != null && res.data.result.length > 0){
+          that.setData({deviceList: res.data.result});
+
+          that.refreshDevice();
+          that.getHeatPumpTendency();
+        }
+      }
+    }, function(error) {})
+  },
+  //获取单个设备详情
+  refreshDevice(){
+    let that = this;
+    let deviceParams = {
+      deviceTypeId: that.data.deviceTypeId,
+      deviceBasicId: that.data.deviceList[that.data.selectDeviceIndex].deviceBasicId
+    }
+    util.wxRequestGet("/sps/app/device/refreshDevice", "加载中...", deviceParams, 'application/x-www-form-urlencoded', function(res) {
+      if(res.success){
+        console.log('获取单个设备详情');
+        console.log(res.result.heatPumpDTO);
+        that.setData({detailData: res.result.heatPumpDTO});
+      }
+    }, function(error) {})
+  },
   // 根据key获取当天热泵趋势数据
   getHeatPumpTendency(){
     let that = this;
     let params = {
-      key: 'sup_temp' //需要统计的key,示例值(liq_lev(液位) or sup_temp(供水温度) or re_temp(回水温度))
+      key: 'liq_lev', //需要统计的key,示例值(liq_lev(液位) or sup_temp(供水温度) or re_temp(回水温度))
+      deviceBasicId: that.data.deviceList[that.data.selectDeviceIndex].deviceBasicId,
+      startTime: that.data.date + ' 00',
+      endTime: that.data.date + ' 23',
+      deviceType: 8  //6:进水 7：出水 8：水箱
     }
     util.wxRequestGet("/sps/app/device/heatPump/getHeatPumpTendency", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
       console.log('根据key获取当天热泵趋势数据');
@@ -33,10 +74,12 @@ Page({
     }, function(error) {})
   },
   onLoad(options) {
-    this.getHeatPumpTendency();
+    // 获取当前日期
+    const date = new Date();
+    this.setData({deviceTypeId: options.deviceTypeId, date: date.getFullYear()+'-'+(util.formatMD(date.getMonth() + 1))+'-'+util.formatMD(date.getDate())});
   },
   onReady() {
-
+    this.getDeviceDataList();
   },
   // 绘制柱状图
   drawPowerChart(chartComponnet, xData, yData) {

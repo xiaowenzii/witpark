@@ -48,11 +48,6 @@ page{
   margin-left: 12rpx;
 }
 
-.progress-box{
-  margin-top: 24rpx;
-  width: 100%;
-}
-
 .device-point{
   height: 18rpx;
   width: 18rpx;
