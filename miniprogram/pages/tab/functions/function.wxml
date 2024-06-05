@@ -32,8 +32,8 @@
   <!-- 设备管理 -->
   <view style="padding: 18rpx 24rpx;font-size: 28rpx;font-weight: bolder;">设备管理</view>
   <view class="device-view" bind:tap="goDevicesMonitor">
-    <image src="../../../asset/device.png" style="width: 96rpx;height: 96rpx;margin-left: 12rpx;"></image>
-    <view style="margin-left: 12rpx;">
+    <image src="../../../asset/device.png" style="width: 72rpx;height: 72rpx;margin-left: 18rpx;"></image>
+    <view style="margin-left: 24rpx;">
       <view style="font-size: 26rpx;font-weight: bolder;">设备控制</view>
       <view style="font-size: 24rpx;margin-top: 6rpx;">查看并控制管理园区发电和用电设备</view>
     </view>

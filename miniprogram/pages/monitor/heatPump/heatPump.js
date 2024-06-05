@@ -27,7 +27,8 @@ Page({
           that.setData({deviceList: res.data.result});
 
           that.refreshDevice();
-          that.getHeatPumpTendency();
+          that.getHeatPumpTendency('dis');//水位
+          that.getHeatPumpTendency('pre_temp');//水箱温度
         }
       }
     }, function(error) {})
@@ -48,28 +49,38 @@ Page({
     }, function(error) {})
   },
   // 根据key获取当天热泵趋势数据
-  getHeatPumpTendency(){
+  getHeatPumpTendency(key){
     let that = this;
     let params = {
-      key: 'liq_lev', //需要统计的key,示例值(liq_lev(液位) or sup_temp(供水温度) or re_temp(回水温度))
+      key: key, //需要统计的key,示例值(liq_lev(液位) or sup_temp(供水温度) or re_temp(回水温度))
       deviceBasicId: that.data.deviceList[that.data.selectDeviceIndex].deviceBasicId,
       startTime: that.data.date + ' 00',
-      endTime: that.data.date + ' 23',
-      deviceType: 8  //6:进水 7：出水 8：水箱
+      endTime: that.data.date + ' 23'
+    }
+    if(key!='dis'){
+      params.deviceType = 8; //6:进水 7：出水 8：水箱
     }
     util.wxRequestGet("/sps/app/device/heatPump/getHeatPumpTendency", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
-      console.log('根据key获取当天热泵趋势数据');
-      console.log(res);
+      console.log(key);
+      var data = res.result[Object.keys(res.result)[0]];
       if(res.success){
-        //绘制柱状图
-        var chart = that.selectComponent('#power-chart');
-        var xData = ["04-01", "04-02", "04-03", "04-04", "04-05", "04-06", "04-07", "04-08"];
-        var yData = [85, 100, 34, 24, 46, 98, 80, 62];
-        that.drawPowerChart(chart, xData, yData)
-
-        //绘制折线图
-        chart = that.selectComponent('#water-chart');
-        that.drawChart(chart, xData, yData);
+        var xData = [];
+        var yData = [];
+        for (let index = 0; index < data.length; index++) {
+          xData.push(parseInt(data[index].time.split(' ')[1]));
+          if(key=='dis'){
+            yData.push(data[index].value/1000);
+          }else{
+            yData.push(data[index].value);
+          }
+        }
+        if(key=='dis'){
+          var chart = that.selectComponent('#power-chart');
+          that.drawPowerChart(chart, xData, yData)
+        }else{
+          chart = that.selectComponent('#water-chart');
+          that.drawChart(chart, xData, yData);
+        }
       }else{}
     }, function(error) {})
   },
@@ -92,7 +103,10 @@ Page({
         }
       },
       yAxis: {
-          type: 'value'
+          type: 'value',
+          axisLabel:{
+            textStyle: {fontSize: 10}
+          }
       },
       series: [{
         name: '用电数据',
@@ -168,7 +182,10 @@ Page({
         }
       },
       yAxis: {
-        type: 'value'
+        type: 'value',
+        axisLabel:{
+          textStyle: {fontSize: 10}
+        }
       },
       series: [{
         data: yData,

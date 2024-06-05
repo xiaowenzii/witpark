@@ -105,7 +105,6 @@ Page({
       sortField: "",
       sortOrder: ""
     }
-    console.log(params);
     util.wxRequestPost("/sps/app/alarm/pageAlarmBasic", "加载中...", params, 'application/json', function(res) {
       console.log(res)
       if(res.data.success){

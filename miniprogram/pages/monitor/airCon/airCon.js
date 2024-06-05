@@ -80,7 +80,11 @@ Page({
         var yData = [];
         for (let index = 0; index < res.result.length; index++) {
           xData.push(parseInt(res.result[index].date.split('-')[2]));
-          yData.push(res.result[index].value);
+          if(keyFlag==1){
+            yData.push(res.result[index].value);
+          }else{
+            yData.push(res.result[index].value/60);
+          }
         }
         if(keyFlag==1){
           //绘制图标

@@ -83,7 +83,6 @@ Page({
       energyType: index
     })
     this.requestData();
-    this.getElectricityConsumptionRanking();
   },
   // 获取各种统计数据
   getData(type, url){

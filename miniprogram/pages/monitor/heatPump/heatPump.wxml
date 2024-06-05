@@ -24,12 +24,12 @@
 
 <!-- 柱状图 -->
 <view class="block-view" style="height: 360rpx;">
-  <view style="font-size: 26rpx;font-weight: bolder;">液位统计</view>
+  <view style="font-size: 26rpx;font-weight: bolder;">当天24小时：液位统计 (m)</view>
   <ec-canvas id="power-chart" canvas-id="mychart-bar" ec="{{ power }}"></ec-canvas>
 </view>
 
 <!-- 折线图 -->
 <view class="block-view" style="height: 360rpx;">
-  <view style="font-size: 26rpx;font-weight: bolder;">水箱温度统计</view>
+  <view style="font-size: 26rpx;font-weight: bolder;">当天24小时：水箱温度统计 (℃)</view>
   <ec-canvas id="water-chart" canvas-id="mychart-bar" ec="{{ water }}"></ec-canvas>
 </view>
