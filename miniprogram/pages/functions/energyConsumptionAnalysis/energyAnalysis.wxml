@@ -62,16 +62,15 @@
 <view class="device-list">
   <view class="device-item" wx:for="{{deviceList}}" wx:key="index" style="margin-left: {{index%2!=0?'4%':'0'}}">
     <view style="display: flex;align-items: center;">
-      <image src="{{item.icon}}" style="height: 48rpx;width: 48rpx;margin-left: 24rpx;"></image>
-      <text style="font-size: 24rpx;margin-left: 12rpx;">{{item.desc}}</text>
+      <text style="font-size: 24rpx;margin-left: 12rpx;font-weight: bolder;">{{selected=='0'?item.powerroomDeviceTypeName:item.deviceTypeName}}</text>
     </view>
     <view class="item-text-view">
-      <text class="item-text1">发电量</text>
-      <text class="item-text2">{{item.yd}}</text>
+      <text class="item-text1">{{selected=='0'?'用电量':'发电量'}}</text>
+      <text class="item-text2">{{deviceListDetail[index].sumElectricity}} kWh</text>
     </view>
     <view class="item-text-view">
-      <text class="item-text1">发电功率</text>
-      <text class="item-text2">{{item.ydgl}}</text>
+      <text class="item-text1">{{selected=='0'?'用电功率':'发电功率'}}</text>
+      <text class="item-text2">{{deviceListDetail[index].sumPower}} kWh</text>
     </view>
   </view>
 </view>

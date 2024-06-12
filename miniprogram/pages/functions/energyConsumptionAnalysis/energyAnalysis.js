@@ -15,19 +15,8 @@ Page({
     uPower:{},
     showSearchDialog: false,
     selected: 0,
-    deviceList: [{
-      type: '0',
-      icon: '',
-      desc: '空调',
-      yd: '234',
-      ydgl: '2200'
-    }, {
-      type: '1',
-      icon: '',
-      desc: '空气源热泵',
-      yd: '234',
-      ydgl: '2200'
-    }],
+    deviceList: [],
+    deviceListDetail:[],
     energyAnysisChart: {
       lazyLoad: true
     },
@@ -41,43 +30,11 @@ Page({
     this.setData({
       selected: index
     })
-  },
-  // 设置图标
-  getDeviceIcon(){
-    var deviceList = this.data.deviceList;
-    for (let index = 0; index < deviceList.length; index++) {
-      var icon = '';
-      switch (deviceList[index].type) {
-        case '0': //空调
-          icon = 'build/kt_k.png'
-          break;
-        case '1': //空气源热泵
-          icon = 'kqyrb.png'
-          break;
-        case '2': //充电桩
-          icon = 'cdz.png'
-          break;
-        case '3': //发电单元
-          icon = 'fddy.png'
-          break;
-        case '4':
-          icon = 'build/kt_k.png'
-          break;
-        case '5':
-          icon = 'build/kt_k.png'
-          break;
-        case '6':
-          icon = 'build/kt_k.png'
-          break;
-        case '7':
-          icon = 'build/kt_k.png'
-          break;
-      }
-      deviceList[index].icon = '../../../asset/' + icon;
+    if(index=='0'){
+      this.getAllPowerRoomDeviceType();//用电设备
+    }else{
+      this.getAllGenerationDeviceType();//发电设备
     }
-    this.setData({
-      deviceList: deviceList
-    })
   },
   search(res){
     if(this.data.showSearchDialog){
@@ -109,8 +66,6 @@ Page({
       deviceBelonging: ''
     }
     util.wxRequestGet("/sps/app/device/PowerRoom/getPowerDeviceByBasicId", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
-      console.log('根据配电柜获取电表');
-      console.log(res);
       if(res.success){
         var list = that.data.powerStationList;
         for (let i = 0; i < res.result.length; i++) {
@@ -134,8 +89,6 @@ Page({
       "endTime": this.data.year + '-' + this.data.month + '-' + this.data.day
     }
     util.wxRequestPost("/sps/app/device/PowerRoom/getPowerRoomDeviceElectric", "加载中...", params, 'application/json', function(res) {
-      console.log('根据电表和时间查询电量');
-      console.log(res.data.result);
       if(res.data.success){
         if(res.data.result!=null&&res.data.result.length>0){
           that.setData({uPower: res.data.result[0]});
@@ -154,23 +107,10 @@ Page({
     }
     util.wxRequestPost("/sps/app/device/PowerRoom/getPowerRoomDevicePowerMaxMin", "加载中...", params, 'application/json', function(res) {
       if(res.data.success){
-        console.log('最大功率和最小功率');
-        console.log(res.data.result[0]);
         var data = res.data.result[0];
         data.maxPower = (res.data.result[0].maxPower/1000).toFixed(2);
         data.minPower = (res.data.result[0].minPower/1000).toFixed(2);
         that.setData({pPower: data});
-      }
-    }, function(error) {})
-  },
-  // 获取园区综合能流图
-  getComprehensivePower(){
-    util.wxRequestPost("/sps/app/PowerAnalysis/getComprehensivePower", "加载中...", {}, 'application/json', function(res) {
-      console.log('获取园区综合能流图');
-      console.log(res);
-      if(res.success){
-        if(res.result != null){
-        }
       }
     }, function(error) {})
   },
@@ -182,8 +122,6 @@ Page({
       time: this.data.year + '-' + this.data.month + '-' + this.data.day
     }
     util.wxRequestPost("/sps/app/PowerAnalysis/getElectricityConsumptionRatio", "加载中...", params, 'application/json', function(res) {
-      console.log('根据年月日获取设备能耗占比：默认获取今日');
-      console.log(res);
       if(res.data.success){
         that.setData({powerPerDeviceListData: res.data.result.proportion});
         var energyChart = that.selectComponent('#energy-anysis-chart');
@@ -197,8 +135,65 @@ Page({
       }
     }, function(error) {})
   },
+  //获取用电列表设备
+  getAllPowerRoomDeviceType(){
+    let that = this;
+    util.wxRequestGet("/sps/PowerAnalysis/getAllPowerRoomDeviceType", "加载中...", {}, 'application/json', function(res) {
+      if(res.success){
+        that.setData({deviceList: res.result, deviceListDetail: new Array(res.result.length)})
+        for (let i = 0; i < res.result.length; i++) {
+          that.getComprehensivePowerRight(i);//获取各设备用电详细
+        }
+      }
+    }, function(error) {})
+  },
+  //获取发电列表设备
+  getAllGenerationDeviceType(){
+    let that = this;
+    util.wxRequestGet("/sps/PowerAnalysis/getAllGenerationDeviceType", "加载中...", {}, 'application/json', function(res) {
+      if(res.success){
+        that.setData({deviceList: res.result, deviceListDetail: new Array(res.result.length)});
+        for (let i = 0; i < res.result.length; i++) {
+          that.getComprehensivePowerLeft(i);//获取各设备发电详细
+        }
+      }
+    }, function(error) {})
+  },
+  // 获取园区综合能流图(右边用电电设备)
+  getComprehensivePowerRight(index){
+    let that = this;
+    var params = {
+      deviceTypeId: that.data.deviceList[index].powerroomDeviceTypeId
+    }
+    util.wxRequestGet("/sps/app/PowerAnalysis/getComprehensivePowerRight", "加载中...", params, 'application/json', function(res) {
+      if(res.success){
+        if(res.result != null){
+         var list = that.data.deviceListDetail;
+         list[index] = res.result;
+         list[index].sumPower = (parseFloat(res.result.sumPower)/1000).toFixed(2);
+         that.setData({deviceListDetail: list});
+        }
+      }
+    }, function(error) {})
+  },
+  // 获取园区综合能流图(左边发电设备)
+  getComprehensivePowerLeft(index){
+    let that = this;
+    var params = {
+      deviceTypeId: that.data.deviceList[index].deviceTypeId
+    }
+    util.wxRequestGet("/sps/app/PowerAnalysis/getComprehensivePowerLeft", "加载中...", params, 'application/json', function(res) {
+      if(res.success){
+        if(res.result != null){
+          var list = that.data.deviceListDetail;
+         list[index] = res.result;
+         list[index].sumPower = (parseFloat(res.result.sumPower)/1000).toFixed(2);
+         that.setData({deviceListDetail: list});
+        }
+      }
+    }, function(error) {})
+  },
   onLoad(options) {
-    this.getDeviceIcon();
     // 初始化条件选择框高度
     let rpxHeight = util.getScreenHeightRpx()-360;
     // 获取当前日期
@@ -211,7 +206,9 @@ Page({
     })
 
     this.getElectricityConsumptionRatio();
-    this.getComprehensivePower();
+    // this.getComprehensivePowerLeft();
+    // this.getComprehensivePowerRight();
+    this.getAllPowerRoomDeviceType();
   },
   onReady() {
     this.getPowerDeviceByBasicId();
