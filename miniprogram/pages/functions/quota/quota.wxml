@@ -41,10 +41,10 @@
           完成率：
           <text style="color: #18B6A2;font-size: 28rpx;">{{item.completionRate}}</text>
         </view>
-        <view style="display: flex;position: absolute;right: 0;margin-right: 24rpx;">
+        <!-- <view style="display: flex;position: absolute;right: 0;margin-right: 24rpx;">
           <view class="item-but" data-item="{{item}}" bind:tap="abandan">删除</view>
           <view class="item-but" data-item="{{item}}" bind:tap="edit">编辑</view>
-        </view>
+        </view> -->
       </view>
     </view>
   </scroll-view>

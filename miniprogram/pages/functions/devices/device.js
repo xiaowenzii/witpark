@@ -38,8 +38,8 @@ Page({
     let that = this;
     let index = res.currentTarget.dataset.index;
     var deviceDetailList = this.data.deviceDetailList;
-    let isRun = deviceDetailList[index].airConditionerDTO.isRun;
     if(this.data.typeList[this.data.selected].deviceTypeName == '空调'){
+      let isRun = deviceDetailList[index].airConditionerDTO.isRun;
       wx.showModal({
         title: '空调开关',
         content: res.detail.value?'确定打开'+deviceDetailList[index].airConditionerDTO.name+'空调？':'确定关闭'+deviceDetailList[index].airConditionerDTO.name+'空调',
@@ -60,10 +60,24 @@ Page({
       })
     } else if(this.data.typeList[this.data.selected].deviceTypeName == '风光储路灯'){
       deviceDetailList[res.currentTarget.dataset.index].streetLightBasicInfoDTO.onoff= res.detail.value?'1':'0';
+      deviceDetailList[res.currentTarget.dataset.index].streetLightBasicInfoDTO.loadstate= res.detail.value?'1':'0';
       this.setData({deviceIndex: res.currentTarget.dataset.index, deviceDetailList: deviceDetailList});
-
+      
       this.AppstreetLightController();
     }
+  },
+  //刷新设备实时数据, 只有空调和风光储路灯有用
+  refreshDeviceCurrentData(){
+    let that = this;
+    let params = {
+      deviceTypeId: that.data.typeList[that.data.selected].deviceTypeId,
+      deviceBasicId: that.data.deviceList[that.data.deviceIndex].deviceBasicId
+    }
+    util.wxRequestPut("/sps/app/device/refreshDeviceCurrentData", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
+      console.log('刷新设备实时数据');
+      console.log(res);
+      if(res.data.success){}
+    }, function(error) {})
   },
   // 空调控制Dialog
   showAirConditionControlDialog(res){
@@ -122,6 +136,7 @@ Page({
     util.wxRequestPost("/sps/app/device/airConditioner/infraredControl", "加载中...", params, 'application/json', function(res) {
       console.log(res)
       if(res.data.success){
+        that.refreshDeviceCurrentData();
       }
     }, function(error) {})
   },
@@ -137,6 +152,7 @@ Page({
     console.log(params);
     util.wxRequestPost("/sps/app/device/airConditioner/updateAirConditioner", "加载中...", params, 'application/json', function(res) {
       if(res.data.success){
+        that.refreshDeviceCurrentData();
       }
     }, function(error) {})
   },
@@ -155,10 +171,10 @@ Page({
       onoff: that.data.deviceDetailList[that.data.deviceIndex].streetLightBasicInfoDTO.onoff, //0关 1开 2自动"
       light: that.data.deviceDetailList[that.data.deviceIndex].streetLightBasicInfoDTO.light, //亮度：20-100
     }
-    console.log(params);
     util.wxRequestPost("/sps/app/device/streetlight/operation", "加载中...", params, 'application/json', function(res) {
       console.log(res);
       if(res.data.success){
+        that.refreshDeviceCurrentData();
       }
     }, function(error) {})
   },

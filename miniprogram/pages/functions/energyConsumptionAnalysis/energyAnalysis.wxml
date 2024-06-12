@@ -23,32 +23,32 @@
 </view>
 
 <view class="view-title">
-  <text class="view-text-1">配电柜</text>
+  <text class="view-text-1">回路电表</text>
   <view class="select-view" bind:tap="search">
-    {{powerStationList.list[powerStationList.selected].name}}
+    <text style="margin-right: 36rpx;">{{powerStationList.list[powerStationList.selected].name}}</text>
     <image class="arrow-image" src="../../../asset/select_down.png"/>
   </view>
 </view>
 <view style="margin: 12rpx 24rpx;height: 120rpx;display: flex;flex-direction: row;">
   <view class="today-view">
-    <image src="../../../asset/jrcd.png" style="width: 48rpx;height: 48rpx;margin-left: 12rpx;"></image>
-    <view style="margin-left: 18rpx;">
-      <view style="font-size: 24rpx;">今日充电</view>
-      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;color: #18B6A2;">233</view>
+    <image src="../../../asset/jrcd.png" style="width: 48rpx;height: 48rpx;margin-left: 6rpx;"></image>
+    <view style="margin-left: 6rpx;">
+      <view style="font-size: 20rpx;">今日用电电</view>
+      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;color: #18B6A2;">{{uPower.totalValue}} <text style="color: #000000;font-weight: normal;">kwh</text></view>
     </view>
   </view>
   <view class="today-view" style="margin-left: 5%;">
-    <image src="../../../asset/jrfd.png" style="width: 48rpx;height: 48rpx;margin-left: 12rpx;"></image>
-    <view style="margin-left: 18rpx;">
-      <view style="font-size: 24rpx;">今日放电</view>
-      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;color: #18B6A2;">233</view>
+    <image src="../../../asset/jrfd.png" style="width: 48rpx;height: 48rpx;margin-left: 6rpx;"></image>
+    <view style="margin-left: 6rpx;">
+      <view style="font-size: 24rpx;">最大功率</view>
+      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;color: #18B6A2;">{{pPower.maxPower}} <text style="color: #000000;font-weight: normal;">kw</text></view>
     </view>
   </view>
   <view class="today-view" style="margin-left: 5%;">
-    <image src="../../../asset/ssgl.png" style="width: 48rpx;height: 48rpx;margin-left: 12rpx;"></image>
-    <view style="margin-left: 18rpx;">
-      <view style="font-size: 24rpx;">实时功率</view>
-      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;color: #18B6A2;">233</view>
+    <image src="../../../asset/ssgl.png" style="width: 48rpx;height: 48rpx;margin-left: 6rpx;"></image>
+    <view style="margin-left: 6rpx;">
+      <view style="font-size: 24rpx;">最小功率</view>
+      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;color: #18B6A2;">{{pPower.minPower}} <text style="color: #000000;font-weight: normal;">kw</text></view>
     </view>
   </view>
 </view>
@@ -81,21 +81,13 @@
 
 <view class="chart-view">
   <!-- 环形统计图 -->
-  <view style="height: 240rpx;">
+  <view style="height: 420rpx;">
     <ec-canvas id="energy-anysis-chart" ec="{{energyAnysisChart}}" type='2d' ></ec-canvas>
   </view>
-  <view style="height: 80rpx;display: flex;flex-direction: row;">
-    <view class="chart-desc">
-      <view class="chart-desc-point" style="background-color: #1CB7A3;"></view>
-      <text class="chart-desc-text1">办公<text class="chart-desc-text2" style="color: #1CB7A3;">57.5%</text></text>
-    </view>
-    <view class="chart-desc" style="width: 34%;">
-      <view class="chart-desc-point" style="background-color: #7A64FF;"></view>
-      <text class="chart-desc-text1">照明<text class="chart-desc-text2" style="color: #7A64FF;">32.1%</text></text>
-    </view>
-    <view class="chart-desc">
-      <view class="chart-desc-point" style="background-color: #FFA63D;"></view>
-      <text class="chart-desc-text1">备用<text class="chart-desc-text2" style="color: #FFA63D;">10.4%</text></text>
+  <view style="display: flex;flex-direction: row;flex-wrap: wrap;">
+    <view class="chart-desc" wx:for="{{powerPerDeviceListData}}" wx:key="index">
+      <view class="chart-desc-point" style="background-color: {{colorList[index]}};"></view>
+      <text class="chart-desc-text1">{{item.name}}<text class="chart-desc-text2" style="color: {{colorList[index]}};">{{item.proportion}}%</text></text>
     </view>
   </view>
 </view>

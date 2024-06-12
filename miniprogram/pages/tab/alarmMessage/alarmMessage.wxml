@@ -36,7 +36,7 @@
       </view>
       <view style="display: flex;padding: 6rpx 12rpx;"> 
         <view style="width: 60%;">创建时间：{{item.createTime}}</view>
-        <view>提醒人员：{{}}</view>
+        <view>提醒人员：{{item.alarmProcessedMan}}</view>
       </view>
       <view style="display: flex;padding: 12rpx 12rpx;"> 
         {{item.alarmName}}

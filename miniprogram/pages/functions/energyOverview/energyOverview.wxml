@@ -51,7 +51,7 @@
 </view>
 
 <view class="view-title">
-  <text class="view-text-1">明细</text>
+  <text class="view-text-1">月用电排名</text>
 </view>
 
 <view style="height: 360rpx;margin: 24rpx 36rpx 24rpx 24rpx;">
@@ -62,10 +62,10 @@
     <view class="pro-pro">
       <view class="pro-text-view">
         <text class="pro-text1">{{item.name}}</text>
-        <text class="pro-text2">{{item.val}}</text>
+        <text class="pro-text2">{{item.val}} kwh</text>
       </view>
       <view class="progress-box">
-        <progress percent="{{item.val}}" color="#18B6A2" active stroke-width="9" border-radius="6" />
+        <progress percent="{{item.val*100/proListVal}}" color="#18B6A2" active stroke-width="9" border-radius="6" />
       </view>
     </view>
   </view>

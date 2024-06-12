@@ -22,6 +22,7 @@ Page({
       lazyLoad: true
     },
     proList: [],
+    proListVal: 0,
     powerData: {}
   },
   // 选择时间类别，年或者月
@@ -172,8 +173,12 @@ Page({
     }
     util.wxRequestPost('/sps/app/PowerAnalysis/getElectricityConsumptionRanking', "加载中...", params, 'application/json', function(res) {
       if(res.data.success){
-        that.setData({proList: res.data.result})
-        console.log('根据年月日获取设备用电排行');
+        var allVal = 0;
+        for (let i = 0; i < res.data.result.length; i++) {
+          allVal = allVal + parseFloat(res.data.result[i].val);
+        }
+        that.setData({proList: res.data.result, proListVal: allVal});
+        console.log('根据年月日获取设备用电排行,月总用电：'+allVal);
         console.log(that.data.proList);
       }
     }, function(error) {})

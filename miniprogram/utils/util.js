@@ -71,6 +71,42 @@ export const wxRequestGet = (url, title, parmas, contentType, successCallback, f
   });
 }
 
+// PUT请求
+export const wxRequestPut = (url, title, parmas, contentType, successCallback, failCallback) => {
+  const requestUrl = baseUrl + url;
+  var XTenantId = '';
+  var token = '';
+  if(wx.getStorageSync('userInfo').loginTenantId != null){
+    XTenantId = wx.getStorageSync('userInfo').loginTenantId;
+  }
+  if(wx.getStorageSync('token') != null){
+    token = wx.getStorageSync('token');
+  }
+  wx.showLoading({
+      title: title,
+      mask: true
+  });
+  wx.request({
+    url: requestUrl, 
+    header: {'content-type': contentType, 'X-Tenant-Id': XTenantId, 'X-Access-Token': token},
+    method: 'PUT',
+    data: parmas,
+    success: function(res) {
+      wx.hideLoading();
+      successCallback(res);
+    },
+    fail: function(error) {
+      wx.hideLoading();
+      wx.showToast({
+        title: (error.data && error.data.message) || "请求失败"
+      });
+      if (failCallback) {
+        failCallback(error);
+      }
+    }
+  });
+}
+
 //文件下载
 export const downloadFile = (url, title, successCallback, failCallback) => {
   var requestUrl = baseUrl + url;

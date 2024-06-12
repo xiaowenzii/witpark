@@ -5,12 +5,14 @@ Page({
   data: {
     condtionDialogHeight: 0,
     searchDataList:{},
-    // 配电站数据
+    // 电表数据
     powerStationList: {
-      "type": 2,
+      "type": 0,
       "selected": "0",
-      "list": [{"id": "0","name": "配电站#1"}, {"id": "1","name": "配电站#2"}]
+      "list": []
     },
+    pPower:{},
+    uPower:{},
     showSearchDialog: false,
     selected: 0,
     deviceList: [{
@@ -29,6 +31,7 @@ Page({
     energyAnysisChart: {
       lazyLoad: true
     },
+    colorList: ['#1CB7A3','#7A64FF','#FFA63D', '#57AD0A','#B1C7FF','#0B2186','#55D86B'],
     year:'',
     month:'',
     day:''
@@ -96,6 +99,69 @@ Page({
       powerStationList: e.detail.data,
       showSearchDialog: false
     })
+    this.getPowerRoomDeviceElectric();
+    this.getPowerRoomDevicePowerMaxMin();
+  },
+  // 根据配电柜获取电表
+  getPowerDeviceByBasicId(){
+    let that = this;
+    let params = {
+      deviceBelonging: ''
+    }
+    util.wxRequestGet("/sps/app/device/PowerRoom/getPowerDeviceByBasicId", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
+      console.log('根据配电柜获取电表');
+      console.log(res);
+      if(res.success){
+        var list = that.data.powerStationList;
+        for (let i = 0; i < res.result.length; i++) {
+          list.list.push({id: res.result[i].powerroomDeviceId, name: res.result[i].deviceName});
+          if(i == res.result.length-1){
+            that.setData({powerStationList: list});
+            that.getPowerRoomDeviceElectric();
+            that.getPowerRoomDevicePowerMaxMin();
+          }
+        }
+      }
+    }, function(error) {})
+  },
+  // 根据电表和时间查询电量
+  getPowerRoomDeviceElectric(){
+    let that = this;
+    let params = {
+      "meter": that.data.powerStationList.list[that.data.powerStationList.selected].id,
+      "room": "",
+      "starTime": this.data.year + '-' + this.data.month + '-' + this.data.day,
+      "endTime": this.data.year + '-' + this.data.month + '-' + this.data.day
+    }
+    util.wxRequestPost("/sps/app/device/PowerRoom/getPowerRoomDeviceElectric", "加载中...", params, 'application/json', function(res) {
+      console.log('根据电表和时间查询电量');
+      console.log(res.data.result);
+      if(res.data.success){
+        if(res.data.result!=null&&res.data.result.length>0){
+          that.setData({uPower: res.data.result[0]});
+        }
+      }
+    }, function(error) {})
+  },
+  // 根据电表和时间查最大功率和最小功率
+  getPowerRoomDevicePowerMaxMin(){
+    let that = this;
+    let params = {
+      "meter": that.data.powerStationList.list[that.data.powerStationList.selected].id,
+      "room": "",
+      "starTime": this.data.year + '-' + this.data.month + '-' + this.data.day,
+      "endTime": this.data.year + '-' + this.data.month + '-' + this.data.day
+    }
+    util.wxRequestPost("/sps/app/device/PowerRoom/getPowerRoomDevicePowerMaxMin", "加载中...", params, 'application/json', function(res) {
+      if(res.data.success){
+        console.log('最大功率和最小功率');
+        console.log(res.data.result[0]);
+        var data = res.data.result[0];
+        data.maxPower = (res.data.result[0].maxPower/1000).toFixed(2);
+        data.minPower = (res.data.result[0].minPower/1000).toFixed(2);
+        that.setData({pPower: data});
+      }
+    }, function(error) {})
   },
   // 获取园区综合能流图
   getComprehensivePower(){
@@ -110,16 +176,23 @@ Page({
   },
   // 根据年月日获取设备能耗占比：默认获取今日
   getElectricityConsumptionRatio(){
+    let that = this;
     let params = {
       type: 'd', // y(年); m(月); d(年)
       time: this.data.year + '-' + this.data.month + '-' + this.data.day
     }
-    console.log(params);
     util.wxRequestPost("/sps/app/PowerAnalysis/getElectricityConsumptionRatio", "加载中...", params, 'application/json', function(res) {
       console.log('根据年月日获取设备能耗占比：默认获取今日');
       console.log(res);
-      if(res.success){
-        if(res.result != null){
+      if(res.data.success){
+        that.setData({powerPerDeviceListData: res.data.result.proportion});
+        var energyChart = that.selectComponent('#energy-anysis-chart');
+        var dataList = [];
+        for (let i = 0; i < res.data.result.proportion.length; i++) {
+          dataList.push({value: res.data.result.proportion[i].val, name: res.data.result.proportion[i].name+' '+res.data.result.proportion[i].val+' kwh'});
+          if(i == res.data.result.proportion.length-1){
+            that.drawChart(energyChart, dataList);
+          }
         }
       }
     }, function(error) {})
@@ -141,17 +214,11 @@ Page({
     this.getComprehensivePower();
   },
   onReady() {
-    var energyChart = this.selectComponent('#energy-anysis-chart');
-    let dataList = [
-      { value: 1048, name: '办公 1048kwh'},
-      { value: 735, name: '照明 735kwh' },
-      { value: 580, name: '备用 580kwh' }
-    ]
-    this.drawChart(energyChart, dataList)
+    this.getPowerDeviceByBasicId();
   },
   //绘制环形图
   drawChart(chartComponnet, dataList) {
-    let colorList = ['#1CB7A3','#7A64FF','#FFA63D']
+    let colorList = this.data.colorList;
     var option = {
       series: [{
         type: 'pie',

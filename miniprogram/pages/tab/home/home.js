@@ -2,6 +2,7 @@ import * as util from "../../../utils/util";
 
 Page({
   data: {
+    userInfo: {},
     airStationType: '',
     airStationBasicId: '',
     weatherInfo:{},
@@ -52,9 +53,9 @@ Page({
     }, function(error) {})
   },
   onLoad(options) {
+    this.setData({userInfo: wx.getStorageSync('userInfo')});
   },
   onReady(){
-    
     // 获取当前日期
     const date = new Date();
     this.setData({

@@ -7,7 +7,7 @@
     </view>
     <view style="width: 40%;height: 100%;align-items: center;display: flex;">
       <view class="header-image-view">
-        <image class="header-image" src="../../../asset/head.png"></image>
+        <image class="header-image" src="{{userInfo.avatar}}"></image>
       </view>
     </view>
   </view>
