@@ -24,7 +24,7 @@
   </view>
   <view style="display: flex;flex-direction: row;margin-top: 12rpx;">
     <view style="width: 50%;display: flex;align-items: center;">
-      <text class="item-text">今日用电: <text style="color: green;">{{electricList[index].totalValue}} kwh</text></text>
+      <text class="item-text">今日用电: <text style="color: green;">{{electricList[index].totalValue}} kWh</text></text>
     </view>
   </view>
   <view style="display: flex;flex-direction: row;margin-top: 12rpx;">

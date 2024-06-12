@@ -9,7 +9,7 @@
 <view style="height: 96rpx;display: flex;flex-direction: row;">
   <view class="desc-view" style="width: 50%;">
       <view style="font-size: 30rpx;font-weight: bolder;">{{airData.todayTotalUsedElectricity==null?0:airData.todayTotalUsedElectricity}}</view>
-      <view style="font-size: 24rpx;margin-top: 12rpx;">今日总用电量(kwh)</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;">今日总用电量(kWh)</view>
   </view>
   <view class="desc-view" style="width: 50%;">
       <view style="font-size: 30rpx;font-weight: bolder;">{{airData.todayTotalTime==null?0:airData.todayTotalTime}}</view>
@@ -42,7 +42,7 @@
 
 <!-- 用电统计 -->
 <view style="height: 420rpx;margin: 24rpx;background-color: #FFFFFF;border-radius: 12rpx;padding: 18rpx;">
-  <view style="font-size: 26rpx;font-weight: bolder;">用电统计：kwh ({{year}}-{{month}})</view>
+  <view style="font-size: 26rpx;font-weight: bolder;">用电统计：kWh ({{year}}-{{month}})</view>
   <view style="height: 360rpx;">
     <ec-canvas id="energy-chart-bar" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
   </view>

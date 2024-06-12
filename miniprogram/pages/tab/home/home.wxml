@@ -42,17 +42,17 @@
     <view class="earning-view-item">
       <image src="../../../asset/money.png"/>
       <view class="view-item-text-1">当月收益</view>
-      <view class="view-item-text-2">654.3 元</view>
+      <view class="view-item-text-2">{{mEarn}} 元</view>
     </view>
     <view class="earning-view-item" style="margin-left: 5%;">
       <image src="../../../asset/earning.png"/>
       <view class="view-item-text-1">当年收益</view>
-      <view class="view-item-text-2">8712.0 元</view>
+      <view class="view-item-text-2">{{yEarn}} 元</view>
     </view>
     <view class="earning-view-item" style="margin-left: 5%;">
       <image src="../../../asset/earningall.png"/>
       <view class="view-item-text-1">累计收益</view>
-      <view class="view-item-text-2">24765.2 元</view>
+      <view class="view-item-text-2">{{allEarn}} 元</view>
     </view>
   </view>
 
@@ -60,15 +60,15 @@
   <view style="padding: 18rpx 24rpx;font-size: 28rpx;font-weight: bolder;">数据总览</view>
   <view class="data-overview">
     <view class="overview-capacity">
-      <view class="view-item-text-1" style="margin-top: 18rpx;">园区总容量（MW）</view>
-      <view class="view-item-text-2" style="margin-top: 6rpx;">1200</view>
+      <view class="view-item-text-1" style="margin-top: 18rpx;">园区总容量（kWh）</view>
+      <view class="view-item-text-2" style="margin-top: 6rpx;">1747.4</view>
       <image src="../../../asset/overall_rl.png" style="width: 100%;height: 144rpx;"/>
     </view>
     <view style="height: 90%;width: 46%;margin-left: 4%;border-radius: 12rpx;">
       <view class="overview-power-consume">
         <view style="width: 70%;">
-          <view class="view-item-text-1">总用电量（kwh）</view>
-          <view class="view-item-text-2" style="margin-top: 6rpx;">7380</view>
+          <view class="view-item-text-1">总用电量（kWh）</view>
+          <view class="view-item-text-2" style="margin-top: 6rpx;">{{allUsepower}}</view>
         </view>
         <view class="power-image-view">
           <image class="power-image" src="../../../asset/power_consume.png"/>
@@ -77,8 +77,8 @@
 
       <view class="overview-power-create">
         <view style="width: 70%;">
-          <view class="view-item-text-1">总发电量（kwh）</view>
-          <view class="view-item-text-2" style="margin-top: 6rpx;">4678</view>
+          <view class="view-item-text-1">总发电量（kWh）</view>
+          <view class="view-item-text-2" style="margin-top: 6rpx;">{{allCreatePower}}</view>
         </view>
         <view class="power-image-view">
           <image class="power-image" src="../../../asset/power_create.png"/>

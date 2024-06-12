@@ -24,7 +24,7 @@
 
 <!-- 设备列表 -->
 <scroll-view class="scroll-view" enable-flex="true" scroll-x="true" scroll-y="false" style="width: {{scrollWidth}};">
-  <view id="item{{index}}" class="scroll-view-item" wx:for="{{typeList}}" wx:key="index" style="background-color: {{selected==index?'#18B6A2':'none'}};color: {{selected==index?'#FFFFFF':'none'}};" data-index="{{index}}" bind:tap="selecteDevice">{{item.deviceTypeName}}</view>
+  <view id="item{{index}}" class="scroll-view-item" wx:for="{{typeList}}" wx:key="index" style="background-color: {{selected==index?'#18B6A2':'none'}};color: {{selected==index?'#FFFFFF':'none'}};" data-index="{{index}}" bind:tap="selecteDevice" wx:if="{{item.deviceTypeName!='电表'}}">{{item.deviceTypeName}}</view>
 </scroll-view>
 
 <view class="view-title">
@@ -126,7 +126,7 @@
     <view class="device-item">
       <image class="device-item-image" src="../../../asset/build/cdzk.png"/>
       <view style="display: flex;flex-direction: column;font-size: 24rpx;margin-left: 24rpx;">
-        <view>总用电：<text style="color: #1CB7A3;font-size: 28rpx;">{{deviceDetailList[index].chargingPileOrderDTO.quantity}}</text> kwh</view>
+        <view>总用电：<text style="color: #1CB7A3;font-size: 28rpx;">{{deviceDetailList[index].chargingPileOrderDTO.quantity}}</text> kWh</view>
       </view>
     </view>
     <view style="font-size: 24rpx;display: flex;margin-left: 12rpx;margin-top: 18rpx;">

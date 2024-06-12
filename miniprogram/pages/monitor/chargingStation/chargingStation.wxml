@@ -48,7 +48,7 @@
   <view class="item-view">
     <view style="margin-left: 24rpx;">
       <view style="font-size: 26rpx;font-weight: bolder;">{{detailData.detail.quantity}}</view>
-      <view style="font-size: 24rpx;margin-top: 12rpx;">总用电量(kwh)</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;">总用电量(kWh)</view>
     </view>
     <image class="view-image" src="../../../asset/charge/cds.png"></image>
   </view>

@@ -23,7 +23,7 @@
   <image class="bg-image" src="../../../asset/energy_overview/bk.png" mode="scaleToFill"></image>
   <view style="width: 50%;">
     <view style="color: #FFFFFF;font-size: 48rpx;margin-top: 60rpx;margin-left: 24rpx;">{{powerData.totalPower}}</view>
-    <view style="color: #FFFFFF;font-size: 28rpx;margin-top: 12rpx;margin-left: 24rpx">{{monthSelected}}月总用电量 (kwh)</view>
+    <view style="color: #FFFFFF;font-size: 28rpx;margin-top: 12rpx;margin-left: 24rpx">{{monthSelected}}月总用电量 (kWh)</view>
   </view>
   <view style="width: 50%;display: flex;position: relative;">
     <view style="color: #FFFFFF;font-size: 26rpx;margin-top: 120rpx;display: flex;position: absolute;right: 0;margin-right: 24rpx;">上年同期：{{powerData.periodPower}}</view>
@@ -34,7 +34,7 @@
 <!-- 图表信息 -->
 <view class="view-title">
   <text class="view-text-1">能耗统计</text>
-  <text class="view-text-2">单位：kwh</text>
+  <text class="view-text-2">单位：kWh</text>
 </view>
 <view class="view-title">
   <view style="margin-left: 24rpx;font-size: 24rpx;font-weight: {{energyType==0?'bolder':'none'}};color: {{energyType==0?'#18B6A2':''}};" data-index="0" bind:tap="selectEnergyType">用电</view>
@@ -62,7 +62,7 @@
     <view class="pro-pro">
       <view class="pro-text-view">
         <text class="pro-text1">{{item.name}}</text>
-        <text class="pro-text2">{{item.val}} kwh</text>
+        <text class="pro-text2">{{item.val}} kWh</text>
       </view>
       <view class="progress-box">
         <progress percent="{{item.val*100/proListVal}}" color="#18B6A2" active stroke-width="9" border-radius="6" />

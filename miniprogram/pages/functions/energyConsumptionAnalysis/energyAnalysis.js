@@ -189,7 +189,7 @@ Page({
         var energyChart = that.selectComponent('#energy-anysis-chart');
         var dataList = [];
         for (let i = 0; i < res.data.result.proportion.length; i++) {
-          dataList.push({value: res.data.result.proportion[i].val, name: res.data.result.proportion[i].name+' '+res.data.result.proportion[i].val+' kwh'});
+          dataList.push({value: res.data.result.proportion[i].val, name: res.data.result.proportion[i].name+' '+res.data.result.proportion[i].val+' kWh'});
           if(i == res.data.result.proportion.length-1){
             that.drawChart(energyChart, dataList);
           }

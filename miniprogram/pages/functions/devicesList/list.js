@@ -36,14 +36,15 @@ Page({
     var deviceDetailList = this.data.deviceDetailList;
     if(this.data.typeList[this.data.selected].deviceTypeName == '空调'){
       let isRun = deviceDetailList[index].airConditionerDTO.isRun;
+      var changeState = res.detail.value;
       wx.showModal({
         title: '空调开关',
-        content: res.detail.value?'确定打开'+deviceDetailList[index].airConditionerDTO.name+'空调？':'确定关闭'+deviceDetailList[index].airConditionerDTO.name+'空调',
+        content: changeState?'确定打开'+deviceDetailList[index].airConditionerDTO.name+'空调？':'确定关闭'+deviceDetailList[index].airConditionerDTO.name+'空调',
         success: function(res) {
           if(res.confirm) {
-            deviceDetailList[index].airConditionerDTO.isRun= res.detail.value?'1':'0';
+            deviceDetailList[index].airConditionerDTO.isRun= changeState?'1':'0';
             that.setData({deviceIndex: index, deviceDetailList: deviceDetailList});
-            if(deviceList[index].infraredFlag=='1'){
+            if(that.data.deviceList[index].infraredFlag=='1'){
               that.setAirControl(); //红外控制
             }else{
               that.updateAirConditioner(); //不支持红外，继电器控制开关
@@ -121,8 +122,8 @@ Page({
   setAirControl(){
     let that = this;
     let params = {
-      deviceSnList: that.data.deviceList[that.data.deviceIndex].deviceSn,
-      isOn: that.data.deviceDetailList[that.data.deviceIndex].airConditionerDTO.isRun,
+      deviceSnList: [that.data.deviceList[that.data.deviceIndex].deviceSn],
+      isOn: that.data.deviceDetailList[that.data.deviceIndex].airConditionerDTO.isRun=='1'?'0':'1',
       runMode: that.data.runModeList.selected,
       temp: that.data.tempList.selected,
       windDirection: that.data.windDirectionList.selected,

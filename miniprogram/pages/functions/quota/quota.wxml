@@ -28,8 +28,8 @@
         <view style="font-size: 18rpx;background-color: #DAEAE7;color: #40C3B2;padding: 3rpx 9rpx;border-radius: 6rpx;display: flex;position: absolute;right: 0;margin-right: 12rpx;">{{item.type}}</view>
       </view>
       <view style="display: flex;padding: 18rpx 12rpx;"> 
-        <view style="width: 50%;">用能额度：{{item.quotaPlanLimit}} kwh</view>
-        <view>用能情况：{{item.paramValue}} kwh</view>
+        <view style="width: 50%;">用能额度：{{item.quotaPlanLimit}} kWh</view>
+        <view>用能情况：{{item.paramValue}} kWh</view>
       </view>
       <view style="display: flex;padding: 6rpx 12rpx;"> 
         <view style="width: 50%;">制定人：{{item.quotaPlanUser}}</view>

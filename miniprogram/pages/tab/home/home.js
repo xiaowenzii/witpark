@@ -6,7 +6,12 @@ Page({
     airStationType: '',
     airStationBasicId: '',
     weatherInfo:{},
-    todayDate: ''
+    todayDate: '',
+    yEarn: 0,
+    mEarn:0,
+    allEarn: 0,
+    allUsepower: 0,
+    allCreatePower: 0
   },
   // 获取设备类型
   getDeviceType(){
@@ -45,10 +50,49 @@ Page({
       deviceBasicId: that.data.airStationBasicId
     }
     util.wxRequestPost("/sps/app/device/gas/getLatestData", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
-      console.log(res);
       if(res.data.success){
         that.setData({weatherInfo: res.data.result});
         wx.setStorageSync('weatherInfo', res.data.result);
+      }
+    }, function(error) {})
+  },
+  // 获取年收益、月收益、总收益
+  getEarningsRanking(type){
+    let that = this;
+    var params ={type: type};
+    util.wxRequestGet("/sps/bigscreen1/getEarningsRanking", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
+      if(res.success){
+        if(type=='m'){
+          that.setData({mEarn:res.result.totalMoney});
+        }else if(type=='y'){
+          that.setData({yEarn:res.result.totalMoney});
+        }else{
+          that.setData({allEarn:res.result.totalMoney});
+        }
+      }
+    }, function(error) {})
+  },
+  // 获取总发电量
+  getGenerationStatistics(){
+    let that = this;
+    util.wxRequestGet("/sps/bigscreen3/getGenerationStatistics", "加载中...", {}, 'application/x-www-form-urlencoded', function(res) {
+      if(res.success){
+        var power = 0;
+        for (let i = 0; i < res.result.powerOverviewVoList.length; i++) {
+          power = power+parseFloat(res.result.powerOverviewVoList[i].totalValue);
+          if(i==res.result.powerOverviewVoList.length-1){
+            that.setData({allCreatePower: power});
+          }
+        }
+      }
+    }, function(error) {})
+  },
+  // 获取总用电量
+  getComprehensivePowerMiddle(){
+    let that = this;
+    util.wxRequestGet("/sps/PowerAnalysis/getComprehensivePowerMiddle", "加载中...", {}, 'application/x-www-form-urlencoded', function(res) {
+      if(res.success){
+        that.setData({allUsepower: res.result.packSumPower});
       }
     }, function(error) {})
   },
@@ -62,5 +106,10 @@ Page({
       todayDate: date.getFullYear() + '.' + util.formatMD(date.getMonth() + 1) + '.' + util.formatMD(date.getDate())
     })
     this.getDeviceType();
+    this.getEarningsRanking('m');
+    this.getEarningsRanking('y');
+    this.getEarningsRanking('');
+    this.getGenerationStatistics();
+    this.getComprehensivePowerMiddle();
   }
 })

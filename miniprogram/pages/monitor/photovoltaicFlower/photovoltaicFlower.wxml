@@ -53,14 +53,14 @@
   <view class="power-view">
     <image class="power-view-image" src="../../../asset/wind/fd.png"></image>
     <view style="margin-left: 18rpx;">
-      <view style="font-size: 24rpx;">今日充电量 (kwh)</view>
+      <view style="font-size: 24rpx;">今日充电量 (kWh)</view>
       <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">{{detailData.eToday}}</view>
     </view>
   </view>
   <view class="power-view" style="margin-left: 5%;">
     <image class="power-view-image" src="../../../asset/wind/cd.png"></image>
     <view style="margin-left: 18rpx;">
-      <view style="font-size: 24rpx;">总充电量 (kwh)</view>
+      <view style="font-size: 24rpx;">总充电量 (kWh)</view>
       <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">{{detailData.eTotal}}</view>
     </view>
   </view>
