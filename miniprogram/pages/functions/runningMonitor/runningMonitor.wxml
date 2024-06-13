@@ -3,7 +3,7 @@
   <view class="function-item" data-item="0" bind:tap="goFunction">
     <image class="item-image1" src="../../../asset/enter.png"/>
     <image class="item-image2" src="../../../asset/jzhj.png"/>
-    <view class="item-text">建筑环境</view>
+    <view class="item-text">配电柜-配电室</view>
   </view>
   <view class="function-item" style="margin-left: 4%;" data-item="1" bind:tap="goFunction">
     <image class="item-image1" src="../../../asset/enter.png"/>

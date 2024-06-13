@@ -1,26 +1,108 @@
 import * as echarts from '../../component/ec-canvas/echarts'
-import {getPixelRatio} from "../../../utils/util"
+import * as util from "../../../utils/util";
 
 Page({
   data: {
-    deviceType: 0,
+    deviceTypeIndex: 0,
     realTimePowerChart: {
       lazyLoad: true
-    }
+    },
+    allPower: 0,
+    chargingPileAllQuantityTotal: 0,
+    windPowerAllGeneratePowerTotal: 0,
+    storePowerAllGeneratePowerTotal: 0,
+    storeEnergyAllChargingTotal: 0,
+    storeEnergyAllDisChargingTotal: 0,
+    realTimePowerCurve: {}
   },
   selectDevice(res){
-    var type = res.currentTarget.dataset.index;
+    var typeIndex = res.currentTarget.dataset.index;
     this.setData({
-      deviceType: type
+      deviceTypeIndex: typeIndex
     })
+    
+    var realTimePowerChart = this.selectComponent('#real-time-power-chart');
+    var xData = this.data.realTimePowerCurve.xData;
+    var yData = this.data.realTimePowerCurve.yDataList[this.data.deviceTypeIndex];
+    this.drawChart(realTimePowerChart, xData, yData);
+  },
+  //市电-电表度数总和
+  getCityElecTotal(){
+    let that = this;
+    util.wxRequestGet("/sps/bigscreen1/getCityElecTotal", "加载中...", {}, 'application/x-www-form-urlencoded', function(res) {
+      if(res.success){
+        that.setData({allPower: res.result})
+      }
+    }, function(error) {})
+  },
+  //充电桩-历史总充电量
+  getChargingPileAllQuantityTotal(){
+    let that = this;
+    util.wxRequestGet("/sps/bigscreen1/getChargingPileAllQuantityTotal", "加载中...", {}, 'application/x-www-form-urlencoded', function(res) {
+      if(res.success){
+        that.setData({chargingPileAllQuantityTotal: res.result})
+      }
+    }, function(error) {})
+  },
+  //风力发电-历史总发电量
+  getWindPowerAllGeneratePowerTotal(){
+    let that = this;
+    util.wxRequestGet("/sps/bigscreen1/getWindPowerAllGeneratePowerTotal", "加载中...", {}, 'application/x-www-form-urlencoded', function(res) {
+      if(res.success){
+        that.setData({windPowerAllGeneratePowerTotal: res.result})
+      }
+    }, function(error) {})
+  },
+  //光伏发电-历史总发电量
+  getStorePowerAllGeneratePowerTotal(){
+    let that = this;
+    util.wxRequestGet("/sps/bigscreen1/getStorePowerAllGeneratePowerTotal", "加载中...", {}, 'application/x-www-form-urlencoded', function(res) {
+      if(res.success){
+        that.setData({storePowerAllGeneratePowerTotal: res.result})
+      }
+    }, function(error) {})
+  },
+  //储能-历史总充电量
+  getStoreEnergyAllChargingTotal(){
+    let that = this;
+    util.wxRequestGet("/sps/bigscreen1/getStoreEnergyAllChargingTotal", "加载中...", {}, 'application/x-www-form-urlencoded', function(res) {
+      if(res.success){
+        that.setData({storeEnergyAllChargingTotal: res.result})
+      }
+    }, function(error) {})
+  },
+  //储能-历史总放电量
+  getStoreEnergyAllDisChargingTotal(){
+    let that = this;
+    util.wxRequestGet("/sps/bigscreen1/getStoreEnergyAllDisChargingTotal", "加载中...", {}, 'application/x-www-form-urlencoded', function(res) {
+      if(res.success){
+        that.setData({storeEnergyAllDisChargingTotal: res.result})
+      }
+    }, function(error) {})
+  },
+  //设备类型实时功率曲线
+  getDeviceTypeRealTimePowerCurve(){
+    let that = this;
+    util.wxRequestGet("/sps/bigscreen1/getDeviceTypeRealTimePowerCurve", "加载中...", {}, 'application/x-www-form-urlencoded', function(res) {
+      if(res.success){
+        that.setData({realTimePowerCurve: res.result});
+        var realTimePowerChart = that.selectComponent('#real-time-power-chart');
+        var xData = res.result.xData;
+        var yData = res.result.yDataList[that.data.deviceTypeIndex];
+        that.drawChart(realTimePowerChart, xData, yData);
+      }
+    }, function(error) {})
   },
   onLoad(options) {
   },
   onReady() {
-    var realTimePowerChart = this.selectComponent('#real-time-power-chart');
-    var xData = ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'];
-    var yData = [320, 932, 301, 434, 390, 1330, 1320, 132, 201, 334, 490, 1530, 620, 72, 801, 934, 390, 230, 520, 932, 701, 734, 490, 1330];
-    this.drawChart(realTimePowerChart, xData, yData)
+    this.getCityElecTotal();
+    this.getChargingPileAllQuantityTotal();
+    this.getWindPowerAllGeneratePowerTotal();
+    this.getStorePowerAllGeneratePowerTotal();
+    this.getStoreEnergyAllChargingTotal();
+    this.getStoreEnergyAllDisChargingTotal();
+    this.getDeviceTypeRealTimePowerCurve();
   },
   //绘制曲线图
   drawChart(chartComponnet, xData, yData) {
@@ -29,7 +111,7 @@ Page({
         type: 'category',
         data: xData,
         axisLabel:{
-          interval:3
+          interval:0
         }
       },
       yAxis: {
@@ -47,7 +129,7 @@ Page({
         y2:36,  //距离下边
       }
     };
-    var dpr = getPixelRatio()
+    var dpr = util.getPixelRatio()
     if (chartComponnet) {
       chartComponnet.init((canvas, width, height) => {
         const chart = echarts.init(canvas, null, {

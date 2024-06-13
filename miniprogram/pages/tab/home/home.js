@@ -63,11 +63,11 @@ Page({
     util.wxRequestGet("/sps/bigscreen1/getEarningsRanking", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
       if(res.success){
         if(type=='m'){
-          that.setData({mEarn:res.result.totalMoney});
+          that.setData({mEarn: parseFloat(res.result.totalMoney).toFixed(2)});
         }else if(type=='y'){
-          that.setData({yEarn:res.result.totalMoney});
+          that.setData({yEarn: parseFloat(res.result.totalMoney).toFixed(2)});
         }else{
-          that.setData({allEarn:res.result.totalMoney});
+          that.setData({allEarn: parseFloat(res.result.totalMoney).toFixed(2)});
         }
       }
     }, function(error) {})

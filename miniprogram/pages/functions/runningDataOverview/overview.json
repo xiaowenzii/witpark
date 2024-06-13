@@ -1,6 +1,6 @@
 {
   "navigationBarTextStyle": "black",
-  "navigationBarTitleText": "运行数据",
+  "navigationBarTitleText": "运行数据总览",
   "navigationBarBackgroundColor": "#E8F7F4",
   "usingComponents": {
     "ec-canvas": "../../component/ec-canvas/ec-canvas"

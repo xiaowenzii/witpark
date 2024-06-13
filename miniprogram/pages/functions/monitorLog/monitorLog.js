@@ -1,83 +1,21 @@
+import * as util from "../../../utils/util";
+
 Page({
   data: {
-    fileList: [
-      {
-        type: '0',
-        title: '设备#14光伏花',
-        desc: '设备状态发生变化',
-        time: '2024-04-25 12:34:56'
-      }, {
-        type: '1',
-        title: '设备#14风光储路灯',
-        desc: '设备状态发生变化',
-        time: '2024-04-25 12:34:56'
-      }, {
-        type: '2',
-        title: '设备#14充电桩',
-        desc: '设备状态发生变化',
-        time: '2024-04-25 12:34:56'
-      }, {
-        type: '3',
-        title: '设备#14储能设备',
-        desc: '设备状态发生变化',
-        time: '2024-04-25 12:34:56'
-      }
-    ]
+    logList: []
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
+  listDeviceRunLog(){
+    let that = this;
+    util.wxRequestGet("/sps/bigscreen1/listDeviceRunLog", "加载中...", {}, 'application/x-www-form-urlencoded', function(res) {
+      if(res.success){
+        that.setData({logList: res.result})
+      }
+    }, function(error) {})
+  },
   onLoad(options) {
 
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
   onReady() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
+    this.listDeviceRunLog();
   }
 })
