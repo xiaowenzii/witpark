@@ -17,13 +17,20 @@ Page({
     selected: 0,
     deviceList: [],
     deviceListDetail:[],
+    usePower:{deviceList:[], deviceListDetail:[]},
+    createPower:{deviceList:[], deviceListDetail:[]},
     energyAnysisChart: {
       lazyLoad: true
     },
     colorList: ['#1CB7A3','#7A64FF','#FFA63D', '#57AD0A','#B1C7FF','#0B2186','#55D86B'],
     year:'',
     month:'',
-    day:''
+    day:'',
+    todayPower: 0, //今日总用电：用电设备相加
+    todayP: 0,      //电网功率：用电设备功率相加
+    todayCreatePower: 0,
+    buyPower: 0,
+    sellPower: 0
   },
   selectType(res){
     var index = res.currentTarget.dataset.index;
@@ -31,9 +38,9 @@ Page({
       selected: index
     })
     if(index=='0'){
-      this.getAllPowerRoomDeviceType();//用电设备
+      this.setData({deviceList: this.data.usePower.deviceList, deviceListDetail: this.data.usePower.deviceListDetail});
     }else{
-      this.getAllGenerationDeviceType();//发电设备
+      this.setData({deviceList: this.data.createPower.deviceList, deviceListDetail: this.data.createPower.deviceListDetail});
     }
   },
   search(res){
@@ -140,7 +147,10 @@ Page({
     let that = this;
     util.wxRequestGet("/sps/PowerAnalysis/getAllPowerRoomDeviceType", "加载中...", {}, 'application/json', function(res) {
       if(res.success){
-        that.setData({deviceList: res.result, deviceListDetail: new Array(res.result.length)})
+        var useP = that.data.usePower;
+        useP.deviceList = res.result;
+        useP.deviceListDetail = new Array(res.result.length);
+        that.setData({deviceList: res.result, deviceListDetail: new Array(res.result.length), usePower: useP})
         for (let i = 0; i < res.result.length; i++) {
           that.getComprehensivePowerRight(i);//获取各设备用电详细
         }
@@ -152,7 +162,10 @@ Page({
     let that = this;
     util.wxRequestGet("/sps/PowerAnalysis/getAllGenerationDeviceType", "加载中...", {}, 'application/json', function(res) {
       if(res.success){
-        that.setData({deviceList: res.result, deviceListDetail: new Array(res.result.length)});
+        var creatP = that.data.createPower;
+        creatP.deviceList = res.result;
+        creatP.deviceListDetail = new Array(res.result.length);
+        that.setData({createPower: creatP});
         for (let i = 0; i < res.result.length; i++) {
           that.getComprehensivePowerLeft(i);//获取各设备发电详细
         }
@@ -168,10 +181,22 @@ Page({
     util.wxRequestGet("/sps/app/PowerAnalysis/getComprehensivePowerRight", "加载中...", params, 'application/json', function(res) {
       if(res.success){
         if(res.result != null){
-         var list = that.data.deviceListDetail;
-         list[index] = res.result;
-         list[index].sumPower = (parseFloat(res.result.sumPower)/1000).toFixed(2);
-         that.setData({deviceListDetail: list});
+         var useP = that.data.usePower;
+         useP.deviceListDetail[index] = res.result;
+         useP.deviceListDetail[index].sumPower = (parseFloat(res.result.sumPower)/1000).toFixed(2);
+
+         var power = that.data.todayPower;
+         var powerP = that.data.todayP;
+         power = (parseFloat(power) + parseFloat(res.result.sumElectricity)).toFixed(2);
+         powerP = parseFloat(parseFloat(powerP) + parseFloat(useP.deviceListDetail[index].sumPower)).toFixed(2);
+         that.setData({
+           deviceListDetail: useP.deviceListDetail, 
+           todayPower: power, 
+           todayP: powerP, 
+           usePower:useP, 
+           buyPower: (power-that.data.todayCreatePower).toFixed(2),
+           sellPower:(that.data.todayCreatePower-power).toFixed(2)
+          });
         }
       }
     }, function(error) {})
@@ -180,15 +205,23 @@ Page({
   getComprehensivePowerLeft(index){
     let that = this;
     var params = {
-      deviceTypeId: that.data.deviceList[index].deviceTypeId
+      deviceTypeId: that.data.createPower.deviceList[index].deviceTypeId
     }
     util.wxRequestGet("/sps/app/PowerAnalysis/getComprehensivePowerLeft", "加载中...", params, 'application/json', function(res) {
       if(res.success){
         if(res.result != null){
-          var list = that.data.deviceListDetail;
-         list[index] = res.result;
-         list[index].sumPower = (parseFloat(res.result.sumPower)/1000).toFixed(2);
-         that.setData({deviceListDetail: list});
+          var power = that.data.todayCreatePower;
+          var creatP = that.data.createPower;
+          power = (parseFloat(power) + parseFloat(res.result.sumElectricity)).toFixed(2);
+
+          creatP.deviceListDetail[index] = res.result;
+          creatP.deviceListDetail[index].sumPower = (parseFloat(res.result.sumPower)/1000).toFixed(2);
+          that.setData({
+            todayCreatePower: power, 
+            createPower: creatP, 
+            buyPower:(that.data.todayPower-power).toFixed(2), 
+            sellPower: (power-that.data.todayPower).toFixed(2)
+          });
         }
       }
     }, function(error) {})
@@ -204,14 +237,12 @@ Page({
       month: util.formatMD(date.getMonth() + 1),
       day: util.formatMD(date.getDate())
     })
-
-    this.getElectricityConsumptionRatio();
-    // this.getComprehensivePowerLeft();
-    // this.getComprehensivePowerRight();
-    this.getAllPowerRoomDeviceType();
   },
   onReady() {
     this.getPowerDeviceByBasicId();
+    this.getElectricityConsumptionRatio();
+    this.getAllPowerRoomDeviceType();//用电设备
+    this.getAllGenerationDeviceType();//发电设备
   },
   //绘制环形图
   drawChart(chartComponnet, dataList) {

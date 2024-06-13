@@ -23,7 +23,7 @@
   <image class="bg-image" src="../../../asset/energy_overview/bk.png" mode="scaleToFill"></image>
   <view style="width: 50%;">
     <view style="color: #FFFFFF;font-size: 48rpx;margin-top: 60rpx;margin-left: 24rpx;">{{powerData.totalPower}}</view>
-    <view style="color: #FFFFFF;font-size: 28rpx;margin-top: 12rpx;margin-left: 24rpx">{{monthSelected}}月总用电量 (kWh)</view>
+    <view style="color: #FFFFFF;font-size: 28rpx;margin-top: 12rpx;margin-left: 24rpx">{{dateTpye=='m'?monthSelected+'（月）':yearList.list[yearList.selected].name}}总用电量 (kWh)</view>
   </view>
   <view style="width: 50%;display: flex;position: relative;">
     <view style="color: #FFFFFF;font-size: 26rpx;margin-top: 120rpx;display: flex;position: absolute;right: 0;margin-right: 24rpx;">上年同期：{{powerData.periodPower}}</view>

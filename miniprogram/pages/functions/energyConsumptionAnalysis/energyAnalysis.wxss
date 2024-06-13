@@ -94,11 +94,13 @@ page{
   margin-left: 12rpx;
 }
 .item-text2{
-  font-size: 24rpx;
+  font-size: 26rpx;
   display: flex;
   position: absolute;
   right: 0;
   margin-right: 24rpx;
+  font-weight: bolder;
+  color: #18B6A2;
 }
 /* 用能占比: 圆饼图 */
 .chart-view{
