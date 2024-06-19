@@ -15,6 +15,7 @@ Page({
       "selected": "0",
       "list": [{"id": "2023","name": "2023（年）"}, {"id": "2024","name": "2024（年）"}, {"id": "2025","name": "2025（年）"}, {"id": "2026","name": "2026（年）"}]
     },
+    energyList: ['用电', '发电', '用气', '用水', '储能', '碳减', '充电桩收益'],
     energyType: 0,//能耗类型
     showSearchDialog: false,
     showMoreMonth: false,
@@ -97,34 +98,6 @@ Page({
         var energyChart = that.selectComponent('#energy-chart-bar');
         var xData = [];
         var yData = [];
-        if(type == 'getCarbonReductionStatistics'){
-          console.log('获取减碳统计');
-          console.log(res);
-        }
-        if(type == 'getElectricityStatistics'){
-          console.log('获取用电统计');
-          console.log(res);
-        }
-        if(type == 'getEnergyStorageStatistics'){
-          console.log('获取储能统计');
-          console.log(res);
-        }
-        if(type == 'getGasStatistics'){
-          console.log('获取用气统计');
-          console.log(res);
-        }
-        if(type == 'getGenerationStatistics'){
-          console.log('获取发电统计');
-          console.log(res);
-        }
-        if(type == 'getIncomeStatistics'){
-          console.log('获取充电桩收益统计');
-          console.log(res);
-        }
-        if(type == 'getWaterStatistics'){
-          console.log('获取用水统计');
-          console.log(res);
-        }
         that.setData({powerData: res.data.result});
         for (let i = 0; i < res.data.result.powerOverviewVoList.length; i++) {
           if(that.data.dateTpye == 'y'){
@@ -138,28 +111,70 @@ Page({
       }
     }, function(error) {})
   },
+  //获取用水统计
+  getWaterStatistics(){
+    let that = this;
+    let params = {
+      type: 'm',
+      time: that.data.yearList.list[that.data.yearList.selected].id + '-'+util.formatMD(that.data.monthSelected)
+    }
+    util.wxRequestPost('/sps/app/powerOverview/getWaterStatistics', "加载中...", params, 'application/json', function(res) {
+      if(res.data.success){
+        var energyChart = that.selectComponent('#energy-chart-bar');
+        var xData = [];
+        var yData = [];
+        that.setData({powerData: res.data.result});
+        for (let i = 0; i < res.data.result.powerOverviewVoList.length; i++) {
+          xData.push(parseInt(res.data.result.powerOverviewVoList[i].time.split('-')[1]) + '月');
+          yData.push(res.data.result.powerOverviewVoList[i].totalValue);
+        }
+        that.drawChart(energyChart, xData, yData)
+      }
+    }, function(error) {})
+  },
+  //获取用气统计
+  getGasStatistics(){
+    let that = this;
+    let params = {
+      type: 'm',
+      time: that.data.yearList.list[that.data.yearList.selected].id + '-'+util.formatMD(that.data.monthSelected)
+    }
+    util.wxRequestPost('/sps/app/powerOverview/getGasStatistics', "加载中...", params, 'application/json', function(res) {
+      if(res.data.success){
+        var energyChart = that.selectComponent('#energy-chart-bar');
+        var xData = [];
+        var yData = [];
+        that.setData({powerData: res.data.result});
+        for (let i = 0; i < res.data.result.powerOverviewVoList.length; i++) {
+          xData.push(parseInt(res.data.result.powerOverviewVoList[i].time.split('-')[1]) + '月');
+          yData.push(res.data.result.powerOverviewVoList[i].totalValue);
+        }
+        that.drawChart(energyChart, xData, yData)
+      }
+    }, function(error) {})
+  },
   // 请求集中
   requestData(){
-    switch (parseInt(this.data.energyType)) {
-      case 0:
+    switch (this.data.energyList[this.data.energyType]) {
+      case '用电':
         this.getData('getElectricityStatistics', '/sps/app/powerOverview/getElectricityStatistics'); //获取用电统计
         break;
-      case 1:
+      case '发电':
         this.getData('getGenerationStatistics', '/sps/app/powerOverview/getGenerationStatistics'); //获取发电统计
         break;
-      case 2:
-        this.getData('getGasStatistics', '/sps/app/powerOverview/getGasStatistics'); //获取用气统计
+      case '用气':
+        this.getGasStatistics();//获取用气统计
         break;
-      case 3:
-        this.getData('getWaterStatistics', '/sps/app/powerOverview/getWaterStatistics'); //获取用水统计
+      case '用水':
+        this.getWaterStatistics()//获取用水统计
         break;
-      case 4:
+      case '储能':
         this.getData('getEnergyStorageStatistics', '//sps/app/powerOverview/getEnergyStorageStatistics'); //获取储能统计
         break;
-      case 5:
+      case '碳减':
         this.getData('getCarbonReductionStatistics', '/sps/app/powerOverview/getCarbonReductionStatistics'); //获取减碳统计
         break;
-      case 6:
+      case '充电桩收益':
         this.getData('getIncomeStatistics', '/sps/app/powerOverview/getIncomeStatistics'); //获取充电桩收益统计
         break;
     }
@@ -172,6 +187,7 @@ Page({
       time: that.data.dateTpye == 'y'?that.data.yearList.list[that.data.yearList.selected].id:that.data.yearList.list[that.data.yearList.selected].id + '-'+util.formatMD(that.data.monthSelected)
     }
     util.wxRequestPost('/sps/app/PowerAnalysis/getElectricityConsumptionRanking', "加载中...", params, 'application/json', function(res) {
+      console.log(res);
       if(res.data.success){
         var allVal = 0;
         for (let i = 0; i < res.data.result.length; i++) {

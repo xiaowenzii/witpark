@@ -125,10 +125,12 @@ Page({
   getElectricityConsumptionRatio(){
     let that = this;
     let params = {
-      type: 'd', // y(年); m(月); d(年)
+      type: 'd', // y(年); m(月); d(日)
       time: this.data.year + '-' + this.data.month + '-' + this.data.day
     }
     util.wxRequestPost("/sps/app/PowerAnalysis/getElectricityConsumptionRatio", "加载中...", params, 'application/json', function(res) {
+      console.log('能耗占比');
+      console.log(res);
       if(res.data.success){
         that.setData({powerPerDeviceListData: res.data.result.proportion});
         var energyChart = that.selectComponent('#energy-anysis-chart');
@@ -183,7 +185,7 @@ Page({
         if(res.result != null){
          var useP = that.data.usePower;
          useP.deviceListDetail[index] = res.result;
-         useP.deviceListDetail[index].sumPower = (parseFloat(res.result.sumPower)/1000).toFixed(2);
+         useP.deviceListDetail[index].sumPower = parseFloat(res.result.sumPower).toFixed(2);
 
          var power = that.data.todayPower;
          var powerP = that.data.todayP;
