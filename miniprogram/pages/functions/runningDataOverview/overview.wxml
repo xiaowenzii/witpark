@@ -1,4 +1,4 @@
-<view style="padding: 18rpx 24rpx;font-size: 28rpx;color: #969696;">数据更新：2024-04-22</view>
+<view style="padding: 18rpx 24rpx;font-size: 28rpx;color: #969696;">数据更新：{{dataUpdateTime}}</view>
 <!-- 设备数据 -->
 <view class="list-view">
   <view class="list-view-item" >
@@ -8,13 +8,13 @@
   </view>
   <view class="list-view-item" >
     <image class="item-image" src="../../../asset/fbsgf.png"/>
-    <view class="item-text">分布式光伏容量</view>
-    <view class="item-val"><text style="color: #18B6A2;font-weight: bolder;">530</text> kWh</view>
+    <view class="item-text">屋顶光伏容量</view>
+    <view class="item-val"><text style="color: #18B6A2;font-weight: bolder;">342</text> kWh</view>
   </view>
   <view class="list-view-item" >
     <image class="item-image" src="../../../asset/cneddl.png"/>
     <view class="item-text">储能设备容量</view>
-    <view class="item-val"><text style="color: #18B6A2;font-weight: bolder;">1200</text> kWh</view>
+    <view class="item-val"><text style="color: #18B6A2;font-weight: bolder;">215</text> kWh</view>
   </view>
   <view class="list-view-item" >
     <image class="item-image" src="../../../asset/cnfd.png"/>
@@ -43,7 +43,7 @@
   <view class="content">
     <view style="display: flex;align-items: center;">
       <image src="../../../asset/sd.png" style="height: 48rpx;width: 48rpx;margin-left: 12rpx;"/>
-      <text style="font-size: 24rpx;margin-left: 12rpx;">市电（kWh）</text>
+      <text style="font-size: 24rpx;margin-left: 12rpx;">今日总用电（kWh）</text>
     </view>
     <view class="content-line"></view>
     <text class="content-val">{{allPower!=null?allPower:0}}</text>
@@ -60,7 +60,7 @@
   <view class="content">
     <view style="display: flex;align-items: center;">
       <image src="../../../asset/gffd.png" style="height: 48rpx;width: 48rpx;margin-left: 12rpx;"/>
-      <text style="font-size: 24rpx;margin-left: 12rpx;">光伏发电（kWh）</text>
+      <text style="font-size: 24rpx;margin-left: 12rpx;">屋顶光伏发电（kWh）</text>
     </view>
     <view class="content-line"></view>
     <text class="content-val">{{storePowerAllGeneratePowerTotal!=null?storePowerAllGeneratePowerTotal:0}}</text>

@@ -13,7 +13,8 @@ Page({
     storePowerAllGeneratePowerTotal: 0,
     storeEnergyAllChargingTotal: 0,
     storeEnergyAllDisChargingTotal: 0,
-    realTimePowerCurve: {}
+    realTimePowerCurve: {},
+    dataUpdateTime:''
   },
   selectDevice(res){
     var typeIndex = res.currentTarget.dataset.index;
@@ -26,12 +27,12 @@ Page({
     var yData = this.data.realTimePowerCurve.yDataList[this.data.deviceTypeIndex];
     this.drawChart(realTimePowerChart, xData, yData);
   },
-  //市电-电表度数总和
-  getCityElecTotal(){
+  //今日总用电
+  getEnergySavings(){
     let that = this;
-    util.wxRequestGet("/sps/bigscreen1/getCityElecTotal", "加载中...", {}, 'application/x-www-form-urlencoded', function(res) {
+    util.wxRequestGet("/sps/bigscreen1/getEnergySavings", "加载中...", {}, 'application/x-www-form-urlencoded', function(res) {
       if(res.success){
-        that.setData({allPower: res.result})
+        that.setData({allPower: res.result.currentDayUsage, dataUpdateTime: util.toDate(res.timestamp)})
       }
     }, function(error) {})
   },
@@ -96,7 +97,7 @@ Page({
   onLoad(options) {
   },
   onReady() {
-    this.getCityElecTotal();
+    this.getEnergySavings();
     this.getChargingPileAllQuantityTotal();
     this.getWindPowerAllGeneratePowerTotal();
     this.getStorePowerAllGeneratePowerTotal();
@@ -111,7 +112,7 @@ Page({
         type: 'category',
         data: xData,
         axisLabel:{
-          interval:0
+          interval:1
         }
       },
       yAxis: {
