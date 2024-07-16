@@ -21,8 +21,6 @@ Page({
     util.wxRequestPost("/sps/app/device/listDeviceBasic", "加载中...", params, 'application/json', function(res) {
       if(res.data.success){
         if(res.data.result != null){
-          console.log("设备列表:");
-          console.log(res.data.result);
           that.setData({deviceList: res.data.result});
           if(res.data.result.length > 0){
             that.getChargingStatus();
@@ -45,8 +43,6 @@ Page({
       deviceBasicId: that.data.deviceList[that.data.selectDeviceIndex].deviceBasicId
     }
     util.wxRequestGet("/sps/app/device/chargingPile/getChargingStatus", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
-      console.log("充电桩工作状态");
-      console.log(res)
       if(res.success){
         var detail = that.data.detailData;
         detail.status = res.result;
@@ -62,8 +58,6 @@ Page({
       deviceBasicId: that.data.deviceList[that.data.selectDeviceIndex].deviceBasicId
     }
     util.wxRequestGet("/sps/app/device/chargingPile/getTodayDifftimeTotal", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
-      console.log("今日充电时长");
-      console.log(res)
       if(res.success){
         var detail = that.data.detailData;
         detail.chargeTime = res.result;
@@ -79,8 +73,6 @@ Page({
       deviceBasicId: that.data.deviceList[that.data.selectDeviceIndex].deviceBasicId
     }
     util.wxRequestGet("/sps/app/device/chargingPile/getTodayOrderCount", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
-      console.log("今日充电次数");
-      console.log(res)
       if(res.success){
         var detail = that.data.detailData;
         detail.chargeCount = res.result;
@@ -96,8 +88,6 @@ Page({
       deviceBasicId: that.data.deviceList[that.data.selectDeviceIndex].deviceBasicId
     }
     util.wxRequestGet("/sps/app/device/chargingPile/getTodayProfitsTotal", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
-      console.log("今日利润");
-      console.log(res)
       if(res.success){
         var detail = that.data.detailData;
         detail.earn = res.result;
@@ -113,8 +103,6 @@ Page({
       deviceBasicId: that.data.deviceList[that.data.selectDeviceIndex].deviceBasicId
     }
     util.wxRequestGet("/sps/app/device/chargingPile/getTodayQuantityTotal", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
-      console.log("今日充电电量");
-      console.log(res)
       if(res.success){
         var detail = that.data.detailData;
         detail.power = res.result;
@@ -130,13 +118,10 @@ Page({
       deviceBasicId: that.data.deviceList[that.data.selectDeviceIndex].deviceBasicId
     }
     util.wxRequestGet("/sps/app/device/refreshDevice", "加载中...", deviceParams, 'application/x-www-form-urlencoded', function(res) {
-      console.log("详情");
-      console.log(res)
       if(res.success){
         var detail = that.data.detailData;
         detail.detail = res.result.chargingPileOrderDTO;
         that.setData({detailData: detail})
-        console.log(that.data.detailData);
       }
     }, function(error) {})
   },
@@ -148,8 +133,6 @@ Page({
       deviceBasicId: that.data.deviceList[that.data.selectDeviceIndex].deviceBasicId
     }
     util.wxRequestGet("/sps/app/device/chargingPile/getDailyChargingCurve", "加载中...", deviceParams, 'application/x-www-form-urlencoded', function(res) {
-      console.log("日充电量曲线");
-      console.log(res)
       if(res.success){
         var xData = new Array(res.result.length);
         var yData = new Array(res.result.length);

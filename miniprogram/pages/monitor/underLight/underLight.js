@@ -19,8 +19,6 @@ Page({
   getAllDevicePowerTotal(){
     let that = this;
     util.wxRequestGet("/sps/app/device/undergroundLighting/getAllDevicePowerTotal", "加载中...", {}, 'application/x-www-form-urlencoded', function(res) {
-      console.log("设备总功率: ")
-      console.log(res)
       if(res.success){
         that.setData({energyP: res.result})
       }
@@ -30,8 +28,6 @@ Page({
   getAllUsePowerTotal(){
     let that = this;
     util.wxRequestGet("/sps/app/device/undergroundLighting/getAllUsePowerTotal", "加载中...", {}, 'application/x-www-form-urlencoded', function(res) {
-      console.log("总用电量: ")
-      console.log(res)
       if(res.success){
         that.setData({allPower: res.result})
       }
@@ -41,8 +37,6 @@ Page({
   getCurrentMonthlyUsePowerTotal(){
     let that = this;
     util.wxRequestGet("/sps/app/device/undergroundLighting/getCurrentMonthlyUsePowerTotal", "加载中...", {}, 'application/x-www-form-urlencoded', function(res) {
-      console.log("当月用电量: ")
-      console.log(res)
       if(res.success){
         that.setData({monthPower: res.result})
       }
@@ -52,8 +46,6 @@ Page({
   getDailyUsePowerCurve(){
     let that = this;
     util.wxRequestGet("/sps/app/device/undergroundLighting/getDailyUsePowerCurve", "加载中...", {}, 'application/x-www-form-urlencoded', function(res) {
-      console.log("日用电量曲线: ")
-      console.log(res)
       if(res.success){
         var xData = [];
         var yData = [];
@@ -73,8 +65,6 @@ Page({
   getTodayUsePowerTotal(){
     let that = this;
     util.wxRequestGet("/sps/app/device/undergroundLighting/getTodayUsePowerTotal", "加载中...", {}, 'application/x-www-form-urlencoded', function(res) {
-      console.log("今日用电量: ")
-      console.log(res)
       if(res.success){
         that.setData({todayPower: res.result})
       }
@@ -103,8 +93,6 @@ Page({
       deviceTypeId: that.data.deviceTypeId
     }
     util.wxRequestPost("/sps/app/alarm/getAlarmDeviceCount", "加载中...", params, 'application/json', function(res) {
-      console.log("获取告警设备数量: ")
-      console.log(res)
       if(res.data.success){
         if(res.data.result != null){
           that.setData({alarmCount: res.data.result!=null?parseInt(res.data.result):0})

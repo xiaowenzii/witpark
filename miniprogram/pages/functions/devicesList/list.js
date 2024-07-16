@@ -71,8 +71,6 @@ Page({
       deviceBasicId: that.data.deviceList[that.data.deviceIndex].deviceBasicId
     }
     util.wxRequestPut("/sps/app/device/refreshDeviceCurrentData", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
-      console.log('刷新设备实时数据');
-      console.log(res);
       if(res.data.success){}
     }, function(error) {})
   },
@@ -130,7 +128,6 @@ Page({
       windSpeed: that.data.windSpeedList.selected
     }
     util.wxRequestPost("/sps/app/device/airConditioner/infraredControl", "加载中...", params, 'application/json', function(res) {
-      console.log(res)
       if(res.data.success){
         that.refreshDeviceCurrentData();
       }
@@ -180,8 +177,6 @@ Page({
       deviceBasicId: that.data.airStationBasicId
     }
     util.wxRequestPost("/sps/app/device/gas/getLatestData", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
-      console.log('气象站');
-      console.log(res);
       if(res.data.success){
         var weather = res.data.result;
         weather.windLevel = that.getWindLevel(weather.windSpeed);
@@ -242,8 +237,6 @@ Page({
           that.setData({deviceList: dataList});
           var list = new Array(dataList.length); //固定详情数组长度
           that.setData({deviceDetailList: list});
-          console.log('设备列表');
-          console.log(that.data.deviceList);
           // 获取每个设备详情
           if(that.data.typeList[that.data.selected].deviceTypeName == '小型气象站'){
             that.setData({airStationBasicId: res.data.result[0].deviceBasicId});
@@ -252,8 +245,6 @@ Page({
             for (let index = 0; index < dataList.length; index++) {
               that.refreshDevice(item, index);
             }
-            console.log('设备详情列表');
-            console.log(that.data.deviceDetailList);
           }
         }
       }else{

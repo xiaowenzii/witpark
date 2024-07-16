@@ -93,7 +93,6 @@ Page({
       sortOrder: "",
     }
     util.wxRequestPost("/sps/app/operation/pageFileInfo", "加载中...", params, 'application/json', function(res) {
-      console.log(res)
       if(res.data.success){
         var data = that.data.pageNumber==1?[]:that.data.fileListData;
         for (let i = 0; i < res.data.result.records.length; i++) {
@@ -110,7 +109,6 @@ Page({
   // 下载文件
   downloadFile(res){
     util.downloadFile("/sps/sys/common/static/"+res.currentTarget.dataset.item.fileValue, "加载中...", function(res) {
-      console.log(res)
       wx.showToast({
         title: '下载完成，保存至' + res.savedFilePath
       });

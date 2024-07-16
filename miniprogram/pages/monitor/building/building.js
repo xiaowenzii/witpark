@@ -81,8 +81,6 @@ Page({
       deviceBelonging: that.data.roomList.list[that.data.roomList.selected].id
     }
     util.wxRequestGet("/sps/app/device/PowerRoom/getPowerDeviceByBasicId", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
-      console.log(that.data.roomList.list[that.data.roomList.selected].name);
-      console.log(res);
       if(res.success){
         that.setData({dataList: res.result});
         
@@ -108,9 +106,6 @@ Page({
         powerMaxMinList[index] = res.data.result[0];
         that.setData({powerMaxMinList: powerMaxMinList});
         if(index == that.data.dataList.length-1){ //请求完成最大最小功率之后，再请求各电表电量
-          console.log("功率")
-          console.log(that.data.powerMaxMinList);
-
           that.setData({electricList: new Array(that.data.dataList.length)});//固定详情数组长度
           for (let i = 0; i < that.data.dataList.length; i++) {
             that.getPowerRoomDeviceElectric(that.data.dataList[i].powerroomDeviceId, i);
@@ -134,9 +129,6 @@ Page({
         electricList[index] = res.data.result[0];
         that.setData({electricList: electricList});
         if(index == that.data.dataList.length-1){ //请求各电表电量之后，再请求各电表三相电压数据
-          console.log("电量")
-          console.log(that.data.electricList);
-
           that.getElectricityMeterTemp(); //获取配电柜温度
 
           that.setData({triphaseList: new Array(that.data.dataList.length)});//固定详情数组长度
@@ -172,8 +164,6 @@ Page({
       "cabinetId": that.data.roomList.list[that.data.roomList.selected].id
     }
     util.wxRequestGet("/sps/app/device/PowerRoom/getElectricityMeterTemp", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
-      console.log("根据配电柜获取温度");
-      console.log(res);
       if(res.success){
         that.setData({tempList: res.result});
       }

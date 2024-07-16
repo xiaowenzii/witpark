@@ -59,7 +59,6 @@ Page({
     let that = this;
     util.wxRequestGet("/sps/app/device/storeEnergy/getRawEnergyPowerComparisons", "加载中...", {}, 'application/x-www-form-urlencoded', function(res) {
       if(res.success){
-        console.log(res.result)
         that.setData({incomeData: res.result});
         that.getPowerTrend();
       }

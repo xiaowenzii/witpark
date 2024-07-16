@@ -25,9 +25,7 @@ Page({
       sortField: "",
       sortOrder: "",
     }
-    console.log(params);
     util.wxRequestPost("/sps/app/demandResponse/pageResponseManage", "加载中...", params, 'application/json', function(res) {
-      console.log(res)
       if(res.data.success){
         var data = that.data.pageNumber==1?[]:that.data.dataList;
         for (let i = 0; i < res.data.result.records.length; i++) {

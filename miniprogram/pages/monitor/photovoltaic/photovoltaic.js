@@ -36,8 +36,6 @@ Page({
     util.wxRequestGet("/sps/app/device/solarPower/getLatestData", "加载中...", deviceParams, 'application/json', function(res) {
       if(res.success){
         if(res.result != null){
-          console.log("获取最新实时数据")
-          console.log(res);
           that.setData({detailData: res.result})
           that.getPhotovoltaicOperationStatus();
         }

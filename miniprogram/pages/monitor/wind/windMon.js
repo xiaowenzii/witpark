@@ -50,8 +50,6 @@ Page({
       if(res.data.success){
         if(res.data.result != null && res.data.result.length > 0){
           that.setData({deviceList: res.data.result});
-          console.log('设备列表');
-          console.log(res.data.result);
           that.getWindPowerDataByDeviceId();
           that.getWindPowerTotal();
         }
@@ -66,8 +64,6 @@ Page({
     }
     util.wxRequestGet("/sps/app/device/windPower/getWindPowerDataByDeviceId", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
       if(res.success){
-        console.log('获取风力发电设备实时数据');
-        console.log(res.result);
         that.setData({detailData: res.result})
       }
     }, function(error) {})
@@ -80,8 +76,6 @@ Page({
     }
     util.wxRequestGet("/sps/app/device/windPower/getWindPowerTotal", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
       if(res.success){
-        console.log('获取总体发电情况');
-        console.log(res.result);
         that.setData({powerData: res.result})
       }
     }, function(error) {})

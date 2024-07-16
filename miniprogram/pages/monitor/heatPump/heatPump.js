@@ -42,8 +42,6 @@ Page({
     }
     util.wxRequestGet("/sps/app/device/refreshDevice", "加载中...", deviceParams, 'application/x-www-form-urlencoded', function(res) {
       if(res.success){
-        console.log('获取单个设备详情');
-        console.log(res.result.heatPumpDTO);
         that.setData({detailData: res.result.heatPumpDTO});
       }
     }, function(error) {})
@@ -61,7 +59,6 @@ Page({
       params.deviceType = 8; //6:进水 7：出水 8：水箱
     }
     util.wxRequestGet("/sps/app/device/heatPump/getHeatPumpTendency", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
-      console.log(key);
       var data = res.result[Object.keys(res.result)[0]];
       if(res.success){
         var xData = [];

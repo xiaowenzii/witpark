@@ -52,9 +52,6 @@ Page({
       if(res.data.success){
         if(res.data.result != null && res.data.result.length > 0){
           that.setData({deviceList: res.data.result});
-          console.log('设备列表');
-          console.log(res.data.result);
-          
           that.getData();
         }
       }
@@ -70,8 +67,6 @@ Page({
     util.wxRequestGet("/sps/app/device/refreshDevice", "加载中...", deviceParams, 'application/x-www-form-urlencoded', function(res) {
       if(res.success){
         that.setData({detailData: res.result.streetLightBasicInfoDTO});
-        console.log('详情');
-        console.log(res.result.streetLightBasicInfoDTO);
       }
     }, function(error) {})
   },

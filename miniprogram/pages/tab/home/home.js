@@ -81,7 +81,7 @@ Page({
         for (let i = 0; i < res.result.powerOverviewVoList.length; i++) {
           power = power+parseFloat(res.result.powerOverviewVoList[i].totalValue);
           if(i==res.result.powerOverviewVoList.length-1){
-            that.setData({allCreatePower: power});
+            that.setData({allCreatePower: power.toFixed(2)});
           }
         }
       }

@@ -129,8 +129,6 @@ Page({
       time: this.data.year + '-' + this.data.month + '-' + this.data.day
     }
     util.wxRequestPost("/sps/app/PowerAnalysis/getElectricityConsumptionRatio", "加载中...", params, 'application/json', function(res) {
-      console.log('能耗占比');
-      console.log(res);
       if(res.data.success){
         that.setData({powerPerDeviceListData: res.data.result.proportion});
         var energyChart = that.selectComponent('#energy-anysis-chart');

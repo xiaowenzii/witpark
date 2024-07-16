@@ -52,8 +52,6 @@ Page({
       if(res.data.success){
         if(res.data.result != null && res.data.result.length > 0){
           that.setData({deviceList: res.data.result});
-          console.log('设备列表');
-          console.log(res.data.result);
           // 获取详情和今日发电
           that.getData();
         }
@@ -70,8 +68,6 @@ Page({
     util.wxRequestGet("/sps/app/device/solarTree/getLatestData", "加载中...", deviceParams, 'application/x-www-form-urlencoded', function(res) {
       if(res.success){
         if(res.result != null){
-          console.log("获取最新实时数据")
-          console.log(res);
           that.setData({detailData: res.result})
         }
       }
@@ -86,16 +82,10 @@ Page({
     util.wxRequestGet(url, "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
       if(res.success){
         if(interStr == 'getDailyGeneratePower'){
-          console.log("日发电量: ")
-          console.log(res)
           that.setData({dailyGeneratePowerData: res.result})
         } else if(interStr == 'getMonthlyMoney'){
-          console.log("月收益: ")
-          console.log(res)
           that.setData({monthEarn: res.result})
         } else if(interStr == 'getYearlyMoney'){
-          console.log("年收益: ")
-          console.log(res)
           that.setData({yearEarn: res.result})
         }
       }

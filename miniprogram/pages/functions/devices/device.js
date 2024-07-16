@@ -167,9 +167,7 @@ Page({
       onoff: that.data.deviceDetailList[that.data.deviceIndex].streetLightBasicInfoDTO.onoff, //0关 1开 2自动"
       light: that.data.deviceDetailList[that.data.deviceIndex].streetLightBasicInfoDTO.light, //亮度：20-100
     }
-    console.log(params);
     util.wxRequestPost("/sps/app/device/streetlight/operation", "加载中...", params, 'application/json', function(res) {
-      console.log(res);
       if(res.data.success){
         that.refreshDeviceCurrentData();
       }
@@ -236,7 +234,6 @@ Page({
     }
     util.wxRequestPost("/sps/app/device/listDeviceBasic", "加载中...", params, 'application/json', function(res) {
       if(res.data.success){
-        console.log(res)
         if(res.data.result != null){
           that.setData({deviceListLength: res.data.result.length});
           var dataList = res.data.result.length>8 ? res.data.result.slice(0, 8):res.data.result;
