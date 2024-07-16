@@ -52,7 +52,7 @@
   <view class="content" style="margin-left: 4%;">
     <view style="display: flex;align-items: center;">
       <image src="../../../asset/cdzhd.png" style="height: 48rpx;width: 48rpx;margin-left: 12rpx;"/>
-      <text style="font-size: 24rpx;margin-left: 12rpx;">充电桩耗电（kWh）</text>
+      <text style="font-size: 24rpx;margin-left: 12rpx;">充电桩总耗电（kWh）</text>
     </view>
     <view class="content-line"></view>
     <text class="content-val">{{chargingPileAllQuantityTotal!=null?chargingPileAllQuantityTotal:0}}</text>
@@ -60,7 +60,7 @@
   <view class="content">
     <view style="display: flex;align-items: center;">
       <image src="../../../asset/gffd.png" style="height: 48rpx;width: 48rpx;margin-left: 12rpx;"/>
-      <text style="font-size: 24rpx;margin-left: 12rpx;">屋顶光伏发电（kWh）</text>
+      <text style="font-size: 24rpx;margin-left: 12rpx;">屋顶光伏总发电（kWh）</text>
     </view>
     <view class="content-line"></view>
     <text class="content-val">{{storePowerAllGeneratePowerTotal!=null?storePowerAllGeneratePowerTotal:0}}</text>
@@ -68,7 +68,7 @@
   <view class="content" style="margin-left: 4%;">
     <view style="display: flex;align-items: center;">
       <image src="../../../asset/flfd.png" style="height: 48rpx;width: 48rpx;margin-left: 12rpx;"/>
-      <text style="font-size: 24rpx;margin-left: 12rpx;">风力发电（kWh）</text>
+      <text style="font-size: 24rpx;margin-left: 12rpx;">风力总发电（kWh）</text>
     </view>
     <view class="content-line"></view>
     <text class="content-val">{{windPowerAllGeneratePowerTotal!=null?windPowerAllGeneratePowerTotal:0}}</text>
@@ -76,7 +76,7 @@
   <view class="content">
     <view style="display: flex;align-items: center;">
       <image src="../../../asset/cncd.png" style="height: 48rpx;width: 48rpx;margin-left: 12rpx;"/>
-      <text style="font-size: 24rpx;margin-left: 12rpx;">储能充电（kWh）</text>
+      <text style="font-size: 24rpx;margin-left: 12rpx;">储能总充电（kWh）</text>
     </view>
     <view class="content-line"></view>
     <text class="content-val">{{storeEnergyAllChargingTotal!=null?storeEnergyAllChargingTotal:0}}</text>
@@ -84,7 +84,7 @@
   <view class="content" style="margin-left: 4%;">
     <view style="display: flex;align-items: center;">
       <image src="../../../asset/cnfd.png" style="height: 48rpx;width: 48rpx;margin-left: 12rpx;"/>
-      <text style="font-size: 24rpx;margin-left: 12rpx;">储能放电（kWh）</text>
+      <text style="font-size: 24rpx;margin-left: 12rpx;">储能总放电（kWh）</text>
     </view>
     <view class="content-line"></view>
     <text class="content-val">{{storeEnergyAllDisChargingTotal!=null?storeEnergyAllDisChargingTotal:0}}</text>
@@ -100,6 +100,8 @@
   </view>
   <view class="view-chart-select">
     <view class="view-chart-text" wx:for="{{realTimePowerCurve.deviceTypeList}}" wx:key="index" style="color: {{deviceTypeIndex==index?'#2FAD9D':'#000000'}};font-weight: {{deviceTypeIndex==index?'bolder':'none'}};" data-index="{{index}}" bind:tap="selectDevice">{{item.desc}}</view>
+    <view class="view-chart-text" style="color: {{deviceTypeIndex==4?'#2FAD9D':'#000000'}};font-weight: {{deviceTypeIndex==4?'bolder':'none'}};" data-index="4" bind:tap="selectDevice">屋顶光伏</view>
+    <view class="view-chart-text" style="color: {{deviceTypeIndex==5?'#2FAD9D':'#000000'}};font-weight: {{deviceTypeIndex==5?'bolder':'none'}};" data-index="5" bind:tap="selectDevice">储能</view>
   </view>
   <view class="chart">
     <ec-canvas id="real-time-power-chart" ec="{{realTimePowerChart}}" type='2d' ></ec-canvas>

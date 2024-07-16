@@ -15,7 +15,7 @@ Page({
       "selected": "0",
       "list": [{"id": "2023","name": "2023（年）"}, {"id": "2024","name": "2024（年）"}, {"id": "2025","name": "2025（年）"}, {"id": "2026","name": "2026（年）"}]
     },
-    energyList: ['用电', '发电', '用气', '用水', '储能', '碳减', '充电桩收益'],
+    energyList: ['用电', '发电', '用气', '用水', '充电桩收益', '碳减'],
     energyType: 0,//能耗类型
     showSearchDialog: false,
     showMoreMonth: false,
@@ -167,9 +167,6 @@ Page({
         break;
       case '用水':
         this.getWaterStatistics()//获取用水统计
-        break;
-      case '储能':
-        this.getData('getEnergyStorageStatistics', '//sps/app/powerOverview/getEnergyStorageStatistics'); //获取储能统计
         break;
       case '碳减':
         this.getData('getCarbonReductionStatistics', '/sps/app/powerOverview/getCarbonReductionStatistics'); //获取减碳统计

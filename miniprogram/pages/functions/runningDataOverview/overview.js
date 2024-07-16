@@ -4,6 +4,8 @@ import * as util from "../../../utils/util";
 Page({
   data: {
     deviceTypeIndex: 0,
+    energyStorageDevice: {},
+    photovoltaicDevice: {},
     realTimePowerChart: {
       lazyLoad: true
     },
@@ -21,11 +23,14 @@ Page({
     this.setData({
       deviceTypeIndex: typeIndex
     })
-    
-    var realTimePowerChart = this.selectComponent('#real-time-power-chart');
-    var xData = this.data.realTimePowerCurve.xData;
-    var yData = this.data.realTimePowerCurve.yDataList[this.data.deviceTypeIndex];
-    this.drawChart(realTimePowerChart, xData, yData);
+    if(typeIndex==4 || typeIndex==5){
+      this.getDeviceTypeRealTimePowerCurveByDeviceTypeId(typeIndex==4?this.data.photovoltaicDevice.deviceTypeId:this.data.energyStorageDevice.deviceTypeId);
+    }else{
+      var realTimePowerChart = this.selectComponent('#real-time-power-chart');
+      var xData = this.data.realTimePowerCurve.xData;
+      var yData = this.data.realTimePowerCurve.yDataList[this.data.deviceTypeIndex];
+      this.drawChart(realTimePowerChart, xData, yData);
+    }
   },
   //今日总用电
   getEnergySavings(){
@@ -94,9 +99,38 @@ Page({
       }
     }, function(error) {})
   },
+   //设备类型实时功率曲线
+   getDeviceTypeRealTimePowerCurveByDeviceTypeId(deviceTypeId){
+    let that = this;
+    let params = {
+      deviceTypeId: deviceTypeId
+    }
+    util.wxRequestGet("/sps/bigscreen1/getDeviceTypeRealTimePowerCurveByDeviceTypeId", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
+      if(res.success){
+        var realTimePowerChart = that.selectComponent('#real-time-power-chart');
+        that.drawChart(realTimePowerChart, res.result.xData, res.result.yData);
+      }
+    }, function(error) {})
+  },
+  // 获取设备类型
+  getDeviceType(){
+    let that = this;
+    util.wxRequestGet("/sps/app/device/listDeviceType", "加载中...", {}, 'application/x-www-form-urlencoded', function(res) {
+      if(res.success){
+        for (let i = 0; i < res.result.length; i++) {
+          if(res.result[i].deviceTypeName == "储能设备"){
+            that.setData({energyStorageDevice: res.result[i]})
+          }else if(res.result[i].deviceTypeName == "屋顶光伏"){
+            that.setData({photovoltaicDevice: res.result[i]})
+          }
+        }
+      }else{}
+    }, function(error) {})
+  },
   onLoad(options) {
   },
   onReady() {
+    this.getDeviceType();
     this.getEnergySavings();
     this.getChargingPileAllQuantityTotal();
     this.getWindPowerAllGeneratePowerTotal();

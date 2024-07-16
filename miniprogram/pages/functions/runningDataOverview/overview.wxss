@@ -125,7 +125,7 @@ page{
 
 .view-chart-text{
   font-size: 24rpx;
-  margin: 6rpx 24rpx;
+  margin: 6rpx 18rpx;
 }
 .chart{
   width: 100%;

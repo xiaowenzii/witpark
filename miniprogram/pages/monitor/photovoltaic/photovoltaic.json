@@ -1,6 +1,6 @@
 {
   "navigationBarTextStyle": "black",
-  "navigationBarTitleText": "光伏发电",
+  "navigationBarTitleText": "屋顶光伏监测",
   "navigationBarBackgroundColor": "#E8F7F4",
   "usingComponents": {
     "ec-canvas": "../../component/ec-canvas/ec-canvas"

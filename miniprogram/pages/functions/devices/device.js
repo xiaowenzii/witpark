@@ -236,6 +236,7 @@ Page({
     }
     util.wxRequestPost("/sps/app/device/listDeviceBasic", "加载中...", params, 'application/json', function(res) {
       if(res.data.success){
+        console.log(res)
         if(res.data.result != null){
           that.setData({deviceListLength: res.data.result.length});
           var dataList = res.data.result.length>8 ? res.data.result.slice(0, 8):res.data.result;

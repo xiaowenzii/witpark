@@ -18,7 +18,7 @@
   <view class="function-item" style="margin-left: 4%;" data-item="3" bind:tap="goFunction">
     <image class="item-image1" src="../../../asset/enter.png"/>
     <image class="item-image2" src="../../../asset/gffd_yxjc.png"/>
-    <view class="item-text">光伏发电</view>
+    <view class="item-text">屋顶光伏监测</view>
   </view>
   <view class="function-item" data-item="4" bind:tap="goFunction">
     <image class="item-image1" src="../../../asset/enter.png"/>

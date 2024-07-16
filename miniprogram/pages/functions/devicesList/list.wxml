@@ -43,7 +43,7 @@
   </view>
 
   <!-- 光伏花 -->
-  <view class="content" wx:for="{{deviceList}}" wx:key="index" data-item="{{item}}" style="width: 100%;height: 420rpx;" wx:if="{{typeList[selected].deviceTypeName == '光伏树(花)'}}">
+  <view class="content" wx:for="{{deviceList}}" wx:key="index" data-item="{{item}}" style="width: 100%;height: 420rpx;" wx:if="{{typeList[selected].deviceTypeName == '光伏花'}}">
     <view class="device-item">
       <image class="device-item-image" src="../../../asset/build/gfs.png"/>
       <view style="display: flex;flex-direction: row;font-size: 24rpx;margin-left: 24rpx;">
@@ -158,6 +158,26 @@
     <view class="device-item-text2">更新时间：{{deviceDetailList[index].heatPumpDTO.heatPumpLiquidLevelDTO.collectTime}}</view>
   </view>
 
+  <!-- 屋顶光伏 -->
+  <view class="content" wx:for="{{deviceList}}" wx:key="index" data-item="{{item}}" style="width: 100%;height: 180rpx;" wx:if="{{typeList[selected].deviceTypeName == '屋顶光伏'}}">
+    <view class="device-item">
+      <image class="device-item-image" src="../../../asset/wind/gfb.png"/>
+      <text style="margin-left: 24rpx;">{{item.deviceName}}</text>
+    </view>
+    <view class="device-item-text1" style="margin-top: 24rpx;">设备编号：{{item.deviceSn}}</view>
+    <view class="device-item-text2" style="font-size: 20rpx;margin-top: 12rpx;">更新时间：{{item.updateTime}}</view>
+  </view>
+
+  <!-- 储能设备 -->
+  <view class="content" wx:for="{{deviceList}}" wx:key="index" data-item="{{item}}" style="width: 100%;height: 180rpx;" wx:if="{{typeList[selected].deviceTypeName == '储能设备'}}">
+    <view class="device-item">
+      <image class="device-item-image" src="../../../asset/wind/gfb.png"/>
+      <text style="margin-left: 24rpx;">{{item.deviceName}}</text>
+    </view>
+    <view class="device-item-text1" style="margin-top: 24rpx;">设备编号：{{item.deviceSn}}</view>
+    <view class="device-item-text2" style="font-size: 20rpx;margin-top: 12rpx;">更新时间：{{item.updateTime}}</view>
+  </view>
+  
   <!-- 小型气象站 -->
   <view style="width: 100%;display: flex;flex-direction: row;flex-wrap: wrap;" wx:if="{{typeList[selected].deviceTypeName == '小型气象站'}}">
     <view style="width: 100%;display: flex;left: 0;margin: 12rpx auto;align-items: center;">更新时间：{{weatherInfo.updTime}}

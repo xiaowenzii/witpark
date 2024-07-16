@@ -1,25 +1,24 @@
-<view style="font-size: 26rpx;margin: 24rpx">设备号：03496898</view>
+<view style="font-size: 26rpx;margin: 24rpx">设备号：{{deviceData.deviceBasicId}}</view>
 <view style="height: 390rpx;display: flex;flex-direction: column;align-items: center;justify-content: center;">
-  <image src="../../../asset/wind/gfb.png" style="width: 520rpx;height: 240rpx;" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd"></image>
-  <text style="font-size: 26rpx; font-weight: bolder;margin-top: 12rpx;">{{deviceList[selectDeviceIndex].deviceName}}</text>
-  
-  <view style="height: 18rpx;display: flex;align-items: center;margin-top: 18rpx;" wx:if="{{deviceList.length > 1}}">
-    <view class="device-point" style="background-color: {{index==selectDeviceIndex?'#18B6A2':'#9C9C9C'}};margin-left: {{index!=0?'18rpx':'0'}};" wx:for="{{deviceList}}" wx:key="index"></view>
-  </view>
+  <image src="../../../asset/wind/gfb.png" style="width: 520rpx;height: 240rpx;"></image>
+  <text style="font-size: 26rpx; font-weight: bolder;margin-top: 36rpx;">{{deviceData.deviceName}}</text>
 </view>
 
-<view style="height: 150rpx;display: flex;flex-direction: row;background-color: #FFFFFF;margin: 24rpx;border-radius: 24rpx;">
+<view style="height: 200rpx;display: flex;flex-direction: row;background-color: #FFFFFF;margin: 24rpx;border-radius: 24rpx;">
   <view class="desc-view">
-      <view class="desc-view-text1">当日收益</view>
-      <view class="desc-view-text2">654.3 <text style="font-size: 24rpx;margin-left: 6rpx;color: #AFAFAF;">元</text></view>
+      <view class="desc-view-text1">当日发电/收益</view>
+      <view class="desc-view-text2">{{powerData.dailyGeneration}}<text style="font-size: 24rpx;margin-left: 6rpx;color: #AFAFAF;">kWh</text></view>
+      <view class="desc-view-text3">{{powerData.dailyRevenue}}<text style="font-size: 24rpx;margin-left: 6rpx;color: #AFAFAF;">元</text></view>
   </view>
   <view class="desc-view">
-      <view class="desc-view-text1">当月收益</view>
-      <view class="desc-view-text2">20000<text style="font-size: 24rpx;margin-left: 6rpx;color: #AFAFAF;">元</text></view>
+      <view class="desc-view-text1">当月发电/收益</view>
+      <view class="desc-view-text2">{{powerData.monthlyGeneration}}<text style="font-size: 24rpx;margin-left: 6rpx;color: #AFAFAF;">kWh</text></view>
+      <view class="desc-view-text3">{{powerData.monthlyRevenue}}<text style="font-size: 24rpx;margin-left: 6rpx;color: #AFAFAF;">元</text></view>
   </view>
   <view class="desc-view">
-      <view class="desc-view-text1">累计收益</view>
-      <view class="desc-view-text2">1209876<text style="font-size: 24rpx;margin-left: 6rpx;color: #AFAFAF;">元</text></view>
+      <view class="desc-view-text1">累计年发电/收益</view>
+      <view class="desc-view-text2">{{powerData.yearlyGeneration}}<text style="font-size: 24rpx;margin-left: 6rpx;color: #AFAFAF;">kWh</text></view>
+      <view class="desc-view-text3">{{powerData.yearlyRevenue}}<text style="font-size: 24rpx;margin-left: 6rpx;color: #AFAFAF;">元</text></view>
   </view>
 </view>
 
@@ -28,11 +27,11 @@
   <view class="item-view">
     <view class="item">
       <image class="item-image" src="../../../asset/wind/fjxh.png"/>
-      <text class="item-text">装机容量<text style="margin-left: 24rpx;color: black;">43 MW</text></text>
+      <text class="item-text">装机容量<text style="margin-left: 24rpx;color: black;">342 kW</text></text>
     </view>
     <view class="item">
       <image class="item-image" src="../../../asset/wind/nbq.png"/>
-      <text class="item-text">逆变器数量 <text style="margin-left: 24rpx;color: black;">12</text></text>
+      <text class="item-text">逆变器数量 <text style="margin-left: 24rpx;color: black;">2</text></text>
     </view>
   </view>
   <view class="item-view">
@@ -57,6 +56,6 @@
 
 <!-- 折线图 -->
 <view class="block-view" style="height: 360rpx;">
-  <view style="font-size: 26rpx;font-weight: bolder;">节能减排</view>
+  <view style="font-size: 26rpx;font-weight: bolder;">实时功率</view>
   <ec-canvas id="energy-power-chart" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
 </view>
