@@ -88,7 +88,7 @@ Page({
       yAxis: {
         type: 'value',
         axisLabel:{
-          textStyle: {fontSize: 10}
+          textStyle: {fontSize: 8}
         }
       },
       series: [{
