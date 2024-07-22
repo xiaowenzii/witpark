@@ -1,7 +1,7 @@
 <view style="font-size: 26rpx;margin: 24rpx">设备号：{{deviceData.deviceBasicId}}</view>
 <view style="height: 390rpx;display: flex;flex-direction: column;align-items: center;justify-content: center;">
   <image src="../../../asset/wind/gfb.png" style="width: 520rpx;height: 240rpx;"></image>
-  <text style="font-size: 26rpx; font-weight: bolder;margin-top: 36rpx;">{{deviceData.deviceName}}</text>
+  <text style="font-size: 26rpx; font-weight: bolder;margin-top: 36rpx;">屋顶光伏</text>
 </view>
 
 <view style="height: 200rpx;display: flex;flex-direction: row;background-color: #FFFFFF;margin: 24rpx;border-radius: 24rpx;">

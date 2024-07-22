@@ -1,4 +1,4 @@
-const baseUrl = "https://anywords.cn";
+const baseUrl = "https://www.zhnycloud.cn:16060";
 
 // POST请求
 export const wxRequestPost = (url, title, parmas, contentType, successCallback, failCallback) => {

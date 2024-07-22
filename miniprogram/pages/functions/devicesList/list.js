@@ -127,7 +127,9 @@ Page({
       windDirection: that.data.windDirectionList.selected,
       windSpeed: that.data.windSpeedList.selected
     }
+    console.log(params)
     util.wxRequestPost("/sps/app/device/airConditioner/infraredControl", "加载中...", params, 'application/json', function(res) {
+      console.log(res)
       if(res.data.success){
         that.refreshDeviceCurrentData();
       }
