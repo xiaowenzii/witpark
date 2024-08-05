@@ -1,6 +1,8 @@
 {
   "navigationBarBackgroundColor": "#BBE2F2",
   "navigationBarTextStyle":"white",
-  "navigationBarTitleText": "",
-  "usingComponents": {}
+  "navigationBarTitleText": "低碳智慧园区",
+  "usingComponents": {
+    "ec-canvas": "../../component/ec-canvas/ec-canvas"
+  }
 }

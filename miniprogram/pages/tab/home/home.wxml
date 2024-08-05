@@ -40,19 +40,25 @@
   <view style="padding: 18rpx 24rpx;font-size: 28rpx;font-weight: bolder;">园区收益</view>
   <view class="earning-view">
     <view class="earning-view-item">
-      <image src="../../../asset/money.png"/>
-      <view class="view-item-text-1">当月收益</view>
-      <view class="view-item-text-2">{{mEarn}} 元</view>
+      <view style="display: flex;flex-direction: row;">
+        <image src="../../../asset/money.png"/>
+        <view style="font-size: 24rpx;margin-top: 26rpx;">当月收益</view>
+      </view>
+      <view class="view-item-text-2" style="margin-left: 24rpx;">{{mEarn}} 元</view>
     </view>
     <view class="earning-view-item" style="margin-left: 5%;">
-      <image src="../../../asset/earning.png"/>
-      <view class="view-item-text-1">当年收益</view>
-      <view class="view-item-text-2">{{yEarn}} 元</view>
+      <view style="display: flex;flex-direction: row;">
+        <image src="../../../asset/earning.png"/>
+        <view style="font-size: 24rpx;margin-top: 26rpx;">当年收益</view>
+      </view>
+      <view class="view-item-text-2" style="margin-left: 24rpx;">{{yEarn}} 元</view>
     </view>
     <view class="earning-view-item" style="margin-left: 5%;">
-      <image src="../../../asset/earningall.png"/>
-      <view class="view-item-text-1">累计收益</view>
-      <view class="view-item-text-2">{{allEarn}} 元</view>
+      <view style="display: flex;flex-direction: row;">
+        <image src="../../../asset/earningall.png"/>
+        <view style="font-size: 24rpx;margin-top: 26rpx;">累计收益</view>
+      </view>
+      <view class="view-item-text-2" style="margin-left: 24rpx;">{{allEarn}} 元</view>
     </view>
   </view>
 
@@ -61,29 +67,238 @@
   <view class="data-overview">
     <view class="overview-capacity">
       <view class="view-item-text-1" style="margin-top: 18rpx;">园区总容量（kWh）</view>
-      <view class="view-item-text-2" style="margin-top: 6rpx;">574.4</view>
+      <view class="view-item-text-2" style="margin-top: 6rpx;color: #1CB7A3;">574.4</view>
       <image src="../../../asset/overall_rl.png" style="width: 100%;height: 144rpx;"/>
     </view>
-    <view style="height: 90%;width: 46%;margin-left: 4%;border-radius: 12rpx;">
+    <view style="height: 240rpx;width: 46%;margin-left: 4%;margin-top: 12rpx;border-radius: 12rpx;">
       <view class="overview-power-consume">
-        <view style="width: 70%;">
-          <view class="view-item-text-1">总用电量（kWh）</view>
-          <view class="view-item-text-2" style="margin-top: 6rpx;">{{allUsepower}}</view>
+        <view style="width: 80%;">
+          <view class="view-item-text-1">累计用电量（kWh）</view>
+          <view class="view-item-text-2" style="margin-top: 9rpx;color: #1CB7A3;">{{allUsepower}}</view>
         </view>
         <view class="power-image-view">
           <image class="power-image" src="../../../asset/power_consume.png"/>
         </view>
       </view>
-
       <view class="overview-power-create">
-        <view style="width: 70%;">
-          <view class="view-item-text-1">总发电量（kWh）</view>
-          <view class="view-item-text-2" style="margin-top: 6rpx;">{{allCreatePower}}</view>
+        <view style="width: 80%;">
+          <view class="view-item-text-1">累计发电量（kWh）</view>
+          <view class="view-item-text-2" style="margin-top: 9rpx;color: #1CB7A3;">{{allCreatePower}}</view>
         </view>
         <view class="power-image-view">
           <image class="power-image" src="../../../asset/power_create.png"/>
         </view>
       </view>
     </view>
+
+    <!-- 用电、碳排数据展示 -->
+    <view style="width: 100%;height: 240rpx;margin-top: 24rpx;background-color: #FFFDF8;margin-left: 12rpx;margin-right: 12rpx;">
+      <view style="width: 100%;height: 90rpx;display: flex;flex-direction: row;margin-top: 24rpx;">
+        <view style="text-align: center;width: 30%;height: 100%;border-radius: 12rpx;">
+          <view class="view-item-text-1">日用电 （kWh）</view>
+          <view class="view-item-text-3">{{elecCarbonEmission.dailyElectricityUsage}}</view>
+        </view>
+        <view style="width: 5%;display: flex;flex-direction: row;align-items: flex-end;justify-content: center;"><view style="height: 72rpx;width: 1rpx;background-color: gainsboro;"></view></view>
+        <view style="text-align: center;width: 30%;height: 100%;border-radius: 12rpx;">
+          <view class="view-item-text-1">月用电 （kWh）</view>
+          <view class="view-item-text-3">{{elecCarbonEmission.monthlyElectricityUsage}}</view>
+        </view>
+        <view style="width: 5%;display: flex;flex-direction: row;align-items: flex-end;justify-content: center;"><view style="height: 72rpx;width: 1rpx;background-color: gainsboro;"></view></view>
+        <view style="text-align: center;width: 30%;height: 100%;border-radius: 12rpx;">
+          <view class="view-item-text-1">年用电 （kWh）</view>
+          <view class="view-item-text-3">{{elecCarbonEmission.annualElectricityUsage}}</view>
+        </view>
+      </view>
+
+      <view style="width: 100%;height: 18rpx;display: flex;flex-direction: row;">
+        <view style="width: 50%;height: 100%;display: flex;flex-direction: column;align-items: flex-end;justify-content: center;">
+          <view style="height: 1rpx;width: 75%;background-color: gainsboro;"></view>
+        </view>
+        <view style="width: 50%;height: 100%;display: flex;flex-direction: column;align-items: flex-start;justify-content: center;">
+          <view style="height: 1rpx;width: 75%;background-color: gainsboro;"></view>
+        </view>
+      </view>
+
+      <view style="width: 100%;height: 120rpx;display: flex;flex-direction: row;">
+        <view style="text-align: center;width: 30%;height: 100%;border-radius: 12rpx;margin-top: 18rpx;">
+          <view class="view-item-text-1">日碳排 （吨）</view>
+          <view class="view-item-text-3">{{elecCarbonEmission.dailyEmissions}}</view>
+        </view>
+        <view style="width: 5%;display: flex;flex-direction: row;align-items: flex-start;justify-content: center;"><view style="height: 72rpx;width: 1rpx;background-color: gainsboro;"></view></view>
+        <view style="text-align: center;width: 30%;height: 100%;border-radius: 12rpx;margin-top: 18rpx;">
+          <view class="view-item-text-1">月碳排 （吨）</view>
+          <view class="view-item-text-3">{{elecCarbonEmission.monthlyEmissions}}</view>
+        </view>
+        <view style="width: 5%;display: flex;flex-direction: row;align-items: flex-start;justify-content: center;"><view style="height: 72rpx;width: 1rpx;background-color: gainsboro;"></view></view>
+        <view style="text-align: center;width: 30%;height: 100%;border-radius: 12rpx;margin-top: 18rpx;">
+          <view class="view-item-text-1">年碳排 （吨）</view>
+          <view class="view-item-text-3">{{elecCarbonEmission.annualEmissions}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 发电、碳减数据展示 -->
+    <view style="width: 100%;margin-top: 24rpx;background-color: #F6F7FB;margin-left: 12rpx;margin-right: 12rpx;">
+      <view style="width: 100%;height: 90rpx;display: flex;flex-direction: row;margin-top: 24rpx;">
+        <view style="text-align: center;width: 30%;height: 100%;border-radius: 12rpx;">
+          <view class="view-item-text-1">日发电 （kWh）</view>
+          <view class="view-item-text-3">{{elecCarbonReduction.dailyElectricityUsage}}</view>
+        </view>
+        <view style="width: 5%;display: flex;flex-direction: row;align-items: flex-end;justify-content: center;"><view style="height: 72rpx;width: 1rpx;background-color: gainsboro;"></view></view>
+        <view style="text-align: center;width: 30%;height: 100%;border-radius: 12rpx;">
+          <view class="view-item-text-1">月发电 （kWh）</view>
+          <view class="view-item-text-3">{{elecCarbonReduction.monthlyElectricityUsage}}</view>
+        </view>
+        <view style="width: 5%;display: flex;flex-direction: row;align-items: flex-end;justify-content: center;"><view style="height: 72rpx;width: 1rpx;background-color: gainsboro;"></view></view>
+        <view style="text-align: center;width: 30%;height: 100%;border-radius: 12rpx;">
+          <view class="view-item-text-1">年发电 （kWh）</view>
+          <view class="view-item-text-3">{{elecCarbonReduction.annualElectricityUsage}}</view>
+        </view>
+      </view>
+
+      <view style="width: 100%;height: 18rpx;display: flex;flex-direction: row;">
+        <view style="width: 50%;height: 100%;display: flex;flex-direction: column;align-items: flex-end;justify-content: center;">
+          <view style="height: 1rpx;width: 75%;background-color: gainsboro;"></view>
+        </view>
+        <view style="width: 50%;height: 100%;display: flex;flex-direction: column;align-items: flex-start;justify-content: center;">
+          <view style="height: 1rpx;width: 75%;background-color: gainsboro;"></view>
+        </view>
+      </view>
+
+      <view style="width: 100%;height: 120rpx;display: flex;flex-direction: row;">
+        <view style="text-align: center;width: 30%;height: 100%;border-radius: 12rpx;margin-top: 18rpx;">
+          <view class="view-item-text-1">日碳减 （吨）</view>
+          <view class="view-item-text-3">{{elecCarbonReduction.dailyEmissions}}</view>
+        </view>
+        <view style="width: 5%;display: flex;flex-direction: row;align-items: flex-start;justify-content: center;"><view style="height: 72rpx;width: 1rpx;background-color: gainsboro;"></view></view>
+        <view style="text-align: center;width: 30%;height: 100%;border-radius: 12rpx;margin-top: 18rpx;">
+          <view class="view-item-text-1">月碳减 （吨）</view>
+          <view class="view-item-text-3">{{elecCarbonReduction.monthlyEmissions}}</view>
+        </view>
+        <view style="width: 5%;display: flex;flex-direction: row;align-items: flex-start;justify-content: center;"><view style="height: 72rpx;width: 1rpx;background-color: gainsboro;"></view></view>
+        <view style="text-align: center;width: 30%;height: 100%;border-radius: 12rpx;margin-top: 18rpx;">
+          <view class="view-item-text-1">年碳减 （吨）</view>
+          <view class="view-item-text-3">{{elecCarbonReduction.annualEmissions}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="date-select-view">
+      <view class="date-view" style="color: {{dateTpye=='m'?'#FFFFFF':'none'}};background-color: {{dateTpye=='m'?'#18B6A2':'none'}};" data-index="m" bind:tap="selectDateType">月数据</view>
+      <view class="date-view" style="margin-left: 36rpx;color: {{dateTpye=='y'?'#FFFFFF':'none'}};background-color: {{dateTpye=='y'?'#18B6A2':'none'}};" data-index="y" bind:tap="selectDateType">年数据</view>
+    </view>
+
+    <!-- 用电 -->
+    <view style="width: 100%;margin: 12rpx;background-color: #FFFDF866;">
+      <view style="height: 64rpx;width: 100%;margin-top: 12rpx;display: flex;flex-direction: row;justify-content: center;align-items: center;">
+        <view class="chart-view">
+          <view style="height: 24rpx;width: 24rpx;background-color: #18B6A2;margin-top: 3rpx;"></view>
+          <text style="margin-left: 12rpx;font-size: 24rpx;">用电</text>
+        </view>
+        <view class="chart-view" style="margin-left: 36rpx;">
+          <view style="height: 24rpx;width: 24rpx;background-color: #FFA63D;margin-top: 3rpx;"></view>
+          <text style="margin-left: 12rpx;font-size: 24rpx;">同期环比用电</text>
+        </view>
+        <view class="chart-view" style="margin-left: 36rpx;">
+          <view style="height: 2rpx;width: 36rpx;background-color: #18B6A2;margin-top: 6rpx;"></view>
+          <text style="margin-left: 12rpx;font-size: 24rpx;">碳排</text>
+        </view>
+        <view class="chart-view" style="margin-left: 36rpx;">
+          <view style="height: 2rpx;width: 36rpx;background-color: #FFA63D;margin-top: 6rpx;"></view>
+          <text style="margin-left: 12rpx;font-size: 24rpx;">同期环比碳排</text>
+        </view>
+      </view>
+      <!-- 柱状、折线统计图 -->
+      <view style="height: 360rpx;width: 100%;">
+        <ec-canvas id="energy-chart" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
+      </view>
+
+      <view style="width: 100%;margin-top: 24rpx;display: flex;flex-direction: row;flex-wrap: wrap;font-size: 20rpx;">
+        <view wx:for="{{cakeDataList}}" wx:key="index" style="display: flex;flex-direction: row;margin: 12rpx;margin-left: 24rpx;">
+          <view style="height: 24rpx;width: 24rpx;background-color: {{colorList[index]}};margin-top: 6rpx;"></view>
+          <text style="margin-left: 12rpx;">{{item.name}}</text>
+          <text style="margin-left: 18rpx;">{{item.value}}kWh</text>
+          <text style="margin-left: 18rpx;">{{item.proportion}}</text>
+        </view>
+      </view>
+
+      <!-- 用电占比 -->
+      <view style="height: 360rpx;width: 100%;margin-top: 18rpx;">
+        <ec-canvas id="energy-cake" ec="{{ cakeChart }}" type='2d'></ec-canvas>
+      </view>
+    </view>
+
+    <!-- 发电 -->
+    <view style="width: 100%;margin: 12rpx;background-color: #F6F7FB66;">
+      <view style="height: 64rpx;width: 100%;margin-top: 24rpx;display: flex;flex-direction: row;justify-content: center;align-items: center;">
+        <view class="chart-view">
+          <view style="height: 24rpx;width: 24rpx;background-color: #18B6A2;margin-top: 3rpx;"></view>
+          <text style="margin-left: 12rpx;font-size: 24rpx;">发电</text>
+        </view>
+        <view class="chart-view" style="margin-left: 36rpx;">
+          <view style="height: 24rpx;width: 24rpx;background-color: #FFA63D;margin-top: 3rpx;"></view>
+          <text style="margin-left: 12rpx;font-size: 24rpx;">同期环比发电</text>
+        </view>
+        <view class="chart-view" style="margin-left: 36rpx;">
+          <view style="height: 2rpx;width: 36rpx;background-color: #18B6A2;margin-top: 6rpx;"></view>
+          <text style="margin-left: 12rpx;font-size: 24rpx;">碳减</text>
+        </view>
+        <view class="chart-view" style="margin-left: 36rpx;">
+          <view style="height: 2rpx;width: 36rpx;background-color: #FFA63D;margin-top: 6rpx;"></view>
+          <text style="margin-left: 12rpx;font-size: 24rpx;">同期环比碳减</text>
+        </view>
+      </view>
+      <!-- 柱状、折线统计图 -->
+      <view style="height: 360rpx;width: 100%;">
+        <ec-canvas id="energy-chart-gener" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
+      </view>
+
+      <view style="width: 100%;margin-top: 24rpx;display: flex;flex-direction: row;flex-wrap: wrap;font-size: 20rpx;">
+        <view wx:for="{{cakeGenDataList}}" wx:key="index" style="display: flex;flex-direction: row;margin: 12rpx;margin-left: 24rpx;">
+          <view style="height: 24rpx;width: 24rpx;background-color: {{colorList[index]}};margin-top: 6rpx;"></view>
+          <text style="margin-left: 12rpx;">{{item.name}}</text>
+          <text style="margin-left: 18rpx;">{{item.value}}kWh</text>
+          <text style="margin-left: 18rpx;">{{item.coo}}吨</text>
+          <text style="margin-left: 18rpx;">{{item.proportion}}</text>
+        </view>
+      </view>
+
+      <!-- 发电占比 -->
+      <view style="height: 360rpx;width: 100%;margin-top: 18rpx;">
+        <ec-canvas id="energy-gen-cake" ec="{{ cakeGenChart }}" type='2d'></ec-canvas>
+      </view>
+    </view>
+
+    <!-- 收益 折线统计图 -->
+    <view style="width: 100%;margin: 12rpx;background-color: #18B6A206;">
+      <view style="height: 64rpx;width: 100%;margin-top: 24rpx;display: flex;flex-direction: row;justify-content: center;align-items: center;">
+        <view class="chart-view">
+          <view style="height: 2rpx;width: 36rpx;background-color: #18B6A2;margin-top: 6rpx;"></view>
+          <text style="margin-left: 12rpx;font-size: 24rpx;">收益</text>
+        </view>
+        <view class="chart-view" style="margin-left: 48rpx;">
+          <view style="height: 2rpx;width: 36rpx;background-color: #FFA63D;margin-top: 6rpx;"></view>
+          <text style="margin-left: 12rpx;font-size: 24rpx;">同期环比收益</text>
+        </view>
+      </view>
+      <view style="height: 360rpx;width: 100%;">
+        <ec-canvas id="energy-chart-money" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
+      </view>
+
+      <view style="width: 100%;margin-top: 24rpx;display: flex;flex-direction: row;flex-wrap: wrap;font-size: 20rpx;">
+        <view wx:for="{{cakeMoneyDataList}}" wx:key="index" style="display: flex;flex-direction: row;margin: 12rpx;margin-left: 24rpx;">
+          <view style="height: 24rpx;width: 24rpx;background-color: {{colorList[index]}};margin-top: 6rpx;"></view>
+          <text style="margin-left: 12rpx;">{{item.name}}</text>
+          <text style="margin-left: 18rpx;">{{item.value}}元</text>
+          <text style="margin-left: 18rpx;">{{item.proportion}}</text>
+        </view>
+      </view>
+
+      <!-- 收益占比 -->
+      <view style="height: 360rpx;width: 100%;margin-top: 18rpx;">
+        <ec-canvas id="energy-money-cake" ec="{{ cakeMoneyChart }}" type='2d'></ec-canvas>
+      </view>
+    </view>
+
   </view>
 </view>

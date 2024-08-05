@@ -81,7 +81,7 @@
 <view class="chart-view">
   <!-- 环形统计图 -->
   <view style="height: 420rpx;">
-    <ec-canvas id="energy-anysis-chart" ec="{{energyAnysisChart}}" type='2d' ></ec-canvas>
+    <ec-canvas id="energy-anysis-chart" ec="{{energyAnysisChart}}" type='2d'></ec-canvas>
   </view>
   <view style="display: flex;flex-direction: row;flex-wrap: wrap;">
     <view class="chart-desc" wx:for="{{powerPerDeviceListData}}" wx:key="index">
