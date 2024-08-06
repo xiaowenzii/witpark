@@ -24,8 +24,18 @@ Page({
     colorList: ['#1CB7A3','#7A64FF','#FFA63D', '#57AD0A','#B1C7FF','#0B2186','#55D86B','#1CB7A3','#7A64FF','#FFA63D', '#57AD0A','#B1C7FF','#0B2186'],
     cakeDataList: [],
     cakeGenDataList: [],
-    cakeMoneyDataList: []
+    cakeMoneyDataList: [],
+    yearList: {
+      "selected": "0",
+      "list": [{"id": "2023","name": "2023年"}, {"id": "2024","name": "2024年"}, {"id": "2025","name": "2025年"}, {"id": "2026","name": "2026年"}]
+    },
+    monthList: {
+      "selected": "0",
+      "list": [{"id": "01","name": "1月"}, {"id": "02","name": "2月"}, {"id": "03","name": "3月"}, {"id": "04","name": "4月"}, {"id": "05","name": "5月"}, {"id": "06","name": "6月"}, {"id": "07","name": "7月"}, {"id": "08","name": "8月"}, {"id": "09","name": "9月"}, {"id": "10","name": "10月"}, {"id": "11","name": "11月"}, {"id": "12","name": "12月"}]
+    }
   },
+  selectShowY: false,
+  selectShowM: false,
   // 获取设备类型
   getDeviceType(){
     let that = this;
@@ -137,6 +147,46 @@ Page({
     this.setData({
       dateTpye: index
     })
+    this.getTotalPowerConsumption();
+  },
+  // 点击下拉显示框
+  selectTap(e) {
+    let item = e.currentTarget.dataset.item;
+    if(item=='y'){
+      this.setData({
+        selectShowY: !this.data.selectShowY,
+        selectShowM: false
+      });
+    }else{
+      this.setData({
+        selectShowY: false,
+        selectShowM: !this.data.selectShowM
+      });
+    }
+  },
+  // 点击下拉选择年份
+  selectY(e) {
+    let index = e.currentTarget.dataset.index;//获取点击的下拉列表的下标
+    var yearList = this.data.yearList;
+    yearList.selected = index;
+    this.setData({
+      selectShowY: !this.data.selectShowY,
+      yearList: yearList,
+      dateYear: yearList.list[index].id
+    });
+    this.getTotalPowerConsumption();
+  },
+  // 点击下拉选择月份
+  selectM(e) {
+    let index = e.currentTarget.dataset.index;//获取点击的下拉列表的下标
+    var monthList = this.data.monthList;
+    monthList.selected = index;
+    this.setData({
+      selectShowM: !this.data.selectShowM,
+      monthList: monthList,
+      dateMonth: monthList.list[index].id
+    });
+    this.getTotalPowerConsumption();
   },
   // 用电、同期环比用电
   getTotalPowerConsumption(){
@@ -145,6 +195,7 @@ Page({
       type: that.data.dateTpye,
       time: that.data.dateYear + '-' + that.data.dateMonth
     }
+    console.log(params)
     util.wxRequestPost("/sps/ParkCarbonAnalysis/getTotalPowerConsumption", "加载中...", params, 'application/json', function(res) {
       if(res.data.success){
         var xData = [];
@@ -373,6 +424,24 @@ Page({
   },
   onLoad(options) {
     this.setData({userInfo: wx.getStorageSync('userInfo')});
+
+    // 获取当前日期
+    const date = new Date();
+    const year = date.getFullYear(); // 获取当前年份
+    const month = date.getMonth() + 1; // 获取当前月份，月份要加1，因为从0开始计算
+    var yearArr = this.data.yearList;
+    var monthArr = this.data.monthList;
+    for (let i = 0; i < yearArr.list.length; i++) {
+      if(year == yearArr.list[i].id){
+        yearArr.selected = i;
+      }
+    }
+    monthArr.selected = month-1;
+    
+    this.setData({
+      yearList: yearArr,
+      monthList: monthArr
+    })
   },
   onReady(){
     // 获取当前日期

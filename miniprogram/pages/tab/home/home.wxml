@@ -186,6 +186,26 @@
     <view class="date-select-view">
       <view class="date-view" style="color: {{dateTpye=='m'?'#FFFFFF':'none'}};background-color: {{dateTpye=='m'?'#18B6A2':'none'}};" data-index="m" bind:tap="selectDateType">月数据</view>
       <view class="date-view" style="margin-left: 36rpx;color: {{dateTpye=='y'?'#FFFFFF':'none'}};background-color: {{dateTpye=='y'?'#18B6A2':'none'}};" data-index="y" bind:tap="selectDateType">年数据</view>
+      
+      <view class='select_box'>
+        <view class='select' data-item="y" catchtap='selectTap'>
+          <text class='select_text'>{{yearList.list[yearList.selected].name}}</text>
+          <image style="width: 36rpx;height: 30rpx;margin-top: 6rpx;" src='../../../asset/select_down.png'  background-size="contain"></image> 
+        </view>
+        <view class='option_box' style='height:{{selectShowY?auto:0}};'>
+          <text class='option' wx:for='{{yearList.list}}' wx:key='this' data-index='{{index}}' bind:tap='selectY'>{{item.name}}</text>
+        </view>
+      </view>
+
+      <view class='select_box' style="width: 110rpx;">
+        <view class='select' data-item="m" catchtap='selectTap'>
+          <text class='select_text'>{{monthList.list[monthList.selected].name}}</text>
+          <image style="width: 36rpx;height: 30rpx;margin-top: 6rpx;" src='../../../asset/select_down.png'  background-size="contain"></image> 
+        </view>
+        <view class='option_box' style='height:{{selectShowM?auto:0}};'>
+          <text class='option' wx:for='{{monthList.list}}' wx:key='this' data-index='{{index}}' bind:tap='selectM'>{{item.name}}</text>
+        </view>
+      </view>
     </view>
 
     <!-- 用电 -->
