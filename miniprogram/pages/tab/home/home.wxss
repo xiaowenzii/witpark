@@ -80,13 +80,12 @@ page{
   padding-left: 24rpx;
 }
 .view-item-text-2{
-  font-size: 24rpx;
   font-weight: bolder;
   bottom: 0;
   padding-left:24rpx;
   padding-top: 6rpx;
   color: #1CB7A3;
-  font-size: 30rpx;
+  font-size: 26rpx;
 }
 .view-item-text-3{
   font-size: 24rpx;
@@ -172,12 +171,6 @@ page{
 }
 
 /* 图形 */
-.chart-view{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
 .select_box{
   width:150rpx;
   height:100%;

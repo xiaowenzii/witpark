@@ -210,24 +210,6 @@
 
     <!-- 用电 -->
     <view style="width: 100%;margin: 12rpx;background-color: #FFFDF866;">
-      <view style="height: 64rpx;width: 100%;margin-top: 12rpx;display: flex;flex-direction: row;justify-content: center;align-items: center;">
-        <view class="chart-view">
-          <view style="height: 24rpx;width: 24rpx;background-color: #18B6A2;margin-top: 3rpx;"></view>
-          <text style="margin-left: 12rpx;font-size: 24rpx;">用电</text>
-        </view>
-        <view class="chart-view" style="margin-left: 36rpx;">
-          <view style="height: 24rpx;width: 24rpx;background-color: #FFA63D;margin-top: 3rpx;"></view>
-          <text style="margin-left: 12rpx;font-size: 24rpx;">同期环比用电</text>
-        </view>
-        <view class="chart-view" style="margin-left: 36rpx;">
-          <view style="height: 2rpx;width: 36rpx;background-color: #18B6A2;margin-top: 6rpx;"></view>
-          <text style="margin-left: 12rpx;font-size: 24rpx;">碳排</text>
-        </view>
-        <view class="chart-view" style="margin-left: 36rpx;">
-          <view style="height: 2rpx;width: 36rpx;background-color: #FFA63D;margin-top: 6rpx;"></view>
-          <text style="margin-left: 12rpx;font-size: 24rpx;">同期环比碳排</text>
-        </view>
-      </view>
       <!-- 柱状、折线统计图 -->
       <view style="height: 360rpx;width: 100%;">
         <ec-canvas id="energy-chart" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
@@ -250,24 +232,6 @@
 
     <!-- 发电 -->
     <view style="width: 100%;margin: 12rpx;background-color: #F6F7FB66;">
-      <view style="height: 64rpx;width: 100%;margin-top: 24rpx;display: flex;flex-direction: row;justify-content: center;align-items: center;">
-        <view class="chart-view">
-          <view style="height: 24rpx;width: 24rpx;background-color: #18B6A2;margin-top: 3rpx;"></view>
-          <text style="margin-left: 12rpx;font-size: 24rpx;">发电</text>
-        </view>
-        <view class="chart-view" style="margin-left: 36rpx;">
-          <view style="height: 24rpx;width: 24rpx;background-color: #FFA63D;margin-top: 3rpx;"></view>
-          <text style="margin-left: 12rpx;font-size: 24rpx;">同期环比发电</text>
-        </view>
-        <view class="chart-view" style="margin-left: 36rpx;">
-          <view style="height: 2rpx;width: 36rpx;background-color: #18B6A2;margin-top: 6rpx;"></view>
-          <text style="margin-left: 12rpx;font-size: 24rpx;">碳减</text>
-        </view>
-        <view class="chart-view" style="margin-left: 36rpx;">
-          <view style="height: 2rpx;width: 36rpx;background-color: #FFA63D;margin-top: 6rpx;"></view>
-          <text style="margin-left: 12rpx;font-size: 24rpx;">同期环比碳减</text>
-        </view>
-      </view>
       <!-- 柱状、折线统计图 -->
       <view style="height: 360rpx;width: 100%;">
         <ec-canvas id="energy-chart-gener" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
@@ -291,16 +255,6 @@
 
     <!-- 收益 折线统计图 -->
     <view style="width: 100%;margin: 12rpx;background-color: #18B6A206;">
-      <view style="height: 64rpx;width: 100%;margin-top: 24rpx;display: flex;flex-direction: row;justify-content: center;align-items: center;">
-        <view class="chart-view">
-          <view style="height: 2rpx;width: 36rpx;background-color: #18B6A2;margin-top: 6rpx;"></view>
-          <text style="margin-left: 12rpx;font-size: 24rpx;">收益</text>
-        </view>
-        <view class="chart-view" style="margin-left: 48rpx;">
-          <view style="height: 2rpx;width: 36rpx;background-color: #FFA63D;margin-top: 6rpx;"></view>
-          <text style="margin-left: 12rpx;font-size: 24rpx;">同期环比收益</text>
-        </view>
-      </view>
       <view style="height: 360rpx;width: 100%;">
         <ec-canvas id="energy-chart-money" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
       </view>

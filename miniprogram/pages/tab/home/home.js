@@ -14,8 +14,8 @@ Page({
     allUsepower: 0,
     allCreatePower: 0,
     dateTpye: 'm',
-    dateYear: '2024',
-    dateMonth: '07',
+    dateYear: '',
+    dateMonth: '',
     ec: {
       lazyLoad: true
     },
@@ -121,7 +121,7 @@ Page({
       }
     }, function(error) {})
   },
-  // 获取用电、碳排数据
+  // 获取用电、碳排数据  新增
   getCarbonEmissionsOverviewVO(){
     let that = this;
     util.wxRequestGet("/sps/ParkCarbonAnalysis/getCarbonEmissionsOverviewVO", "加载中...", {}, 'application/x-www-form-urlencoded', function(res) {
@@ -195,11 +195,10 @@ Page({
       type: that.data.dateTpye,
       time: that.data.dateYear + '-' + that.data.dateMonth
     }
-    console.log(params)
     util.wxRequestPost("/sps/ParkCarbonAnalysis/getTotalPowerConsumption", "加载中...", params, 'application/json', function(res) {
       if(res.data.success){
         var xData = [];
-        var yData = [];
+        var data = [];
         var yDataPower = []; //用电
         var yDataPowerL = []; //同期环比用电
         for (let i = 0; i < res.data.result.length; i++) {
@@ -207,16 +206,20 @@ Page({
           yDataPower.push(res.data.result[i].totalValue);
           yDataPowerL.push(res.data.result[i].previousValue);
           if(i==res.data.result.length-1){
-            yData.push(yDataPower);
-            yData.push(yDataPowerL);
-            that.getTotalCarbonEmissions(xData, yData);
+            data.push(yDataPower);
+            data.push(yDataPowerL);
+            let barData = {
+              type: 'bar', titles: ['用电', '同期环比用电'],
+              data: data
+            }
+            that.getTotalCarbonEmissions(xData, barData);
           }
         }
       }
     }, function(error) {})
   },
   // 碳排、同期环比碳排
-  getTotalCarbonEmissions(xData, yData){
+  getTotalCarbonEmissions(xData, barData){
     let that = this;
     let params = {
       type: that.data.dateTpye,
@@ -224,21 +227,26 @@ Page({
     }
     util.wxRequestPost("/sps/ParkCarbonAnalysis/getTotalCarbonEmissions", "加载中...", params, 'application/json', function(res) {
       if(res.data.success){
+        var data = [];
         var yDataCarbon = []; //碳排
         var yDataCarbonL = []; //同期环比碳排
         for (let i = 0; i < res.data.result.length; i++) {
           yDataCarbon.push(res.data.result[i].totalValue);
           yDataCarbonL.push(res.data.result[i].previousValue);
           if(i==res.data.result.length-1){
-            yData.push(yDataCarbon);
-            yData.push(yDataCarbonL);
-            // var yData = [[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31],
-            //     [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],
-            //     [3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33],
-            //     [4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34]];
+            data.push(yDataCarbon);
+            data.push(yDataCarbonL);
+            let lineData = {
+              type: 'line', titles: ['碳排', '同期环比碳排'],
+              data: data
+            }
+            var yData = [];
+            yData.push(barData);
+            yData.push(lineData);
 
+            let titles = ['用电', '同期环比用电', '碳排', '同期环比碳排'];
             var energyChart = that.selectComponent('#energy-chart');
-            that.drawChart(energyChart, xData, yData);
+            that.drawChart(energyChart, titles, xData, yData, that.data.colorList);
             that.getElectricityConsumptionRatio();
           }
         }
@@ -267,21 +275,19 @@ Page({
     }
     util.wxRequestPost("/sps/ParkCarbonAnalysis/geCarbonConsumptionRatio", "加载中...", params, 'application/json', function(res) {
       if(res.data.success){
-        var list = elecDataList;
-        for (let i = 0; i < res.data.result.length; i++) {
-          for (let j = 0; j < elecDataList.length; j++) {
-            if(res.data.result[i].name == elecDataList[j].name){
-              //{value: 10, name:'空调', coo: 1, proportion: "7.7%"}
-              list[j].value = elecDataList[j].val;
-              list[j].coo = res.data.result[i].val;
-              break;
+        var list = elecDataList.proportion;
+        for (let i = 0; i < res.data.result.proportion.length; i++) {
+          for (let j = 0; j < elecDataList.proportion.length; j++) {
+            if(res.data.result.proportion[i].name == elecDataList.proportion[j].name){
+              list[j].value = elecDataList.proportion[j].val;
+              list[j].coo = res.data.result.proportion[i].val;
             }
           }
-          if(i==res.data.result.length-1){
+          if(i==res.data.result.proportion.length-1){
             that.setData({cakeDataList: list});
             // 用电，碳排，百分比
-            var energyCakeChart = this.selectComponent('#energy-cake');
-            that.drawCakeChart(energyCakeChart, this.data.cakeDataList);
+            var energyCakeChart = that.selectComponent('#energy-cake');
+            that.drawCakeChart(energyCakeChart, that.data.cakeDataList);
             that.getPowerGenerationComparison();
           }
         }
@@ -297,8 +303,8 @@ Page({
     }
     util.wxRequestPost("/sps/ParkCarbonAnalysis/getPowerGenerationComparison", "加载中...", params, 'application/json', function(res) {
       if(res.data.success){
+        var data = [];
         var xData = [];
-        var yData = [];
         var yDataPower = []; //发电
         var yDataPowerL = []; //同期环比发电
         for (let i = 0; i < res.data.result.length; i++) {
@@ -306,17 +312,20 @@ Page({
           yDataPower.push(res.data.result[i].totalValue);
           yDataPowerL.push(res.data.result[i].previousValue);
           if(i==res.data.result.length-1){
-            yData.push(yDataPower);
-            yData.push(yDataPowerL);
-
-            that.getCarbonReductionComparison(xData, yData);
+            data.push(yDataPower);
+            data.push(yDataPowerL);
+            let barData = {
+              type: 'bar', titles: ['发电', '同期环比发电'],
+              data: data
+            }
+            that.getCarbonReductionComparison(xData, barData);
           }
         }
       }
     }, function(error) {})
   },
   // 碳减、同期环比碳减
-  getCarbonReductionComparison(xData, yData){
+  getCarbonReductionComparison(xData, barData){
     let that = this;
     let params = {
       type: that.data.dateTpye,
@@ -324,17 +333,26 @@ Page({
     }
     util.wxRequestPost("/sps/ParkCarbonAnalysis/getCarbonReductionComparison", "加载中...", params, 'application/json', function(res) {
       if(res.data.success){
+        var data = [];
         var yDataCarbon = []; //碳减
         var yDataCarbonL = []; //同期环比碳减
         for (let i = 0; i < res.data.result.length; i++) {
           yDataCarbon.push(res.data.result[i].totalValue);
           yDataCarbonL.push(res.data.result[i].previousValue);
           if(i==res.data.result.length-1){
-            yData.push(yDataCarbon);
-            yData.push(yDataCarbonL);
-            
-            var energyChartGen = this.selectComponent('#energy-chart-gener');
-            that.drawChart(energyChartGen, xData, yData);
+            data.push(yDataCarbon);
+            data.push(yDataCarbonL);
+            let lineData = {
+              type: 'line', titles: ['碳排', '同期环比碳排'],
+              data: data
+            }
+            var yData = [];
+            yData.push(barData);
+            yData.push(lineData);
+
+            var energyChartGen = that.selectComponent('#energy-chart-gener');
+            let titles = ['发电', '同期环比发电', '碳减', '同期环比碳减'];
+            that.drawChart(energyChartGen, titles, xData, yData, that.data.colorList);
 
             that.getPowerGenerationByDeviceType();
           }
@@ -343,7 +361,7 @@ Page({
     }, function(error) {})
   },
   // 碳减总量统计(各设备类型发电量)
-  getPowerGenerationByDeviceType(xData, yData){
+  getPowerGenerationByDeviceType(){
     let that = this;
     let params = {
       type: that.data.dateTpye,
@@ -353,14 +371,14 @@ Page({
       if(res.data.success){
         var list = res.data.result;
         for (let i = 0; i < res.data.result.length; i++) {
-          //{value: 90, name:'屋顶光伏', coo: 9, proportion: "90%"}
-          list[i].name = res.data.result.deviceTypeName;
-          list[i].value = res.data.result.generateElecTotal;
-          list[i].coo = res.data.result.carbonTotal;
+          list[i].name = res.data.result[i].deviceTypeName;
+          list[i].value = res.data.result[i].generateElecTotal;
+          list[i].coo = res.data.result[i].carbonTotal;
           if(i==res.data.result.length-1){
+            console.log(list)
             that.setData({cakeGenDataList: list});
-            var energyGenCakeChart = this.selectComponent('#energy-gen-cake');
-            that.drawCakeChart(energyGenCakeChart, this.data.cakeGenDataList);
+            var energyGenCakeChart = that.selectComponent('#energy-gen-cake');
+            that.drawCakeChart(energyGenCakeChart, that.data.cakeGenDataList);
 
             that.getBenefitTotalStatistic();
           }
@@ -375,23 +393,23 @@ Page({
       type: that.data.dateTpye,
       time: that.data.dateYear + '-' + that.data.dateMonth
     }
-    util.wxRequestPost("/sps/ParkCarbonAnalysis/getBenefitTotalstatistic", "加载中...", params, 'application/json', function(res) {
+    util.wxRequestPost("/sps/ParkCarbonAnalysis/getBenefitTotalStatistic", "加载中...", params, 'application/json', function(res) {
       if(res.data.success){
         var xData = [];
         var yData = [];
-        var yDataCarbon = []; //效益
-        var yDataCarbonL = []; //同期环比效益
+        var yDataCarbon = []; //收益
+        var yDataCarbonL = []; //同期环比收益
         for (let i = 0; i < res.data.result.length; i++) {
+          xData.push(res.data.result[i].time);
           yDataCarbon.push(res.data.result[i].totalValue);
           yDataCarbonL.push(res.data.result[i].previousValue);
           if(i==res.data.result.length-1){
             yData.push(yDataCarbon);
             yData.push(yDataCarbonL);
             
-            var moneyChart = this.selectComponent('#energy-chart-money');
-            // var yDataMoney = [[4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34],
-            // [6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36]];
-            that.drawMoneyChart(moneyChart, xData, yData);
+            var moneyChart = that.selectComponent('#energy-chart-money');
+            let titles = ['收益', '同期环比收益'];
+            that.drawMoneyChart(moneyChart, titles, that.data.colorList, xData, yData);
 
             that.getDeviceTypeRevenue()
           }
@@ -408,15 +426,16 @@ Page({
     }
     util.wxRequestPost("/sps/ParkCarbonAnalysis/getDeviceTypeRevenue", "加载中...", params, 'application/json', function(res) {
       if(res.data.success){
+        var list = res.data.result;
         for (let i = 0; i < res.data.result.length; i++) {
           //{value: 90, name:'屋顶光伏', proportion: "90%"}
-          list[i].name = res.data.result.deviceTypeName;
-          list[i].value = res.data.result.moneyTotal;
-          list[i].coo = res.data.result.treeTotal;
+          list[i].name = res.data.result[i].deviceTypeName;
+          list[i].value = res.data.result[i].moneyTotal.toFixed(2);
+          list[i].coo = res.data.result[i].treeTotal.toFixed(2);
           if(i==res.data.result.length-1){
             that.setData({cakeMoneyDataList: list});
-            var energyMoneyCakeChart = this.selectComponent('#energy-money-cake');
-            that.drawCakeChart(energyMoneyCakeChart, this.data.cakeMoneyDataList);
+            var energyMoneyCakeChart = that.selectComponent('#energy-money-cake');
+            that.drawCakeChart(energyMoneyCakeChart, that.data.cakeMoneyDataList);
           }
         }
       }
@@ -449,133 +468,87 @@ Page({
     this.setData({
       todayDate: date.getFullYear() + '.' + util.formatMD(date.getMonth() + 1) + '.' + util.formatMD(date.getDate())
     })
-    // this.getDeviceType();
-    // this.getEarningsRanking('m');
-    // this.getEarningsRanking('y');
-    // this.getEarningsRanking('');
-    // this.getGenerationStatistics();
-    // this.getComprehensivePowerMiddle();
+    this.data.dateYear = date.getFullYear();
+    this.data.dateMonth = util.formatMD(date.getMonth() + 1);
+    this.getDeviceType();
+    this.getEarningsRanking('m');
+    this.getEarningsRanking('y');
+    this.getEarningsRanking('');
+    this.getGenerationStatistics();
+    this.getComprehensivePowerMiddle();
   },
   // 绘制图形
-  drawChart(chartComponnet, xData, yData) {
-    var option = {
-      xAxis: {
-        type: 'category',
-        data: xData,
-        axisLabel:{
-          interval: 1,
-          textStyle: {fontSize: 10}
-        }
-      },
-      yAxis: {
-          type: 'value',
-          axisLabel:{
+  drawChart(chartComponnet, titles, xData, yData, color) {
+			let option = {};
+			let series = [];
+			for(let j=0; j<yData.length; j++){
+				if(yData[j].type == 'bar'){
+					// 绘制柱状图
+					for (let i = 0; i < yData[j].data.length; i++) {
+						series.push({
+							name: yData[j].titles[i],
+							type: 'bar',
+							label: {
+								show: true, position: 'top', formatter: (value, index) => { return value?.value; }
+							},
+							itemStyle: {
+								borderWidth: 1,
+								color: { type: 'linear', x: 1, y: 0, x2: 0, y2: 1, colorStops: [{ offset: 1, color: color[i] }], globalCoord: true },
+								borderRadius: [0, 0, 0, 0] //柱状图radius
+							},
+							label: {
+								show: false, //柱状图顶部是否显示数值
+								position: 'top',
+								formatter: function(params) { if (params.value == 0) { return ''; } else { return params.value; } }
+							},
+							data: yData[j].data[i]
+						})
+					}
+				} else if(yData[j].type == 'line'){
+					for (let i = 0; i < yData[j].data.length; i++) {
+						series.push({
+							name: yData[j].titles[i],
+							data: yData[j].data[i],
+							type: "line",
+							smooth: false,
+							symbol: 'circle',    //将小圆点改成实心 不写symbol默认空心
+							symbolSize: 6,       //小圆点的大小
+							itemStyle: {color: color[i]},
+							lineStyle: {width: 1, color: color[i]}
+						})
+					}
+				}
+			}
+			option = {
+				xAxis: {
+					type: 'category',
+					axisLabel:{
+            interval: xData.length>5?1:xData.length>11?2:xData.length>17?3:xData.length>25?4:0,
             textStyle: {fontSize: 10}
-          }
-      },
-      series: [{
-        type: 'bar',
-        label:{show: true, position: 'top', formatter: (value,index)=> { return value?.value;}},
-        itemStyle: {
-          normal: {
-            borderWidth: 1,
-            color: { type: 'linear', x: 1, y: 0, x2: 0,  y2: 1,colorStops: [{offset: 1,color: '#18B6A2'}],globalCoord: true},
-            barBorderRadius: [0, 0, 0, 0], //柱状图radius
-            label: {
-              show: false, //柱状图顶部是否显示数值
-              position: 'top',
-              textStyle: {color: '#222222'},
-              formatter: function (params) {
-                if (params.value == 0) {
-                  return '';
-                } else {
-                  return params.value;
-                }
-              }
-            },
           },
-        },
-        data: yData[0]
-      },{
-        type: 'bar',
-        label:{show: true, position: 'top',formatter: (value,index)=> {return value?.value;}},
-        itemStyle: {
-          normal: {
-            borderWidth: 1,
-            color: { type: 'linear',colorStops: [{offset: 1,color: '#FFA63D'}],globalCoord: true},
-            barBorderRadius: [0, 0, 0, 0], //柱状图radius
-            label: {
-              show: false, //柱状图顶部是否显示数值
-              position: 'top',
-              textStyle: {color: '#222222'},
-              formatter: function (params) {
-                if (params.value == 0) {
-                  return '';
-                } else {
-                  return params.value;
-                }
-              }
-            },
-          },
-        },
-        data: yData[1]
-      },{
-        name: '碳排',
-        data: yData[2],
-        type: 'line',
-        smooth: false,
-        itemStyle: {
-          normal: {
-            lineStyle: {
-              width: 1,//折线宽度
-              color: "#FFA63D"//折线颜色
-            },
-            color: '#FFA63D',//拐点颜色
-            borderColor: '#000000',//拐点边框颜色
-            borderWidth: 0.5//拐点边框大小
-          },
-          emphasis: {
-            color: '#000000'
-          }
-        }
-      },{
-        name: '碳减',
-        data: yData[3],
-        type: 'line',
-        smooth: false,
-        itemStyle: {
-          normal: {
-            lineStyle: {
-              width: 2,//折线宽度
-              color: "#18B6A2"//折线颜色
-            },
-            color: '#18B6A2',//拐点颜色
-            borderColor: '#000000',//拐点边框颜色
-            borderWidth: 0.5//拐点边框大小
-          },
-          emphasis: {
-            color: '#000000'
-          }
-        }
-      }],
-      grid:{
-        x: 48,  //距离左边
-        x2: 24, //距离右边
-        y:24,   //距离上边
-        y2:24,  //距离下边
-      }
-    };
-    var dpr = util.getPixelRatio()
-    if (chartComponnet) {
-      chartComponnet.init((canvas, width, height) => {
-        const chart = echarts.init(canvas, null, {
-          width: width,
-          height: height,
-          devicePixelRatio: dpr
-        }); 
-        chart.setOption(option, true);
-        return chart;
-      });
+					axisTick: {
+						show: true, inside: true, length: 0,     
+						lineStyle: { color: '#FE9800', width: 2, type: 'dotted' }
+					},
+					data: xData
+				},
+				yAxis: { type: 'value' },
+				tooltip: { trigger: "axis" },
+				legend: {data: titles, top: 12},
+				series: series,
+				grid: { x: 48, x2: 24, y: 48, y2: 24 } //左右上下
+      };
+      var dpr = util.getPixelRatio()
+      if (chartComponnet) {
+        chartComponnet.init((canvas, width, height) => {
+          const chart = echarts.init(canvas, null, {
+            width: width,
+            height: height,
+            devicePixelRatio: dpr
+          }); 
+          chart.setOption(option, true);
+          return chart;
+        });
     }
   },
   // 绘制圆饼图
@@ -609,13 +582,36 @@ Page({
     }
   },
   // 绘制收益折线图
-  drawMoneyChart(chartComponnet, xData, yData) {
+  drawMoneyChart(chartComponnet, titles, colors, xData, yData) {
+    var series =[];
+    for (let i = 0; i < yData.length; i++) {
+      series.push({
+        name: titles[i],
+        data: yData[i],
+        type: 'line',
+        smooth: false,
+        itemStyle: {
+          normal: {
+            lineStyle: {
+              width: 2,//折线宽度
+              color: colors[i] //折线颜色
+            },
+            color: colors[i],//拐点颜色
+            borderColor: colors[i],//拐点边框颜色
+            borderWidth: 0.5//拐点边框大小
+          },
+          emphasis: {
+            color: '#000000'
+          }
+        }
+      })
+    }
     var option = {
       xAxis: {
         type: 'category',
         data: xData,
         axisLabel:{
-          interval: 1,
+          interval: xData.length>5?1:xData.length>11?2:xData.length>17?3:xData.length>25?4:0,
           textStyle: {fontSize: 10}
         }
       },
@@ -625,45 +621,8 @@ Page({
             textStyle: {fontSize: 10}
           }
       },
-      series: [{
-        name: '收益',
-        data: yData[0],
-        type: 'line',
-        smooth: false,
-        itemStyle: {
-          normal: {
-            lineStyle: {
-              width: 2,//折线宽度
-              color: "#18B6A2"//折线颜色
-            },
-            color: '#18B6A2',//拐点颜色
-            borderColor: '#000000',//拐点边框颜色
-            borderWidth: 0.5//拐点边框大小
-          },
-          emphasis: {
-            color: '#000000'
-          }
-        }
-      },{
-        name: '同期环比收益',
-        data: yData[1],
-        type: 'line',
-        smooth: false,
-        itemStyle: {
-          normal: {
-            lineStyle: {
-              width: 2,//折线宽度
-              color: "#FFA63D"//折线颜色
-            },
-            color: '#FFA63D',//拐点颜色
-            borderColor: '#000000',//拐点边框颜色
-            borderWidth: 0.5//拐点边框大小
-          },
-          emphasis: {
-            color: '#000000'
-          }
-        }
-      }],
+      legend: {data: titles, top: 1},
+      series: series,
       grid:{
         x: 48,  //距离左边
         x2: 24, //距离右边
@@ -683,5 +642,5 @@ Page({
         return chart;
       });
     }
-  },
+  }
 })

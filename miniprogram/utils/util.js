@@ -60,6 +60,7 @@ export const wxRequestGet = (url, title, parmas, contentType, successCallback, f
       successCallback(res.data);
     },
     fail: function(error) {
+      console.log(error);
       wx.hideLoading();
       wx.showToast({
         title: (error.data && error.data.message) || "请求失败"
