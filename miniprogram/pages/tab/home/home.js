@@ -188,7 +188,7 @@ Page({
     });
     this.getTotalPowerConsumption();
   },
-  // 用电、同期环比用电
+  // 用电、环比用电
   getTotalPowerConsumption(){
     let that = this;
     let params = {
@@ -200,7 +200,7 @@ Page({
         var xData = [];
         var data = [];
         var yDataPower = []; //用电
-        var yDataPowerL = []; //同期环比用电
+        var yDataPowerL = []; //环比用电
         for (let i = 0; i < res.data.result.length; i++) {
           xData.push(res.data.result[i].time);
           yDataPower.push(res.data.result[i].totalValue);
@@ -209,7 +209,7 @@ Page({
             data.push(yDataPower);
             data.push(yDataPowerL);
             let barData = {
-              type: 'bar', titles: ['用电', '同期环比用电'],
+              type: 'bar', titles: ['用电', '环比用电'],
               data: data
             }
             that.getTotalCarbonEmissions(xData, barData);
@@ -218,7 +218,7 @@ Page({
       }
     }, function(error) {})
   },
-  // 碳排、同期环比碳排
+  // 碳排、环比碳排
   getTotalCarbonEmissions(xData, barData){
     let that = this;
     let params = {
@@ -229,7 +229,7 @@ Page({
       if(res.data.success){
         var data = [];
         var yDataCarbon = []; //碳排
-        var yDataCarbonL = []; //同期环比碳排
+        var yDataCarbonL = []; //环比碳排
         for (let i = 0; i < res.data.result.length; i++) {
           yDataCarbon.push(res.data.result[i].totalValue);
           yDataCarbonL.push(res.data.result[i].previousValue);
@@ -237,14 +237,14 @@ Page({
             data.push(yDataCarbon);
             data.push(yDataCarbonL);
             let lineData = {
-              type: 'line', titles: ['碳排', '同期环比碳排'],
+              type: 'line', titles: ['碳排', '环比碳排'],
               data: data
             }
             var yData = [];
             yData.push(barData);
             yData.push(lineData);
 
-            let titles = ['用电', '同期环比用电', '碳排', '同期环比碳排'];
+            let titles = ['用电', '环比用电', '碳排', '环比碳排'];
             var energyChart = that.selectComponent('#energy-chart');
             that.drawChart(energyChart, titles, xData, yData, that.data.colorList);
             that.getElectricityConsumptionRatio();
@@ -294,7 +294,7 @@ Page({
       }
     }, function(error) {})
   },
-  // 发电、同期环比发电
+  // 发电、环比发电
   getPowerGenerationComparison(){
     let that = this;
     let params = {
@@ -306,7 +306,7 @@ Page({
         var data = [];
         var xData = [];
         var yDataPower = []; //发电
-        var yDataPowerL = []; //同期环比发电
+        var yDataPowerL = []; //环比发电
         for (let i = 0; i < res.data.result.length; i++) {
           xData.push(res.data.result[i].time);
           yDataPower.push(res.data.result[i].totalValue);
@@ -315,7 +315,7 @@ Page({
             data.push(yDataPower);
             data.push(yDataPowerL);
             let barData = {
-              type: 'bar', titles: ['发电', '同期环比发电'],
+              type: 'bar', titles: ['发电', '环比发电'],
               data: data
             }
             that.getCarbonReductionComparison(xData, barData);
@@ -324,7 +324,7 @@ Page({
       }
     }, function(error) {})
   },
-  // 碳减、同期环比碳减
+  // 碳减、环比碳减
   getCarbonReductionComparison(xData, barData){
     let that = this;
     let params = {
@@ -335,7 +335,7 @@ Page({
       if(res.data.success){
         var data = [];
         var yDataCarbon = []; //碳减
-        var yDataCarbonL = []; //同期环比碳减
+        var yDataCarbonL = []; //环比碳减
         for (let i = 0; i < res.data.result.length; i++) {
           yDataCarbon.push(res.data.result[i].totalValue);
           yDataCarbonL.push(res.data.result[i].previousValue);
@@ -343,16 +343,16 @@ Page({
             data.push(yDataCarbon);
             data.push(yDataCarbonL);
             let lineData = {
-              type: 'line', titles: ['碳排', '同期环比碳排'],
+              type: 'line', titles: ['碳减', '环比碳减'],
               data: data
             }
             var yData = [];
             yData.push(barData);
             yData.push(lineData);
 
+            let energyTitles = ['发电', '环比发电', '碳减', '环比碳减'];
             var energyChartGen = that.selectComponent('#energy-chart-gener');
-            let titles = ['发电', '同期环比发电', '碳减', '同期环比碳减'];
-            that.drawChart(energyChartGen, titles, xData, yData, that.data.colorList);
+            that.drawChart(energyChartGen, energyTitles, xData, yData, that.data.colorList);
 
             that.getPowerGenerationByDeviceType();
           }
@@ -375,7 +375,6 @@ Page({
           list[i].value = res.data.result[i].generateElecTotal;
           list[i].coo = res.data.result[i].carbonTotal;
           if(i==res.data.result.length-1){
-            console.log(list)
             that.setData({cakeGenDataList: list});
             var energyGenCakeChart = that.selectComponent('#energy-gen-cake');
             that.drawCakeChart(energyGenCakeChart, that.data.cakeGenDataList);
@@ -398,7 +397,7 @@ Page({
         var xData = [];
         var yData = [];
         var yDataCarbon = []; //收益
-        var yDataCarbonL = []; //同期环比收益
+        var yDataCarbonL = []; //环比收益
         for (let i = 0; i < res.data.result.length; i++) {
           xData.push(res.data.result[i].time);
           yDataCarbon.push(res.data.result[i].totalValue);
@@ -408,7 +407,7 @@ Page({
             yData.push(yDataCarbonL);
             
             var moneyChart = that.selectComponent('#energy-chart-money');
-            let titles = ['收益', '同期环比收益'];
+            let titles = ['收益', '环比收益'];
             that.drawMoneyChart(moneyChart, titles, that.data.colorList, xData, yData);
 
             that.getDeviceTypeRevenue()
@@ -523,7 +522,11 @@ Page({
 				xAxis: {
 					type: 'category',
 					axisLabel:{
-            interval: xData.length>5?1:xData.length>11?2:xData.length>17?3:xData.length>25?4:0,
+            function (index, value) {
+              console.log(index+ '-'+ value);
+              // 总是显示第一个和最后一个标签
+              return index === 0 || index === xData.length - 1;
+            },
             textStyle: {fontSize: 10}
           },
 					axisTick: {
@@ -611,8 +614,11 @@ Page({
         type: 'category',
         data: xData,
         axisLabel:{
-          interval: xData.length>5?1:xData.length>11?2:xData.length>17?3:xData.length>25?4:0,
-          textStyle: {fontSize: 10}
+          function (index, value) { 
+            // 总是显示第一个和最后一个标签
+            return index === 0 || index === xData.length - 1;
+          },
+          textStyle: {fontSize: 9}
         }
       },
       yAxis: {
@@ -621,6 +627,7 @@ Page({
             textStyle: {fontSize: 10}
           }
       },
+      tooltip: { trigger: "axis" },
       legend: {data: titles, top: 1},
       series: series,
       grid:{

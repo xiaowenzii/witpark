@@ -11,10 +11,6 @@ export const wxRequestPost = (url, title, parmas, contentType, successCallback, 
   if(wx.getStorageSync('token') != null){
     token = wx.getStorageSync('token');
   }
-  wx.showLoading({
-      title: title,
-      mask: true
-  });
   wx.request({
     url: requestUrl, 
     header: {'content-type': contentType, 'X-Tenant-Id': XTenantId, 'X-Access-Token': token},
@@ -46,10 +42,6 @@ export const wxRequestGet = (url, title, parmas, contentType, successCallback, f
   if(wx.getStorageSync('token') != null){
     token = wx.getStorageSync('token');
   }
-  wx.showLoading({
-      title: title,
-      mask: true
-  });
   wx.request({
     url: requestUrl,
     header: {'content-type': contentType, 'X-Tenant-Id': XTenantId, 'X-Access-Token': token},
@@ -83,10 +75,6 @@ export const wxRequestPut = (url, title, parmas, contentType, successCallback, f
   if(wx.getStorageSync('token') != null){
     token = wx.getStorageSync('token');
   }
-  wx.showLoading({
-      title: title,
-      mask: true
-  });
   wx.request({
     url: requestUrl, 
     header: {'content-type': contentType, 'X-Tenant-Id': XTenantId, 'X-Access-Token': token},
@@ -111,10 +99,6 @@ export const wxRequestPut = (url, title, parmas, contentType, successCallback, f
 //文件下载
 export const downloadFile = (url, title, successCallback, failCallback) => {
   var requestUrl = baseUrl + url;
-  wx.showLoading({
-      title: title,
-      mask: true
-  });
   wx.downloadFile({
     url: requestUrl,
     success: function(res) {
