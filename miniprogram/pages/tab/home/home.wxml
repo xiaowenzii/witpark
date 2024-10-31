@@ -184,8 +184,9 @@
     </view>
 
     <view class="date-select-view">
-      <view class="date-view" style="color: {{dateTpye=='m'?'#FFFFFF':'none'}};background-color: {{dateTpye=='m'?'#18B6A2':'none'}};" data-index="m" bind:tap="selectDateType">月数据</view>
-      <view class="date-view" style="margin-left: 36rpx;color: {{dateTpye=='y'?'#FFFFFF':'none'}};background-color: {{dateTpye=='y'?'#18B6A2':'none'}};" data-index="y" bind:tap="selectDateType">年数据</view>
+      <view class="date-view" style="color: {{dateTpye=='seven'?'#FFFFFF':'none'}};background-color: {{dateTpye=='seven'?'#18B6A2':'none'}};" data-index="seven" bind:tap="selectDateType">近7日</view>
+      <view class="date-view" style="color: {{dateTpye=='m'?'#FFFFFF':'none'}};background-color: {{dateTpye=='m'?'#18B6A2':'none'}};" data-index="m" bind:tap="selectDateType">月</view>
+      <view class="date-view" style="margin-left: 36rpx;color: {{dateTpye=='y'?'#FFFFFF':'none'}};background-color: {{dateTpye=='y'?'#18B6A2':'none'}};" data-index="y" bind:tap="selectDateType">年</view>
       
       <view class='select_box'>
         <view class='select' data-item="y" catchtap='selectTap'>
@@ -216,17 +217,12 @@
       </view>
 
       <view style="width: 100%;margin-top: 24rpx;display: flex;flex-direction: row;flex-wrap: wrap;font-size: 20rpx;">
-        <view wx:for="{{cakeDataList}}" wx:key="index" style="display: flex;flex-direction: row;margin: 12rpx;margin-left: 24rpx;">
-          <view style="height: 24rpx;width: 24rpx;background-color: {{colorList[index]}};margin-top: 6rpx;"></view>
+        <view wx:for="{{cakeDataList}}" wx:key="index" style="display: flex;flex-direction: row;margin: 12rpx 0;width: 50%;align-items: center;">
+          <view class="energy-power-rank" style="background-color: {{colorList[index]}};">{{index+1}}</view>
           <text style="margin-left: 12rpx;">{{item.name}}</text>
-          <text style="margin-left: 18rpx;">{{item.value}}kWh</text>
-          <text style="margin-left: 18rpx;">{{item.proportion}}%</text>
+          <text style="margin-left: 12rpx;">{{item.value}}<text style="color: #C4C4C4;margin-left: 3px;">kWh</text></text>
+          <text style="margin-left: 12rpx;">{{item.proportion}}%</text>
         </view>
-      </view>
-
-      <!-- 用电占比 -->
-      <view style="height: 360rpx;width: 100%;margin-top: 18rpx;">
-        <ec-canvas id="energy-cake" ec="{{ cakeChart }}" type='2d'></ec-canvas>
       </view>
     </view>
 
@@ -238,17 +234,12 @@
       </view>
 
       <view style="width: 100%;margin-top: 24rpx;display: flex;flex-direction: row;flex-wrap: wrap;font-size: 20rpx;">
-        <view wx:for="{{cakeGenDataList}}" wx:key="index" style="display: flex;flex-direction: row;margin: 12rpx;margin-left: 24rpx;">
+        <view wx:for="{{cakeGenDataList}}" wx:key="index" style="display: flex;flex-direction: row;margin: 12rpx;align-items: center;">
           <view style="height: 24rpx;width: 24rpx;background-color: {{colorList[index]}};margin-top: 6rpx;"></view>
           <text style="margin-left: 12rpx;">{{item.name}}</text>
-          <text style="margin-left: 18rpx;">{{item.value}}kWh</text>
-          <text style="margin-left: 18rpx;">CO₂ : {{item.coo}}吨</text>
+          <text style="margin-left: 12rpx;">{{item.value}}<text style="color: #C4C4C4;margin-left: 3px;">kWh</text></text>
+          <text style="margin-left: 12rpx;">CO₂ : {{item.coo}}<text style="color: #C4C4C4;margin-left: 3px;">吨</text></text>
         </view>
-      </view>
-
-      <!-- 发电占比 -->
-      <view style="height: 360rpx;width: 100%;margin-top: 18rpx;">
-        <ec-canvas id="energy-gen-cake" ec="{{ cakeGenChart }}" type='2d'></ec-canvas>
       </view>
     </view>
 
@@ -265,12 +256,6 @@
           <text style="margin-left: 18rpx;">{{item.value}}元</text>
         </view>
       </view>
-
-      <!-- 收益占比 -->
-      <view style="height: 360rpx;width: 100%;margin-top: 18rpx;">
-        <ec-canvas id="energy-money-cake" ec="{{ cakeMoneyChart }}" type='2d'></ec-canvas>
-      </view>
     </view>
-
   </view>
 </view>

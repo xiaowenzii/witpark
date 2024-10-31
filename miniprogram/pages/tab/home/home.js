@@ -14,6 +14,10 @@ Page({
     allUsepower: 0,
     allCreatePower: 0,
     dateTpye: 'm',
+    currentDate: {
+      y: '',
+      m: ''
+    },
     dateYear: '',
     dateMonth: '',
     ec: {
@@ -144,6 +148,19 @@ Page({
   // 选择时间类别，年或者月
   selectDateType(res){
     var index = res.currentTarget.dataset.index;
+    if(index=='seven'){
+      var yearList = this.data.yearList;
+      var monthList = this.data.monthList;
+      yearList.selected = yearList.list.findIndex(item => item.id === this.data.currentDate.y+'');
+      monthList.selected = monthList.list.findIndex(item => item.id === this.data.currentDate.m+'');
+      this.setData({
+        dateYear: this.data.currentDate.y,
+        dateMonth: this.data.currentDate.m,
+        yearList: yearList,
+        monthList: monthList
+      })
+    }
+    
     this.setData({
       dateTpye: index
     })
@@ -192,11 +209,11 @@ Page({
   getTotalPowerConsumption(){
     let that = this;
     let params = {
-      type: that.data.dateTpye,
-      time: that.data.dateYear + '-' + that.data.dateMonth
+      type: that.data.dateTpye=='seven'?'m':that.data.dateTpye,
+      time: that.data.dateTpye=='y'?that.data.dateYear:(that.data.dateYear + '-' + that.data.dateMonth)
     }
     util.wxRequestPost("/sps/ParkCarbonAnalysis/getTotalPowerConsumption", "加载中...", params, 'application/json', function(res) {
-      if(res.data.success){
+     if(res.data.success){
         var xData = [];
         var data = [];
         var yDataPower = []; //用电
@@ -222,8 +239,8 @@ Page({
   getTotalCarbonEmissions(xData, barData){
     let that = this;
     let params = {
-      type: that.data.dateTpye,
-      time: that.data.dateYear + '-' + that.data.dateMonth
+      type: that.data.dateTpye=='seven'?'m':that.data.dateTpye,
+      time: that.data.dateTpye=='y'?that.data.dateYear:(that.data.dateYear + '-' + that.data.dateMonth)
     }
     util.wxRequestPost("/sps/ParkCarbonAnalysis/getTotalCarbonEmissions", "加载中...", params, 'application/json', function(res) {
       if(res.data.success){
@@ -246,7 +263,15 @@ Page({
 
             let titles = ['用电', '环比用电', '碳排', '环比碳排'];
             var energyChart = that.selectComponent('#energy-chart');
-            that.drawChart(energyChart, titles, xData, yData, that.data.colorList);
+            let isSevenXData = that.data.dateTpye=='seven'?xData.slice(-7):xData;
+            let isSevenYData = yData;
+            if(that.data.dateTpye=='seven'){
+              isSevenYData[0].data[0] = yData[0].data[0].slice(-7);
+              isSevenYData[0].data[1] = yData[0].data[1].slice(-7);
+              isSevenYData[1].data[0] = yData[1].data[0].slice(-7);
+              isSevenYData[1].data[1] = yData[1].data[1].slice(-7);
+            }
+            that.drawChart(energyChart, titles, isSevenXData, isSevenYData, that.data.colorList);
             that.getElectricityConsumptionRatio();
           }
         }
@@ -257,8 +282,8 @@ Page({
   getElectricityConsumptionRatio(){
     let that = this;
     let params = {
-      type: that.data.dateTpye,
-      time: that.data.dateYear + '-' + that.data.dateMonth
+      type: that.data.dateTpye=='seven'?'m':that.data.dateTpye,
+      time: that.data.dateTpye=='y'?that.data.dateYear:(that.data.dateYear + '-' + that.data.dateMonth)
     }
     util.wxRequestPost("/sps/ParkCarbonAnalysis/getElectricityConsumptionRatio", "加载中...", params, 'application/json', function(res) {
       if(res.data.success){
@@ -270,8 +295,8 @@ Page({
   geCarbonConsumptionRatio(elecDataList){
     let that = this;
     let params = {
-      type: that.data.dateTpye,
-      time: that.data.dateYear + '-' + that.data.dateMonth
+      type: that.data.dateTpye=='seven'?'m':that.data.dateTpye,
+      time: that.data.dateTpye=='y'?that.data.dateYear:(that.data.dateYear + '-' + that.data.dateMonth)
     }
     util.wxRequestPost("/sps/ParkCarbonAnalysis/geCarbonConsumptionRatio", "加载中...", params, 'application/json', function(res) {
       if(res.data.success){
@@ -285,9 +310,6 @@ Page({
           }
           if(i==res.data.result.proportion.length-1){
             that.setData({cakeDataList: list});
-            // 用电，碳排，百分比
-            var energyCakeChart = that.selectComponent('#energy-cake');
-            that.drawCakeChart(energyCakeChart, that.data.cakeDataList);
             that.getPowerGenerationComparison();
           }
         }
@@ -298,8 +320,8 @@ Page({
   getPowerGenerationComparison(){
     let that = this;
     let params = {
-      type: that.data.dateTpye,
-      time: that.data.dateYear + '-' + that.data.dateMonth
+      type: that.data.dateTpye=='seven'?'m':that.data.dateTpye,
+      time: that.data.dateTpye=='y'?that.data.dateYear:(that.data.dateYear + '-' + that.data.dateMonth)
     }
     util.wxRequestPost("/sps/ParkCarbonAnalysis/getPowerGenerationComparison", "加载中...", params, 'application/json', function(res) {
       if(res.data.success){
@@ -328,8 +350,8 @@ Page({
   getCarbonReductionComparison(xData, barData){
     let that = this;
     let params = {
-      type: that.data.dateTpye,
-      time: that.data.dateYear + '-' + that.data.dateMonth
+      type: that.data.dateTpye=='seven'?'m':that.data.dateTpye,
+      time: that.data.dateTpye=='y'?that.data.dateYear:(that.data.dateYear + '-' + that.data.dateMonth)
     }
     util.wxRequestPost("/sps/ParkCarbonAnalysis/getCarbonReductionComparison", "加载中...", params, 'application/json', function(res) {
       if(res.data.success){
@@ -352,8 +374,15 @@ Page({
 
             let energyTitles = ['发电', '环比发电', '碳减', '环比碳减'];
             var energyChartGen = that.selectComponent('#energy-chart-gener');
-            that.drawChart(energyChartGen, energyTitles, xData, yData, that.data.colorList);
-
+            let isSevenXData = that.data.dateTpye=='seven'?xData.slice(-7):xData;
+            let isSevenYData = yData;
+            if(that.data.dateTpye=='seven'){
+              isSevenYData[0].data[0] = yData[0].data[0].slice(-7);
+              isSevenYData[0].data[1] = yData[0].data[1].slice(-7);
+              isSevenYData[1].data[0] = yData[1].data[0].slice(-7);
+              isSevenYData[1].data[1] = yData[1].data[1].slice(-7);
+            }
+            that.drawChart(energyChartGen, energyTitles, isSevenXData, isSevenYData, that.data.colorList);
             that.getPowerGenerationByDeviceType();
           }
         }
@@ -364,8 +393,8 @@ Page({
   getPowerGenerationByDeviceType(){
     let that = this;
     let params = {
-      type: that.data.dateTpye,
-      time: that.data.dateYear + '-' + that.data.dateMonth
+      type: that.data.dateTpye=='seven'?'m':that.data.dateTpye,
+      time: that.data.dateTpye=='y'?that.data.dateYear:(that.data.dateYear + '-' + that.data.dateMonth)
     }
     util.wxRequestPost("/sps/ParkCarbonAnalysis/getPowerGenerationByDeviceType", "加载中...", params, 'application/json', function(res) {
       if(res.data.success){
@@ -376,9 +405,6 @@ Page({
           list[i].coo = res.data.result[i].carbonTotal;
           if(i==res.data.result.length-1){
             that.setData({cakeGenDataList: list});
-            var energyGenCakeChart = that.selectComponent('#energy-gen-cake');
-            that.drawCakeChart(energyGenCakeChart, that.data.cakeGenDataList);
-
             that.getBenefitTotalStatistic();
           }
         }
@@ -389,8 +415,8 @@ Page({
   getBenefitTotalStatistic(){
     let that = this;
     let params = {
-      type: that.data.dateTpye,
-      time: that.data.dateYear + '-' + that.data.dateMonth
+      type: that.data.dateTpye=='seven'?'m':that.data.dateTpye,
+      time: that.data.dateTpye=='y'?that.data.dateYear:(that.data.dateYear + '-' + that.data.dateMonth)
     }
     util.wxRequestPost("/sps/ParkCarbonAnalysis/getBenefitTotalStatistic", "加载中...", params, 'application/json', function(res) {
       if(res.data.success){
@@ -408,8 +434,13 @@ Page({
             
             var moneyChart = that.selectComponent('#energy-chart-money');
             let titles = ['收益', '环比收益'];
-            that.drawMoneyChart(moneyChart, titles, that.data.colorList, xData, yData);
-
+            let isSevenXData = that.data.dateTpye=='seven'?xData.slice(-7):xData;
+            let isSevenYData = yData;
+            if(that.data.dateTpye=='seven'){
+              isSevenYData[0] = yData[0].slice(-7);
+              isSevenYData[1] = yData[1].slice(-7);
+            }
+            that.drawMoneyChart(moneyChart, titles, that.data.colorList, isSevenXData, isSevenYData);
             that.getDeviceTypeRevenue()
           }
         }
@@ -420,8 +451,8 @@ Page({
   getDeviceTypeRevenue(){
     let that = this;
     let params = {
-      type: that.data.dateTpye,
-      time: that.data.dateYear + '-' + that.data.dateMonth
+      type: that.data.dateTpye=='seven'?'m':that.data.dateTpye,
+      time: that.data.dateTpye=='y'?that.data.dateYear:(that.data.dateYear + '-' + that.data.dateMonth)
     }
     util.wxRequestPost("/sps/ParkCarbonAnalysis/getDeviceTypeRevenue", "加载中...", params, 'application/json', function(res) {
       if(res.data.success){
@@ -433,8 +464,6 @@ Page({
           list[i].coo = res.data.result[i].treeTotal.toFixed(2);
           if(i==res.data.result.length-1){
             that.setData({cakeMoneyDataList: list});
-            var energyMoneyCakeChart = that.selectComponent('#energy-money-cake');
-            that.drawCakeChart(energyMoneyCakeChart, that.data.cakeMoneyDataList);
           }
         }
       }
@@ -469,6 +498,8 @@ Page({
     })
     this.data.dateYear = date.getFullYear();
     this.data.dateMonth = util.formatMD(date.getMonth() + 1);
+    this.data.currentDate.y = this.data.dateYear;
+    this.data.currentDate.m = this.data.dateMonth;
     this.getDeviceType();
     this.getEarningsRanking('m');
     this.getEarningsRanking('y');
@@ -478,98 +509,71 @@ Page({
   },
   // 绘制图形
   drawChart(chartComponnet, titles, xData, yData, color) {
-			let option = {};
-			let series = [];
-			for(let j=0; j<yData.length; j++){
-				if(yData[j].type == 'bar'){
-					// 绘制柱状图
-					for (let i = 0; i < yData[j].data.length; i++) {
-						series.push({
-							name: yData[j].titles[i],
-							type: 'bar',
-							label: {
-								show: true, position: 'top', formatter: (value, index) => { return value?.value; }
-							},
-							itemStyle: {
-								borderWidth: 1,
-								color: { type: 'linear', x: 1, y: 0, x2: 0, y2: 1, colorStops: [{ offset: 1, color: color[i] }], globalCoord: true },
-								borderRadius: [0, 0, 0, 0] //柱状图radius
-							},
-							label: {
-								show: false, //柱状图顶部是否显示数值
-								position: 'top',
-								formatter: function(params) { if (params.value == 0) { return ''; } else { return params.value; } }
-							},
-							data: yData[j].data[i]
-						})
-					}
-				} else if(yData[j].type == 'line'){
-					for (let i = 0; i < yData[j].data.length; i++) {
-						series.push({
-							name: yData[j].titles[i],
-							data: yData[j].data[i],
-							type: "line",
-							smooth: false,
-							symbol: 'circle',    //将小圆点改成实心 不写symbol默认空心
-							symbolSize: 6,       //小圆点的大小
-							itemStyle: {color: color[i]},
-							lineStyle: {width: 1, color: color[i]}
-						})
-					}
-				}
-			}
-			option = {
-				xAxis: {
-					type: 'category',
-					axisLabel:{
-            function (index, value) {
-              console.log(index+ '-'+ value);
-              // 总是显示第一个和最后一个标签
-              return index === 0 || index === xData.length - 1;
+    let option = {};
+    let series = [];
+    for(let j=0; j<yData.length; j++){
+      if(yData[j].type == 'bar'){
+        // 绘制柱状图
+        for (let i = 0; i < yData[j].data.length; i++) {
+          series.push({
+            name: yData[j].titles[i],
+            type: 'bar',
+            label: {
+              show: true, position: 'top', formatter: (value, index) => { return value?.value; }
             },
-            textStyle: {fontSize: 10}
-          },
-					axisTick: {
-						show: true, inside: true, length: 0,     
-						lineStyle: { color: '#FE9800', width: 2, type: 'dotted' }
-					},
-					data: xData
-				},
-				yAxis: { type: 'value' },
-				tooltip: { trigger: "axis" },
-				legend: {data: titles, top: 12},
-				series: series,
-				grid: { x: 48, x2: 24, y: 48, y2: 24 } //左右上下
-      };
-      var dpr = util.getPixelRatio()
-      if (chartComponnet) {
-        chartComponnet.init((canvas, width, height) => {
-          const chart = echarts.init(canvas, null, {
-            width: width,
-            height: height,
-            devicePixelRatio: dpr
-          }); 
-          chart.setOption(option, true);
-          return chart;
-        });
+            itemStyle: {
+              borderWidth: 1,
+              color: { 
+                type: 'linear', x: 1, y: 0, x2: 0, y2: 1, 
+                colorStops: [{ offset: 1, color: color[i]+'48' }], globalCoord: true 
+              },
+              borderRadius: [0, 0, 0, 0] //柱状图radius
+            },
+            label: {
+              show: false, //柱状图顶部是否显示数值
+              position: 'top',
+              formatter: function(params) { if (params.value == 0) { return ''; } else { return params.value; } }
+            },
+            data: yData[j].data[i]
+          })
+        }
+      } else if(yData[j].type == 'line'){
+        for (let i = 0; i < yData[j].data.length; i++) {
+          series.push({
+            name: yData[j].titles[i],
+            data: yData[j].data[i],
+            type: "line",
+            smooth: false,
+            symbol: 'circle',    //将小圆点改成实心 不写symbol默认空心
+            symbolSize: 6,       //小圆点的大小
+            itemStyle: {color: color[i]},
+            lineStyle: {width: yData[j].titles[i].includes("环比")?1:2, color: color[i]}
+          })
+        }
+      }
     }
-  },
-  // 绘制圆饼图
-  drawCakeChart(chartComponnet, dataList){
-    let colorList = this.data.colorList;
-    var option = {
-      series: [{
-        type: 'pie',
-        radius: ['0%','80%'],
-        color: colorList,
-        data: dataList.map((item, index) => {
-          item.label = {
-            color: colorList[index],
-            color: 'inherit'
-          }
-          return item
-        })
-      }]
+    option = {
+      xAxis: {
+        type: 'category',
+        axisLabel:{
+          function (index, value) {
+            console.log(index+ '-'+ value);
+            // 总是显示第一个和最后一个标签
+            return index === 0 || index === xData.length - 1;
+          },
+          textStyle: {fontSize: 10}
+        },
+        axisTick: {
+          show: true, inside: true, length: 0,     
+          lineStyle: { color: '#FE9800', width: 2, type: 'dotted' }
+        },
+        data: xData
+      },
+      yAxis: { type: 'value' },
+      tooltip: { trigger: "axis" },
+      legend: {data: titles, top: 12},
+      series: series,
+      grid: { x: 48, x2: 24, y: 48, y2: 24 } //左右上下
     };
     var dpr = util.getPixelRatio()
     if (chartComponnet) {
@@ -593,15 +597,17 @@ Page({
         data: yData[i],
         type: 'line',
         smooth: false,
+        symbol: 'circle',
+        symbolSize: 6,
         itemStyle: {
           normal: {
             lineStyle: {
-              width: 2,//折线宽度
-              color: colors[i] //折线颜色
+              width: titles[i].includes("环比")?2:3,//折线宽度
+              color: titles[i].includes("环比")?(colors[i]+'48'):colors[i] //折线颜色
             },
             color: colors[i],//拐点颜色
             borderColor: colors[i],//拐点边框颜色
-            borderWidth: 0.5//拐点边框大小
+            borderWidth: 2//拐点边框大小
           },
           emphasis: {
             color: '#000000'
