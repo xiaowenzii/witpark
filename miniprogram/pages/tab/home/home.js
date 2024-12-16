@@ -90,11 +90,11 @@ Page({
     util.wxRequestGet("/sps/bigscreen1/getEarningsRanking", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
       if(res.success){
         if(type=='m'){
-          that.setData({mEarn: parseFloat(res.result.totalMoney).toFixed(2)});
+          that.setData({mEarn: (parseFloat(res.result.totalMoney)/10000).toFixed(3)});
         }else if(type=='y'){
-          that.setData({yEarn: parseFloat(res.result.totalMoney).toFixed(2)});
+          that.setData({yEarn: (parseFloat(res.result.totalMoney)/10000).toFixed(3)});
         }else{
-          that.setData({allEarn: parseFloat(res.result.totalMoney).toFixed(2)});
+          that.setData({allEarn: (parseFloat(res.result.totalMoney)/10000).toFixed(3)});
         }
       }
     }, function(error) {})
@@ -310,165 +310,165 @@ Page({
           }
           if(i==res.data.result.proportion.length-1){
             that.setData({cakeDataList: list});
-            that.getPowerGenerationComparison();
+            //that.getPowerGenerationComparison();
           }
         }
       }
     }, function(error) {})
   },
   // 发电、环比发电
-  getPowerGenerationComparison(){
-    let that = this;
-    let params = {
-      type: that.data.dateTpye=='seven'?'m':that.data.dateTpye,
-      time: that.data.dateTpye=='y'?that.data.dateYear:(that.data.dateYear + '-' + that.data.dateMonth)
-    }
-    util.wxRequestPost("/sps/ParkCarbonAnalysis/getPowerGenerationComparison", "加载中...", params, 'application/json', function(res) {
-      if(res.data.success){
-        var data = [];
-        var xData = [];
-        var yDataPower = []; //发电
-        var yDataPowerL = []; //环比发电
-        for (let i = 0; i < res.data.result.length; i++) {
-          xData.push(res.data.result[i].time);
-          yDataPower.push(res.data.result[i].totalValue);
-          yDataPowerL.push(res.data.result[i].previousValue);
-          if(i==res.data.result.length-1){
-            data.push(yDataPower);
-            data.push(yDataPowerL);
-            let barData = {
-              type: 'bar', titles: ['发电', '环比发电'],
-              data: data
-            }
-            that.getCarbonReductionComparison(xData, barData);
-          }
-        }
-      }
-    }, function(error) {})
-  },
+  // getPowerGenerationComparison(){
+  //   let that = this;
+  //   let params = {
+  //     type: that.data.dateTpye=='seven'?'m':that.data.dateTpye,
+  //     time: that.data.dateTpye=='y'?that.data.dateYear:(that.data.dateYear + '-' + that.data.dateMonth)
+  //   }
+  //   util.wxRequestPost("/sps/ParkCarbonAnalysis/getPowerGenerationComparison", "加载中...", params, 'application/json', function(res) {
+  //     if(res.data.success){
+  //       var data = [];
+  //       var xData = [];
+  //       var yDataPower = []; //发电
+  //       var yDataPowerL = []; //环比发电
+  //       for (let i = 0; i < res.data.result.length; i++) {
+  //         xData.push(res.data.result[i].time);
+  //         yDataPower.push(res.data.result[i].totalValue);
+  //         yDataPowerL.push(res.data.result[i].previousValue);
+  //         if(i==res.data.result.length-1){
+  //           data.push(yDataPower);
+  //           data.push(yDataPowerL);
+  //           let barData = {
+  //             type: 'bar', titles: ['发电', '环比发电'],
+  //             data: data
+  //           }
+  //           that.getCarbonReductionComparison(xData, barData);
+  //         }
+  //       }
+  //     }
+  //   }, function(error) {})
+  // },
   // 碳减、环比碳减
-  getCarbonReductionComparison(xData, barData){
-    let that = this;
-    let params = {
-      type: that.data.dateTpye=='seven'?'m':that.data.dateTpye,
-      time: that.data.dateTpye=='y'?that.data.dateYear:(that.data.dateYear + '-' + that.data.dateMonth)
-    }
-    util.wxRequestPost("/sps/ParkCarbonAnalysis/getCarbonReductionComparison", "加载中...", params, 'application/json', function(res) {
-      if(res.data.success){
-        var data = [];
-        var yDataCarbon = []; //碳减
-        var yDataCarbonL = []; //环比碳减
-        for (let i = 0; i < res.data.result.length; i++) {
-          yDataCarbon.push(res.data.result[i].totalValue);
-          yDataCarbonL.push(res.data.result[i].previousValue);
-          if(i==res.data.result.length-1){
-            data.push(yDataCarbon);
-            data.push(yDataCarbonL);
-            let lineData = {
-              type: 'line', titles: ['碳减', '环比碳减'],
-              data: data
-            }
-            var yData = [];
-            yData.push(barData);
-            yData.push(lineData);
+  // getCarbonReductionComparison(xData, barData){
+  //   let that = this;
+  //   let params = {
+  //     type: that.data.dateTpye=='seven'?'m':that.data.dateTpye,
+  //     time: that.data.dateTpye=='y'?that.data.dateYear:(that.data.dateYear + '-' + that.data.dateMonth)
+  //   }
+  //   util.wxRequestPost("/sps/ParkCarbonAnalysis/getCarbonReductionComparison", "加载中...", params, 'application/json', function(res) {
+  //     if(res.data.success){
+  //       var data = [];
+  //       var yDataCarbon = []; //碳减
+  //       var yDataCarbonL = []; //环比碳减
+  //       for (let i = 0; i < res.data.result.length; i++) {
+  //         yDataCarbon.push(res.data.result[i].totalValue);
+  //         yDataCarbonL.push(res.data.result[i].previousValue);
+  //         if(i==res.data.result.length-1){
+  //           data.push(yDataCarbon);
+  //           data.push(yDataCarbonL);
+  //           let lineData = {
+  //             type: 'line', titles: ['碳减', '环比碳减'],
+  //             data: data
+  //           }
+  //           var yData = [];
+  //           yData.push(barData);
+  //           yData.push(lineData);
 
-            let energyTitles = ['发电', '环比发电', '碳减', '环比碳减'];
-            var energyChartGen = that.selectComponent('#energy-chart-gener');
-            let isSevenXData = that.data.dateTpye=='seven'?xData.slice(-7):xData;
-            let isSevenYData = yData;
-            if(that.data.dateTpye=='seven'){
-              isSevenYData[0].data[0] = yData[0].data[0].slice(-7);
-              isSevenYData[0].data[1] = yData[0].data[1].slice(-7);
-              isSevenYData[1].data[0] = yData[1].data[0].slice(-7);
-              isSevenYData[1].data[1] = yData[1].data[1].slice(-7);
-            }
-            that.drawChart(energyChartGen, energyTitles, isSevenXData, isSevenYData, that.data.colorList);
-            that.getPowerGenerationByDeviceType();
-          }
-        }
-      }
-    }, function(error) {})
-  },
+  //           let energyTitles = ['发电', '环比发电', '碳减', '环比碳减'];
+  //           var energyChartGen = that.selectComponent('#energy-chart-gener');
+  //           let isSevenXData = that.data.dateTpye=='seven'?xData.slice(-7):xData;
+  //           let isSevenYData = yData;
+  //           if(that.data.dateTpye=='seven'){
+  //             isSevenYData[0].data[0] = yData[0].data[0].slice(-7);
+  //             isSevenYData[0].data[1] = yData[0].data[1].slice(-7);
+  //             isSevenYData[1].data[0] = yData[1].data[0].slice(-7);
+  //             isSevenYData[1].data[1] = yData[1].data[1].slice(-7);
+  //           }
+  //           that.drawChart(energyChartGen, energyTitles, isSevenXData, isSevenYData, that.data.colorList);
+  //           that.getPowerGenerationByDeviceType();
+  //         }
+  //       }
+  //     }
+  //   }, function(error) {})
+  // },
   // 碳减总量统计(各设备类型发电量)
-  getPowerGenerationByDeviceType(){
-    let that = this;
-    let params = {
-      type: that.data.dateTpye=='seven'?'m':that.data.dateTpye,
-      time: that.data.dateTpye=='y'?that.data.dateYear:(that.data.dateYear + '-' + that.data.dateMonth)
-    }
-    util.wxRequestPost("/sps/ParkCarbonAnalysis/getPowerGenerationByDeviceType", "加载中...", params, 'application/json', function(res) {
-      if(res.data.success){
-        var list = res.data.result;
-        for (let i = 0; i < res.data.result.length; i++) {
-          list[i].name = res.data.result[i].deviceTypeName;
-          list[i].value = res.data.result[i].generateElecTotal;
-          list[i].coo = res.data.result[i].carbonTotal;
-          if(i==res.data.result.length-1){
-            that.setData({cakeGenDataList: list});
-            that.getBenefitTotalStatistic();
-          }
-        }
-      }
-    }, function(error) {})
-  },
+  // getPowerGenerationByDeviceType(){
+  //   let that = this;
+  //   let params = {
+  //     type: that.data.dateTpye=='seven'?'m':that.data.dateTpye,
+  //     time: that.data.dateTpye=='y'?that.data.dateYear:(that.data.dateYear + '-' + that.data.dateMonth)
+  //   }
+  //   util.wxRequestPost("/sps/ParkCarbonAnalysis/getPowerGenerationByDeviceType", "加载中...", params, 'application/json', function(res) {
+  //     if(res.data.success){
+  //       var list = res.data.result;
+  //       for (let i = 0; i < res.data.result.length; i++) {
+  //         list[i].name = res.data.result[i].deviceTypeName;
+  //         list[i].value = res.data.result[i].generateElecTotal;
+  //         list[i].coo = res.data.result[i].carbonTotal;
+  //         if(i==res.data.result.length-1){
+  //           that.setData({cakeGenDataList: list});
+  //           that.getBenefitTotalStatistic();
+  //         }
+  //       }
+  //     }
+  //   }, function(error) {})
+  // },
   // 效益总量统计
-  getBenefitTotalStatistic(){
-    let that = this;
-    let params = {
-      type: that.data.dateTpye=='seven'?'m':that.data.dateTpye,
-      time: that.data.dateTpye=='y'?that.data.dateYear:(that.data.dateYear + '-' + that.data.dateMonth)
-    }
-    util.wxRequestPost("/sps/ParkCarbonAnalysis/getBenefitTotalStatistic", "加载中...", params, 'application/json', function(res) {
-      if(res.data.success){
-        var xData = [];
-        var yData = [];
-        var yDataCarbon = []; //收益
-        var yDataCarbonL = []; //环比收益
-        for (let i = 0; i < res.data.result.length; i++) {
-          xData.push(res.data.result[i].time);
-          yDataCarbon.push(res.data.result[i].totalValue);
-          yDataCarbonL.push(res.data.result[i].previousValue);
-          if(i==res.data.result.length-1){
-            yData.push(yDataCarbon);
-            yData.push(yDataCarbonL);
+  // getBenefitTotalStatistic(){
+  //   let that = this;
+  //   let params = {
+  //     type: that.data.dateTpye=='seven'?'m':that.data.dateTpye,
+  //     time: that.data.dateTpye=='y'?that.data.dateYear:(that.data.dateYear + '-' + that.data.dateMonth)
+  //   }
+  //   util.wxRequestPost("/sps/ParkCarbonAnalysis/getBenefitTotalStatistic", "加载中...", params, 'application/json', function(res) {
+  //     if(res.data.success){
+  //       var xData = [];
+  //       var yData = [];
+  //       var yDataCarbon = []; //收益
+  //       var yDataCarbonL = []; //环比收益
+  //       for (let i = 0; i < res.data.result.length; i++) {
+  //         xData.push(res.data.result[i].time);
+  //         yDataCarbon.push(res.data.result[i].totalValue);
+  //         yDataCarbonL.push(res.data.result[i].previousValue);
+  //         if(i==res.data.result.length-1){
+  //           yData.push(yDataCarbon);
+  //           yData.push(yDataCarbonL);
             
-            var moneyChart = that.selectComponent('#energy-chart-money');
-            let titles = ['收益', '环比收益'];
-            let isSevenXData = that.data.dateTpye=='seven'?xData.slice(-7):xData;
-            let isSevenYData = yData;
-            if(that.data.dateTpye=='seven'){
-              isSevenYData[0] = yData[0].slice(-7);
-              isSevenYData[1] = yData[1].slice(-7);
-            }
-            that.drawMoneyChart(moneyChart, titles, that.data.colorList, isSevenXData, isSevenYData);
-            that.getDeviceTypeRevenue()
-          }
-        }
-      }
-    }, function(error) {})
-  },
+  //           var moneyChart = that.selectComponent('#energy-chart-money');
+  //           let titles = ['收益', '环比收益'];
+  //           let isSevenXData = that.data.dateTpye=='seven'?xData.slice(-7):xData;
+  //           let isSevenYData = yData;
+  //           if(that.data.dateTpye=='seven'){
+  //             isSevenYData[0] = yData[0].slice(-7);
+  //             isSevenYData[1] = yData[1].slice(-7);
+  //           }
+  //           that.drawMoneyChart(moneyChart, titles, that.data.colorList, isSevenXData, isSevenYData);
+  //           that.getDeviceTypeRevenue()
+  //         }
+  //       }
+  //     }
+  //   }, function(error) {})
+  // },
   // 获取各设备类型收益
-  getDeviceTypeRevenue(){
-    let that = this;
-    let params = {
-      type: that.data.dateTpye=='seven'?'m':that.data.dateTpye,
-      time: that.data.dateTpye=='y'?that.data.dateYear:(that.data.dateYear + '-' + that.data.dateMonth)
-    }
-    util.wxRequestPost("/sps/ParkCarbonAnalysis/getDeviceTypeRevenue", "加载中...", params, 'application/json', function(res) {
-      if(res.data.success){
-        var list = res.data.result;
-        for (let i = 0; i < res.data.result.length; i++) {
-          //{value: 90, name:'屋顶光伏', proportion: "90%"}
-          list[i].name = res.data.result[i].deviceTypeName;
-          list[i].value = res.data.result[i].moneyTotal.toFixed(2);
-          list[i].coo = res.data.result[i].treeTotal.toFixed(2);
-          if(i==res.data.result.length-1){
-            that.setData({cakeMoneyDataList: list});
-          }
-        }
-      }
-    }, function(error) {})
-  },
+  // getDeviceTypeRevenue(){
+  //   let that = this;
+  //   let params = {
+  //     type: that.data.dateTpye=='seven'?'m':that.data.dateTpye,
+  //     time: that.data.dateTpye=='y'?that.data.dateYear:(that.data.dateYear + '-' + that.data.dateMonth)
+  //   }
+  //   util.wxRequestPost("/sps/ParkCarbonAnalysis/getDeviceTypeRevenue", "加载中...", params, 'application/json', function(res) {
+  //     if(res.data.success){
+  //       var list = res.data.result;
+  //       for (let i = 0; i < res.data.result.length; i++) {
+  //         //{value: 90, name:'屋顶光伏', proportion: "90%"}
+  //         list[i].name = res.data.result[i].deviceTypeName;
+  //         list[i].value = res.data.result[i].moneyTotal.toFixed(2);
+  //         list[i].coo = res.data.result[i].treeTotal.toFixed(2);
+  //         if(i==res.data.result.length-1){
+  //           that.setData({cakeMoneyDataList: list});
+  //         }
+  //       }
+  //     }
+  //   }, function(error) {})
+  // },
   onLoad(options) {
     this.setData({userInfo: wx.getStorageSync('userInfo')});
 
