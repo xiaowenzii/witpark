@@ -4,12 +4,12 @@
   <view class="list-view-item" >
     <image class="item-image" src="../../../asset/fjrl.png"/>
     <view class="item-text">风力发电容量</view>
-    <view class="item-val"><text style="color: #18B6A2;font-weight: bolder;">10</text> kWh</view>
+    <view class="item-val"><text style="color: #18B6A2;font-weight: bolder;">10</text> kW</view>
   </view>
   <view class="list-view-item" >
     <image class="item-image" src="../../../asset/fbsgf.png"/>
     <view class="item-text">屋顶光伏容量</view>
-    <view class="item-val"><text style="color: #18B6A2;font-weight: bolder;">342</text> kWh</view>
+    <view class="item-val"><text style="color: #18B6A2;font-weight: bolder;">342</text> kW</view>
   </view>
   <view class="list-view-item" >
     <image class="item-image" src="../../../asset/cneddl.png"/>
@@ -24,7 +24,7 @@
   <view class="list-view-item" >
     <image class="item-image" src="../../../asset/fgcld.png"/>
     <view class="item-text">风光储路灯容量</view>
-    <view class="item-val"><text style="color: #18B6A2;font-weight: bolder;">0.2</text> kWh</view>
+    <view class="item-val"><text style="color: #18B6A2;font-weight: bolder;">0.2</text> kW</view>
   </view>
   <view class="list-view-item" >
     <image class="item-image" src="../../../asset/cdzgl.png"/>
@@ -34,7 +34,7 @@
   <view class="list-view-item" >
     <image class="item-image" src="../../../asset/gfhrl.png"/>
     <view class="item-text">光伏花容量</view>
-    <view class="item-val"><text style="color: #18B6A2;font-weight: bolder;">7.2</text> kWh</view>
+    <view class="item-val"><text style="color: #18B6A2;font-weight: bolder;">7.2</text> kW</view>
   </view>
 </view>
 
