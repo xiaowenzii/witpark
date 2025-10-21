@@ -1,7 +1,7 @@
 <view style="height: 180rpx;background: -webkit-linear-gradient(top, #E8F7F4, #FFFFFF);">
   <view class="date-select-view">
-    <view class="date-view" style="color: {{dateTpye=='m'?'#FFFFFF':'none'}};background-color: {{dateTpye=='m'?'#18B6A2':'none'}};" data-index="m" bind:tap="selectDateType">月数据</view>
-    <view class="date-view" style="margin-left: 48rpx;color: {{dateTpye=='y'?'#FFFFFF':'none'}};background-color: {{dateTpye=='y'?'#18B6A2':'none'}};" data-index="y" bind:tap="selectDateType">年数据</view>
+    <view class="date-view" style="color: {{dateTpye=='month'?'#FFFFFF':'none'}};background-color: {{dateTpye=='month'?'#18B6A2':'none'}};" data-index="month" bind:tap="selectDateType">月数据</view>
+    <view class="date-view" style="margin-left: 48rpx;color: {{dateTpye=='year'?'#FFFFFF':'none'}};background-color: {{dateTpye=='year'?'#18B6A2':'none'}};" data-index="year" bind:tap="selectDateType">年数据</view>
     <view class="head-desc" bind:tap="search">
       <text class="head-desc-text1">{{yearList.list[yearList.selected].name}}</text>
       <image class="head-image" src="../../../asset/select_down.png"></image>
@@ -10,7 +10,7 @@
   
   <!-- 月份选择 -->
   <view style="height: 66rpx;display: flex;flex-direction: row;align-items: center;">
-    <view wx:for="{{monthList}}" wx:key="index" style="width: 8%;margin: 24rpx;text-align: center;font-size: {{item.id==monthSelected?'28rpx':'26rpx'}};font-weight: {{item.id==monthSelected?'bolder':'none'}};" data-index="{{item.id}}" bind:tap="selectMonth">{{item.name}}</view>
+    <view wx:for="{{monthList}}" wx:key="index" style="width: 9%;margin: 24rpx;text-align: center;font-size: 26rpx;font-weight: {{item.id==monthSelected?'bolder':'none'}};" data-index="{{item.id}}" bind:tap="selectMonth">{{item.name}}</view>
     
     <image src="../../../asset/arrow_round_down.png" style="height: 36rpx;width: 36rpx;display: flex;position: absolute;right: 0;margin-right: 24rpx;" bind:tap="showMonth"></image>
   </view>
@@ -23,21 +23,16 @@
   <image class="bg-image" src="../../../asset/energy_overview/bk.png" mode="scaleToFill"></image>
   <view style="width: 50%;">
     <view style="color: #FFFFFF;font-size: 48rpx;margin-top: 60rpx;margin-left: 24rpx;">
-    {{powerData.totalPower}}
-      <text style="font-size: 24rpx;">{{energyList[energyType]=='用气'?'m³':energyList[energyType]=='用水'?'吨':energyList[energyType]=='充电桩收益'?'元':energyList[energyType]=='碳减'?'kg':'kWh'}}</text>
+    {{useEnergyData.totalQuantity}} <text style="font-size: 24rpx;">kWh</text>
     </view>
-    <view style="color: #FFFFFF;font-size: 28rpx;margin-top: 12rpx;margin-left: 24rpx">{{dateTpye=='m'&&energyList[energyType]!='用水'&&energyList[energyType]!='用气'?monthSelected+'（月）':yearList.list[yearList.selected].name}}总{{energyList[energyType]}}量</view>
-  </view>
-  <view style="width: 50%;display: flex;position: relative;">
-    <view style="color: #FFFFFF;font-size: 26rpx;margin-top: 120rpx;display: flex;position: absolute;right: 0;margin-right: 24rpx;">上年同期：{{powerData.periodPower}}</view>
-    <view style="color: #FFFFFF;font-size: 26rpx;margin-top: 172rpx;display: flex;position: absolute;right: 0;margin-right: 24rpx;">同步增长：{{powerData.quarter}}</view>
+    <view style="color: #FFFFFF;font-size: 28rpx;margin-top: 12rpx;margin-left: 24rpx">{{dateTpye=='month'?monthSelected+'（月）':yearList.list[yearList.selected].name}}总用电量</view>
   </view>
 </view>
 
 <!-- 图表信息 -->
 <view class="view-title">
   <text class="view-text-1">能耗统计</text>
-  <text class="view-text-2">单位：kWh</text>
+  <text class="view-text-2">单位：{{(energyType==0||energyType==1)?'kWh':'m³'}}</text>
 </view>
 <view class="view-title">
   <view wx:for="{{energyList}}" wx:key="index" style="margin-left: 24rpx;font-size: 24rpx;font-weight: {{energyType==index?'bolder':'none'}};color: {{energyType==index?'#18B6A2':''}};" data-index="{{index}}" bind:tap="selectEnergyType">{{item}}</view>
@@ -52,17 +47,17 @@
 </view>
 
 <view style="height: 360rpx;margin: 24rpx 36rpx 24rpx 24rpx;">
-  <view class="progress-item" wx:for="{{proList}}" wx:key="index">
+  <view class="progress-item" wx:for="{{useEnergyData.list}}" wx:key="index">
     <view class="pro-image">
       <image src="../../../asset/wind/fd.png" style="height: 72rpx;width: 72rpx;" />
     </view>
     <view class="pro-pro">
       <view class="pro-text-view">
-        <text class="pro-text1">{{item.name}}</text>
-        <text class="pro-text2">{{item.val}} kWh</text>
+        <text class="pro-text1">{{item.typeName}}</text>
+        <text class="pro-text2">{{item.totalP}} kWh</text>
       </view>
       <view class="progress-box">
-        <progress percent="{{item.val*100/proListVal}}" color="#18B6A2" active stroke-width="9" border-radius="6" />
+        <progress percent="{{item.totalP*100/useEnergyData.totalQuantity}}" color="#18B6A2" active stroke-width="9" border-radius="6" />
       </view>
     </view>
   </view>

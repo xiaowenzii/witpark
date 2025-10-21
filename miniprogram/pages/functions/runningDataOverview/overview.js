@@ -1,180 +1,106 @@
-import * as echarts from '../../component/ec-canvas/echarts'
+import * as echarts from '../../component/ec-canvas/echarts';
 import * as util from "../../../utils/util";
 
 Page({
   data: {
-    deviceTypeIndex: 0,
-    energyStorageDevice: {},
-    photovoltaicDevice: {},
+    todayDate: '',
     realTimePowerChart: {
       lazyLoad: true
     },
-    allPower: 0,
-    chargingPileAllQuantityTotal: 0,
-    windPowerAllGeneratePowerTotal: 0,
-    storePowerAllGeneratePowerTotal: 0,
-    storeEnergyAllChargingTotal: 0,
-    storeEnergyAllDisChargingTotal: 0,
-    realTimePowerCurve: {},
-    dataUpdateTime:''
+    deviceTypeIndex: 0,
+    powerDeviceType:[
+      {deviceName: '园区总功率', deviceType: 'park'},
+      {deviceName: '空调功率', deviceType: 'airConditioner'},
+      {deviceName: '照明功率', deviceType: 'light'},
+      {deviceName: '屋顶光伏', deviceType: 'solarPower'},
+      {deviceName: '光伏花', deviceType: 'solarFlower'},
+      {deviceName: '风力发电', deviceType: 'wind'},
+      {deviceName: '风光储路灯', deviceType: 'streetlight'},
+      {deviceName: '储能', deviceType: 'storage'}
+    ],
+    realTimePowerChart: null
   },
   selectDevice(res){
     var typeIndex = res.currentTarget.dataset.index;
     this.setData({
       deviceTypeIndex: typeIndex
     })
-    if(typeIndex==4 || typeIndex==5){
-      this.getDeviceTypeRealTimePowerCurveByDeviceTypeId(typeIndex==4?this.data.photovoltaicDevice.deviceTypeId:this.data.energyStorageDevice.deviceTypeId);
+    if(typeIndex==0 || typeIndex==1 || typeIndex==2){
+      this.getRealtimePowerCurveData(this.data.powerDeviceType[typeIndex].deviceType);
     }else{
-      var realTimePowerChart = this.selectComponent('#real-time-power-chart');
-      var xData = this.data.realTimePowerCurve.xData;
-      var yData = this.data.realTimePowerCurve.yDataList[this.data.deviceTypeIndex];
-      this.drawChart(realTimePowerChart, xData, yData);
+      this.getGreenPowerCurveData(this.data.powerDeviceType[typeIndex].deviceType);
     }
   },
-  //今日总用电
-  getEnergySavings(){
-    let that = this;
-    util.wxRequestGet("/sps/bigscreen1/getEnergySavings", "加载中...", {}, 'application/x-www-form-urlencoded', function(res) {
-      if(res.success){
-        that.setData({allPower: res.result.currentDayUsage, dataUpdateTime: util.toDate(res.timestamp)})
-      }
-    }, function(error) {})
-  },
-  //充电桩-历史总充电量
-  getChargingPileAllQuantityTotal(){
-    let that = this;
-    util.wxRequestGet("/sps/bigscreen1/getChargingPileAllQuantityTotal", "加载中...", {}, 'application/x-www-form-urlencoded', function(res) {
-      if(res.success){
-        that.setData({chargingPileAllQuantityTotal: res.result})
-      }
-    }, function(error) {})
-  },
-  //风力发电-历史总发电量
-  getWindPowerAllGeneratePowerTotal(){
-    let that = this;
-    util.wxRequestGet("/sps/bigscreen1/getWindPowerAllGeneratePowerTotal", "加载中...", {}, 'application/x-www-form-urlencoded', function(res) {
-      if(res.success){
-        that.setData({windPowerAllGeneratePowerTotal: res.result})
-      }
-    }, function(error) {})
-  },
-  //光伏发电-历史总发电量
-  getStorePowerAllGeneratePowerTotal(){
-    let that = this;
-    util.wxRequestGet("/sps/bigscreen1/getStorePowerAllGeneratePowerTotal", "加载中...", {}, 'application/x-www-form-urlencoded', function(res) {
-      if(res.success){
-        that.setData({storePowerAllGeneratePowerTotal: res.result})
-      }
-    }, function(error) {})
-  },
-  //储能-历史总充电量
-  getStoreEnergyAllChargingTotal(){
-    let that = this;
-    util.wxRequestGet("/sps/bigscreen1/getStoreEnergyAllChargingTotal", "加载中...", {}, 'application/x-www-form-urlencoded', function(res) {
-      if(res.success){
-        that.setData({storeEnergyAllChargingTotal: res.result})
-      }
-    }, function(error) {})
-  },
-  //储能-历史总放电量
-  getStoreEnergyAllDisChargingTotal(){
-    let that = this;
-    util.wxRequestGet("/sps/bigscreen1/getStoreEnergyAllDisChargingTotal", "加载中...", {}, 'application/x-www-form-urlencoded', function(res) {
-      if(res.success){
-        that.setData({storeEnergyAllDisChargingTotal: res.result})
-      }
-    }, function(error) {})
-  },
-  //设备类型实时功率曲线
-  getDeviceTypeRealTimePowerCurve(){
-    let that = this;
-    util.wxRequestGet("/sps/bigscreen1/getDeviceTypeRealTimePowerCurve", "加载中...", {}, 'application/x-www-form-urlencoded', function(res) {
-      if(res.success){
-        that.setData({realTimePowerCurve: res.result});
-        var realTimePowerChart = that.selectComponent('#real-time-power-chart');
-        var xData = res.result.xData;
-        var yData = res.result.yDataList[that.data.deviceTypeIndex];
-        that.drawChart(realTimePowerChart, xData, yData);
-      }
-    }, function(error) {})
-  },
-   //设备类型实时功率曲线
-   getDeviceTypeRealTimePowerCurveByDeviceTypeId(deviceTypeId){
+  // 获得光储充汇总数据
+  getSummaryData(){
     let that = this;
     let params = {
-      deviceTypeId: deviceTypeId
+      type: 'day',
+      time: that.data.todayDate
     }
-    util.wxRequestGet("/sps/bigscreen1/getDeviceTypeRealTimePowerCurveByDeviceTypeId", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
-      if(res.success){
-        var realTimePowerChart = that.selectComponent('#real-time-power-chart');
-        that.drawChart(realTimePowerChart, res.result.xData, res.result.yData);
+    util.wxRequestGet("/prod-api/business/energyVisualization/getRealtimePowerCurveData", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
+      if(res.code==200){
+        this.setData({
+          summaryData: res.data
+        })
       }
     }, function(error) {})
   },
-  // 获取设备类型
-  getDeviceType(){
+  //用电实时功率曲线实时数据获取 支持按设备类型筛选：park-园区, airConditioner-空调, light-照明
+  getRealtimePowerCurveData(deviceType){
     let that = this;
-    util.wxRequestGet("/sps/app/device/listDeviceType", "加载中...", {}, 'application/x-www-form-urlencoded', function(res) {
-      if(res.success){
-        for (let i = 0; i < res.result.length; i++) {
-          if(res.result[i].deviceTypeName == "储能设备"){
-            that.setData({energyStorageDevice: res.result[i]})
-          }else if(res.result[i].deviceTypeName == "屋顶光伏"){
-            that.setData({photovoltaicDevice: res.result[i]})
-          }
+    let params = {
+      deviceTypeId: deviceType
+    }
+    util.wxRequestGet("/prod-api/business/energyVisualization/getRealtimePowerCurveData", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
+      if(res.code==200){
+        if(that.data.realTimePowerChart == null){
+          that.data.realTimePowerChart = that.selectComponent('#real-time-power-chart');
         }
-      }else{}
+        let rYData = [{
+          type: 'line', 
+          titles: [],
+          colors: ['#16A6C2'],
+          data: [[]]
+        }];
+        let rData = res.data.timeAxis;
+        rYData[0].data[0] = res.data.numericalAxis;
+        util.drawMixEChart(echarts, that.data.realTimePowerChart, rData, rYData, Math.ceil(rData.length/12));
+      }
+    }, function(error) {})
+  },
+  //绿电曲线实时数据获取 支持按设备类型筛选：solarPower-屋顶光伏, solarFlower-光伏场, wind-风力发电, storage-储能, streetlight-风光储路灯
+  getGreenPowerCurveData(deviceType){
+    let that = this;
+    let params = {
+      deviceTypeId: deviceType
+    }
+    util.wxRequestGet("/prod-api/business/energyVisualization/greenPowerCurveData", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
+      if(res.code==200){
+        if(that.data.realTimePowerChart == null){
+          that.data.realTimePowerChart = that.selectComponent('#real-time-power-chart');
+        }
+        let pYData = [{
+          type: 'line', 
+          titles: [],
+          colors: ['#16A6C2'],
+          data: [[]]
+        }];
+        let xData = res.data.timeAxis;
+        pYData[0].data[0] = res.data.numericalAxis;
+        util.drawMixEChart(echarts, that.data.realTimePowerChart, xData, pYData, Math.ceil(xData.length/12));
+      }
     }, function(error) {})
   },
   onLoad(options) {
   },
   onReady() {
-    this.getDeviceType();
-    this.getEnergySavings();
-    this.getChargingPileAllQuantityTotal();
-    this.getWindPowerAllGeneratePowerTotal();
-    this.getStorePowerAllGeneratePowerTotal();
-    this.getStoreEnergyAllChargingTotal();
-    this.getStoreEnergyAllDisChargingTotal();
-    this.getDeviceTypeRealTimePowerCurve();
-  },
-  //绘制曲线图
-  drawChart(chartComponnet, xData, yData) {
-    var option = {
-      xAxis: {
-        type: 'category',
-        data: xData,
-        axisLabel:{
-          interval:1
-        }
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [{
-        data: yData,
-        type: 'line',
-        smooth: true
-      }],
-      grid:{
-        x: 48,  //距离左边
-        x2: 24, //距离右边
-        y:24,   //距离上边
-        y2:36,  //距离下边
-      }
-    };
-    var dpr = util.getPixelRatio()
-    if (chartComponnet) {
-      chartComponnet.init((canvas, width, height) => {
-        const chart = echarts.init(canvas, null, {
-          width: width,
-          height: height,
-          devicePixelRatio: dpr
-        }); 
-        chart.setOption(option, true);
-        return chart;
-      });
-    }
+    // 获取当前日期
+    const date = new Date();
+    this.setData({
+      todayDate: date.getFullYear() + '.' + util.formatMD(date.getMonth() + 1) + '.' + util.formatMD(date.getDate())
+    })
+    this.getSummaryData(); // 获得光储充汇总数据
+    this.getRealtimePowerCurveData(this.data.powerDeviceType[0].deviceType);
   }
 })

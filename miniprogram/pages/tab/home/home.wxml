@@ -30,7 +30,7 @@
       </view>
       <view style="height: 74rpx;margin-left: 24rpx;">
         <view style="font-size: 24rpx;">光照强度</view>
-        <view style="font-size: 26rpx;font-weight: bolder;bottom: 0;margin-top: 12rpx;">{{weatherInfo.benyixi}} Lux</view>
+        <view style="font-size: 26rpx;font-weight: bolder;bottom: 0;margin-top: 12rpx;">{{weatherInfo.illumination}} Lux</view>
       </view>
     </view>
     <view class="weather-view-content">
@@ -60,14 +60,14 @@
       <view style="width: 100%;height: 90rpx;display: flex;flex-direction: row;">
         <view style="text-align: center;width: 48%;height: 100%;border-radius: 12rpx;">
           <view class="view-item-text-1">日用电 （kWh）</view>
-          <view class="view-item-text-3">{{elecCarbonEmission.dailyElectricityUsage}}</view>
+          <view class="view-item-text-3">{{elecCarbonEmission.powerConsumption}}</view>
         </view>
         <view style="width: 4%;display: flex;flex-direction: row;align-items: flex-end;justify-content: center;">
           <view style="height: 72rpx;width: 1rpx;background-color: gainsboro;"></view>
         </view>
         <view style="text-align: center;width: 48%;height: 100%;border-radius: 12rpx;">
           <view class="view-item-text-1">日发电 （kWh）</view>
-          <view class="view-item-text-3">{{elecCarbonReduction.dailyElectricityUsage}}</view>
+          <view class="view-item-text-3">{{elecCarbonReduction.powerGeneration}}</view>
         </view>
       </view>
       <view style="width: 100%;height: 18rpx;display: flex;flex-direction: row;">
@@ -81,12 +81,12 @@
       <view style="width: 100%;height: 120rpx;display: flex;flex-direction: row;">
         <view style="text-align: center;width: 48%;height: 100%;border-radius: 12rpx;margin-top: 18rpx;">
           <view class="view-item-text-1">日碳排 （吨）</view>
-          <view class="view-item-text-3">{{elecCarbonEmission.dailyEmissions}}</view>
+          <view class="view-item-text-3">{{elecCarbonEmission.carbonEmission}}</view>
         </view>
         <view style="width: 4%;display: flex;flex-direction: row;align-items: flex-start;justify-content: center;"><view style="height: 72rpx;width: 1rpx;background-color: gainsboro;"></view></view>
         <view style="text-align: center;width: 48%;height: 100%;border-radius: 12rpx;margin-top: 18rpx;">
           <view class="view-item-text-1">日碳减 （吨）</view>
-          <view class="view-item-text-3">{{elecCarbonReduction.dailyEmissions}}</view>
+          <view class="view-item-text-3">{{elecCarbonReduction.carbonReduction}}</view>
         </view>
       </view>
   </view>
@@ -101,7 +101,7 @@
       <view class="overview-power-consume">
         <view style="width: 80%;">
           <view class="view-item-text-1">累计用电量（kWh）</view>
-          <view class="view-item-text-2" style="margin-top: 9rpx;color: #1CB7A3;">{{allUsepower}}</view>
+          <view class="view-item-text-2" style="margin-top: 9rpx;color: #1CB7A3;">{{totalPowerData.powerConsumption}}</view>
         </view>
         <view class="power-image-view">
           <image class="power-image" src="../../../asset/power_consume.png"/>
@@ -110,7 +110,7 @@
       <view class="overview-power-create">
         <view style="width: 80%;">
           <view class="view-item-text-1">累计发电量（kWh）</view>
-          <view class="view-item-text-2" style="margin-top: 9rpx;color: #1CB7A3;">{{allCreatePower}}</view>
+          <view class="view-item-text-2" style="margin-top: 9rpx;color: #1CB7A3;">{{totalPowerData.powerGeneration}}</view>
         </view>
         <view class="power-image-view">
           <image class="power-image" src="../../../asset/power_create.png"/>
@@ -142,79 +142,5 @@
       <view class="view-item-text-2" style="margin-left: 12rpx;">{{allEarn}} 万元</view>
     </view>
   </view>
-
-    
-    <!-- <view class="date-select-view">
-      <view class="date-view" style="color: {{dateTpye=='seven'?'#FFFFFF':'none'}};background-color: {{dateTpye=='seven'?'#18B6A2':'none'}};" data-index="seven" bind:tap="selectDateType">近7日</view>
-      <view class="date-view" style="color: {{dateTpye=='m'?'#FFFFFF':'none'}};background-color: {{dateTpye=='m'?'#18B6A2':'none'}};" data-index="m" bind:tap="selectDateType">月</view>
-      <view class="date-view" style="margin-left: 36rpx;color: {{dateTpye=='y'?'#FFFFFF':'none'}};background-color: {{dateTpye=='y'?'#18B6A2':'none'}};" data-index="y" bind:tap="selectDateType">年</view>
-      
-      <view class='select_box'>
-        <view class='select' data-item="y" catchtap='selectTap'>
-          <text class='select_text'>{{yearList.list[yearList.selected].name}}</text>
-          <image style="width: 36rpx;height: 30rpx;margin-top: 6rpx;" src='../../../asset/select_down.png'  background-size="contain"></image> 
-        </view>
-        <view class='option_box' style='height:{{selectShowY?auto:0}};'>
-          <text class='option' wx:for='{{yearList.list}}' wx:key='this' data-index='{{index}}' bind:tap='selectY'>{{item.name}}</text>
-        </view>
-      </view>
-
-      <view class='select_box' style="width: 110rpx;">
-        <view class='select' data-item="m" catchtap='selectTap'>
-          <text class='select_text'>{{monthList.list[monthList.selected].name}}</text>
-          <image style="width: 36rpx;height: 30rpx;margin-top: 6rpx;" src='../../../asset/select_down.png'  background-size="contain"></image> 
-        </view>
-        <view class='option_box' style='height:{{selectShowM?auto:0}};'>
-          <text class='option' wx:for='{{monthList.list}}' wx:key='this' data-index='{{index}}' bind:tap='selectM'>{{item.name}}</text>
-        </view>
-      </view>
-    </view> -->
-
-    <!-- 用电 -->
-    <!-- <view style="width: 100%;margin: 12rpx;background-color: #FFFDF866;">
-      <view style="height: 360rpx;width: 100%;">
-        <ec-canvas id="energy-chart" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
-      </view>
-
-      <view style="width: 100%;margin-top: 24rpx;display: flex;flex-direction: row;flex-wrap: wrap;font-size: 20rpx;">
-        <view wx:for="{{cakeDataList}}" wx:key="index" style="display: flex;flex-direction: row;margin: 12rpx 0;width: 50%;align-items: center;">
-          <view class="energy-power-rank" style="background-color: {{colorList[index]}};">{{index+1}}</view>
-          <text style="margin-left: 12rpx;">{{item.name}}</text>
-          <text style="margin-left: 12rpx;">{{item.value}}<text style="color: #C4C4C4;margin-left: 3px;">kWh</text></text>
-          <text style="margin-left: 12rpx;">{{item.proportion}}%</text>
-        </view>
-      </view>
-    </view> -->
-
-    <!-- 发电 -->
-    <!-- <view style="width: 100%;margin: 12rpx;background-color: #F6F7FB66;">
-      <view style="height: 360rpx;width: 100%;">
-        <ec-canvas id="energy-chart-gener" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
-      </view>
-
-      <view style="width: 100%;margin-top: 24rpx;display: flex;flex-direction: row;flex-wrap: wrap;font-size: 20rpx;">
-        <view wx:for="{{cakeGenDataList}}" wx:key="index" style="display: flex;flex-direction: row;margin: 12rpx;align-items: center;">
-          <view style="height: 24rpx;width: 24rpx;background-color: {{colorList[index]}};margin-top: 6rpx;"></view>
-          <text style="margin-left: 12rpx;">{{item.name}}</text>
-          <text style="margin-left: 12rpx;">{{item.value}}<text style="color: #C4C4C4;margin-left: 3px;">kWh</text></text>
-          <text style="margin-left: 12rpx;">CO₂ : {{item.coo}}<text style="color: #C4C4C4;margin-left: 3px;">吨</text></text>
-        </view>
-      </view>
-    </view> -->
-
-    <!-- 收益 折线统计图 -->
-    <!-- <view style="width: 100%;margin: 12rpx;background-color: #18B6A206;">
-      <view style="height: 360rpx;width: 100%;">
-        <ec-canvas id="energy-chart-money" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
-      </view>
-
-      <view style="width: 100%;margin-top: 24rpx;display: flex;flex-direction: row;flex-wrap: wrap;font-size: 20rpx;">
-        <view wx:for="{{cakeMoneyDataList}}" wx:key="index" style="display: flex;flex-direction: row;margin: 12rpx;margin-left: 24rpx;">
-          <view style="height: 24rpx;width: 24rpx;background-color: {{colorList[index]}};margin-top: 6rpx;"></view>
-          <text style="margin-left: 12rpx;">{{item.name}}</text>
-          <text style="margin-left: 18rpx;">{{item.value}}元</text>
-        </view>
-      </view>
-    </view> -->
   </view>
 </view>

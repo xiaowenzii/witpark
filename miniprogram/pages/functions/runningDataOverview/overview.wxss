@@ -42,7 +42,7 @@ page{
   height: 720rpx;
   margin-left: 24rpx;
   margin-right: 24rpx;
-  margin-top: 36rpx;
+  margin-top: 18rpx;
   border-radius: 12rpx;
   display: flex;
   flex-direction: row;

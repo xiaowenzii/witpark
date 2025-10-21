@@ -1,4 +1,5 @@
-const baseUrl = "https://www.zhnycloud.cn:16060";
+// const baseUrl = "https://www.zhnycloud.cn:16060";
+const baseUrl = "https://anywords.cn";
 
 // POST请求
 export const wxRequestPost = (url, title, parmas, contentType, successCallback, failCallback) => {
@@ -190,6 +191,94 @@ export const toDate = (number) => {
   }
 }
 
+//绘制柱状图和折线图
+export const drawMixEChart = (echarts, chart, xData, yData, interval) => {
+	let option = {};
+	let series = [];
+	for(let j=0; j<yData.length; j++){
+		if(yData[j].type == 'bar'){
+			// 绘制柱状图
+			for (let i = 0; i < yData[j].data.length; i++) {
+				series.push({
+					name: yData[j].titles[i],
+					type: 'bar',
+					label: {
+						show: true, position: 'top', formatter: (value, index) => { return value?.value; }
+					},
+					itemStyle: {
+						borderWidth: 1,
+						color: {
+							type: 'linear',
+								x: 0,  // 水平方向起始点（0=左）
+								y: 0,  // 垂直方向起始点（0=上）
+								x2: 0, // 水平方向终点（0=左）
+								y2: 1, // 垂直方向终点（1=下）
+								colorStops: [
+								{ offset: 0, color: yData[j].colors[i] },      // 顶部颜色
+								{ offset: 1, color: yData[j].colors[i]+'33' }  // 底部颜色
+							]
+						},
+						borderRadius: [12, 12, 12, 12] //柱状图radius
+					},
+					label: {
+						show: false, //柱状图顶部是否显示数值
+						position: 'top',
+						formatter: function(params) { if (params.value == 0) { return ''; } else { return params.value; } }
+					},
+					data: yData[j].data[i]
+				})
+			}
+		} else if(yData[j].type == 'line'){
+			for (let i = 0; i < yData[j].data.length; i++) {
+				series.push({
+					name: yData[j].titles[i],
+					data: yData[j].data[i],
+					type: "line",
+					smooth: true,
+					areaStyle: {
+						color: new echarts.graphic.LinearGradient(0, 0, 0, 1, // 渐变方向 (0,0)到(0,1)表示垂直向下
+					        [
+								{ offset: 0, color: yData[j].colors[i]+'99' }, // 起始颜色
+								{ offset: 1, color: yData[j].colors[i]+'00' }  // 结束颜色
+							]
+						)
+					},
+					symbol: 'circle',    //将小圆点改成实心 不写symbol默认空心
+					symbolSize: 3,       //小圆点的大小
+					itemStyle: {color: yData[j].colors[i]},
+					lineStyle: {width: 2,color: yData[j].colors[i]}
+				})
+			}
+		}
+	}
+	option = {
+		xAxis: {
+			type: 'category',
+			axisLabel: {
+				interval: function (index, value) {
+					// 总是显示第一个和最后一个标签
+					if (index == 0 || index == xData.length-1) {
+						return true;
+					}
+					return index%interval == 0;
+				},
+				color: '#4E5969' ,
+			},
+			axisTick: {
+				show: true, inside: true, length: 0,     
+				lineStyle: { color: '#4E5969', width: 1, type: 'dashed' }
+			},
+			data: xData
+		},
+		yAxis: { type: 'value', axisLabel: { color: '#4E5969' }},
+		tooltip: { trigger: "axis" },
+		legend: { data: yData.titles },
+		series: series,
+		grid: { x: 48, x2: 24, y: 18, y2: 24 } //左右上下
+	};
+	chart.setOption(option, true);
+}
+
 // 设置月份
 export const monthList = (dateNum) => {
   var monthList = [];
@@ -233,3 +322,4 @@ export const monthList = (dateNum) => {
   }
   return monthList;
 }
+
