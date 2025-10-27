@@ -84,7 +84,7 @@ Page({
     this.getLatestData();  // 获取气象站最新实时数据
     this.getCarbonEmissionsOverviewVO('day'); // 用能数据统计
     this.getCarbonEmissionsOverviewVO('total');
-    that.getCarbonReductionOverview(); // 碳数据统计
+    this.getCarbonReductionOverview(); // 碳数据统计
     this.getEarningsRanking('month'); // 获取年收益、月收益、总收益
     this.getEarningsRanking('year');
     this.getEarningsRanking('total');

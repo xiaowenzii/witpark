@@ -40,29 +40,72 @@ Page({
       }
     }
   },
+  getWeatherLatestData(){  //获取天气最新实时数据
+    let that = this;
+    let params = {
+      deviceBasicId: '1778675876224094210'
+    }
+    util.wxRequestPost("/prod-api/one/device/gas/getLatestData", "加载中...", params, 'application/json', function(res) {
+      if(res.code==200){
+        let weatherData = res.data;
+        if(weatherData.windDirection>348.75 || weatherData.windDirection<11.25){
+          that.dataJs.weatherData.windDirectionLabel = '北风';
+        }else if(weatherData.windDirection>11.25 && weatherData.windDirection<33.75){
+          that.dataJs.weatherData.windDirectionLabel = '东北偏北风';
+        }else if(weatherData.windDirection>33.75 && weatherData.windDirection<56.25){
+          that.dataJs.weatherData.windDirectionLabel = '东北风';
+        }else if(weatherData.windDirection>56.25 && weatherData.windDirection<78.75){
+          that.dataJs.weatherData.windDirectionLabel = '东北偏东风';
+        }else if(weatherData.windDirection>78.75 && weatherData.windDirection<101.25){
+          that.dataJs.weatherData.windDirectionLabel = '东风';
+        }else if(weatherData.windDirection>101.25 && weatherData.windDirection<123.75){
+          that.dataJs.weatherData.windDirectionLabel = '东南偏东风';
+        }else if(weatherData.windDirection>123.75 && weatherData.windDirection<146.25){
+          that.dataJs.weatherData.windDirectionLabel = '东南风';
+        }else if(weatherData.windDirection>146.25 && weatherData.windDirection<168.75){
+          that.dataJs.weatherData.windDirectionLabel = '东南偏南风';
+        }else if(weatherData.windDirection>168.75 && weatherData.windDirection<191.25){
+          that.dataJs.weatherData.windDirectionLabel = '南风';
+        }else if(weatherData.windDirection>191.25 && weatherData.windDirection<213.75){
+          that.dataJs.weatherData.windDirectionLabel = '西南偏南风';
+        }else if(weatherData.windDirection>213.75 && weatherData.windDirection<236.25){
+          that.dataJs.weatherData.windDirectionLabel = '西南风';
+        }else if(weatherData.windDirection>236.25 && weatherData.windDirection<258.75){
+          that.dataJs.weatherData.windDirectionLabel = '西南偏西风';
+        }else if(weatherData.windDirection>258.75 && weatherData.windDirection<281.25){
+          that.dataJs.weatherData.windDirectionLabel = '西风';
+        }else if(weatherData.windDirection>281.25 && weatherData.windDirection<303.75){
+          that.dataJs.weatherData.windDirectionLabel = '西北偏西风';
+        }else if(weatherData.windDirection>303.75 && weatherData.windDirection<326.25){
+          that.dataJs.weatherData.windDirectionLabel = '西北风';
+        }else if(weatherData.windDirection>326.25 && weatherData.windDirection<348.75){
+          that.dataJs.weatherData.windDirectionLabel = '西北偏北风';
+        }
+        that.setData({weatherInfo: weatherData})
+      }
+    }, function(error) {})
+  },
   // 获取设备列表
   getDeviceDataList(){
     let that = this;
     let params = {
-      deviceTypeId: that.data.deviceTypeId
+      deviceCategoryId: that.data.deviceTypeId
     }
-    util.wxRequestPost("/sps/app/device/listDeviceBasic", "加载中...", params, 'application/json', function(res) {
-      if(res.data.success){
-        if(res.data.result != null && res.data.result.length > 0){
-          that.setData({deviceList: res.data.result});
-          that.getWindPowerDataByDeviceId();
-          that.getWindPowerTotal();
+    util.wxRequestGet("/prod-api/business/device/list", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
+      if(res.code==200){
+        if(res.rows != null && res.rows.length > 0){
+          that.setData({deviceList: res.rows});
         }
       }
     }, function(error) {})
   },
-  // 获取风力发电设备实时数据
+  // 获得今日实时数据
   getWindPowerDataByDeviceId(){
     let that = this;
     let params = {
       deviceBasicId: that.data.deviceList[that.data.selectDeviceIndex].deviceBasicId
     }
-    util.wxRequestGet("/sps/app/device/windPower/getWindPowerDataByDeviceId", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
+    util.wxRequestGet("/prod-api/sps/wind/power/getRealTimeData", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
       if(res.success){
         that.setData({detailData: res.result})
       }
@@ -81,7 +124,7 @@ Page({
     }, function(error) {})
   },
   onLoad(options) {
-    this.setData({deviceTypeId: options.deviceTypeId, weatherInfo: wx.getStorageSync('weatherInfo')});
+    this.setData({deviceTypeId: options.deviceTypeId});
   },
   onReady() {
     this.getDeviceDataList();

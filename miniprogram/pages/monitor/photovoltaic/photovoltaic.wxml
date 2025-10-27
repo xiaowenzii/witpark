@@ -1,61 +1,65 @@
-<view style="font-size: 26rpx;margin: 24rpx">设备号：{{deviceData.deviceBasicId}}</view>
+<view style="font-size: 26rpx;margin: 24rpx">
+  <text class="item-text">装机容量<text style="margin-left: 24rpx;color: black;">342 kW</text></text>
+</view>
 <view style="height: 390rpx;display: flex;flex-direction: column;align-items: center;justify-content: center;">
   <image src="../../../asset/wind/gfb.png" style="width: 520rpx;height: 240rpx;"></image>
   <text style="font-size: 26rpx; font-weight: bolder;margin-top: 36rpx;">屋顶光伏</text>
 </view>
 
-<view style="height: 200rpx;display: flex;flex-direction: row;background-color: #FFFFFF;margin: 24rpx;border-radius: 24rpx;">
-  <view class="desc-view">
-      <view class="desc-view-text1">当日发电/收益</view>
-      <view class="desc-view-text2">{{powerData.dailyGeneration}}<text style="font-size: 24rpx;margin-left: 6rpx;color: #AFAFAF;">kWh</text></view>
-      <view class="desc-view-text3">{{powerData.dailyRevenue}}<text style="font-size: 24rpx;margin-left: 6rpx;color: #AFAFAF;">元</text></view>
+<view class="borad-view" style="height: 280rpx;">
+  <view class="view-row-h70"> <view class="desc-view-text-title">今日数据</view> </view>
+  <view class="view-row-h70">
+    <view style="width: 50%;height: 100%;display: flex;align-items: center;">
+      <text class="desc-view-text3">发电量</text>
+      <text class="desc-view-text2">{{realTimeData.pvYc2}}</text> <text class="desc-view-unit">kWh</text>
+    </view>
+    <view style="width: 50%;height: 100%;display: flex;align-items: center;">
+      <text class="desc-view-text3">上网电量</text>
+      <text class="desc-view-text2">{{realTimeData.onGridElectric}}</text> <text class="desc-view-unit">kWh</text>
+    </view>
   </view>
-  <view class="desc-view">
-      <view class="desc-view-text1">当月发电/收益</view>
-      <view class="desc-view-text2">{{powerData.monthlyGeneration}}<text style="font-size: 24rpx;margin-left: 6rpx;color: #AFAFAF;">kWh</text></view>
-      <view class="desc-view-text3">{{powerData.monthlyRevenue}}<text style="font-size: 24rpx;margin-left: 6rpx;color: #AFAFAF;">元</text></view>
+  <view class="view-row-h70">
+    <view style="width: 50%;height: 100%;display: flex;align-items: center;">
+      <text class="desc-view-text3">实时功率</text> <text class="desc-view-text2">{{realTimeData.p}}</text> <text class="desc-view-unit">kW</text>
+    </view>
+    <view style="width: 50%;height: 100%;display: flex;align-items: center;">
+      <text class="desc-view-text3">总直流功率</text> <text class="desc-view-text2">{{realTimeData.pvYc9}}</text> <text class="desc-view-unit">kW</text>
+    </view>
   </view>
-  <view class="desc-view">
-      <view class="desc-view-text1">累计年发电/收益</view>
-      <view class="desc-view-text2">{{powerData.yearlyGeneration}}<text style="font-size: 24rpx;margin-left: 6rpx;color: #AFAFAF;">kWh</text></view>
-      <view class="desc-view-text3">{{powerData.yearlyRevenue}}<text style="font-size: 24rpx;margin-left: 6rpx;color: #AFAFAF;">元</text></view>
+  <view class="view-row-h70">
+    <view style="width: 50%;height: 100%;display: flex;align-items: center;">
+      <text class="desc-view-text3">收益</text> <text class="desc-view-text2">{{realTimeData.revenue}}</text> <text class="desc-view-unit">元</text>
+    </view>
+    <view style="width: 50%;height: 100%;display: flex;align-items: center;">
+      <text class="desc-view-text3">等效碳减</text> <text class="desc-view-text2">{{realTimeData.carbonReduction}}</text> <text class="desc-view-unit">kg</text>
+    </view>
   </view>
 </view>
 
-<view class="block-view" style="height: 315rpx;">
-  <view style="font-size: 26rpx;font-weight: bolder;">设备信息</view>
-  <view class="item-view">
-    <view class="item">
-      <image class="item-image" src="../../../asset/wind/fjxh.png"/>
-      <text class="item-text">装机容量<text style="margin-left: 24rpx;color: black;">342 kW</text></text>
+<view class="borad-view" style="height: 210rpx;">
+  <view class="view-row-h70"> <view class="desc-view-text-title">累计数据</view> </view>
+  <view class="view-row-h70">
+    <view style="width: 50%;height: 100%;display: flex;align-items: center;">
+      <text class="desc-view-text3">当月发电量</text>
+      <text class="desc-view-text2">{{realMonthData.pvYc2}}</text> <text class="desc-view-unit">kWh</text>
     </view>
-    <view class="item">
-      <image class="item-image" src="../../../asset/wind/nbq.png"/>
-      <text class="item-text">逆变器数量 <text style="margin-left: 24rpx;color: black;">2</text></text>
-    </view>
-  </view>
-  <view class="item-view">
-    <view class="item">
-      <image class="item-image" src="../../../asset/wind/zjrl.png"/>
-      <text class="item-text">组件类型<text style="margin-left: 72rpx;color: black;">A 类</text></text>
-    </view>
-    <view class="item">
-      <image class="item-image" src="../../../asset/wind/azqj.png"/>
-      <text class="item-text">安装倾角 <text style="margin-left: 72rpx;color: black;">30</text></text>
+    <view style="width: 50%;height: 100%;display: flex;align-items: center;">
+      <text class="desc-view-text3">当月上网电量</text>
+      <text class="desc-view-text2">{{realMonthData.onGridElectric}}</text> <text class="desc-view-unit">kWh</text>
     </view>
   </view>
-  <view class="item-view">
-    <image class="item-image" src="../../../asset/wind/zjlx.png"/>
-    <text class="item-text">装机类型<text style="margin-left: 72rpx;color: black;">分布式光伏</text></text>
-  </view>
-  <view class="item-view">
-    <image class="item-image" src="../../../asset/wind/gzfs.png"/>
-    <text class="item-text">跟踪方式<text style="margin-left: 72rpx;color: black;">最大功率点跟踪</text></text>
+  <view class="view-row-h70">
+    <view style="width: 50%;height: 100%;display: flex;align-items: center;">
+      <text class="desc-view-text3">年度发电量</text> <text class="desc-view-text2">{{realAllData.pvYc2}}</text> <text class="desc-view-unit">kWh</text>
+    </view>
+    <view style="width: 50%;height: 100%;display: flex;align-items: center;">
+      <text class="desc-view-text3">年度上网电量</text> <text class="desc-view-text2">{{realAllData.onGridElectric}}</text> <text class="desc-view-unit">kWh</text>
+    </view>
   </view>
 </view>
 
 <!-- 折线图 -->
-<view class="block-view" style="height: 360rpx;">
-  <view style="font-size: 26rpx;font-weight: bolder;">实时功率</view>
+<view class="borad-view" style="height: 360rpx;">
+  <view class="view-row-h70"> <view class="desc-view-text-title">实时功率</view> </view>
   <ec-canvas id="energy-power-chart" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
 </view>

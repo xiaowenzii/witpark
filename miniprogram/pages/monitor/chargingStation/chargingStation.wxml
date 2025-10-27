@@ -1,61 +1,72 @@
-<view style="font-size: 26rpx;margin: 24rpx">设备号：{{deviceList[selectDeviceIndex].deviceSn}}</view>
+<view style="font-size: 26rpx;margin: 24rpx">安装数量：1 台</view>
+<view style="font-size: 26rpx;margin: 24rpx">安装容量：120 kW</view>
 <view style="height: 480rpx;display: flex;flex-direction: column;align-items: center;">
   <image src="../../../asset/charge/cdz.png" style="width: 390rpx;height: 420rpx;"></image>
-  <text style="font-size: 26rpx; font-weight: bolder;margin-top: 12rpx;">{{deviceList[selectDeviceIndex].deviceName}}</text>
-
-  <view style="height: 18rpx;display: flex;align-items: center;margin-top: 18rpx;" wx:if="{{deviceList.length > 1}}">
-    <view class="device-point" style="background-color: {{index==selectDeviceIndex?'#18B6A2':'#9C9C9C'}};margin-left: {{index!=0?'18rpx':'0'}};" wx:for="{{deviceList}}" wx:key="index"></view>
-  </view>
+  <text style="font-size: 26rpx; font-weight: bolder;margin-top: 12rpx;">智能充电桩</text>
 </view>
 
 <view class="block-view" style="height: 72rpx;">
   <view style="font-size: 24rpx;">状态：</view>
-  <view style="font-size: 24rpx;color: #5BCBBD;font-weight: bolder;">未充电</view>
+  <view style="font-size: 24rpx;color: #5BCBBD;font-weight: bolder;">{{monitorStatisticsData.chargingPileStatus}}</view>
   <image src="../../../asset/charge/xdl.png" style="height: 36rpx;width: 36rpx;margin-left: 30%;"/>
   <view style="font-size: 24rpx;margin-left: 12rpx;">位置：</view>
-  <view style="font-size: 24rpx;">{{deviceList[selectDeviceIndex].deviceLocation}}</view>
+  <view style="font-size: 24rpx;">老大楼建筑西北角处</view>
 </view>
 
 <view style="margin: 24rpx;display: flex;flex-direction: row;flex-wrap: wrap;">
   <view class="item-view">
     <view style="margin-left: 24rpx;">
-      <view style="font-size: 26rpx;font-weight: bolder;">{{detailData.chargeCount}}</view>
+      <view style="font-size: 26rpx;font-weight: bolder;">{{monitorStatisticsData.todayRecordAmount}}</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;">今日收益</view>
+    </view>
+    <image class="view-image" src="../../../asset/charge/money-bag.png"></image>
+  </view>
+  <view class="item-view" style="margin-left: 4%;">
+    <view style="margin-left: 24rpx;">
+      <view style="font-size: 26rpx;font-weight: bolder;">{{monitorStatisticsData.totalRecordAmount}}</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;">总收益</view>
+    </view>
+    <image class="view-image" src="../../../asset/charge/money-bag.png"></image>
+  </view>
+  <view class="item-view">
+    <view style="margin-left: 24rpx;">
+      <view style="font-size: 26rpx;font-weight: bolder;">{{monitorStatisticsData.orderCount}}</view>
       <view style="font-size: 24rpx;margin-top: 12rpx;">今日充电次数</view>
     </view>
     <image class="view-image" src="../../../asset/charge/xhs.png"></image>
   </view>
   <view class="item-view" style="margin-left: 4%;">
     <view style="margin-left: 24rpx;">
-      <view style="font-size: 26rpx;font-weight: bolder;">{{detailData.detail.orderTotal}}</view>
+      <view style="font-size: 26rpx;font-weight: bolder;">{{monitorStatisticsData.orderTotal}}</view>
       <view style="font-size: 24rpx;margin-top: 12rpx;">总充电次数</view>
     </view>
     <image class="view-image" src="../../../asset/charge/xhs.png"></image>
   </view>
   <view class="item-view">
     <view style="margin-left: 24rpx;">
-      <view style="font-size: 26rpx;font-weight: bolder;">{{detailData.chargeTime}}</view>
+      <view style="font-size: 26rpx;font-weight: bolder;">{{monitorStatisticsData.todayDifftime}}</view>
       <view style="font-size: 24rpx;margin-top: 12rpx;">今日充电时长</view>
     </view>
     <image class="view-image" src="../../../asset/charge/sc.png"></image>
   </view>
   <view class="item-view" style="margin-left: 4%;">
     <view style="margin-left: 24rpx;">
-      <view style="font-size: 26rpx;font-weight: bolder;">{{detailData.detail.difftime}}</view>
+      <view style="font-size: 26rpx;font-weight: bolder;">{{monitorStatisticsData.totalDifftime}}</view>
       <view style="font-size: 24rpx;margin-top: 12rpx;">总充电时长</view>
     </view>
     <image class="view-image" src="../../../asset/charge/sc.png"></image>
   </view>
   <view class="item-view">
     <view style="margin-left: 24rpx;">
-      <view style="font-size: 26rpx;font-weight: bolder;">{{detailData.detail.quantity}}</view>
-      <view style="font-size: 24rpx;margin-top: 12rpx;">总用电量(kWh)</view>
+      <view style="font-size: 26rpx;font-weight: bolder;">{{monitorStatisticsData.todayQuantity}}</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;">今日充电量(kWh)</view>
     </view>
     <image class="view-image" src="../../../asset/charge/cds.png"></image>
   </view>
   <view class="item-view" style="margin-left: 4%;">
     <view style="margin-left: 24rpx;">
-      <view style="font-size: 20rpx;">{{detailData.detail.ENDTIME}}</view>
-      <view style="font-size: 24rpx;margin-top: 12rpx;">最后一次充电时间</view>
+      <view style="font-size: 20rpx;">{{monitorStatisticsData.totalQuantity}}</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;">总充电量</view>
     </view>
     <image class="view-image" src="../../../asset/charge/wd.png"></image>
   </view>
@@ -63,6 +74,6 @@
 
 <!-- 折线图 -->
 <view style="height: 360rpx;margin: 36rpx 24rpx 12rpx 24rpx;background-color: #FFFFFF;border-radius: 12rpx;padding: 18rpx;">
-  <view style="font-size: 26rpx;font-weight: bolder;">当月充电统计 ({{yearAndMonth}})</view>
+  <view style="font-size: 26rpx;font-weight: bolder;">当月充电统计</view>
   <ec-canvas id="monthp-chart" canvas-id="mychart-bar" ec="{{ monthp }}"></ec-canvas>
 </view>

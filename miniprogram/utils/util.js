@@ -153,6 +153,18 @@ export const getPixelRatio = () => {
   return pixelRatio
 }
 
+export const getPreviousDate = (days) => {
+	const date = new Date();
+	date.setDate(date.getDate() - days);
+	return date;
+}
+export const formatDate = (date) => {
+	const year = date.getFullYear();
+	const month = (date.getMonth() + 1).toString().padStart(2, '0');
+	const day = date.getDate().toString().padStart(2, '0');
+	return `${year}-${month}-${day}`;
+}
+
 // 时间格式2024-5-6 => 2024-05-06
 export const formatTime = (time) => {
   let dateSpl = time.split("-");

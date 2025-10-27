@@ -1,6 +1,6 @@
 {
   "navigationBarTextStyle": "black",
-  "navigationBarTitleText": "建筑环境监测",
+  "navigationBarTitleText": "配电房-电表监测",
   "navigationBarBackgroundColor": "#E8F7F4",
   "usingComponents": {
     "search-contion-dialog": "../../component/condition/searchDialog"

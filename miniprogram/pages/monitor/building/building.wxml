@@ -1,75 +1,173 @@
+<view style="height: 90rpx;width: 100%;background-color: #FFFFFF;display: flex;flex-direction: row;">
+  <view wx:for="{{roomDataList}}" wx:key="index" style="height: 100%;width: 33.3%;background-color: {{roomDataSelectedCode==item.code?'#1DCEBC':'#E8F7F4'}};font-size: 28rpx;color: {{roomDataSelectedCode==item.code?'#FFFFFF':'#000000'}};border-radius: 3px;display: flex;align-items: center;justify-content: center;" bind:tap="selectRoom" data-item="{{item}}">{{item.roomName}}</view>
+</view>
+<view class="enr-view">
+  <view class="enr-item-view">环境温度（℃）<text class="item-text-f36">{{fireDeviceData.temperatureData}}</text></view>
+  <view class="enr-item-view" style="margin-left: 2%;">环境湿度（%）<text class="item-text-f36">{{fireDeviceData.humidityData}}</text></view>
+  <view class="enr-item-view">烟感<text class="item-text-f36" style="margin-left: 24rpx;">{{fireDeviceData.smokeSensationData}}</text></view>
+  <view class="enr-item-view" style="margin-left: 2%;">水浸<text class="item-text-f36">{{fireDeviceData.waterInvasionData}}</text></view>
+</view>
+
 <!-- 条件展示 -->
-<view style="height: 90rpx;width: 100%;background-color: #FFFFFF;">
+<view style="height: 90rpx;width: 100%;background-color: #FFFFFF;margin-top: 10rpx;">
   <view style="display: flex;flex-direction: row;padding-top: 30rpx;">
     <view class="head-desc" style="width: 100%;" bind:tap="search">
-      <text class="head-desc-text1">{{roomList.list[roomList.selected].name}}</text>
+      <text class="head-desc-text1">{{pMeter.elecMeterName}}</text>
       <image class="head-image" src="../../../asset/select_down.png"></image>
     </view>
   </view>
 </view>
 
-<!-- 列表 -->
-<view class="item" wx:for="{{dataList}}" wx:key="index">
-  <view style="display: flex;flex-direction: row;align-items: center;">
-    <image src="../../../asset/build/build.png" style="height: 48rpx;width: 48rpx;"/>
-    <view class="item-title">{{item.deviceName}}</view>
+<!-- 电表详情 -->
+<view style="width: 100%;height: 90px;display: flex;flex-direction: row;align-items: center;justify-content: center;">
+  <view style="width: 32%;height:72px;background-color: #FFFFFF;border-radius: 4px;display: flex;flex-direction: column;align-items: center;justify-content: center;">
+    <view>今日用电量</view>
+    <view style="margin-top: 9rpx;">{{meterTransData.todayElectricity}} kWh</view>
   </view>
-  <view style="display: flex;flex-direction: row;">
-    <view style="width: 50%;display: flex;align-items: center;">
-      <text class="item-text">最大功率: <text style="color: green;">{{powerMaxMinList[index].maxPower}}</text></text>
-    </view>
-    <view style="width: 50%;display: flex;align-items: center;">
-      <text class="item-text">最低功率: <text style="color: green;">{{powerMaxMinList[index].maxPower}}</text></text>
-    </view>
+  <view style="width: 32%;height:72px;background-color: #FFFFFF;border-radius: 4px;display: flex;flex-direction: column;align-items: center;justify-content: center;margin-left: 1%;">
+    <view>今日电费</view>
+    <view style="margin-top: 9rpx;">{{meterTransData.todayElectricityFee}} 元</view>
   </view>
-  <view style="display: flex;flex-direction: row;margin-top: 12rpx;">
-    <view style="width: 50%;display: flex;align-items: center;">
-      <text class="item-text">今日用电: <text style="color: green;">{{electricList[index].totalValue}} kWh</text></text>
-    </view>
+  <view style="width: 32%;height:72px;background-color: #FFFFFF;border-radius: 4px;display: flex;flex-direction: column;align-items: center;justify-content: center;margin-left: 1%;">
+    <view>今日碳排量</view>
+    <view style="margin-top: 9rpx;">{{meterTransData.todayCarbonEmission}} kg</view>
   </view>
-  <view style="display: flex;flex-direction: row;margin-top: 12rpx;">
-    <view style="width: 33%;display: flex;align-items: center;">
-      <text class="item-text">A相电压: <text style="color: green;">{{triphaseList[index][1].paValue}}</text></text>
+</view>
+
+<view class="board-display">
+  <view class="item-w18-h45" style="margin-left: 0.5%;">
+    <view class="line-view-h24">
+      <image class="image-24" src="../../../asset/fuhe.png"></image>
+      <text class="title-text">电表累计电量(kW.h)</text>
     </view>
-    <view style="width: 34%;display: flex;align-items: center;">
-      <text class="item-text">B相电压: <text style="color: green;">{{triphaseList[index][1].pbValue}}</text></text>
+    <view class="line-view-h19">
+      <text class="left-6">正向有功电量</text><text class="left-value-24">{{meterData.impP}}</text>
     </view>
-    <view style="width: 33%;display: flex;align-items: center;">
-      <text class="item-text">C相电压: <text style="color: green;">{{triphaseList[index][1].pcValue}}</text></text>
+    <view class="line-view-h19">
+      <text class="left-6">反向有功电量</text><text class="left-value-24">{{meterData.expP}}</text>
     </view>
-  </view>
-  <view style="display: flex;flex-direction: row;margin-top: 12rpx;">
-    <view style="width: 33%;display: flex;align-items: center;">
-      <text class="item-text">A相电流: <text style="color: green;">{{triphaseList[index][0].paValue}}</text></text>
+    <view class="line-view-h19">
+      <text class="left-6">正向无功电量</text><text class="left-value-24">{{meterData.impQ}}</text>
     </view>
-    <view style="width: 34%;display: flex;align-items: center;">
-      <text class="item-text">B相电流: <text style="color: green;">{{triphaseList[index][0].pbValue}}</text></text>
-    </view>
-    <view style="width: 33%;display: flex;align-items: center;">
-      <text class="item-text">C相电流: <text style="color: green;">{{triphaseList[index][0].pcValue}}</text></text>
+    <view class="line-view-h19">
+      <text class="left-6">反向无功电量</text><text class="left-value-24">{{meterData.expQ}}</text>
     </view>
   </view>
-  
-  <view style="display: flex;flex-direction: row;margin-top: 12rpx;">
-    <view style="width: 33%;display: flex;align-items: center;">
-      <text class="item-text">A相功率: <text style="color: green;">{{triphaseList[index][2].paValue}}</text></text>
+  <view class="item-w18-h45" style="margin-left: 2%;">
+    <view class="line-view-h24">
+      <image class="image-24" src="../../../asset/dianliu.png"></image>
+      <text class="title-text">电流(A)</text>
     </view>
-    <view style="width: 34%;display: flex;align-items: center;">
-      <text class="item-text">B相功率: <text style="color: green;">{{triphaseList[index][2].pbValue}}</text></text>
+    <view class="line-view-h19">
+      <text class="left-6">A相</text><text class="left-value-24">{{meterData.ia}}</text>
     </view>
-    <view style="width: 33%;display: flex;align-items: center;">
-      <text class="item-text">C相功率: <text style="color: green;">{{triphaseList[index][2].pcValue}}</text></text>
+    <view class="line-view-h19">
+      <text class="left-6">B相</text><text class="left-value-24">{{meterData.ib}}</text>
+    </view>
+    <view class="line-view-h19">
+      <text class="left-6">C相</text><text class="left-value-24">{{meterData.ic}}</text>
     </view>
   </view>
-  <view style="display: flex;flex-direction: row;margin-top: 12rpx;">
-    <view style="width: 100%;display: flex;align-items: center;">
-      <view class="item-text" style="display: flex;flex-direction: row;">电表回路温度(℃):
-        <view wx:for="{{tempList}}" wx:key="itemIndex" wx:for-item="innerItem" wx:if="{{innerItem.deviceName==item.deviceName}}">
-          <text style="margin-left: 12rpx;">温度1: </text><text style="color: green;" >{{innerItem.tempList[0]}}</text>
-          <text style="margin-left: 24rpx;">温度2: </text>: <text style="color: green;" >{{innerItem.tempList[1]}}</text>
-          <text style="margin-left: 24rpx;">温度3: </text>: <text style="color: green;" >{{innerItem.tempList[2]}}</text>
-        </view>
-      </view>
+  <view class="item-w18-h45" style="margin-left: 0.5%;">
+    <view class="line-view-h24">
+      <image class="image-24" src="../../../asset/dianya.png"></image>
+      <text class="title-text">电压(V)</text>
+    </view>
+    <view class="line-view-h19">
+      <text class="left-6">A相</text><text class="left-value-24">{{meterData.ua}}</text>
+    </view>
+    <view class="line-view-h19">
+      <text class="left-6">B相</text><text class="left-value-24">{{meterData.ub}}</text>
+    </view>
+    <view class="line-view-h19">
+      <text class="left-6">C相</text><text class="left-value-24">{{meterData.uc}}</text>
+    </view>
+  </view>
+  <view class="item-w18-h45" style="margin-left: 2%;">
+    <view class="line-view-h24">
+      <image class="image-24" src="../../../asset/dianya.png"></image>
+      <text class="title-text">线电压(V)</text>
+    </view>
+    <view class="line-view-h19">
+      <text class="left-6">AB相</text><text class="left-value-24">{{meterData.uab}}</text>
+    </view>
+    <view class="line-view-h19">
+      <text class="left-6">BC相</text><text class="left-value-24">{{meterData.ubc}}</text>
+    </view>
+    <view class="line-view-h19">
+      <text class="left-6">CA相</text><text class="left-value-24">{{meterData.uca}}</text>
+    </view>
+  </view>
+  <view class="item-w18-h45" style="margin-top: 1.5%;margin-left: 0.5%;">
+    <view class="line-view-h24">
+      <image class="image-24" src="../../../asset/gl.png"></image>
+      <text class="title-text">有功功率(kW)</text>
+    </view>
+    <view class="line-view-h19">
+      <text class="left-6">A相</text><text class="left-value-24">{{meterData.pa}}</text>
+    </view>
+    <view class="line-view-h19">
+      <text class="left-6">B相</text><text class="left-value-24">{{meterData.pb}}</text>
+    </view>
+    <view class="line-view-h19">
+      <text class="left-6">C相</text><text class="left-value-24">{{meterData.pc}}</text>
+    </view>
+    <view class="line-view-h19">
+      <text class="left-6">总</text><text class="left-value-24">{{meterData.p}}</text>
+    </view>
+  </view>
+  <view class="item-w18-h45" style="margin-left: 2%;">
+    <view class="line-view-h24">
+      <image class="image-24" src="../../../asset/gl.png"></image>
+      <text class="title-text">无功功率(kW)</text>
+    </view>
+    <view class="line-view-h19">
+      <text class="left-6">A相</text><text class="left-value-24">{{meterData.qa}}</text>
+    </view>
+    <view class="line-view-h19">
+      <text class="left-6">B相</text><text class="left-value-24">{{meterData.qb}}</text>
+    </view>
+    <view class="line-view-h19">
+      <text class="left-6">C相</text><text class="left-value-24">{{meterData.qc}}</text>
+    </view>
+    <view class="line-view-h19">
+      <text class="left-6">总</text><text class="left-value-24">{{meterData.q}}</text>
+    </view>
+  </view>
+  <view class="item-w18-h45" style="margin-left: 0.5%;">
+    <view class="line-view-h24">
+      <image class="image-24" src="../../../asset/gl.png"></image>
+      <text class="title-text">视在功率(kW)</text>
+    </view>
+    <view class="line-view-h19">
+      <text class="left-6">A相</text><text class="left-value-24">{{meterData.sa}}</text>
+    </view>
+    <view class="line-view-h19">
+      <text class="left-6">B相</text><text class="left-value-24">{{meterData.sb}}</text>
+    </view>
+    <view class="line-view-h19">
+      <text class="left-6">C相</text><text class="left-value-24">{{meterData.sc}}</text>
+    </view>
+    <view class="line-view-h19">
+      <text class="left-6">总</text><text class="left-value-24">{{meterData.s}}</text>
+    </view>
+  </view>
+  <view class="item-w18-h45" style="margin-left: 2%;margin-bottom: 12rpx;">
+    <view class="line-view-h24">
+      <image class="image-24" src="../../../asset/gl.png"></image>
+      <text class="title-text">功率因素</text>
+    </view>
+    <view class="line-view-h19">
+      <text class="left-6">A相</text><text class="left-value-24">{{meterData.pfa}}</text>
+    </view>
+    <view class="line-view-h19">
+      <text class="left-6">B相</text><text class="left-value-24">{{meterData.pfb}}</text>
+    </view>
+    <view class="line-view-h19">
+      <text class="left-6">C相</text><text class="left-value-24">{{meterData.pfc}}</text>
+    </view>
+    <view class="line-view-h19">
+      <text class="left-6">总</text><text class="left-value-24">{{meterData.pf}}</text>
     </view>
   </view>
 </view>
@@ -77,6 +175,6 @@
 <!-- 条件筛选框 -->
 <view class="condtion-dialog" style="height: {{condtionDialogHeight}}rpx;margin-top: 90rpx;" wx:if="{{showSearchDialog}}">
   <view style="height: 50%;width: 100%;padding-top: 24rpx;background-color: #FFFFFF;">
-    <search-contion-dialog searchData="{{searchDataList}}" type="single" bindmyevent="closeDialog"></search-contion-dialog>
+    <search-contion-dialog searchData="{{powerMeterList}}" type="single" bindmyevent="closeDialog"></search-contion-dialog>
   </view>
 </view>

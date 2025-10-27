@@ -21,31 +21,18 @@ page{
   margin-left: 9rpx;
 }
 
-/* 列表 */
-.item{
-  height: 330rpx;
-  margin: 24rpx 12rpx;
-  background-color: #FFFFFF;
-  border-radius: 12rpx;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-.item-title{
-  font-size: 24rpx;
-  padding: 24rpx 9rpx;
-  font-weight: bolder;
-}
-.item-text{
-  font-size: 24rpx;
-  margin-left: 12rpx;
-}
+.enr-view{height: 240rpx;width: 100%;display: flex;flex-direction: row;flex-wrap: wrap;margin-top: 12rpx;align-items: center;justify-content: center;}
+.enr-item-view{height: 45%;width: 48%;border-radius: 4px;display: flex;align-items: center;justify-content: center;background-color: #FFFFFF;}
+.item-text-f36{font-size: 36rpx;font-weight: 600;}
 
-.item-image{
-  height: 36rpx;
-  width: 36rpx;
-  margin-left: 24rpx;
-}
+.board-display{width: 100%;display: flex;flex-direction: row;flex-wrap: wrap;color: #4E5969;font-size: 12px;letter-spacing: 1px;}
+.item-w18-h45{width: 48%;height: 45%;border-radius: 6px;margin-top: 15rpx;}
+.line-view-h24{height: 24%;width: 100%;display: flex;align-items: center;margin-bottom: 15rpx;}
+.image-24{width: 24rpx;height: 24rpx;margin-left: 6rpx;}
+.line-view-h19{height: 19%;width: 100%;display: flex;align-items: center;background: #F6F7FF;border-radius: 6px;border: 2px solid #fff;position: relative;}
+.title-text{color: #1D2129;font-size: 30rpx;margin-left: 6rpx;}
+.left-6{margin-left: 6px;width: 90px;font-size: 14px;}
+.left-value-24{color: #1D2129;font-size: 16px;position: absolute;right: 9px;font-weight: 600;}
 
 /* Dialog 样式 */
 .condtion-dialog{
