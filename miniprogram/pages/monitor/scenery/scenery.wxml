@@ -1,126 +1,137 @@
-<view style="font-size: 26rpx;margin: 24rpx">设备号：{{deviceList[selectDeviceIndex].deviceSn}}</view>
-<view style="height: 480rpx;display: flex;flex-direction: column;align-items: center;" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
+<view style="font-size: 26rpx;margin: 24rpx">总安装容量：0.2 kW</view>
+<view style="height: 450rpx;display: flex;flex-direction: column;align-items: center;">
   <image src="../../../asset/build/fgcld.png" style="width: 270rpx;height: 420rpx;"></image>
-  <text style="font-size: 26rpx; font-weight: bolder;margin-top: 12rpx;">{{deviceList[selectDeviceIndex].deviceName}}</text>
-  <view style="height: 18rpx;display: flex;align-items: center;margin-top: 18rpx;" wx:if="{{deviceList.length > 1}}">
-    <view class="device-point" style="background-color: {{index==selectDeviceIndex?'#18B6A2':'#9C9C9C'}};margin-left: {{index!=0?'18rpx':'0'}};" wx:for="{{deviceList}}" wx:key="index"></view>
-  </view>
-</view>
-
-<view style="height: 96rpx;display: flex;flex-direction: row;">
-  <view class="desc-view">
-      <view style="font-size: 36rpx;font-weight: bolder;">{{weatherInfo.benyixi}}</view>
-      <view style="font-size: 24rpx;margin-top: 12rpx;color: #9C9C9C;">光照强度(Lux)</view>
-  </view>
-  <view class="desc-view">
-      <view style="font-size: 36rpx;font-weight: bolder;">{{weatherInfo.windSpeed}}</view>
-      <view style="font-size: 24rpx;margin-top: 12rpx;color: #9C9C9C;">风速(m/s)</view>
-  </view>
-  <view class="desc-view">
-      <view style="font-size: 36rpx;font-weight: bolder;">{{weatherInfo.temperature}}</view>
-      <view style="font-size: 24rpx;margin-top: 12rpx;color: #9C9C9C;">环境温度(℃)</view>
-  </view>
-</view>
-
-<view style="height: 525rpx;margin: 64rpx 24rpx 12rpx 24rpx;background-color: #FFFFFF;border-radius: 12rpx;padding: 18rpx;">
-  <view style="font-size: 26rpx;font-weight: bolder;">设备信息</view>
-  <view style="display: flex;flex-direction: row;margin-top: 36rpx;">
-    <view style="width: 50%;display: flex;align-items: center;">
-      <image class="item-image" src="../../../asset/wind/fjxh.png"/>
-      <text class="item-text">型号<text style="margin-left: 24rpx;color: black;">{{detailData.devicename}}</text></text>
-    </view>
-    <view style="width: 50%;display: flex;align-items: center;">
-      <image class="item-image" src="../../../asset/wind/zjrl.png"/>
-      <text class="item-text">运行天数  <text style="margin-left: 24rpx;color: black;">{{detailData.runday}}</text></text>
-    </view>
-  </view>
-  <view style="display: flex;flex-direction: row;margin-top: 36rpx;">
-    <view style="width: 50%;display: flex;align-items: center;">
-      <image class="item-image" src="../../../asset/charge/xhs.png"/>
-      <text class="item-text">异常状态<text style="margin-left: 27rpx;color: black;">{{detailData.runstate==0?'全部':detailData.runstate==1?'正常':detailData.runstate==2?'报警':detailData.runstate==3?'故障':detailData.runstate==4?'离线':'升级中'}}</text></text>
-    </view>
-    <view style="width: 50%;display: flex;align-items: center;">
-      <image class="item-image" src="../../../asset/charge/xhs.png"/>
-      <text class="item-text">运行状态 <text style="margin-left: 27rpx;color: black;">{{detailData.loadstate==0?'关闭':detailData.loadstate==1?'打开':detailData.loadstate==2?'开路保护':detailData.loadstate==3?'直通':detailData.loadstate==4?'短路保护':detailData.loadstate==5?'过载保护':'过载警告'}}</text></text>
-    </view>
-  </view>
-  <view style="display: flex;flex-direction: row;margin-top: 36rpx;">
-    <view style="width: 50%;display: flex;align-items: center;">
-      <image class="item-image" src="../../../asset/energy_overview/zm.png"/>
-      <text class="item-text">亮度(20-100)<text style="margin-left: 27rpx;color: black;">{{detailData.light}}</text></text>
-    </view>
-    <view style="width: 50%;display: flex;align-items: center;">
-      <image class="item-image" src="../../../asset/charge/xdl.png"/>
-      <text class="item-text">蓄电池余量 <text style="margin-left: 27rpx;color: black;">{{detailData.batterymargin}}%</text></text>
-    </view>
-  </view>
-  <view style="display: flex;flex-direction: row;margin-top: 36rpx;">
-    <view style="width: 50%;display: flex;align-items: center;">
-      <image class="item-image" src="../../../asset/charge/dy.png"/>
-      <text class="item-text">蓄电池电压(V)<text style="margin-left: 27rpx;color: black;">{{detailData.batteryvoltage}}</text></text>
-    </view>
-    <view style="width: 50%;display: flex;align-items: center;">
-      <image class="item-image" src="../../../asset/charge/dy.png"/>
-      <text class="item-text">光电池电压(V)<text style="margin-left: 27rpx;color: black;">{{detailData.photovoltaiccellvoltage}}</text></text>
-    </view>
-  </view>
-  <view style="display: flex;flex-direction: row;margin-top: 36rpx;">
-    <view style="width: 50%;display: flex;align-items: center;">
-      <image class="item-image" src="../../../asset/charge/dl.png"/>
-      <text class="item-text">充电电流(A)<text style="margin-left: 27rpx;color: black;">{{detailData.chargingcurrent}}</text></text>
-    </view>
-    <view style="width: 50%;display: flex;align-items: center;">
-      <image class="item-image" src="../../../asset/wind/gl.png"/>
-      <text class="item-text">充电功率(W/H)<text style="margin-left: 27rpx;color: black;">{{detailData.chargingpower}}</text></text>
-    </view>
-  </view>
-  <view style="display: flex;flex-direction: row;margin-top: 36rpx;">
-    <view style="width: 50%;display: flex;align-items: center;">
-      <image class="item-image" src="../../../asset/charge/dy.png"/>
-      <text class="item-text">负载电压(V)<text style="margin-left: 27rpx;color: black;">{{detailData.loadvoltage}}</text></text>
-    </view>
-    <view style="width: 50%;display: flex;align-items: center;">
-      <image class="item-image" src="../../../asset/charge/dl.png"/>
-      <text class="item-text">负载电流(A)<text style="margin-left: 27rpx;color: black;">{{detailData.loadcurrent}}</text></text>
-    </view>
-  </view>
-  <view style="display: flex;flex-direction: row;margin-top: 36rpx;">
-    <view style="width: 50%;display: flex;align-items: center;">
-      <image class="item-image" src="../../../asset/charge/wd.png"/>
-      <text class="item-text">亮灯时长(H)<text style="margin-left: 27rpx;color: black;">{{detailData.lightingduration}}</text></text>
-    </view>
-  </view>
+  <text style="font-size: 26rpx; font-weight: bolder;margin-top: 24rpx;">风光储路灯</text>
 </view>
 
 <!-- 电能情况 -->
-<view class="block-view" style="height: 360rpx;">
-  <view style="width: 100%;font-size: 26rpx;font-weight: bolder;">电能情况</view>
+<view class="block-view" style="height: 270rpx;">
   <view class="power-view">
-    <image class="power-view-image" src="../../../asset/wind/fd.png"></image>
+    <image class="power-view-image" src="../../../asset/wind/tpf.png"></image>
     <view style="margin-left: 18rpx;">
-      <view style="font-size: 24rpx;">今日充电量 (Wh)</view>
-      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">{{detailData.todaychargingcapacity}}</view>
+      <view style="font-size: 24rpx;">设备总数 (Wh)</view>
+      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">{{realData.deviceCount}}</view>
     </view>
   </view>
   <view class="power-view" style="margin-left: 5%;">
-    <image class="power-view-image" src="../../../asset/wind/cd.png"></image>
+    <image class="power-view-image" src="../../../asset/wind/tpf.png"></image>
     <view style="margin-left: 18rpx;">
-      <view style="font-size: 24rpx;">总充电量 (Wh)</view>
-      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">{{detailData.chargingcapacitysum}}</view>
+      <view style="font-size: 24rpx;">在线数 (Wh)</view>
+      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">{{realData.deviceLinkCount}}</view>
     </view>
   </view>
   <view class="power-view">
     <image class="power-view-image" src="../../../asset/wind/fd.png"></image>
     <view style="margin-left: 18rpx;">
-      <view style="font-size: 24rpx;">今日放电量 (Wh)</view>
-      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">{{detailData.todaydischargecapacity}}</view>
+      <view style="font-size: 24rpx;">总充电量 (Wh)</view>
+      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">{{(realData.totalChargingCapacity/1000)}}</view>
     </view>
   </view>
   <view class="power-view" style="margin-left: 5%;">
     <image class="power-view-image" src="../../../asset/wind/cd.png"></image>
     <view style="margin-left: 18rpx;">
       <view style="font-size: 24rpx;">总放电量 (Wh)</view>
-      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">{{detailData.dischargecapacitysum}}</view>
+      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">{{(realData.totalDischargeCapacity/1000)}}</view>
+    </view>
+  </view>
+</view>
+
+<view style="height: 660rpx;margin: 30rpx 24rpx 12rpx 24rpx;background-color: #FFFFFF;border-radius: 12rpx;padding: 18rpx;">
+  <view style="font-size: 26rpx;font-weight: bolder;">设备信息</view>
+  <view style="display: flex;flex-direction: row;margin-top: 36rpx;">
+    <view style="width: 50%;display: flex;align-items: center;">
+      <image class="item-image" src="../../../asset/charge/cds.png"/>
+      <text class="item-text">今日充电量（wh）<text style="margin-left: 24rpx;color: black;">{{deviceData.chargingcapacity}}</text></text>
+    </view>
+    <view style="width: 50%;display: flex;align-items: center;">
+      <image class="item-image" src="../../../asset/charge/cds.png"/>
+      <text class="item-text">今日放电量（wh）<text style="margin-left: 24rpx;color: black;">{{deviceData.dischargecapacity}}</text></text>
+    </view>
+  </view>
+  <view style="display: flex;flex-direction: row;margin-top: 36rpx;">
+    <view style="width: 50%;display: flex;align-items: center;">
+      <image class="item-image" src="../../../asset/charge/cds.png"/>
+      <text class="item-text">总充电量（wh）<text style="margin-left: 27rpx;color: black;">{{deviceData.chargingcapacitysum}}</text></text>
+    </view>
+    <view style="width: 50%;display: flex;align-items: center;">
+      <image class="item-image" src="../../../asset/charge/cds.png"/>
+      <text class="item-text">总放电量（wh）<text style="margin-left: 27rpx;color: black;">{{deviceData.dischargecapacitysum}}</text></text>
+    </view>
+  </view>
+  <view style="display: flex;flex-direction: row;margin-top: 36rpx;">
+    <view style="width: 50%;display: flex;align-items: center;">
+      <image class="item-image" src="../../../asset/wind/fjxh.png"/>
+      <text class="item-text">额定容量（Wh）<text style="margin-left: 24rpx;color: black;">50</text></text>
+    </view>
+    <view style="width: 50%;display: flex;align-items: center;">
+      <image class="item-image" src="../../../asset/charge/dy.png"/>
+      <text class="item-text">蓄电池电压（V）  <text style="margin-left: 24rpx;color: black;">{{deviceData.batteryvoltage}}</text></text>
+    </view>
+  </view>
+  <view style="display: flex;flex-direction: row;margin-top: 36rpx;">
+    <view style="width: 50%;display: flex;align-items: center;">
+      <image class="item-image" src="../../../asset/build/zhdl.png"/>
+      <text class="item-text">当前电量（%）<text style="margin-left: 27rpx;color: black;">{{deviceData.batterymargin}}</text></text>
+    </view>
+    <view style="width: 50%;display: flex;align-items: center;">
+      <image class="item-image" src="../../../asset/charge/dy.png"/>
+      <text class="item-text">光电池电压（V） <text style="margin-left: 27rpx;color: black;">{{deviceData.photovoltaiccellvoltage}}</text></text>
+    </view>
+  </view>
+  <view style="display: flex;flex-direction: row;margin-top: 36rpx;">
+    <view style="width: 50%;display: flex;align-items: center;">
+      <image class="item-image" src="../../../asset/charge/sc.png"/>
+      <text class="item-text">运行天数<text style="margin-left: 27rpx;color: black;">{{deviceData.runday}}</text></text>
+    </view>
+    <view style="width: 50%;display: flex;align-items: center;">
+      <image class="item-image" src="../../../asset/charge/dl.png"/>
+      <text class="item-text">充电电流（A）<text style="margin-left: 27rpx;color: black;">{{deviceData.chargingcurrent}}%</text></text>
+    </view>
+  </view>
+  <view style="display: flex;flex-direction: row;margin-top: 36rpx;">
+    <view style="width: 50%;display: flex;align-items: center;">
+      <image class="item-image" src="../../../asset/fgcldjc.png"/>
+      <text class="item-text">负载状态<text style="margin-left: 27rpx;color: black;">{{deviceData.loadstate==0?'关':
+						deviceData.loadstate==1?'开':
+						deviceData.loadstate==2?'开路保护':
+						deviceData.loadstate==3?'直通':
+						deviceData.loadstate==4?'短路保护':
+						deviceData.loadstate==5?'过载保护':
+						deviceData.loadstate==6?'过载警告':''}}</text></text>
+    </view>
+    <view style="width: 50%;display: flex;align-items: center;">
+      <image class="item-image" src="../../../asset/gl.png"/>
+      <text class="item-text">充电功率（wh）<text style="margin-left: 27rpx;color: black;">{{deviceData.chargingpower}}</text></text>
+    </view>
+  </view>
+  <view style="display: flex;flex-direction: row;margin-top: 36rpx;">
+    <view style="width: 50%;display: flex;align-items: center;">
+      <image class="item-image" src="../../../asset/fgcldjc.png"/>
+      <text class="item-text">运行状态<text style="margin-left: 27rpx;color: black;">{{deviceData.runstate==1?'正常':
+						deviceData.runstate==2?'报警':
+						deviceData.runstate==3?'故障':
+						deviceData.runstate==4?'离线':
+						deviceData.runstate==5?'升级中':''}}</text></text>
+    </view>
+    <view style="width: 50%;display: flex;align-items: center;">
+      <image class="item-image" src="../../../asset/charge/dy.png"/>
+      <text class="item-text">负荷电压（V）<text style="margin-left: 27rpx;color: black;">{{deviceData.loadvoltage}}</text></text>
+    </view>
+  </view>
+  <view style="display: flex;flex-direction: row;margin-top: 36rpx;">
+    <view style="width: 50%;display: flex;align-items: center;">
+      <image class="item-image" src="../../../asset/dxzmjc.png"/>
+      <text class="item-text">亮度<text style="margin-left: 27rpx;color: black;">{{deviceData.light}}</text></text>
+    </view>
+    <view style="width: 50%;display: flex;align-items: center;">
+      <image class="item-image" src="../../../asset/charge/dl.png"/>
+      <text class="item-text">负荷电流（A）<text style="margin-left: 27rpx;color: black;">{{deviceData.loadcurrent}}</text></text>
+    </view>
+  </view>
+  <view style="display: flex;flex-direction: row;margin-top: 36rpx;">
+    <view style="width: 50%;display: flex;align-items: center;">
+      <image class="item-image" src="../../../asset/energy_anysis.png"/>
+      <text class="item-text">亮灯时长<text style="margin-left: 27rpx;color: black;">光感自动亮灭</text></text>
     </view>
   </view>
 </view>

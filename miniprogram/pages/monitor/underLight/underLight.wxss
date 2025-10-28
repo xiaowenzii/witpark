@@ -15,7 +15,7 @@ page{
   align-items: center;
 }
 .desc-view{
-  width: 33%;
+  width: 25%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -68,3 +68,6 @@ page{
   position: relative;
   align-items: center;
 }
+
+.power-view{height: 100rpx;width: 32%;border-radius: 12rpx;display: flex;flex-direction: row;align-items: center;border: 1px solid #E7E7E7;}
+.power-view-image{width: 36rpx;height: 36rpx;margin-left: 6rpx;}

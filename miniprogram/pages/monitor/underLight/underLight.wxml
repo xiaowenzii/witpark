@@ -1,40 +1,68 @@
 <view style="height: 420rpx;display: flex;flex-direction: column;align-items: center;">
-  <image src="../../../asset/build/ld.png" style="width: 360rpx;height: 420rpx;"></image>
+  <image src="../../../asset/under-light.png" style="width: 360rpx;height: 420rpx;"></image>
+  <text style="font-size: 26rpx; font-weight: bolder;margin-top: 12rpx;">地下照明</text>
 </view>
 
 <view class="block-view" style="height: 120rpx;">
   <view class="desc-view">
-      <view class="desc-view-text1">正常设备</view>
-      <view class="desc-view-text2" style="color: #33BEAD;">{{deviceList.length - alarmCount}}</view>
+      <view class="desc-view-text1">设备总数</view>
+      <view class="desc-view-text2" style="color: #33BEAD;">{{realData.deviceCount}}</view>
   </view>
   <view class="desc-view">
-      <view class="desc-view-text1">未运行设备</view>
-      <view class="desc-view-text2" style="color: #D9D9D9;">0</view>
+      <view class="desc-view-text1">在线设备数</view>
+      <view class="desc-view-text2" style="color: #D9D9D9;">{{realData.deviceLinkCount}}</view>
   </view>
   <view class="desc-view">
-      <view class="desc-view-text1">异常设备</view>
-      <view class="desc-view-text2" style="color: #FFA73F;">{{alarmCount}}</view>
+      <view class="desc-view-text1">离线设备数</view>
+      <view class="desc-view-text2" style="color: #FFA73F;">{{realData.offLinkCount}}</view>
+  </view>
+  <view class="desc-view">
+      <view class="desc-view-text1">告警设备数</view>
+      <view class="desc-view-text2" style="color: #FFA73F;">{{realData.warnCount}}</view>
   </view>
 </view>
 <view class="block-view" style="height: 60rpx;">
-  总用电功率：<text style="color: #33BEAD;margin-right: 9rpx;font-weight: bolder;">{{energyP/1000}}</text>kw
+  累计运行天数<text style="color: #33BEAD;margin-right: 9rpx;margin-left: 45rpx;font-weight: bolder;">{{realData.runDayCount}}</text>
+</view>
+<view class="block-view" style="height: 120rpx;">
+  <view class="power-view">
+    <image class="power-view-image" src="../../../asset/gl.png"></image>
+    <view style="margin-left: 18rpx;">
+      <view style="font-size: 24rpx;">照明灯功率</view>
+      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">{{realTimeData.currentPower}} Wh</view>
+    </view>
+  </view>
+  <view class="power-view" style="margin-left: 1%;">
+    <image class="power-view-image" src="../../../asset/energy_anysis.png"></image>
+    <view style="margin-left: 18rpx;">
+      <view style="font-size: 24rpx;">今日用电量</view>
+      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">{{realTimeData.todayQuantity}} Wh</view>
+    </view>
+  </view>
+  <view class="power-view" style="margin-left: 1%;">
+    <image class="power-view-image" src="../../../asset/energy_anysis.png"></image>
+    <view style="margin-left: 18rpx;">
+      <view style="font-size: 24rpx;">当月耗电量</view>
+      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">{{realTimeData.monthQuantity}} Wh</view>
+    </view>
+  </view>
 </view>
 <view style="margin: 24rpx;display: flex;flex-direction: row;">
   <view class="left-view">
     <image class="power-view-image" src="../../../asset/build/zhdl.png"></image>
     <view style="margin-left: 18rpx;">
-      <view style="font-size: 24rpx;">总耗电量 (kWh)</view>
-      <view style="font-size: 40rpx;margin-top: 12rpx;font-weight: bolder;color: #33BEAD;">{{allPower}}</view>
+      <view style="font-size: 24rpx;">累计节能收益（元）</view>
+      <view style="font-size: 40rpx;margin-top: 12rpx;font-weight: bolder;color: #33BEAD;">{{realData.totalRevenue}}</view>
     </view>
   </view>
   <view class="right-view">
     <view class="right-view-top">
-      <view style="margin-left: 12rpx;font-size: 24rpx;">日耗电量 (kWh)</view>
-      <view style="font-size: 24rpx;display: flex;position: absolute;right: 0;margin-right: 36rpx;font-weight: bolder;color: #33BEAD;">{{todayPower}}</view>
+      <view style="margin-left: 12rpx;font-size: 24rpx;">累计用电量（kWh）</view>
+      <view style="font-size: 24rpx;display: flex;position: absolute;right: 0;margin-right: 36rpx;font-weight: bolder;color: #33BEAD;">{{realData.totalUseQuantity}}</view>
     </view>
     <view class="right-view-bot">
-      <view style="margin-left: 12rpx;font-size: 24rpx;">月耗电量 (kWh)</view>
-      <view style="font-size: 24rpx;display: flex;position: absolute;right: 0;margin-right: 36rpx;font-weight: bolder;color: #33BEAD;">{{monthPower}}</view>
+      <view style="margin-left: 12rpx;font-size: 24rpx;">累计节电量 (kWh)</view>
+      <view style="font-size: 24rpx;display: flex;position: absolute;right: 0;margin-right: 36rpx;font-weight: bolder;color: #33BEAD;">{{realData.totalSaveQuantity}}</view>
     </view>
   </view>
 </view>

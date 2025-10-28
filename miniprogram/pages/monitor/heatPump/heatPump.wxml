@@ -1,31 +1,65 @@
-<view style="font-size: 26rpx;margin: 24rpx">设备号：{{deviceList[selectDeviceIndex].deviceBasicId}}</view>
 <view style="height: 360rpx;display: flex;flex-direction: column;align-items: center;justify-content: center;">
   <image src="../../../asset/wind/kqyrb.png" style="width: 210rpx;height: 300rpx;"></image>
-  <text style="font-size: 26rpx; font-weight: bolder;margin-top: 12rpx;">{{deviceList[selectDeviceIndex].deviceName}}</text>
-  <view style="height: 18rpx;display: flex;align-items: center;margin-top: 18rpx;" wx:if="{{deviceList.length > 1}}">
-    <view class="device-point" style="background-color: {{index==selectDeviceIndex?'#18B6A2':'#9C9C9C'}};margin-left: {{index!=0?'18rpx':'0'}};" wx:for="{{deviceList}}" wx:key="index"></view>
-  </view>
+  <text style="font-size: 26rpx; font-weight: bolder;margin-top: 12rpx;">空气源热泵</text>
 </view>
 
-<view style="height: 150rpx;display: flex;flex-direction: row;margin: 24rpx;border-radius: 24rpx;">
-  <view class="desc-view">
-      <view class="desc-view-text1">{{detailData.heatPumpFlowDTO.ins_rate}}</view>
-      <view class="desc-view-text2">瞬时流量</view>
+<view style="margin: 24rpx;display: flex;flex-direction: row;flex-wrap: wrap;">
+  <view class="item-view">
+    <view style="margin-left: 24rpx;">
+      <view style="font-size: 26rpx;font-weight: bolder;">{{realData.waterTankHeight}}</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;">储水箱高度（m）</view>
+    </view>
+    <image class="view-image" src="../../../asset/monitorlog/heat-icon-3.png"></image>
   </view>
-  <view class="desc-view">
-      <view class="desc-view-text1">{{detailData.heatPumpFlowDTO!=null?detailData.heatPumpFlowDTO.flow_int+'.'+detailData.heatPumpFlowDTO.flow_fra:''}}</view>
-      <view class="desc-view-text2">累计流量</view>
+  <view class="item-view" style="margin-left: 4%;">
+    <view style="margin-left: 24rpx;">
+      <view style="font-size: 20rpx;">{{realData.waterTankTemp}}</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;">水箱温度（℃）</view>
+    </view>
+    <image class="view-image" src="../../../asset/monitorlog/heat-icon-4.png"></image>
   </view>
-  <view class="desc-view">
-      <view class="desc-view-text1">{{detailData.heatPumpTempDTOList[2].pre_temp}}</view>
-      <view class="desc-view-text2">水箱温度(℃)</view>
+  <view class="item-view">
+    <view style="margin-left: 24rpx;">
+      <view style="font-size: 26rpx;font-weight: bolder;">{{realData.waterInletTemp}}</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;">进水温度（℃）</view>
+    </view>
+    <image class="view-image" src="../../../asset/monitorlog/heat-icon-4.png"></image>
   </view>
-</view>
-
-<!-- 柱状图 -->
-<view class="block-view" style="height: 360rpx;">
-  <view style="font-size: 26rpx;font-weight: bolder;">当天24小时：液位统计 (m)</view>
-  <ec-canvas id="power-chart" canvas-id="mychart-bar" ec="{{ power }}"></ec-canvas>
+  <view class="item-view" style="margin-left: 4%;">
+    <view style="margin-left: 24rpx;">
+      <view style="font-size: 20rpx;">{{realData.hotWaterTemp}}</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;">出水温度（m）</view>
+    </view>
+    <image class="view-image" src="../../../asset/monitorlog/heat-icon-4.png"></image>
+  </view>
+  <view class="item-view">
+    <view style="margin-left: 24rpx;">
+      <view style="font-size: 26rpx;font-weight: bolder;">{{realData.flowRate}}</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;">瞬时流量（m³）</view>
+    </view>
+    <image class="view-image" src="../../../asset/monitorlog/heat-icon-1.png"></image>
+  </view>
+  <view class="item-view" style="margin-left: 4%;">
+    <view style="margin-left: 24rpx;">
+      <view style="font-size: 20rpx;">{{realData.totalFlow}}</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;">累计流量（m³）</view>
+    </view>
+    <image class="view-image" src="../../../asset/monitorlog/heat-icon-1.png"></image>
+  </view>
+  <view class="item-view">
+    <view style="margin-left: 24rpx;">
+      <view style="font-size: 26rpx;font-weight: bolder;">{{realData.cumulativeFlowRate}}</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;">正累计流量（m³）</view>
+    </view>
+    <image class="view-image" src="../../../asset/monitorlog/heat-icon-1.png"></image>
+  </view>
+  <view class="item-view" style="margin-left: 4%;">
+    <view style="margin-left: 24rpx;">
+      <view style="font-size: 20rpx;">{{realData.negativeCumulativeFlow}}</view>
+      <view style="font-size: 24rpx;margin-top: 12rpx;">负累计流量（m³）</view>
+    </view>
+    <image class="view-image" src="../../../asset/monitorlog/heat-icon-1.png"></image>
+  </view>
 </view>
 
 <!-- 折线图 -->
