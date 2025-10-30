@@ -20,8 +20,8 @@ Page({
       text: '运维知识库', 
       url: '../../functions/knowladge/knowladge'
     }, {
-      icon: '../../../asset/knowladge.png', 
-      text: '运行日志', 
+      icon: '../../../asset/energy_overview/zm.png', 
+      text: '告警管理', 
       url: '../../functions/monitorLog/monitorLog'
     }]
   },
@@ -41,12 +41,6 @@ Page({
     // 运行检测
     wx.navigateTo({
       url: '../../functions/runningMonitor/runningMonitor'
-    })
-  },
-  goDevicesMonitor() {
-    // 设备监控
-    wx.navigateTo({
-      url: '../../functions/devices/device'
     })
   },
   goFunction(data){

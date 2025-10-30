@@ -1,9 +1,40 @@
-<!-- 列表 -->
-<view class="item" wx:for="{{logList}}" wx:key="index">
-    <image class="item-image" src="../../../asset/monitorlog/carlight.png"></image>
-    <view style="margin-left: 36rpx;margin-top: 18rpx;">
-      <view style="font-size: 26rpx;font-weight: bolder;">{{item.deviceName}}</view>
-      <view style="font-size: 24rpx;margin-top: 18rpx;">{{item.logDesc}}</view>
-      <view style="font-size: 24rpx;margin-top: 12rpx;color: #B0B0B0;">{{item.updateTime}}</view>
+<view style="width: 100%;height: 7%;display: flex;flex-direction: row;align-items: center;">
+  <view style="width: 50%;height: 51rpx;display: flex;flex-direction: row;">
+    <view class="item-view" 
+      wx:for="{{importLevelList}}" 
+      wx:key="index"  
+      bindtap='selectImportLevel'
+      data-item='{{item}}'
+      style="background-color: {{importLevel==item.id?'#19B6A3':'#19B6A300'}};color: {{importLevel==item.id?'#FFFFFF':'#000000'}};">
+        {{item.name}}
     </view>
+  </view>
+  <view style="width: 45%;height: 51rpx;display: flex;flex-direction: row;border: 1rpx solid #19B6A3;border-radius: 9rpx;font-size: 26rpx;margin-left: 18rpx;align-items: center;justify-content: center;">
+    <picker mode="date" value="{{startDate}}" end="{{endDate}}" bindchange="bindStartDateChange">
+      <view class="picker">
+        <text>{{startDate}}</text>
+      </view>
+    </picker>
+    <text style="margin-left: 6rpx;margin-right: 6rpx;">~</text>
+    <picker mode="date" value="{{endDate}}" start="{{startDate}}" end="2050-12-31" bindchange="bindEndDateChange">
+      <view class="picker">
+        <text>{{endDate}}</text>
+      </view>
+    </picker>
+  </view>
+</view>
+
+
+
+<!-- 列表 -->
+<view class="view-list">
+  <view class="list-item-h270" wx:for="{{warringDataList}}" wx:key="index">
+    <view class="item-row-h60" style="width: 48%;">设备类型: {{item.deviceCategoryName}}</view>
+    <view class="item-row-h60" style="width: 48%;">设备名称: {{item.deviceCode}}</view>
+    <view class="item-row-h60" style="width: 100%;">{{item.alarmName}}</view>
+    <view class="item-row-h60" style="width: 100%;">{{item.alarmContent}}</view>
+    <view class="item-row-h60" style="width: 30%;">{{item.severity=='1'?'一般':item.severity=='2'?'严重':item.severity=='3'?'非常严重':'未标识'}}</view>
+    <view class="item-row-h60" style="width: 30%;">{{item.alarmTime}}</view>
+    <view class="item-row-h60" style="width: 30%;">{{item.addMode=='0'?'系统生成':item.addMode=='1'?'人工提交':''}}</view>
+  </view>
 </view>

@@ -9,14 +9,14 @@
   <view class="power-view">
     <image class="power-view-image" src="../../../asset/wind/tpf.png"></image>
     <view style="margin-left: 18rpx;">
-      <view style="font-size: 24rpx;">设备总数 (Wh)</view>
+      <view style="font-size: 24rpx;">设备总数</view>
       <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">{{realData.deviceCount}}</view>
     </view>
   </view>
   <view class="power-view" style="margin-left: 5%;">
     <image class="power-view-image" src="../../../asset/wind/tpf.png"></image>
     <view style="margin-left: 18rpx;">
-      <view style="font-size: 24rpx;">在线数 (Wh)</view>
+      <view style="font-size: 24rpx;">在线数</view>
       <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">{{realData.deviceLinkCount}}</view>
     </view>
   </view>

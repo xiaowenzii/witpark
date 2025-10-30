@@ -1,132 +1,84 @@
+import * as echarts from '../../component/ec-canvas/echarts'
 import * as util from "../../../utils/util"
 
 Page({
   data: {
-    weatherInfo: {},
     deviceTypeId: '',
-    deviceList: [],
-    selectDeviceIndex: 0,
-    detailData: {},
-    powerData: {},
-    startX: 0, // 触摸开始的X坐标
-    endX: 0, // 触摸结束的X坐标
-    threshold: 100 // 设置滑动多少距离后触发事件
-  },
-  touchStart: function(e) {
-    this.data.startX = e.touches[0].clientX;
-  },
-  touchMove: function(e) {
-    this.data.endX = e.touches[0].clientX;
-  },
-  touchEnd: function(e) {
-    const deltaX = this.data.endX - this.data.startX;
-    if (Math.abs(deltaX) > this.data.threshold) {
-      if (deltaX > 0) {
-        // 右滑
-        if(this.data.selectDeviceIndex > 0){
-          let selected = this.data.selectDeviceIndex - 1;
-          this.setData({selectDeviceIndex: selected});
-          this.getWindPowerDataByDeviceId();
-          this.getWindPowerTotal();
-        }
-      } else {
-        // 左滑
-        if(this.data.selectDeviceIndex != (this.data.deviceList.length-1)){
-          let selected = this.data.selectDeviceIndex + 1;
-          this.setData({selectDeviceIndex: selected});
-          this.getWindPowerDataByDeviceId();
-          this.getWindPowerTotal();
-        }
-      }
+    realTimeData:{},
+    realMonthData:{},
+    realAllData:{},
+    energyPowerChart: null,
+    ec: {
+      lazyLoad: true
     }
   },
-  getWeatherLatestData(){  //获取天气最新实时数据
+  getLatestData(){ //获取最新实时数据
     let that = this;
-    let params = {
-      deviceBasicId: '1778675876224094210'
-    }
-    util.wxRequestPost("/prod-api/one/device/gas/getLatestData", "加载中...", params, 'application/json', function(res) {
+    util.wxRequestGet("/prod-api/sps/wind/power/getRealTimeData", "加载中...", {}, 'application/json', function(res) {
       if(res.code==200){
-        let weatherData = res.data;
-        if(weatherData.windDirection>348.75 || weatherData.windDirection<11.25){
-          that.dataJs.weatherData.windDirectionLabel = '北风';
-        }else if(weatherData.windDirection>11.25 && weatherData.windDirection<33.75){
-          that.dataJs.weatherData.windDirectionLabel = '东北偏北风';
-        }else if(weatherData.windDirection>33.75 && weatherData.windDirection<56.25){
-          that.dataJs.weatherData.windDirectionLabel = '东北风';
-        }else if(weatherData.windDirection>56.25 && weatherData.windDirection<78.75){
-          that.dataJs.weatherData.windDirectionLabel = '东北偏东风';
-        }else if(weatherData.windDirection>78.75 && weatherData.windDirection<101.25){
-          that.dataJs.weatherData.windDirectionLabel = '东风';
-        }else if(weatherData.windDirection>101.25 && weatherData.windDirection<123.75){
-          that.dataJs.weatherData.windDirectionLabel = '东南偏东风';
-        }else if(weatherData.windDirection>123.75 && weatherData.windDirection<146.25){
-          that.dataJs.weatherData.windDirectionLabel = '东南风';
-        }else if(weatherData.windDirection>146.25 && weatherData.windDirection<168.75){
-          that.dataJs.weatherData.windDirectionLabel = '东南偏南风';
-        }else if(weatherData.windDirection>168.75 && weatherData.windDirection<191.25){
-          that.dataJs.weatherData.windDirectionLabel = '南风';
-        }else if(weatherData.windDirection>191.25 && weatherData.windDirection<213.75){
-          that.dataJs.weatherData.windDirectionLabel = '西南偏南风';
-        }else if(weatherData.windDirection>213.75 && weatherData.windDirection<236.25){
-          that.dataJs.weatherData.windDirectionLabel = '西南风';
-        }else if(weatherData.windDirection>236.25 && weatherData.windDirection<258.75){
-          that.dataJs.weatherData.windDirectionLabel = '西南偏西风';
-        }else if(weatherData.windDirection>258.75 && weatherData.windDirection<281.25){
-          that.dataJs.weatherData.windDirectionLabel = '西风';
-        }else if(weatherData.windDirection>281.25 && weatherData.windDirection<303.75){
-          that.dataJs.weatherData.windDirectionLabel = '西北偏西风';
-        }else if(weatherData.windDirection>303.75 && weatherData.windDirection<326.25){
-          that.dataJs.weatherData.windDirectionLabel = '西北风';
-        }else if(weatherData.windDirection>326.25 && weatherData.windDirection<348.75){
-          that.dataJs.weatherData.windDirectionLabel = '西北偏北风';
-        }
-        that.setData({weatherInfo: weatherData})
+        that.setData({realTimeData: res.data});
       }
     }, function(error) {})
   },
-  // 获取设备列表
-  getDeviceDataList(){
+  getTimeChainData(dateType){ //获取统计数据
     let that = this;
-    let params = {
-      deviceCategoryId: that.data.deviceTypeId
+    // 获取当前日期
+    const date = new Date();
+    let params = {};
+    if(dateType=='month'){
+      params =  {
+				type: 'month',
+				time: date.getFullYear() + '-' + util.formatMD(date.getMonth() + 1)
+			}
+    }else if(dateType=='year'){
+      params =  {
+				type: 'year',
+				time: date.getFullYear()
+			}
     }
-    util.wxRequestGet("/prod-api/business/device/list", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
+    util.wxRequestGet("/prod-api/sps/wind/power/getTimeChainData", "加载中...", params, 'application/json', function(res) {
       if(res.code==200){
-        if(res.rows != null && res.rows.length > 0){
-          that.setData({deviceList: res.rows});
+        if(dateType=='month'){
+          that.setData({realMonthData: res.data});
+        }else{
+          that.setData({realAllData: res.data});
         }
       }
     }, function(error) {})
   },
-  // 获得今日实时数据
-  getWindPowerDataByDeviceId(){
+  getTodayPowerData(){ //获得今日功率趋势
     let that = this;
-    let params = {
-      deviceBasicId: that.data.deviceList[that.data.selectDeviceIndex].deviceBasicId
-    }
-    util.wxRequestGet("/prod-api/sps/wind/power/getRealTimeData", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
-      if(res.success){
-        that.setData({detailData: res.result})
-      }
-    }, function(error) {})
-  },
-  // 获取总体发电情况
-  getWindPowerTotal(){
-    let that = this;
-    let params = {
-      deviceBasicId: that.data.deviceList[that.data.selectDeviceIndex].deviceBasicId
-    }
-    util.wxRequestGet("/sps/app/device/windPower/getWindPowerTotal", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
-      if(res.success){
-        that.setData({powerData: res.result})
+    util.wxRequestGet("/prod-api/sps/wind/power/getTodayPowerData", "加载中...", {}, 'application/json', function(res) {
+      if(res.code==200){
+        if(that.data.energyPowerChart==null){
+          that.data.energyPowerChart = that.selectComponent('#energy-power-chart');
+        }
+        let xData = [];
+				let trendYData = [{
+					type: 'line', 
+					titles: [],
+					colors: ['#8676FF', '#4875F0', '#FF983C', '#48F0E2'],
+					data: []
+				}];
+				for(let i=0;i<res.data.length;i++){
+					trendYData[0].titles.push(res.data[i].keyName);
+					trendYData[0].data.push(res.data[i].numericalAxis);
+					if((xData.length==0 && res.data[i].timeAxis.length>0) || res.data[i].timeAxis.length>xData.length){
+						xData = [];
+						for(let t=0;t<res.data[i].timeAxis.length;t++){
+							xData.push(res.data[i].timeAxis[t].split(' ')[1]);
+						}
+					}
+				}
+				util.drawMixEChart(echarts, that.data.energyPowerChart, xData, trendYData, Math.ceil(xData.length/15));
       }
     }, function(error) {})
   },
   onLoad(options) {
     this.setData({deviceTypeId: options.deviceTypeId});
+    this.getLatestData(); //获取最新实时数据
   },
   onReady() {
-    this.getDeviceDataList();
+
   }
 })

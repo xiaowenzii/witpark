@@ -70,27 +70,6 @@ page{
   padding-top: 6rpx;
 }
 
-/* 设备管理 */
-.device-view{
-  height: 132rpx;
-  margin-left: 24rpx;
-  margin-right: 24rpx;
-  background-color: #FFFFFF;
-  border-radius: 12rpx;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  position: relative;
-}
-
-.device-view-image{
-  height: 64rpx;
-  width: 64rpx;
-  position: absolute;
-  right: 0;
-  margin-right: 24rpx;
-}
-
 /* 其它功能 */
 .functions{
   margin-left: 24rpx;

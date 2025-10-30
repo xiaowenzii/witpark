@@ -10,7 +10,6 @@
     {
       "root": "pages/functions/",
       "pages": [
-        "devices/device",
         "quota/quota",
         "energyConsumptionAnalysis/energyAnalysis",
         "demandResponse/response",

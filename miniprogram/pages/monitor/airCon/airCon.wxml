@@ -1,63 +1,60 @@
+<view style="width: 70%;position: absolute;display: flex;flex-direction: row;margin-top: 12rpx;">
+  <view class="item-view" 
+    wx:for="{{buildingList}}" 
+    wx:key="index"  
+    bindtap='selectBuilding'
+    data-item='{{item}}'
+    style="background-color: {{buildingSelectedItem.id==item.id?'#19B6A3':'#19B6A300'}};color: {{buildingSelectedItem.id==item.id?'#FFFFFF':'#000000'}};">
+      {{item.name}}
+    </view>
+</view>
+
 <view class="view-title">
-  <view class="select-view" bind:tap="search">
-    {{floorDataList.list[floorDataList.selected].name}}
+  <view class="select-view" bind:tap="selectFloorDialog">
+    {{floorSelectedItem.name}}
     <image class="arrow-image" src="../../../asset/select_down.png"/>
   </view>
 </view>
-<image src="../../../asset/build/floor.png" style="width: 100%;height: 360rpx;"></image>
 
-<view style="height: 96rpx;display: flex;flex-direction: row;">
-  <view class="desc-view" style="width: 50%;">
-      <view style="font-size: 30rpx;font-weight: bolder;">{{airData.todayTotalUsedElectricity==null?0:airData.todayTotalUsedElectricity}}</view>
-      <view style="font-size: 24rpx;margin-top: 12rpx;">今日总用电量(kWh)</view>
-  </view>
-  <view class="desc-view" style="width: 50%;">
-      <view style="font-size: 30rpx;font-weight: bolder;">{{airData.todayTotalTime==null?0:airData.todayTotalTime}}</view>
-      <view style="font-size: 24rpx;margin-top: 12rpx;">今日用电时长(h)</view>
-  </view>
+<view style="height: 360rpx;display: flex;flex-direction: column;align-items: center;">
+  <image src="../../../asset/build/air.png" style="width: 420rpx;height: 420rpx;"></image>
+  <text style="font-size: 26rpx; font-weight: bolder;margin-top: 12rpx;">空调</text>
 </view>
 
-<!-- 设备状态 -->
-<view style="height: 148rpx;margin: 24rpx;background-color: #FFFFFF;border-radius: 12rpx;padding: 18rpx;">
-  <view style="font-size: 26rpx;font-weight: bolder;">设备状态</view>
-  <view style="display: flex;flex-direction: row;" wx:if="{{airData.onlineCount!=null && airData.onlineCount>0}}">
-    <view style="width:{{(airData.onlineCount-airData.runningCount)*100/airData.deviceCount+'%'}};margin-top: 24rpx;">
-      <view class="pro-view" style="background-color: #18B6A299;border-radius: 24rpx 0 0 24rpx;">{{airData.onlineCount-airData.runningCount}}</view>
-      <view style="font-size: 24rpx;margin-top: 12rpx;color: #B2B2B2;" wx:if="{{airData.onlineCount-airData.runningCount>0}}">在线</view>
-    </view>
-    <view style="width: {{airData.runningCount*100/airData.deviceCount+'%'}};margin-top: 24rpx;text-align: center;">
-      <view class="pro-view" style="background-color: #18B6A2;border-radius: {{(airData.deviceCount - airData.onlineCount - airData.alarmCount)==0 && airData.alarmCount==0?'0 24rpx 24rpx 0':'0'}};">{{airData.runningCount}}</view>
-      <view style="font-size: 24rpx;margin-top: 12rpx;color: #B2B2B2;" wx:if="{{airData.runningCount>0}}">运行</view>
-    </view>
-    <view style="width: {{airData.alarmCount*100/airData.deviceCount+'%'}};margin-top: 24rpx;text-align: center;">
-      <view class="pro-view" style="background-color: #D78C33;border-radius: {{(airData.deviceCount - airData.onlineCount - airData.alarmCount)==0?'0 24rpx 24rpx 0':'0'}};">{{airData.alarmCount}}</view>
-      <view style="font-size: 24rpx;margin-top: 12rpx;color: #B2B2B2;" wx:if="{{airData.alarmCount!=0}}">报警</view>
-    </view>
-    <view style="width: {{(airData.deviceCount - airData.onlineCount - airData.alarmCount)*100/airData.deviceCount+'%'}};margin-top: 24rpx;text-align: right;">
-      <view class="pro-view" style="background-color: #C2C2C2;border-radius: 0 24rpx 24rpx 0;">{{airData.deviceCount - airData.onlineCount - airData.alarmCount}}</view>
-      <view style="font-size: 24rpx;margin-top: 12rpx;color: #B2B2B2;" wx:if="{{(airData.deviceCount - airData.onlineCount - airData.alarmCount)!=0}}">离线</view>
+<view class="block-view" style="height: 270rpx;">
+  <view class="power-view">
+    <image class="power-view-image" src="../../../asset/wind/tpf.png"></image>
+    <view style="margin-left: 18rpx;">
+      <view style="font-size: 24rpx;">设备总数</view>
+      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">{{realData.deviceCount}}</view>
     </view>
   </view>
-</view>
-
-<!-- 用电统计 -->
-<view style="height: 420rpx;margin: 24rpx;background-color: #FFFFFF;border-radius: 12rpx;padding: 18rpx;">
-  <view style="font-size: 26rpx;font-weight: bolder;">用电统计：kWh ({{year}}-{{month}})</view>
-  <view style="height: 360rpx;">
-    <ec-canvas id="energy-chart-bar" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
+  <view class="power-view" style="margin-left: 5%;">
+    <image class="power-view-image" src="../../../asset/wind/tpf.png"></image>
+    <view style="margin-left: 18rpx;">
+      <view style="font-size: 24rpx;">在线数</view>
+      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">{{realData.deviceLinkCount}}</view>
+    </view>
   </view>
-</view>
-
-<view style="height: 420rpx;margin: 24rpx;background-color: #FFFFFF;border-radius: 12rpx;padding: 18rpx;">
-  <view style="font-size: 26rpx;font-weight: bolder;">用电时长: h ({{year}}-{{month}})</view>
-  <view style="height: 360rpx;">
-    <ec-canvas id="time-chart-bar" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
+  <view class="power-view">
+    <image class="power-view-image" src="../../../asset/wind/fd.png"></image>
+    <view style="margin-left: 18rpx;">
+      <view style="font-size: 24rpx;">运行中</view>
+      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">{{(realData.totalChargingCapacity)}}</view>
+    </view>
+  </view>
+  <view class="power-view" style="margin-left: 5%;">
+    <image class="power-view-image" src="../../../asset/wind/cd.png"></image>
+    <view style="margin-left: 18rpx;">
+      <view style="font-size: 24rpx;">离线（报警）数</view>
+      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">{{(realData.totalDischargeCapacity)}}</view>
+    </view>
   </view>
 </view>
 
 <!-- 条件筛选框 -->
-<view class="condtion-dialog" style="height: {{condtionDialogHeight}}rpx;margin-top: 90rpx;" wx:if="{{showSearchDialog}}">
+<view class="condtion-dialog" style="height: {{condtionDialogHeight}}rpx;margin-top: 90rpx;" wx:if="{{selectFloorDialog}}">
   <view style="height: 35%;width: 100%;padding-top: 24rpx;background-color: #FFFFFF;">
-    <search-contion-dialog searchData="{{searchDataList}}" type="single" bindmyevent="closeDialog"></search-contion-dialog>
+    <search-contion-dialog searchData="{{floorList}}" type="single" bindmyevent="selectFloor"></search-contion-dialog>
   </view>
 </view>

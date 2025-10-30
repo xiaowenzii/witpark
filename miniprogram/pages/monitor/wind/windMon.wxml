@@ -1,101 +1,65 @@
-<view style="font-size: 26rpx;margin: 24rpx">设备号：{{deviceList[selectDeviceIndex].deviceBasicId}}</view>
-<view style="height: 480rpx;display: flex;flex-direction: column;align-items: center;" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
-  <image src="../../../asset/wind/machine.png" style="width: 210rpx;height: 420rpx;"></image>
-  <text style="font-size: 26rpx; font-weight: bolder;margin-top: 12rpx;">{{deviceList[selectDeviceIndex].deviceName}}</text>
-  <view style="height: 18rpx;display: flex;align-items: center;margin-top: 18rpx;" wx:if="{{deviceList.length > 1}}">
-    <view class="device-point" style="background-color: {{index==selectDeviceIndex?'#18B6A2':'#9C9C9C'}};margin-left: {{index!=0?'18rpx':'0'}};" wx:for="{{deviceList}}" wx:key="index"></view>
-  </view>
+<view style="font-size: 26rpx;margin: 24rpx">
+  <text class="item-text">装机容量<text style="margin-left: 24rpx;color: black;">7 kW</text></text>
+</view>
+<view style="height: 390rpx;display: flex;flex-direction: column;align-items: center;justify-content: center;">
+  <image src="../../../asset/wind/machine.png" style="width: 180rpx;height: 300rpx;"></image>
+  <text style="font-size: 26rpx; font-weight: bolder;margin-top: 36rpx;">风力发电</text>
 </view>
 
-<view style="height: 96rpx;display: flex;flex-direction: row;">
-  <view class="desc-view">
-      <view style="font-size: 36rpx;font-weight: bolder;">{{weatherInfo.windSpeed}}</view>
-      <view style="font-size: 24rpx;margin-top: 12rpx;color: #9C9C9C;">风速(m/s)</view>
-  </view>
-  <view class="desc-view">
-      <view style="font-size: 36rpx;font-weight: bolder;">{{weatherInfo.windDirectionLabel}}</view>
-      <view style="font-size: 24rpx;margin-top: 12rpx;color: #9C9C9C;">风向</view>
-  </view>
-  <view class="desc-view">
-      <view style="font-size: 36rpx;font-weight: bolder;">{{weatherInfo.temperature}}</view>
-      <view style="font-size: 24rpx;margin-top: 12rpx;color: #9C9C9C;">温度(℃)</view>
-  </view>
-</view>
-
-<view style="height: 330rpx;margin: 64rpx 24rpx 12rpx 24rpx;background-color: #FFFFFF;border-radius: 12rpx;padding: 18rpx;">
-  <view style="font-size: 26rpx;font-weight: bolder;">设备信息</view>
-  <view style="display: flex;flex-direction: row;margin-top: 36rpx;">
-    <view style="width: 50%;display: flex;align-items: center;">
-      <image class="item-image" src="../../../asset/wind/fjxh.png"/>
-      <text class="item-text">风机型号<text style="margin-left: 24rpx;color: black;">{{deviceList[selectDeviceIndex].deviceSn}}</text></text>
+<view class="borad-view" style="height: 280rpx;">
+  <view class="view-row-h70"> <view class="desc-view-text-title">今日数据</view> </view>
+  <view class="view-row-h70">
+    <view style="width: 50%;height: 100%;display: flex;align-items: center;">
+      <text class="desc-view-text3">发电量</text>
+      <text class="desc-view-text2">{{realTimeData.cgenH}}</text> <text class="desc-view-unit">kWh</text>
     </view>
-    <view style="width: 50%;display: flex;align-items: center;">
-      <image class="item-image" src="../../../asset/wind/zjrl.png"/>
-      <text class="item-text">状态 <text style="margin-left: 24rpx;color: black;">{{detailData.trouFlag=='1'?'正常':'故障'}}</text></text>
+    <view style="width: 50%;height: 100%;display: flex;align-items: center;">
+      <text class="desc-view-text3">收益</text>
+      <text class="desc-view-text2">{{realTimeData.revenue}}</text> <text class="desc-view-unit">元</text>
     </view>
   </view>
-  <view style="display: flex;flex-direction: row;margin-top: 36rpx;">
-    <view style="width: 50%;display: flex;align-items: center;">
-      <image class="item-image" src="../../../asset/charge/xhs.png"/>
-      <text class="item-text">风机转速<text style="margin-left: 24rpx;color: black;">{{detailData.wind_sp}} RPM</text></text>
+  <view class="view-row-h70">
+    <view style="width: 50%;height: 100%;display: flex;align-items: center;">
+      <text class="desc-view-text3">实时功率</text> <text class="desc-view-text2">{{realTimeData.windP}}</text> <text class="desc-view-unit">kW</text>
     </view>
-    <view style="width: 50%;display: flex;align-items: center;">
-      <image class="item-image" src="../../../asset/wind/gl.png"/>
-      <text class="item-text">风机功率 <text style="margin-left: 24rpx;color: black;">{{detailData.invert_p}} W</text></text>
+    <view style="width: 50%;height: 100%;display: flex;align-items: center;">
+      <text class="desc-view-text3">等效碳减</text> <text class="desc-view-text2">{{realTimeData.carbonReduction}}</text> <text class="desc-view-unit">kg</text>
     </view>
   </view>
-  <view style="display: flex;flex-direction: row;margin-top: 36rpx;">
-    <view style="width: 50%;display: flex;align-items: center;">
-      <image class="item-image" src="../../../asset/charge/dy.png"/>
-      <text class="item-text">风机电压<text style="margin-left: 24rpx;color: black;">{{detailData.wind_volt}} V</text></text>
+  <view class="view-row-h70">
+    <view style="width: 50%;height: 100%;display: flex;align-items: center;">
+      <text class="desc-view-text3">等效标准煤</text> <text class="desc-view-text2">{{realTimeData.coal}}</text> <text class="desc-view-unit">kg</text>
     </view>
-    <view style="width: 50%;display: flex;align-items: center;">
-      <image class="item-image" src="../../../asset/charge/dl.png"/>
-      <text class="item-text">风机电流 <text style="margin-left: 24rpx;color: black;">{{detailData.wind_cur}} A</text></text>
-    </view>
-  </view>
-  <view style="display: flex;flex-direction: row;margin-top: 36rpx;">
-    <view style="width: 50%;display: flex;align-items: center;">
-      <image class="item-image" src="../../../asset/charge/dy.png"/>
-      <text class="item-text">输出电压<text style="margin-left: 24rpx;color: black;">{{detailData.interr_v}} V</text></text>
-    </view>
-    <view style="width: 50%;display: flex;align-items: center;">
-      <image class="item-image" src="../../../asset/charge/dl.png"/>
-      <text class="item-text">输出电流<text style="margin-left: 24rpx;color: black;">{{detailData.interr_e}} A</text></text>
+    <view style="width: 50%;height: 100%;display: flex;align-items: center;">
+      <text class="desc-view-text3">等效植树</text> <text class="desc-view-text2">{{realTimeData.treePlant}}</text> <text class="desc-view-unit">棵</text>
     </view>
   </view>
 </view>
 
-<!-- 发电情况 -->
-<view class="block-view" style="height: 300rpx;">
-  <view style="width: 100%;font-size: 26rpx;font-weight: bolder;">发电情况</view>
+<view class="borad-view" style="height: 210rpx;">
+  <view class="view-row-h70"> <view class="desc-view-text-title">累计数据</view> </view>
+  <view class="view-row-h70">
+    <view style="width: 50%;height: 100%;display: flex;align-items: center;">
+      <text class="desc-view-text3">当月发电量</text>
+      <text class="desc-view-text2">{{realMonthData.pvYc2}}</text> <text class="desc-view-unit">kWh</text>
+    </view>
+    <view style="width: 50%;height: 100%;display: flex;align-items: center;">
+      <text class="desc-view-text3">当月上网电量</text>
+      <text class="desc-view-text2">{{realMonthData.onGridElectric}}</text> <text class="desc-view-unit">kWh</text>
+    </view>
+  </view>
+  <view class="view-row-h70">
+    <view style="width: 50%;height: 100%;display: flex;align-items: center;">
+      <text class="desc-view-text3">年度发电量</text> <text class="desc-view-text2">{{realAllData.pvYc2}}</text> <text class="desc-view-unit">kWh</text>
+    </view>
+    <view style="width: 50%;height: 100%;display: flex;align-items: center;">
+      <text class="desc-view-text3">年度上网电量</text> <text class="desc-view-text2">{{realAllData.onGridElectric}}</text> <text class="desc-view-unit">kWh</text>
+    </view>
+  </view>
+</view>
 
-  <view class="power-view">
-    <image class="power-view-image" src="../../../asset/wind/fd.png"></image>
-    <view style="margin-left: 18rpx;">
-      <view style="font-size: 24rpx;">本日发电量</view>
-      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">{{powerData.todayPower}}</view>
-    </view>
-  </view>
-  <view class="power-view" style="margin-left: 5%;">
-    <image class="power-view-image" src="../../../asset/wind/fd.png"></image>
-    <view style="margin-left: 18rpx;">
-      <view style="font-size: 24rpx;">总发电量</view>
-      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">{{powerData.totalPower}}</view>
-    </view>
-  </view>
-  <view class="power-view">
-    <image class="power-view-image" src="../../../asset/wind/tpf.png"></image>
-    <view style="margin-left: 18rpx;">
-      <view style="font-size: 24rpx;">减少碳排放量</view>
-      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">{{detailData.carbonEmission}}</view>
-    </view>
-  </view>
-  <view class="power-view" style="margin-left: 5%;">
-    <image class="power-view-image" src="../../../asset/wind/zjn.png"></image>
-    <view style="margin-left: 18rpx;">
-      <view style="font-size: 24rpx;">总节能量</view>
-      <view style="font-size: 26rpx;margin-top: 12rpx;font-weight: bolder;">{{detailData.c_gen_h}}</view>
-    </view>
-  </view>
+<!-- 折线图 -->
+<view class="borad-view" style="height: 360rpx;">
+  <view class="view-row-h70"> <view class="desc-view-text-title">实时功率</view> </view>
+  <ec-canvas id="energy-power-chart" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
 </view>

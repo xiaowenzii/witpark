@@ -5,192 +5,125 @@ Page({
   data: {
     condtionDialogHeight: 0,
     deviceTypeId:'',
-    airData: {}, //空调数据
-    searchDataList:{},
-    floorDataList: {
-      "type": 2,
-      "selected": "0",
-      "list": [{"id": "1","name": "旧大楼#1楼",code:"C03A02A01"}, {"id": "2","name": "旧大楼#2楼",code:"C03A02A02"}, {"id": "4","name": "旧大楼#4楼",code:"C03A02A03"}, {"id": "5","name": "旧大楼#5楼",code:"C03A02A04"}]
-    },
-    showSearchDialog: false,
-    ec: {
-      lazyLoad: true
-    },
-    year:'',
-    month:'',
-    day:''
+    airDeviceInfo: {}, //空调数据
+    buildingList: {},  //建筑列表
+    buildingSelectedItem: '',
+    floorList: '', //楼层列表
+    floorSelectedItem: '',
+    selectFloorDialog: false
   },
-  search(res){
-    if(this.data.showSearchDialog){
-      this.setData({
-        showSearchDialog: false
-      })
+  selectBuilding(e){ //选择楼
+    let item = e.currentTarget.dataset.item;
+    this.setData({buildingSelectedItem: item});
+    if(item.id=='1'){
+      this.getKtDashboard(item.id, '', '');
     }else{
-      //选择框里面的数据
-      var searchDataList = this.data.floorDataList;
-      this.setData({
-        searchDataList: searchDataList,
-        showSearchDialog: true
-      })
+      this.getKtDashboard('', item.id, '');
     }
   },
-  closeDialog: function(e) {
-    // 单选
+  selectFloorDialog(){ //弹出选择楼层下拉框
     this.setData({
-      floorDataList: e.detail.data,
-      showSearchDialog: false
-    })
-    // 获取空调设备数据，用电及用电时长
-    this.getTodayStatisticsVO();
-    this.getMonthUsedData(1, 'd'); //按日获取用电量
-    this.getMonthUsedData(2, 'd'); //按日获取用电时长
+      selectFloorDialog: !this.data.selectFloorDialog,
+    });
   },
-  // 获取今日设备信息统计
-  getTodayStatisticsVO(){
-    let that = this;
-    let params = {
-      'deviceTypeId': that.data.deviceTypeId,
-      'deviceLocation': this.data.floorDataList.list[this.data.floorDataList.selected].code
+  selectFloor: function(e) { //选择楼层
+    let item = e.detail.data;
+    this.setData({
+      floorSelectedItem: item,
+      selectFloorDialog: false
+    })
+    if(item.id=='30' || item.id=='20' || item.id=='40'){
+      this.getKtDashboard('', item.id, '');
+    }else{
+      this.getKtDashboard('', '', item.id);
     }
-    util.wxRequestGet("/sps/app/device/airConditioner/getTodayStatisticsVO", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
-      if(res.success){
-        that.setData({airData: res.result})
+  },
+  getBuildingFloor(){ //查询楼宇列表
+    let that = this;
+    let params = { id: '', name: '', code: '', type: '', parentId: '' }
+    util.wxRequestGet("/prod-api/business/buildingFloor/list", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
+      if(res.code==200){
+        if(res.data!=null){
+          let list = [];
+          let parkItem = {};
+          let parkItemFloors = [];
+          let newItem = {};
+          let newItemFloors = [];
+          let oldItem = {};
+          let oldItemFloors = [];
+          let foodItem = {};
+          let foodItemFloors = [];
+          for(let i=0; i<res.data.length; i++){
+            if(res.data[i].code=='SN_PARK'){
+              parkItem.id = res.data[i].id;
+              parkItem.code = res.data[i].code;
+              parkItem.name = '园区';
+              parkItemFloors.push(res.data[i]);
+            }else if(res.data[i].code=='SN_NEW_BUILD'||res.data[i].code.includes('SN_NEW_BUILD_')){
+              if(res.data[i].code=='SN_NEW_BUILD'){
+                newItem.id = res.data[i].id;
+                newItem.code = res.data[i].code;
+                newItem.name = res.data[i].name;
+              }
+              newItemFloors.push(res.data[i]);
+            }else if(res.data[i].code=='SN_OLD_BUILD'||res.data[i].code.includes('SN_OLD_BUILD_')){
+              if(res.data[i].code=='SN_OLD_BUILD'){
+                oldItem.id = res.data[i].id;
+                oldItem.code = res.data[i].code;
+                oldItem.name = res.data[i].name;
+              }
+              oldItemFloors.push(res.data[i]);
+            }else if(res.data[i].code=='SN_CANTEEN'){
+              foodItem.id = res.data[i].id;
+              foodItem.code = res.data[i].code;
+              foodItem.name = res.data[i].name;
+              foodItemFloors.push(res.data[i]);
+            }
+            if(i==res.data.length-1){
+              parkItem.floors = parkItemFloors;
+              newItem.floors = newItemFloors;
+              oldItem.floors = oldItemFloors;
+              foodItem.floors = foodItemFloors;
+              list.push(parkItem);
+              list.push(newItem);
+              list.push(oldItem);
+              list.push(foodItem);
+
+              that.setData({
+                buildingList: list,
+                buildingSelectedItem: list[0],
+                floorList: list[0].floors,
+                floorSelectedItem: list[0].floors[0]
+              })
+              that.getKtDashboard(list[0].id, '', '');
+            }
+          }
+        }
       }
     }, function(error) {})
   },
-  // 按时间获取空调月份统计数据
-  getMonthUsedData(keyFlag, statisticType){
+  getKtDashboard(areaId, buildingId, floorId){ //获取空调设备统计数据:园区ID, 楼ID, 楼层ID
     let that = this;
-    let params = {
-      deviceTypeId: that.data.deviceTypeId,
-      deviceLocation: this.data.floorDataList.list[this.data.floorDataList.selected].code,
-      keyFlag: keyFlag,//查询数据标识 1：获取用电量 2：获取用电时长
-      statisticType: statisticType, //查询日期标识 'm'：按月统计 'd'：按日统计
-      startDate: that.data.year + '-'+that.data.month+'-'+that.data.day,
-      endDate: that.data.year + '-'+that.data.month+'-'+that.data.day
-    }
-    util.wxRequestGet("/sps/app/device/airConditioner/getMonthUsedData", "加载中...", params, 'application/x-www-form-urlencoded',function(res) {
-      if(res.success){
-        var xData = [];
-        var yData = [];
-        for (let index = 0; index < res.result.length; index++) {
-          xData.push(parseInt(res.result[index].date.split('-')[2]));
-          if(keyFlag==1){
-            yData.push(res.result[index].value);
-          }else{
-            yData.push(res.result[index].value/60);
-          }
-        }
-        if(keyFlag==1){
-          //绘制图标
-          var energyChart = that.selectComponent('#energy-chart-bar');
-          that.drawChart(energyChart, xData, yData)
-        }else{
-          var timeChart = that.selectComponent('#time-chart-bar');
-          that.drawChart(timeChart, xData, yData)
-        }
+    let params = { areaId: areaId, buildingId: buildingId, floorId: floorId };
+    util.wxRequestGet("/prod-api/business/kt/dashboard", "加载中...", params, 'application/x-www-form-urlencoded', function(res) {
+      if(res.code==200){
+        that.setData({
+          airDeviceInfo: res.data
+        })
       }
     }, function(error) {})
   },
   onLoad(options) {
-    // 获取设备ID
     this.setData({
       deviceTypeId: options.deviceTypeId
     });
   },
-
   onReady() {
     // 初始化条件选择框高度
     let rpxHeight = util.getScreenHeightRpx()-90;
-    // 获取当前日期
-    const date = new Date();
     this.setData({
-      condtionDialogHeight: rpxHeight,
-      year: date.getFullYear(),
-      month: util.formatMD(date.getMonth() + 1),
-      day: util.formatMD(date.getDate())
+      condtionDialogHeight: rpxHeight
     })
-    // 获取空调设备数据，用电及用电时长
-    this.getTodayStatisticsVO();
-    this.getMonthUsedData(1, 'd'); //按日获取用电量
-    this.getMonthUsedData(2, 'd'); //按日获取用电时长
-  },
-  // 绘制柱状图
-  drawChart(chartComponnet, xData, yData) {
-    var option = {
-      xAxis: {
-        type: 'category',
-        data: xData,
-        axisLabel:{
-          interval:1,
-          textStyle:{
-            fontsize: 10
-          }
-        }
-      },
-      yAxis: {
-          type: 'value'
-      },
-      series: [{
-        name: '用电数据',
-        type: 'bar',
-        label:{
-          show: true, 
-          position: 'top',
-          formatter: (value,index)=> { 
-            return value?.value;
-          }
-        },
-        itemStyle: {
-          normal: {
-            borderWidth: 1,
-            color: { type: 'linear', x: 1, y: 0, x2: 0,  y2: 1,
-              colorStops: [{
-                offset: 0,
-                color: '#18B6A2' //0% 处的颜色
-              }, {
-                offset: 1,
-                color: '#E7F8F5' //100% 处的颜色
-              }],
-              globalCoord: true, //缺省为false
-            },
-            barBorderRadius: [0, 0, 0, 0], //柱状图radius
-            label: {
-              show: false, //柱状图顶部是否显示数值
-              position: 'top',
-              textStyle: {
-                color: '#222222'
-              },
-              formatter: function (params) {
-                if (params.value == 0) {
-                  return '';
-                } else {
-                  return params.value;
-                }
-              }
-            },
-          },
-        },
-        data: yData
-      }],
-      grid:{
-        x: 39,  //距离左边
-        x2: 24, //距离右边
-        y:24,   //距离上边
-        y2:24,  //距离下边
-      }
-    };
-    var dpr = util.getPixelRatio()
-    if (chartComponnet) {
-      chartComponnet.init((canvas, width, height) => {
-        const chart = echarts.init(canvas, null, {
-          width: width,
-          height: height,
-          devicePixelRatio: dpr
-        }); 
-        chart.setOption(option, true);
-        return chart;
-      });
-    }
+    this.getBuildingFloor(); //查询楼宇列表
   }
 })
